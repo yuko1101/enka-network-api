@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/yuko1101/enka-network-api/issues"
   },
-  "homepage": "https://github.com/yuko1101/enka-network-api#readme"
+  "homepage": "https://github.com/yuko1101/enka-network-api#readme",
+  "dependencies": {
+    "node-fetch": "^3.2.10"
+  }
 }
