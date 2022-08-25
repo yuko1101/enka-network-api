@@ -39,7 +39,7 @@ module.exports = class EnkaClient {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
         const data = await response.json();
-        return User(data);
+        return new User(data);
     }
 
 }
