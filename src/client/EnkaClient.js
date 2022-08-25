@@ -2,8 +2,6 @@ const User = require("../models/User");
 const UserNotFoundError = require("../errors/UserNotFoundError");
 const { bindOptions } = require("../utils/utils");
 
-const fetch = require("node-fetch"); // for nodejs 16 or below
-
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
 module.exports = class EnkaClient {
