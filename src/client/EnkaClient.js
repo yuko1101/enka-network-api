@@ -26,14 +26,18 @@ module.exports = class EnkaClient {
      */
     async fetchUser(uid) {
         if (typeof uid !== "number") throw new Error("Parameter `uid` must be a number.");
+
         const url = getUserUrl(uid);
+
         const abortController = new AbortController();
-        setTimeout(() => abortController.abort("timeout"), this.options.timeout);
+        const timeoutId = setTimeout(() => abortController.abort("timeout"), this.options.timeout);
+
         const response = await fetch(url, {
             headers: { "User-Agent": this.options.userAgent },
             signal: abortController.signal,
         });
 
+        clearTimeout(timeoutId);
 
         if (response.status !== 200) {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
