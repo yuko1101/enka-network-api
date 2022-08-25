@@ -1,4 +1,4 @@
-const { EnkaClient } = require("../types");
+const { EnkaClient } = require("enka-network-api");
 
 run();
 
