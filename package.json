@@ -1,0 +1,32 @@
+{
+  "name": "enka-network-api",
+  "version": "1.0.0",
+  "description": "Enka-network API wrapper for Genshin Impact.",
+  "main": "src/index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "wrapper",
+    "node",
+    "node-js",
+    "nodejs-modules",
+    "wrapper-api",
+    "wrapper-library",
+    "genshin",
+    "genshin-impact",
+    "genshin-api",
+    "genshin-artifacts",
+    "enkanetwork",
+    "enka-network",
+    "enka"
+  ],
+  "author": "yuko1101 (https://github.com/yuko1101)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuko1101/enka-network-api/issues"
+  },
+  "homepage": "https://github.com/yuko1101/enka-network-api#readme"
+}
