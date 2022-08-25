@@ -15,7 +15,8 @@ module.exports = class EnkaClient {
     constructor(options) {
         /** @type {{userAgent: string, timeout: 3000}} */
         this.options = bindOptions({
-            "userAgent": "Mozilla/5.0"
+            "userAgent": "Mozilla/5.0",
+            "timeout": 3000
         }, options);
     }
 
