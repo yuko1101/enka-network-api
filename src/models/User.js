@@ -68,7 +68,7 @@ module.exports = class User {
         this.towerLevelIndex = data.playerInfo.towerLevelIndex;
 
 
-        // /** @type {Character[]} */
-        // this.avatarInfoList = 
+        /** @type {Character[]} */
+        this.avatarInfoList = data.avatarInfoList.map(a => new Character(a, enka));
     }
 }
