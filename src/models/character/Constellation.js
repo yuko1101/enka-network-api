@@ -1,8 +1,8 @@
-const EnkaClient = require("../client/EnkaClient");
-const ImageAssets = require("./assets/ImageAssets");
-const TextAssets = require("./assets/TextAssets");
+const EnkaClient = require("../../client/EnkaClient");
+const ImageAssets = require("../assets/ImageAssets");
+const TextAssets = require("../assets/TextAssets");
 
-module.exports = class Talent {
+module.exports = class Constellation {
     /** 
      * @param {string} id
      * @param {EnkaClient} enka

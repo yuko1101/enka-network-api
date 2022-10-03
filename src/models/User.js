@@ -1,6 +1,6 @@
 const EnkaClient = require("../client/EnkaClient");
-const Character = require("./Character");
-const CharacterData = require("./CharacterData");
+const Character = require("./character/Character");
+const CharacterData = require("./character/CharacterData");
 const Costume = require("./Costume");
 const NameCard = require("./NameCard");
 

@@ -1,9 +1,10 @@
-const EnkaClient = require("../client/EnkaClient");
-const ImageAssets = require("./assets/ImageAssets");
-const TextAssets = require("./assets/TextAssets");
-const Element = require("./Element");
+const EnkaClient = require("../../client/EnkaClient");
+const ImageAssets = require("../assets/ImageAssets");
+const TextAssets = require("../assets/TextAssets");
+const Element = require("../Element");
 const Skill = require("./Skill");
-const Talent = require("./Talent");
+const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const Constellation = require("./Constellation");
 
 module.exports = class CharacterData {
     /** 
@@ -45,7 +46,7 @@ module.exports = class CharacterData {
         /** @type {Skill[]} */
         this.skills = this._data.skills.map(id => new Skill(id, enka));
 
-        /** @type {Talent[]} */
-        this.talents = this._data.talents.map(id => new Talent(id, enka));
+        /** @type {Constellation[]} */
+        this.constellations = this._data.talents.map(id => new Constellation(id, enka));
     }
 }

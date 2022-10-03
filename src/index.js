@@ -8,13 +8,13 @@ const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./models/artifact/ArtifactTotalSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
 const TextAssets = require("./models/assets/TextAssets");
-const Character = require("./models/Character");
-const CharacterData = require("./models/CharacterData");
+const Character = require("./models/character/Character");
+const CharacterData = require("./models/character/CharacterData");
 const Costume = require("./models/Costume");
 const Element = require("./models/Element");
 const NameCard = require("./models/NameCard");
-const Skill = require("./models/Skill");
-const Talent = require("./models/Talent");
+const Skill = require("./models/character/Skill");
+const Constellation = require("./models/character/Constellation");
 const User = require("./models/User");
 const Weapon = require("./models/Weapon");
 const WeaponData = require("./models/WeaponData");
@@ -36,7 +36,7 @@ module.exports = {
     Element,
     NameCard,
     Skill,
-    Talent,
+    Constellation,
     User,
     Weapon,
     WeaponData
