@@ -1,8 +1,9 @@
 const User = require("../models/User");
 const UserNotFoundError = require("../errors/UserNotFoundError");
-const { bindOptions } = require("../utils/utils");
+const { bindOptions } = require("../utils/options_utils");
 
 const fetch = require("node-fetch"); // for nodejs 16 or below
+const CachedAssetsManager = require("./CachedAssetsManager");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -18,6 +19,9 @@ module.exports = class EnkaClient {
             "userAgent": "Mozilla/5.0",
             "timeout": 3000
         }, options);
+
+        /** @type {CachedAssetsManager} */
+        this.cachedAssetsManager = new CachedAssetsManager(this);
     }
 
     /** 
@@ -43,7 +47,7 @@ module.exports = class EnkaClient {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
         const data = await response.json();
-        return new User(data);
+        return new User(data, this);
     }
 
 }

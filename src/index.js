@@ -1,5 +1,5 @@
 const EnkaClient = require("./client/EnkaClient");
-const Artifact = require("./models/Artifact");
+const Artifact = require("./models/artifact/Artifact");
 const Character = require("./models/Character");
 const User = require("./models/User");
 const Weapon = require("./models/Weapon");
