@@ -14,10 +14,13 @@ declare class EnkaClient {
         userAgent: string;
         timeout: 3000;
     };
+    /** @type {CachedAssetsManager} */
+    cachedAssetsManager: CachedAssetsManager;
     /**
      * @param {number} uid
      * @returns {Promise<User>}
      */
     fetchUser(uid: number): Promise<User>;
 }
+import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
