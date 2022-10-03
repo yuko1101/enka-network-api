@@ -1,5 +1,5 @@
-const CachedAssetsManager = require("./client/CachedAssetsManager");
 const EnkaClient = require("./client/EnkaClient");
+const CachedAssetsManager = require("./client/CachedAssetsManager");
 const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
