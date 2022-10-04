@@ -1,12 +1,12 @@
 export = Costume;
 declare class Costume {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
-    constructor(id: string, enka: EnkaClient);
-    /** @type {string} */
-    id: string;
+    constructor(id: number, enka: EnkaClient);
+    /** @type {number} */
+    id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */
@@ -18,3 +18,6 @@ declare class Costume {
     /** @type {ImageAssets} */
     sideIcon: ImageAssets;
 }
+import EnkaClient = require("../../client/EnkaClient");
+import TextAssets = require("../assets/TextAssets");
+import ImageAssets = require("../assets/ImageAssets");

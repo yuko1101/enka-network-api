@@ -17,7 +17,7 @@ module.exports = class Weapon {
 
 
         /** @type {WeaponData} */
-        this.weaponData = new WeaponData(`${data.itemId}`, enka);
+        this.weaponData = new WeaponData(data.itemId, enka);
 
         /** @type {number} */
         this.refinement = data.weapon.affixMap[`1${data.itemId}`] ?? 0;

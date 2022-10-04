@@ -1,15 +1,16 @@
 const EnkaClient = require("../../client/EnkaClient");
+const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
 module.exports = class Costume {
     /** 
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
 
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
         /** @type {EnkaClient} */
@@ -21,7 +22,7 @@ module.exports = class Costume {
         if (!this._data) throw new AssetsNotFoundError("Costume", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("skills", `${this._data.nameTextMapHash}`, enka);
+        this.name = new TextAssets("skills", this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.iconName);

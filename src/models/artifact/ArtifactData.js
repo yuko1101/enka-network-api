@@ -5,7 +5,7 @@ const TextAssets = require("../assets/TextAssets");
 
 module.exports = class ArtifactData {
     /** 
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, setNameTextMapHash, enka) {
@@ -13,7 +13,7 @@ module.exports = class ArtifactData {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
 
@@ -23,10 +23,10 @@ module.exports = class ArtifactData {
         if (!this._data) throw new AssetsNotFoundError("Artifact", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("artifacts", `${this._data.nameTextMapHash}`, enka);
+        this.name = new TextAssets("artifacts", this._data.nameTextMapHash, enka);
 
         /** @type {TextAssets} */
-        this.setName = new TextAssets("artifact_sets", `${setNameTextMapHash}`, enka);
+        this.setName = new TextAssets("artifact_sets", setNameTextMapHash, enka);
 
         /** @type {"EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
         this.equiqType = this._data.equiqType;

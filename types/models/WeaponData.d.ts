@@ -1,14 +1,14 @@
 export = WeaponData;
 declare class WeaponData {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
-    constructor(id: string, enka: EnkaClient);
+    constructor(id: number, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {string} */
-    id: string;
+    /** @type {number} */
+    id: number;
     /** @type {object} */
     _data: object;
     /** @type {TextAssets} */

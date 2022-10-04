@@ -1,13 +1,13 @@
 export = CharacterStatusProperty;
 declare class CharacterStatusProperty {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {number} value
      * @param {EnkaClient} enka
      */
-    constructor(id: string, value: number, enka: EnkaClient);
-    /** @type {string} */
-    id: string;
+    constructor(id: number, value: number, enka: EnkaClient);
+    /** @type {number} */
+    id: number;
     /** @type {TextAssets} */
     type: TextAssets;
     /** @type {number} */

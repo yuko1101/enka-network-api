@@ -1,7 +1,7 @@
 module.exports = class AssetsNotFoundError extends Error {
     /**
      * @param {string} category 
-     * @param {string} id 
+     * @param {string | number} id 
      */
     constructor(category, id) {
         super(`${category} ${id} was not found. Try to update cached assets using EnkaClient#cachedAssetsManager#fetchAllContents`);
@@ -9,7 +9,7 @@ module.exports = class AssetsNotFoundError extends Error {
         this.name = "AssetsNotFoundError";
         /** @type {string} */
         this.category = category;
-        /** @type {string} */
+        /** @type {string | number} */
         this.id = id;
     }
 }

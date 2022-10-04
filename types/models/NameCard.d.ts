@@ -1,12 +1,12 @@
 export = NameCard;
 declare class NameCard {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
-    constructor(id: string, enka: EnkaClient);
-    /** @type {string} */
-    id: string;
+    constructor(id: number, enka: EnkaClient);
+    /** @type {number} */
+    id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */

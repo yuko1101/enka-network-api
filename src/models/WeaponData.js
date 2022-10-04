@@ -5,7 +5,7 @@ const TextAssets = require("./assets/TextAssets");
 
 module.exports = class WeaponData {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
@@ -13,16 +13,16 @@ module.exports = class WeaponData {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "WeaponExcelConfigData")).find(w => `${w.id}` === id);
+        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "WeaponExcelConfigData")).find(w => w.id === id);
         if (!this._data) throw new AssetsNotFoundError("Weapon", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("weapons", `${this._data.nameTextMapHash}`, enka);
+        this.name = new TextAssets("weapons", this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);

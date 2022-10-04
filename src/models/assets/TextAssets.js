@@ -4,13 +4,13 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 module.exports = class TextAssets {
     /** 
      * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @param {string} id
+     * @param {number | string} id
      * @param {EnkaClient} enka
      */
     constructor(category, id, enka) {
         /** @type {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} */
         this.category = category;
-        /** @type {string} */
+        /** @type {number | string} */
         this.id = id;
         /** @type {EnkaClient} */
         this.enka = enka;

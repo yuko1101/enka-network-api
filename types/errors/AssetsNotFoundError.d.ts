@@ -2,11 +2,11 @@ export = AssetsNotFoundError;
 declare class AssetsNotFoundError extends Error {
     /**
      * @param {string} category
-     * @param {string} id
+     * @param {string | number} id
      */
-    constructor(category: string, id: string);
+    constructor(category: string, id: string | number);
     /** @type {string} */
     category: string;
-    /** @type {string} */
-    id: string;
+    /** @type {string | number} */
+    id: string | number;
 }

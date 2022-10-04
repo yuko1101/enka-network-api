@@ -19,7 +19,7 @@ module.exports = class Artifact {
 
 
         /** @type {ArtifactData} */
-        this.artifactData = new ArtifactData(`${data.itemId}`, data.flat.setNameTextMapHash, enka);
+        this.artifactData = new ArtifactData(data.itemId, data.flat.setNameTextMapHash, enka);
 
         /** @type {number} */
         this.level = data.reliquary.level;

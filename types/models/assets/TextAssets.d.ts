@@ -2,14 +2,14 @@ export = TextAssets;
 declare class TextAssets {
     /**
      * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @param {string} id
+     * @param {number | string} id
      * @param {EnkaClient} enka
      */
-    constructor(category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons", id: string, enka: EnkaClient);
+    constructor(category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons", id: number | string, enka: EnkaClient);
     /** @type {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} */
     category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons";
-    /** @type {string} */
-    id: string;
+    /** @type {number | string} */
+    id: number | string;
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */

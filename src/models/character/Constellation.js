@@ -5,12 +5,12 @@ const TextAssets = require("../assets/TextAssets");
 
 module.exports = class Constellation {
     /** 
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
 
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
         /** @type {EnkaClient} */
@@ -22,7 +22,7 @@ module.exports = class Constellation {
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("constellations", `${this._data.nameTextMapHash}`, enka);
+        this.name = new TextAssets("constellations", this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);

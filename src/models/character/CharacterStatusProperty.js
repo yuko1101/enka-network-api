@@ -3,12 +3,12 @@ const TextAssets = require("../assets/TextAssets");
 
 module.exports = class CharacterStatusProperty {
     /** 
-     * @param {string} id
+     * @param {number} id
      * @param {number} value
      * @param {EnkaClient} enka
      */
     constructor(id, value, enka) {
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
         /** @type {TextAssets} */

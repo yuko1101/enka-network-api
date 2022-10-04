@@ -1,14 +1,14 @@
 export = ArtifactData;
 declare class ArtifactData {
     /**
-     * @param {string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
-    constructor(id: string, setNameTextMapHash: any, enka: EnkaClient);
+    constructor(id: number, setNameTextMapHash: any, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {string} */
-    id: string;
+    /** @type {number} */
+    id: number;
     /** @type {object} */
     _data: object;
     /** @type {TextAssets} */
