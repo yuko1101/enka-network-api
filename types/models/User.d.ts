@@ -10,8 +10,8 @@ declare class User {
     enka: EnkaClient;
     /** @type {object} */
     _data: object;
-    /** @type {string} */
-    uid: string;
+    /** @type {number} */
+    uid: number;
     /** @type {string} */
     nickname: string;
     /** @type {string | null} */
