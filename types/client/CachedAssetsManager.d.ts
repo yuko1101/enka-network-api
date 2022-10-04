@@ -21,5 +21,9 @@ declare class CachedAssetsManager {
      */
     getAssetsPath(type: "data" | "langs", category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"): string;
     fetchAllContents(): Promise<void>;
+    /**
+     * @returns {boolean}
+     */
+    hasAllContents(): boolean;
 }
 import EnkaClient = require("./EnkaClient");

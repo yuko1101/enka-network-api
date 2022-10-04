@@ -18,9 +18,10 @@ declare class EnkaClient {
     cachedAssetsManager: CachedAssetsManager;
     /**
      * @param {number} uid
+     * @param {boolean} parse
      * @returns {Promise<User>}
      */
-    fetchUser(uid: number): Promise<User>;
+    fetchUser(uid: number, parse?: boolean): Promise<User>;
 }
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");

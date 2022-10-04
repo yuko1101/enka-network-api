@@ -2,9 +2,10 @@ export = User;
 declare class User {
     /**
      * @param {object} data
+     * @param {boolean} parse
      * @param {EnkaClient} enka
      */
-    constructor(data: object, enka: EnkaClient);
+    constructor(data: object, parse: boolean, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */
