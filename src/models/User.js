@@ -20,8 +20,8 @@ module.exports = class User {
         if (!parse) return;
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("No genshin data cache was found.\nYou need to fetch genshin data by EnkaClient#cachedAssetsManager#fetchAllContents at least once.");
 
-        /** @type {string} */
-        this.uid = data.uid;
+        /** @type {number} */
+        this.uid = Number(data.uid);
 
         /** @type {string} */
         this.nickname = data.playerInfo.nickname;
