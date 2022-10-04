@@ -1,30 +1,29 @@
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
-const TextAssets = require("../assets/TextAssets");
 
-module.exports = class Constellation {
+module.exports = class PassiveTalent {
     /** 
-     * @param {string} id
-     * @param {EnkaClient} enka
-     */
+    * @param {number} id
+    * @param {EnkaClient} enka
+    */
     constructor(id, enka) {
 
-        /** @type {string} */
+        /** @type {number} */
         this.id = id;
 
         /** @type {EnkaClient} */
         this.enka = enka;
 
+
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "constellations"))[id];
+        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "ProudSkillExcelConfigData")).find(p => p.proudSkillId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets("constellations", `${this._data.nameTextMapHash}`, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
+
     }
 }

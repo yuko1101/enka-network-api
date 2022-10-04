@@ -37,8 +37,11 @@ declare class User {
     towerFloorIndex: number;
     /** @type {number} */
     towerLevelIndex: number;
+    /** @type {Character[]} */
+    avatarInfoList: Character[];
 }
 import EnkaClient = require("../client/EnkaClient");
-import CharacterData = require("./CharacterData");
-import Costume = require("./Costume");
+import CharacterData = require("./character/CharacterData");
+import Costume = require("./character/Costume");
 import NameCard = require("./NameCard");
+import Character = require("./character/Character");

@@ -1,5 +1,5 @@
-export = Skill;
-declare class Skill {
+export = Constellation;
+declare class Constellation {
     /**
      * @param {string} id
      * @param {EnkaClient} enka
@@ -16,6 +16,6 @@ declare class Skill {
     /** @type {ImageAssets} */
     icon: ImageAssets;
 }
-import EnkaClient = require("../client/EnkaClient");
-import TextAssets = require("./assets/TextAssets");
-import ImageAssets = require("./assets/ImageAssets");
+import EnkaClient = require("../../client/EnkaClient");
+import TextAssets = require("../assets/TextAssets");
+import ImageAssets = require("../assets/ImageAssets");

@@ -174,6 +174,6 @@ module.exports = class CharacterStatus {
      * @returns {CharacterStatusProperty}
      */
     getStatusProperty(id) {
-        return CharacterStatusProperty(fightProps[id], this._data[id]);
+        return new CharacterStatusProperty(fightProps[id], this._data[id], this.enka);
     }
 }

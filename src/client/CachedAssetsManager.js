@@ -12,7 +12,8 @@ const categories = ["artifact_sets", "artifacts", "characters", "constellations"
 // Thanks @Dimbreath
 const otherData = [
     "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/ReliquaryAffixExcelConfigData.json",
-    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/WeaponExcelConfigData.json"
+    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/WeaponExcelConfigData.json",
+    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/ProudSkillExcelConfigData.json"
 ]
 
 module.exports = class CachedAssetsManager {

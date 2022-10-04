@@ -25,12 +25,12 @@ declare class CharacterData {
     element: Element;
     /** @type {Skill[]} */
     skills: Skill[];
-    /** @type {Talent[]} */
-    talents: Talent[];
+    /** @type {Constellation[]} */
+    constellations: Constellation[];
 }
-import EnkaClient = require("../client/EnkaClient");
-import TextAssets = require("./assets/TextAssets");
-import ImageAssets = require("./assets/ImageAssets");
-import Element = require("./Element");
+import EnkaClient = require("../../client/EnkaClient");
+import TextAssets = require("../assets/TextAssets");
+import ImageAssets = require("../assets/ImageAssets");
+import Element = require("../Element");
 import Skill = require("./Skill");
-import Talent = require("./Talent");
+import Constellation = require("./Constellation");

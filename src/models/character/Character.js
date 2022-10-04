@@ -4,6 +4,8 @@ const CharacterData = require("./CharacterData");
 const Weapon = require("../Weapon");
 const CharacterStatus = require("./CharacterStatus");
 const Constellation = require("./Constellation");
+const Skill = require("./Skill");
+const PassiveTalent = require("./PassiveTalent");
 
 module.exports = class Character {
     /** 
@@ -43,9 +45,18 @@ module.exports = class Character {
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         /** @type {Constellation[]} */
-        this.unlockedConstellations = data.talentIdList.map(id => new Constellation(id, enka));
+        this.unlockedConstellations = (data.talentIdList ?? []).map(id => new Constellation(id, enka));
 
-        // /** @type {{}[]} */
-        // this.skillLevels = data.skillLevelMap.map()
+        /** @type {{skill: Skill, level: number}[]} */
+        this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
+            return {
+                skill: new Skill(key, enka),
+                level: value
+            };
+        });
+
+        /** @type {PassiveTalent[]} */
+        this.unlockedPassiveTalents = (data.inherentProudSkillList ?? []).map(id => new PassiveTalent(id, enka));
+
     }
 }

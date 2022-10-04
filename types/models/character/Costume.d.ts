@@ -1,5 +1,5 @@
-export = Talent;
-declare class Talent {
+export = Costume;
+declare class Costume {
     /**
      * @param {string} id
      * @param {EnkaClient} enka
@@ -15,7 +15,6 @@ declare class Talent {
     name: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
+    /** @type {ImageAssets} */
+    sideIcon: ImageAssets;
 }
-import EnkaClient = require("../client/EnkaClient");
-import TextAssets = require("./assets/TextAssets");
-import ImageAssets = require("./assets/ImageAssets");

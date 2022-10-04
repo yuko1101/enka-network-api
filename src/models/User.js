@@ -1,7 +1,7 @@
 const EnkaClient = require("../client/EnkaClient");
 const Character = require("./character/Character");
 const CharacterData = require("./character/CharacterData");
-const Costume = require("./Costume");
+const Costume = require("./character/Costume");
 const NameCard = require("./NameCard");
 
 module.exports = class User {
