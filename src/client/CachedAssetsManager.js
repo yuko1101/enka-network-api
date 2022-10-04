@@ -77,4 +77,20 @@ module.exports = class CachedAssetsManager {
         }
         await Promise.all(promises);
     }
+
+    /**
+     * @returns {boolean}
+     */
+    hasAllContents() {
+        for (const type of types) for (const category of categories) {
+            // use more detailed json instead
+            if (type === "data" && category === "weapons") continue;
+            if (!fs.existsSync(this.getAssetsPath(type, category))) return false;
+        }
+        for (const url of otherData) {
+            const fileName = url.split("/").pop();
+            if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data", fileName))) return false;
+        }
+        return true;
+    }
 }

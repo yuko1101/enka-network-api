@@ -7,15 +7,18 @@ const NameCard = require("./NameCard");
 module.exports = class User {
     /** 
      * @param {object} data
+     * @param {boolean} parse
      * @param {EnkaClient} enka
      */
-    constructor(data, enka) {
+    constructor(data, parse, enka) {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-
         /** @type {object} */
         this._data = data;
+
+        if (!parse) return;
+        if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("No genshin data cache was found.\nYou need to fetch genshin data by EnkaClient#cachedAssetsManager#fetchAllContents at least once.");
 
         /** @type {string} */
         this.uid = data.uid;

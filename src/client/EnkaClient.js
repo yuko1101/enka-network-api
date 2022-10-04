@@ -26,9 +26,10 @@ module.exports = class EnkaClient {
 
     /** 
      * @param {number} uid
+     * @param {boolean} parse
      * @returns {Promise<User>}
      */
-    async fetchUser(uid) {
+    async fetchUser(uid, parse = true) {
         if (typeof uid !== "number") throw new Error("Parameter `uid` must be a number.");
 
         const url = getUserUrl(uid);
@@ -47,7 +48,7 @@ module.exports = class EnkaClient {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
         const data = await response.json();
-        return new User(data, this);
+        return new User(data, parse, this);
     }
 
 }
