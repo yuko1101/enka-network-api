@@ -14,6 +14,7 @@ const CharacterStatus = require("./models/character/CharacterStatus");
 const CharacterStatusProperty = require("./models/character/CharacterStatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
+const ElementalBurst = require("./models/character/ElementalBurst");
 const PassiveTalent = require("./models/character/PassiveTalent");
 const Skill = require("./models/character/Skill");
 const Element = require("./models/Element");
@@ -39,6 +40,7 @@ module.exports = {
     CharacterStatusProperty,
     Constellation,
     Costume,
+    ElementalBurst,
     PassiveTalent,
     Skill,
     Element,

@@ -1,35 +1,25 @@
-// TODO: i18n and icons
-const elements = {
-    "wind": {
-        "inGameName": "anemo"
-    },
-    "ice": {
-        "inGameName": "cryo"
-    },
-    "grass": {
-        "inGameName": "dendro"
-    },
-    "electric": {
-        "inGameName": "electro"
-    },
-    "rock": {
-        "inGameName": "geo"
-    },
-    "water": {
-        "inGameName": "hydro"
-    },
-    "fire": {
-        "inGameName": "pyro"
-    }
-}
+const EnkaClient = require("../client/EnkaClient");
+const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
+const TextAssets = require("./assets/TextAssets");
 
 module.exports = class Element {
-    /** @param {string} name */
-    constructor(name) {
-        /** @type {object} */
-        this._data = elements[name.toLowerCase()];
+    /** 
+     * @param {string} id 
+     * @param {EnkaClient} enka
+     */
+    constructor(id, enka) {
 
         /** @type {string} */
-        this.inGameName = this._data.inGameName;
+        this.id = id;
+
+        /** @type {EnkaClient} */
+        this.enka = enka;
+
+        /** @type {object} */
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === id);
+        if (!this._data) throw new AssetsNotFoundError("Element", id);
+
+        /** @type {TextAssets} */
+        this.name = new TextAssets(this._data.textMapContentTextMapHash, enka);
     }
 }

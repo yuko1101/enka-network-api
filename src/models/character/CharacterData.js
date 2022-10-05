@@ -5,6 +5,7 @@ const Element = require("../Element");
 const Skill = require("./Skill");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const Constellation = require("./Constellation");
+const ElementalBurst = require("./ElementalBurst");
 
 module.exports = class CharacterData {
     /** 
@@ -30,10 +31,6 @@ module.exports = class CharacterData {
 
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this._data.skillDepotId);
 
-
-        // TODO: add elemental burst
-
-
         /** @type {TextAssets} */
         this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
@@ -54,6 +51,12 @@ module.exports = class CharacterData {
 
         /** @type {Skill[]} */
         this.skills = this._skillData.skills.filter(id => id !== 0).map(id => new Skill(id, enka));
+
+        /** @type {ElementalBurst} */
+        this.elementalBurst = new ElementalBurst(this._skillData.energySkill, enka);
+
+        /** @type {Element} */
+        this.element = this.elementalBurst.costElemType;
 
         /** @type {Constellation[]} */
         this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
