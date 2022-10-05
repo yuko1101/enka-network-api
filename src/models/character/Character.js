@@ -24,10 +24,10 @@ module.exports = class Character {
         this.avatar = new CharacterData(data.avatarId, enka);
 
         /** @type {Artifact[]} */
-        this.artifacts = data.equipList.filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
+        this.artifacts = data.equipList.filter(item => item.hasOwnProperty("reliquary")).map(artifact => new Artifact(artifact, enka));
 
         /** @type {Weapon} */
-        this.weapon = new Weapon(data.equipList.find(item => Object.keys(item).includes("weapon")), enka);
+        this.weapon = new Weapon(data.equipList.find(item => item.hasOwnProperty("weapon")), enka);
 
         /** @type {CharacterStatus} */
         this.status = new CharacterStatus(data.fightPropMap, enka);
