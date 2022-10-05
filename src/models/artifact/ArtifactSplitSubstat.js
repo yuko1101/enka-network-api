@@ -15,11 +15,15 @@ module.exports = class ArtifactSplitSubstat {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "ReliquaryAffixExcelConfigData")).find(a => a.id === id);
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("ReliquaryAffixExcelConfigData")).find(a => a.id === id);
         if (!this._data) throw new AssetsNotFoundError("Artifact Substat", id);
 
+        /** @type {object} */
+        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === this._data.propType);
+        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", this._data.propType);
+
         /** @type {TextAssets} */
-        this.type = new TextAssets("fight_props", this._data.propType, enka);
+        this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
 
         /** @type {number} */
         this.value = this._data.propValue;

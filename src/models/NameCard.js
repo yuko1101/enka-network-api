@@ -18,12 +18,12 @@ module.exports = class NameCard {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "namecards"))[id];
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).find(m => m.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("NameCard", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("namecards", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);

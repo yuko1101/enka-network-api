@@ -17,12 +17,12 @@ module.exports = class Constellation {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "constellations"))[id];
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarTalentExcelConfigData")).find(c => c.talentId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("constellations", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);

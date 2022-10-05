@@ -1,4 +1,5 @@
 const EnkaClient = require("../client/EnkaClient");
+const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const TextAssets = require("./assets/TextAssets");
 const WeaponData = require("./WeaponData");
 
@@ -28,11 +29,14 @@ module.exports = class Weapon {
         /** @type {number} */
         this.promoteLevel = data.weapon.promoteLevel;
 
-        /** @type {{type: TextAssets, value: number}[]} */
+        /** @type {{type: TextAssets, value: number, _propData: object}[]} */
         this.weaponStats = data.flat.weaponStats.map(obj => {
+            const propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === obj.appendPropId);
+            if (!propData) throw new AssetsNotFoundError("Fight Prop", obj.appendPropId);
             return {
-                type: new TextAssets("fight_props", obj.appendPropId, enka),
-                value: obj.statValue
+                type: new TextAssets(propData.textMapContentTextMapHash, enka),
+                value: obj.statValue,
+                _propData: propData
             };
         });
 

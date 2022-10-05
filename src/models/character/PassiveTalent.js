@@ -17,7 +17,7 @@ module.exports = class PassiveTalent {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "ProudSkillExcelConfigData")).find(p => p.proudSkillId === id);
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("ProudSkillExcelConfigData")).find(p => p.proudSkillId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 

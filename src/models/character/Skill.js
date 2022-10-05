@@ -1,4 +1,5 @@
 const EnkaClient = require("../../client/EnkaClient");
+const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
@@ -16,12 +17,12 @@ module.exports = class Skill {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "skills"))[id];
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarSkillExcelConfigData")).find(s => s.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Skill", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("skills", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.skillIcon);

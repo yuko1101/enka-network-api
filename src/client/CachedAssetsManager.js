@@ -3,17 +3,25 @@ const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
 
-// Thanks @mrwan200
-const contentBaseUrl = "https://raw.githubusercontent.com/mrwan200/enkanetwork.py-data/master/exports";
+const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
-const types = ["data", "langs"];
-const categories = ["artifact_sets", "artifacts", "characters", "constellations", "costumes", "fight_props", "namecards", "skills", "weapons"]
 
 // Thanks @Dimbreath
-const otherData = [
-    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/ReliquaryAffixExcelConfigData.json",
-    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/WeaponExcelConfigData.json",
-    "https://raw.githubusercontent.com/Dimbreath/GenshinData/master/ExcelBinOutput/ProudSkillExcelConfigData.json"
+const contentBaseUrl = "https://raw.githubusercontent.com/Dimbreath/GenshinData/master";
+const contents = [
+    "AvatarExcelConfigData.json", // Characters
+    "AvatarCostumeExcelConfigData.json", // Costumes
+    "AvatarSkillDepotExcelConfigData.json", // Skill Depot
+    "AvatarSkillExcelConfigData.json", // Skills
+    "AvatarTalentExcelConfigData.json", // Constellations
+    "ReliquaryExcelConfigData.json", // Artifacts
+    "WeaponExcelConfigData.json", // Weapons
+    "EquipAffixExcelConfigData.json", // Artifact Sets
+    "ManualTextMapConfigData.json", // Fight Props
+    "MaterialExcelConfigData.json", // Materials (including NameCards)
+    "ProudSkillExcelConfigData.json", // Passive Talents
+    "ReliquaryAffixExcelConfigData.json", // Artifact Affix
+
 ]
 
 module.exports = class CachedAssetsManager {
@@ -37,43 +45,32 @@ module.exports = class CachedAssetsManager {
         }
     }
 
-    /**
-     * @param {"data" | "langs"} type
-     * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @returns {Promise<object>}
-     */
-    async fetchContent(type, category) {
-        const res = await fetch(`${contentBaseUrl}/${type}/${category}.json`);
-        const json = await res.json();
-        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, type, `${category}.json`), JSON.stringify(json));
-        return json;
-    }
 
-    /**
-     * @param {"data" | "langs"} type
-     * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @returns {string}
+    /** 
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
      */
-    getAssetsPath(type, category) {
-        return path.resolve(this.cacheDirectoryPath, type, `${category}.json`);
+    async fetchLanguageData(lang) {
+        const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
+        const res = await fetch(url);
+        const json = await res.json();
+        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(json));
+        return json;
     }
 
     async fetchAllContents() {
         const promises = [];
-        for (const type of types) for (const category of categories) {
-            // use more detailed json instead
-            if (type === "data" && category === "weapons") continue;
-
-            promises.push(this.fetchContent(type, category));
+        for (const lang of languages) {
+            promises.push(this.fetchLanguageData(lang));
         }
-        for (const url of otherData) {
-            const fileName = url.split("/").pop();
+        for (const content of contents) {
+            const url = `${contentBaseUrl}/ExcelBinOutput/${content}`;
+            const fileName = content.split("/").pop();
             promises.push((async () => {
                 const res = await fetch(url);
                 const json = await res.json();
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", fileName), JSON.stringify(json));
                 return json;
-            })())
+            })());
         }
         await Promise.all(promises);
     }
@@ -82,15 +79,29 @@ module.exports = class CachedAssetsManager {
      * @returns {boolean}
      */
     hasAllContents() {
-        for (const type of types) for (const category of categories) {
-            // use more detailed json instead
-            if (type === "data" && category === "weapons") continue;
-            if (!fs.existsSync(this.getAssetsPath(type, category))) return false;
+        for (const lang of languages) {
+            if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`))) return false;
         }
-        for (const url of otherData) {
-            const fileName = url.split("/").pop();
+        for (const content of contents) {
+            const fileName = content.split("/").pop();
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data", fileName))) return false;
         }
         return true;
+    }
+
+    /**
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
+     * @returns {string}
+     */
+    getLanguageDataPath(lang) {
+        return path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`);
+    }
+
+    /**
+     * @param {string} name without extensions (.json)
+     * @returns {string}
+     */
+    getJSONDataPath(name) {
+        return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
     }
 }

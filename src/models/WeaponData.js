@@ -18,11 +18,11 @@ module.exports = class WeaponData {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "WeaponExcelConfigData")).find(w => w.id === id);
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).find(w => w.id === id);
         if (!this._data) throw new AssetsNotFoundError("Weapon", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("weapons", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);

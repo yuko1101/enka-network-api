@@ -3,22 +3,17 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
 module.exports = class TextAssets {
     /** 
-     * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
      * @param {number | string} id
      * @param {EnkaClient} enka
      */
-    constructor(category, id, enka) {
-        /** @type {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} */
-        this.category = category;
-        /** @type {number | string} */
+    constructor(id, enka) {
+        if (typeof id === "string") throw new Error("testassets " + id);
+        /** @type {number} */
         this.id = id;
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("langs", category))[id];
-
-        if (!this._data) throw new AssetsNotFoundError(`TextData of ${category}`, id);
+        this.get("jp");
     }
 
     /** 
@@ -26,6 +21,8 @@ module.exports = class TextAssets {
      * @returns {string}
      */
     get(lang) {
-        return this._data[lang.toUpperCase()];
+        const text = require(this.enka.cachedAssetsManager.getLanguageDataPath(lang))[this.id];
+        if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
+        return text;
     }
 }

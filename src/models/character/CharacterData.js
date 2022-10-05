@@ -21,12 +21,21 @@ module.exports = class CharacterData {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "characters"))[id];
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).find(c => c.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Character", id);
 
+        /** @type {object} */
+        this._skillData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarSkillDepotExcelConfigData")).find(s => s.id === this._data.skillDepotId);
+
+        if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this._data.skillDepotId);
+
+
+        // TODO: add elemental burst
+
+
         /** @type {TextAssets} */
-        this.name = new TextAssets("characters", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.iconName);
@@ -40,13 +49,13 @@ module.exports = class CharacterData {
         /** @type {number} */
         this.stars = this.qualityType.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
-        /** @type {Element} */
-        this.element = new Element(this._data.costElemType);
+        // /** @type {Element} */
+        // this.element = new Element(this._data.costElemType);
 
         /** @type {Skill[]} */
-        this.skills = this._data.skills.map(id => new Skill(id, enka));
+        this.skills = this._skillData.skills.filter(id => id !== 0).map(id => new Skill(id, enka));
 
         /** @type {Constellation[]} */
-        this.constellations = this._data.talents.map(id => new Constellation(id, enka));
+        this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
     }
 }

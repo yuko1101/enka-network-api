@@ -14,8 +14,12 @@ module.exports = class ArtifactTotalSubstat {
         /** @type {{appendPropId: string, statValue: number}} */
         this._data = data;
 
+        /** @type {object} */
+        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === data.appendPropId);
+        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", data.appendPropId);
+
         /** @type {TextAssets} */
-        this.type = new TextAssets("fight_props", data.appendPropId, enka);
+        this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
 
         /** @type {string} */
         this.value = data.statValue;

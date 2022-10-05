@@ -50,7 +50,7 @@ module.exports = class Character {
         /** @type {{skill: Skill, level: number}[]} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             return {
-                skill: new Skill(key, enka),
+                skill: new Skill(Number(key), enka),
                 level: value
             };
         });

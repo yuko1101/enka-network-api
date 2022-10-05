@@ -3,16 +3,20 @@ const TextAssets = require("../assets/TextAssets");
 
 module.exports = class CharacterStatusProperty {
     /** 
-     * @param {number} id
+     * @param {string} id
      * @param {number} value
      * @param {EnkaClient} enka
      */
     constructor(id, value, enka) {
-        /** @type {number} */
+        /** @type {string} */
         this.id = id;
 
+        /** @type {object} */
+        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === id);
+        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", id);
+
         /** @type {TextAssets} */
-        this.type = new TextAssets("fight_props", id, enka);
+        this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
 
         /** @type {number} */
         this.value = value;
