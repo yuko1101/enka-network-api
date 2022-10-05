@@ -17,11 +17,13 @@ const Costume = require("./models/character/Costume");
 const ElementalBurst = require("./models/character/ElementalBurst");
 const PassiveTalent = require("./models/character/PassiveTalent");
 const Skill = require("./models/character/Skill");
+const Weapon = require("./models/weapon/Weapon");
+const WeaponData = require("./models/weapon/WeaponData");
+const WeaponRefinement = require("./models/weapon/WeaponRefinement");
+const WeaponRefinements = require("./models/weapon/WeaponRefinements");
 const Element = require("./models/Element");
 const NameCard = require("./models/NameCard");
 const User = require("./models/User");
-const Weapon = require("./models/Weapon");
-const WeaponData = require("./models/WeaponData");
 
 module.exports = {
     EnkaClient,
@@ -43,9 +45,11 @@ module.exports = {
     ElementalBurst,
     PassiveTalent,
     Skill,
+    Weapon,
+    WeaponData,
+    WeaponRefinement,
+    WeaponRefinements,
     Element,
     NameCard,
     User,
-    Weapon,
-    WeaponData,
 }

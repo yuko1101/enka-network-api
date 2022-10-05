@@ -1,7 +1,8 @@
-const EnkaClient = require("../client/EnkaClient");
-const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
-const TextAssets = require("./assets/TextAssets");
+const EnkaClient = require("../../client/EnkaClient");
+const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const TextAssets = require("../assets/TextAssets");
 const WeaponData = require("./WeaponData");
+const WeaponRefinement = require("./WeaponRefinement");
 
 module.exports = class Weapon {
     /**
@@ -20,8 +21,8 @@ module.exports = class Weapon {
         /** @type {WeaponData} */
         this.weaponData = new WeaponData(data.itemId, enka);
 
-        /** @type {number} */
-        this.refinement = data.weapon.affixMap[`1${data.itemId}`] ?? 0;
+        /** @type {WeaponRefinement} */
+        this.refinement = this.weaponData.refinements[data.weapon.affixMap[this.weaponData._data.skillAffix[0]] ?? 0];
 
         /** @type {number} */
         this.level = data.weapon.level;

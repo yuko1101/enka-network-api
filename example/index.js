@@ -8,6 +8,6 @@ async function run() {
     // await client.cachedAssetsManager.fetchAllContents();
     const user = await client.fetchUser(825436941);
 
-    console.log(user.avatarInfoList[0].avatar.skills[0].description.get("jp"));
+    console.log(user.avatarInfoList[3].weapon);
     setInterval(() => { }, 1000);
 }
