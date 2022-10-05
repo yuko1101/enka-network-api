@@ -11,18 +11,20 @@ declare class Weapon {
     _data: object;
     /** @type {WeaponData} */
     weaponData: WeaponData;
-    /** @type {number} */
-    refinement: number;
+    /** @type {WeaponRefinement} */
+    refinement: WeaponRefinement;
     /** @type {number} */
     level: number;
     /** @type {number} */
     promoteLevel: number;
-    /** @type {{type: TextAssets, value: number}[]} */
+    /** @type {{type: TextAssets, value: number, _propData: object}[]} */
     weaponStats: {
         type: TextAssets;
         value: number;
+        _propData: object;
     }[];
 }
-import EnkaClient = require("../client/EnkaClient");
+import EnkaClient = require("../../client/EnkaClient");
 import WeaponData = require("./WeaponData");
-import TextAssets = require("./assets/TextAssets");
+import WeaponRefinement = require("./WeaponRefinement");
+import TextAssets = require("../assets/TextAssets");

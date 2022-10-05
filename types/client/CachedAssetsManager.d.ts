@@ -9,21 +9,23 @@ declare class CachedAssetsManager {
     /** @type {string} */
     cacheDirectoryPath: string;
     /**
-     * @param {"data" | "langs"} type
-     * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @returns {Promise<object>}
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
      */
-    fetchContent(type: "data" | "langs", category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"): Promise<object>;
-    /**
-     * @param {"data" | "langs"} type
-     * @param {"artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"} category
-     * @returns {string}
-     */
-    getAssetsPath(type: "data" | "langs", category: "artifact_sets" | "artifacts" | "characters" | "constellations" | "costumes" | "fight_props" | "namecards" | "skills" | "weapons"): string;
+    fetchLanguageData(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi"): Promise<any>;
     fetchAllContents(): Promise<void>;
     /**
      * @returns {boolean}
      */
     hasAllContents(): boolean;
+    /**
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
+     * @returns {string}
+     */
+    getLanguageDataPath(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi"): string;
+    /**
+     * @param {string} name without extensions (.json)
+     * @returns {string}
+     */
+    getJSONDataPath(name: string): string;
 }
 import EnkaClient = require("./EnkaClient");

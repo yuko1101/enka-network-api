@@ -15,6 +15,8 @@ declare class ArtifactTotalSubstat {
         appendPropId: string;
         statValue: number;
     };
+    /** @type {object} */
+    _propData: object;
     /** @type {TextAssets} */
     type: TextAssets;
     /** @type {string} */

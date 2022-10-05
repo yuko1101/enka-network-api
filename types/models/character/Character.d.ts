@@ -38,7 +38,7 @@ declare class Character {
 import EnkaClient = require("../../client/EnkaClient");
 import CharacterData = require("./CharacterData");
 import Artifact = require("../artifact/Artifact");
-import Weapon = require("../Weapon");
+import Weapon = require("../weapon/Weapon");
 import CharacterStatus = require("./CharacterStatus");
 import Constellation = require("./Constellation");
 import Skill = require("./Skill");

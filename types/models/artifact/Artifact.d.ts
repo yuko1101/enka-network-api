@@ -13,6 +13,8 @@ declare class Artifact {
     artifactData: ArtifactData;
     /** @type {number} */
     level: number;
+    /** @type {object} */
+    _propData: object;
     /** @type {{type: TextAssets, statValue: number}} */
     mainstat: {
         type: TextAssets;

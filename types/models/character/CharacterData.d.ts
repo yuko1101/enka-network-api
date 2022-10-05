@@ -11,6 +11,8 @@ declare class CharacterData {
     enka: EnkaClient;
     /** @type {object} */
     _data: object;
+    /** @type {object} */
+    _skillData: object;
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {ImageAssets} */
@@ -21,16 +23,19 @@ declare class CharacterData {
     qualityType: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
     stars: number;
-    /** @type {Element} */
-    element: Element;
     /** @type {Skill[]} */
     skills: Skill[];
+    /** @type {ElementalBurst} */
+    elementalBurst: ElementalBurst;
+    /** @type {Element} */
+    element: Element;
     /** @type {Constellation[]} */
     constellations: Constellation[];
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
-import Element = require("../Element");
 import Skill = require("./Skill");
+import ElementalBurst = require("./ElementalBurst");
+import Element = require("../Element");
 import Constellation = require("./Constellation");

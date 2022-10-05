@@ -2,9 +2,10 @@ export = ArtifactData;
 declare class ArtifactData {
     /**
      * @param {number} id
+     * @param {number} setNameTextMapHash
      * @param {EnkaClient} enka
      */
-    constructor(id: number, setNameTextMapHash: any, enka: EnkaClient);
+    constructor(id: number, setNameTextMapHash: number, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */
@@ -15,8 +16,12 @@ declare class ArtifactData {
     name: TextAssets;
     /** @type {TextAssets} */
     setName: TextAssets;
-    /** @type {"EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
-    equiqType: "EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS";
+    /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
+    equipType: "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
+    /** @type {object} */
+    _equipTypeData: object;
+    /** @type {TextAssets} */
+    equiqTypeName: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {number} */

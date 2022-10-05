@@ -11,6 +11,8 @@ declare class ArtifactSplitSubstat {
     enka: EnkaClient;
     /** @type {object} */
     _data: object;
+    /** @type {object} */
+    _propData: object;
     /** @type {TextAssets} */
     type: TextAssets;
     /** @type {number} */
