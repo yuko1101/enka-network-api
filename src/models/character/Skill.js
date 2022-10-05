@@ -24,6 +24,9 @@ module.exports = class Skill {
         /** @type {TextAssets} */
         this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
+        /** @type {TextAssets} */
+        this.description = new TextAssets(this._data.descTextMapHash, enka);
+
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.skillIcon);
     }
