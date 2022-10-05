@@ -12,12 +12,14 @@ module.exports = class EnkaClient {
      * @param {object} [options]
      * @param {string} [options.userAgent="Mozilla/5.0"]
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
      */
     constructor(options) {
-        /** @type {{userAgent: string, timeout: 3000}} */
+        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"}} */
         this.options = bindOptions({
             "userAgent": "Mozilla/5.0",
-            "timeout": 3000
+            "timeout": 3000,
+            "defaultLanguage": "en",
         }, options);
 
         /** @type {CachedAssetsManager} */

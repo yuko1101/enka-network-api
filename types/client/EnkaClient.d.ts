@@ -4,15 +4,18 @@ declare class EnkaClient {
      * @param {object} [options]
      * @param {string} [options.userAgent="Mozilla/5.0"]
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
      */
     constructor(options?: {
         userAgent?: string;
         timeout?: int;
+        defaultLanguage?: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
     });
-    /** @type {{userAgent: string, timeout: 3000}} */
+    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"}} */
     options: {
         userAgent: string;
-        timeout: 3000;
+        timeout: number;
+        defaultLanguage: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
     };
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;

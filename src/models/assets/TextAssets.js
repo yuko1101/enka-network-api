@@ -15,10 +15,11 @@ module.exports = class TextAssets {
     }
 
     /** 
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
+     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [lang]
      * @returns {string}
      */
     get(lang) {
+        if (!lang) lang = this.enka.options.defaultLanguage;
         const text = require(this.enka.cachedAssetsManager.getLanguageDataPath(lang))[this.id];
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
         return text;
