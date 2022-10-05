@@ -29,8 +29,15 @@ module.exports = class ArtifactData {
         /** @type {TextAssets} */
         this.setName = new TextAssets(setNameTextMapHash, enka);
 
-        /** @type {"EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS" | "" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
-        this.equiqType = this._data.equipType;
+        /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
+        this.equipType = this._data.equipType;
+
+        /** @type {object} */
+        this._equipTypeData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === this.equipType);
+        if (!this._equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
+
+        /** @type {TextAssets} */
+        this.equiqTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
