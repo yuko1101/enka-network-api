@@ -1,4 +1,5 @@
 const EnkaClient = require("../../client/EnkaClient");
+const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const TextAssets = require("../assets/TextAssets");
 
 module.exports = class CharacterStatusProperty {
