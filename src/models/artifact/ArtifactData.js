@@ -29,8 +29,8 @@ module.exports = class ArtifactData {
         /** @type {TextAssets} */
         this.setName = new TextAssets(setNameTextMapHash, enka);
 
-        /** @type {"EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
-        this.equiqType = this._data.equiqType;
+        /** @type {"EQUIP_BRACER" | "EQUIP_SHOES" | "EQUIP_DRESS" | "" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
+        this.equiqType = this._data.equipType;
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
