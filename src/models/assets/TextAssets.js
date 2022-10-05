@@ -12,8 +12,6 @@ module.exports = class TextAssets {
         this.id = id;
         /** @type {EnkaClient} */
         this.enka = enka;
-
-        this.get("jp");
     }
 
     /** 
