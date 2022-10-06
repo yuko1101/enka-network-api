@@ -6,6 +6,7 @@ const CharacterStatus = require("./CharacterStatus");
 const Constellation = require("./Constellation");
 const Skill = require("./Skill");
 const PassiveTalent = require("./PassiveTalent");
+const Costume = require("./Costume");
 
 module.exports = class Character {
     /** 
@@ -22,6 +23,9 @@ module.exports = class Character {
 
         /** @type {CharacterData} */
         this.avatar = new CharacterData(data.avatarId, enka);
+
+        /** @type {Costume} */
+        this.costume = data.costumeId ? this.avatar.costumes.find(c => c.id === data.costumeId) : this.avatar.costumes.find(c => c.isDefault);
 
         /** @type {Artifact[]} */
         this.artifacts = data.equipList.filter(item => item.hasOwnProperty("reliquary")).map(artifact => new Artifact(artifact, enka));
@@ -45,18 +49,18 @@ module.exports = class Character {
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         /** @type {Constellation[]} */
-        this.unlockedConstellations = (data.talentIdList ?? []).map(id => new Constellation(id, enka));
+        this.unlockedConstellations = this.avatar.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
         /** @type {{skill: Skill, level: number}[]} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             return {
-                skill: new Skill(Number(key), enka),
+                skill: this.avatar.skills.find(s => s.id === key),
                 level: value
             };
         });
 
         /** @type {PassiveTalent[]} */
-        this.unlockedPassiveTalents = (data.inherentProudSkillList ?? []).map(id => new PassiveTalent(id, enka));
+        this.unlockedPassiveTalents = this.avatar.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
 
     }
 }

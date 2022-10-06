@@ -2,6 +2,7 @@ const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
+const CharacterStatusProperty = require("./CharacterStatusProperty");
 
 module.exports = class Constellation {
     /** 
@@ -24,7 +25,16 @@ module.exports = class Constellation {
         /** @type {TextAssets} */
         this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
+        /** @type {TextAssets} */
+        this.description = new TextAssets(this._data.descTextMapHash);
+
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
+
+        /** @type {CharacterStatusProperty[]} */
+        this.addProps = this._data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new CharacterStatusProperty(p.propType, p.value, enka));
+
+        /** @type {number[]} */
+        this.paramList = this._data.paramList;
     }
 }

@@ -6,6 +6,8 @@ const Skill = require("./Skill");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const Constellation = require("./Constellation");
 const ElementalBurst = require("./ElementalBurst");
+const Costume = require("./Costume");
+const PassiveTalent = require("./PassiveTalent");
 
 module.exports = class CharacterData {
     /** 
@@ -46,19 +48,27 @@ module.exports = class CharacterData {
         /** @type {number} */
         this.stars = this.qualityType.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
-        // /** @type {Element} */
-        // this.element = new Element(this._data.costElemType);
-
         /** @type {Skill[]} */
         this.skills = this._skillData.skills.filter(id => id !== 0).map(id => new Skill(id, enka));
 
         /** @type {ElementalBurst} */
         this.elementalBurst = new ElementalBurst(this._skillData.energySkill, enka);
 
+        /** @type {PassiveTalent[]} */
+        this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => p.hasOwnProperty("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
+
         /** @type {Element} */
         this.element = this.elementalBurst.costElemType;
 
         /** @type {Constellation[]} */
         this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
+
+        /** @type {object[]} */
+        this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c.AKOANLMAFDD === id);
+
+        /** @type {Costume[]} */
+        this.costumes = this._costumeData.map(c => new Costume(c.OGKFGGNLLDG, enka));
+
+
     }
 }

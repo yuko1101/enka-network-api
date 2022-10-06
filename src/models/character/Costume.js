@@ -17,15 +17,24 @@ module.exports = class Costume {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getAssetsPath("data", "costumes"))[id];
+        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).find(c => c.OGKFGGNLLDG === id);
 
         if (!this._data) throw new AssetsNotFoundError("Costume", id);
 
         /** @type {TextAssets} */
-        this.name = new TextAssets("skills", this._data.nameTextMapHash, enka);
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+
+        /** @type {TextAssets} */
+        this.description = new TextAssets(this._data.descTextMapHash, enka);
+
+        /** @type {number} */
+        this.avatarId = this._data.AKOANLMAFDD;
+
+        /** @type {boolean} */
+        this.isDefault = !!this._data.isDefault;
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.iconName);
+        this.icon = new ImageAssets(this._data.IFIODPDADEI);
 
         /** @type {ImageAssets} */
         this.sideIcon = new ImageAssets(this._data.sideIconName);

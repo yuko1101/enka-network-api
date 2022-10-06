@@ -1,6 +1,7 @@
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
+const TextAssets = require("../assets/TextAssets");
 
 module.exports = class PassiveTalent {
     /** 
@@ -21,6 +22,12 @@ module.exports = class PassiveTalent {
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 
+
+        /** @type {TextAssets} */
+        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+
+        /** @type {TextAssets} */
+        this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
