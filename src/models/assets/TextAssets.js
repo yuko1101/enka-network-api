@@ -3,11 +3,10 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
 module.exports = class TextAssets {
     /** 
-     * @param {number | string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
-        if (typeof id === "string") throw new Error("testassets " + id);
         /** @type {number} */
         this.id = id;
         /** @type {EnkaClient} */
