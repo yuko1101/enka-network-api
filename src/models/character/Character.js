@@ -22,7 +22,7 @@ module.exports = class Character {
         this._data = data;
 
         /** @type {CharacterData} */
-        this.avatar = new CharacterData(data.avatarId, enka);
+        this.avatar = new CharacterData(data.avatarId, enka, data.skillDepotId);
 
         /** @type {Costume} */
         this.costume = data.costumeId ? this.avatar.costumes.find(c => c.id === data.costumeId) : this.avatar.costumes.find(c => c.isDefault);
