@@ -66,10 +66,11 @@ module.exports = class EnkaClient {
 
     /**
      * @param {number} id avatarId
+     * @param {number} [skillDepotId] Mostly for Travelers.
      * @returns {CharacterData[]}
      */
-    getCharacterById(id) {
-        return new CharacterData(id, this);
+    getCharacterById(id, skillDepotId) {
+        return new CharacterData(id, this, skillDepotId);
     }
 
     /**
