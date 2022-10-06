@@ -13,6 +13,12 @@ declare class Costume {
     _data: object;
     /** @type {TextAssets} */
     name: TextAssets;
+    /** @type {TextAssets} */
+    description: TextAssets;
+    /** @type {number} */
+    avatarId: number;
+    /** @type {boolean} */
+    isDefault: boolean;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {ImageAssets} */

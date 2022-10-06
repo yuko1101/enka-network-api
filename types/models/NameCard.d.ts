@@ -17,10 +17,6 @@ declare class NameCard {
     icon: ImageAssets;
     /** @type {ImageAssets[]} */
     pictures: ImageAssets[];
-    /** @type {number} */
-    rankLevel: number;
-    /** @type {string} */
-    materialType: string;
 }
 import EnkaClient = require("../client/EnkaClient");
 import TextAssets = require("./assets/TextAssets");

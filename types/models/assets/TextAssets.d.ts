@@ -1,10 +1,10 @@
 export = TextAssets;
 declare class TextAssets {
     /**
-     * @param {number | string} id
+     * @param {number} id
      * @param {EnkaClient} enka
      */
-    constructor(id: number | string, enka: EnkaClient);
+    constructor(id: number, enka: EnkaClient);
     /** @type {number} */
     id: number;
     /** @type {EnkaClient} */

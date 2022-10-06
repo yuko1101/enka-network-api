@@ -25,6 +25,38 @@ declare class EnkaClient {
      * @returns {Promise<User>}
      */
     fetchUser(uid: number, parse?: boolean): Promise<User>;
+    /**
+     * @returns {CharacterData[]}
+     */
+    getAllCharacters(): CharacterData[];
+    /**
+     * @param {number} id avatarId
+     * @param {number} [skillDepotId] Mostly for Travelers.
+     * @returns {CharacterData[]}
+     */
+    getCharacterById(id: number, skillDepotId?: number): CharacterData[];
+    /**
+     * @returns {WeaponData[]}
+     */
+    getAllWeapons(): WeaponData[];
+    /**
+     * @param {number} id
+     * @returns {WeaponData}
+     */
+    getWeaponById(id: number): WeaponData;
+    /**
+     * @param {boolean} includeDefaults Whether to include default costumes
+     * @returns {Costume[]}
+     */
+    getAllCostumes(includeDefaults: boolean): Costume[];
+    /**
+     * @param {number} id
+     * @returns {Costume}
+     */
+    getCostumeById(id: number): Costume;
 }
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
+import CharacterData = require("../models/character/CharacterData");
+import WeaponData = require("../models/weapon/WeaponData");
+import Costume = require("../models/character/Costume");

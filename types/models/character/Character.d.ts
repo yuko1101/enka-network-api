@@ -11,6 +11,8 @@ declare class Character {
     _data: object;
     /** @type {CharacterData} */
     avatar: CharacterData;
+    /** @type {Costume} */
+    costume: Costume;
     /** @type {Artifact[]} */
     artifacts: Artifact[];
     /** @type {Weapon} */
@@ -37,6 +39,7 @@ declare class Character {
 }
 import EnkaClient = require("../../client/EnkaClient");
 import CharacterData = require("./CharacterData");
+import Costume = require("./Costume");
 import Artifact = require("../artifact/Artifact");
 import Weapon = require("../weapon/Weapon");
 import CharacterStatus = require("./CharacterStatus");
