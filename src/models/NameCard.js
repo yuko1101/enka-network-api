@@ -31,11 +31,5 @@ module.exports = class NameCard {
         /** @type {ImageAssets[]} */
         this.pictures = this._data.picPath.map(name => new ImageAssets(name));
 
-        /** @type {number} */
-        this.rankLevel = this._data.rankLevel;
-
-        /** @type {string} */
-        this.materialType = this._data.materialType;
-
     }
 }
