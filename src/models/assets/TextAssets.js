@@ -18,7 +18,7 @@ module.exports = class TextAssets {
      * @returns {string}
      */
     get(lang) {
-        if (!lang) lang = this.enka.options.defaultLanguage;
+        lang ??= this.enka.options.defaultLanguage;
         const text = require(this.enka.cachedAssetsManager.getLanguageDataPath(lang))[this.id];
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
         return text;
