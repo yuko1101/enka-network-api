@@ -21,7 +21,8 @@ const contents = [
     "MaterialExcelConfigData.json", // Materials (including NameCards)
     "ProudSkillExcelConfigData.json", // Passive Talents
     "ReliquaryAffixExcelConfigData.json", // Artifact Affix
-
+    "AvatarCodexExcelConfigData.json", // Character Release Information
+    "AvatarHeroEntityExcelConfigData.json", // Travelers
 ]
 
 module.exports = class CachedAssetsManager {

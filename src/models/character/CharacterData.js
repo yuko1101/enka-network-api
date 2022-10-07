@@ -86,6 +86,17 @@ module.exports = class CharacterData {
         this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
 
 
+        /** @type {object | null} */
+        this._releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === id);
+
+        if (this._releaseData) {
+            /** @type {Date} */
+            this.releasedAt = new Date(`${this._releaseData.beginTime} CST`);
+        }
+
+        /** @type {boolean} */
+        this.isReleased = this._releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(id);
+
 
     }
 }
