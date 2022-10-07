@@ -167,6 +167,8 @@ module.exports = class CharacterStatus {
         /** @type {CharacterStatusProperty} */
         this.defense = this.getStatusProperty(2002);
 
+        /** @type {CharacterStatusProperty[]} */
+        this.statusProperties = Object.values(this).filter(value => value instanceof CharacterStatusProperty);
     }
     /**
      * @private
