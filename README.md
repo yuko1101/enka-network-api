@@ -16,7 +16,10 @@ First of all, you need to generate genshin data cache.
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient({ timeout: 4000 });
 
-enka.cachedAssetsManager.fetchAllContents();
+console.log("Fetching Genshin Data...");
+enka.cachedAssetsManager.fetchAllContents().then(() => {
+  console.log("Fetching completed!");
+});
 ```
 
 ## Fetching Player Data
