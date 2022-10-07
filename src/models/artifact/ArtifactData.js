@@ -27,6 +27,9 @@ module.exports = class ArtifactData {
         this.name = new TextAssets(this._data.nameTextMapHash, enka);
 
         /** @type {TextAssets} */
+        this.description = new TextAssets(this._data.descTextMapHash, enka);
+
+        /** @type {TextAssets} */
         this.setName = new TextAssets(setNameTextMapHash, enka);
 
         /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
