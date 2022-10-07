@@ -14,6 +14,8 @@ declare class CharacterData {
     _data: object;
     /** @type {TextAssets} */
     name: TextAssets;
+    /** @type {TextAssets} */
+    description: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {ImageAssets} */
@@ -40,6 +42,12 @@ declare class CharacterData {
     passiveTalents: PassiveTalent[];
     /** @type {Constellation[]} */
     constellations: Constellation[];
+    /** @type {object | null} */
+    _releaseData: object | null;
+    /** @type {Date} */
+    releasedAt: Date;
+    /** @type {boolean} */
+    isReleased: boolean;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

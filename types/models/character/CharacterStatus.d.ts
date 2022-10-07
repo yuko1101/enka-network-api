@@ -99,6 +99,8 @@ declare class CharacterStatus {
     attack: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
     defense: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty[]} */
+    statusProperties: CharacterStatusProperty[];
     /**
      * @private
      * @param {number} id

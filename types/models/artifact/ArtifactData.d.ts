@@ -15,7 +15,13 @@ declare class ArtifactData {
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */
+    description: TextAssets;
+    /** @type {object} */
+    _setData: object;
+    /** @type {TextAssets} */
     setName: TextAssets;
+    /** @type {TextAssets} */
+    setDescription: TextAssets;
     /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
     equipType: "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
     /** @type {object} */
