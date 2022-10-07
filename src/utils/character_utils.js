@@ -17,7 +17,6 @@ module.exports.getCharactersById = (id, enka) => {
 }
 
 /**
- * Determine if the character with the provided `skillDepotId` has been released.
  * @param {number} skillDepotId 
  * @param {EnkaClient} enka
  * @returns {boolean}
@@ -25,4 +24,14 @@ module.exports.getCharactersById = (id, enka) => {
 module.exports.hasEnergySkill = (skillDepotId, enka) => {
     const data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarSkillDepotExcelConfigData")).find(s => s.id === skillDepotId);
     return !!data.energySkill;
+}
+
+/**
+ * @param {number} avatarId
+ * @param {EnkaClient} enka
+ * @returns {boolean}
+ */
+module.exports.isReleased = (avatarId, enka) => {
+    const releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === avatarId);
+    return releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(avatarId);
 }
