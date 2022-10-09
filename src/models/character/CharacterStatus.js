@@ -61,49 +61,49 @@ module.exports = class CharacterStatus {
         /** @type {CharacterStatusProperty} */
         this.baseDefense = this.getStatusProperty(7);
         /** @type {CharacterStatusProperty} */
-        this.critRate = this.getStatusProperty(20, true);
+        this.critRate = this.getStatusProperty(20);
         /** @type {CharacterStatusProperty} */
-        this.critDamage = this.getStatusProperty(22, true);
+        this.critDamage = this.getStatusProperty(22);
         /** @type {CharacterStatusProperty} */
-        this.chargeEfficiency = this.getStatusProperty(23, true);
+        this.chargeEfficiency = this.getStatusProperty(23);
         /** @type {CharacterStatusProperty} */
-        this.healAdd = this.getStatusProperty(26, true);
+        this.healAdd = this.getStatusProperty(26);
         /** @type {CharacterStatusProperty} */
-        this.healedAdd = this.getStatusProperty(27, true);
+        this.healedAdd = this.getStatusProperty(27);
         /** @type {CharacterStatusProperty} */
         this.elementMastery = this.getStatusProperty(28);
         /** @type {CharacterStatusProperty} */
-        this.physicalRes = this.getStatusProperty(29, true);
+        this.physicalRes = this.getStatusProperty(29);
         /** @type {CharacterStatusProperty} */
-        this.physicalDamage = this.getStatusProperty(30, true);
+        this.physicalDamage = this.getStatusProperty(30);
         /** @type {CharacterStatusProperty} */
-        this.pyroDamage = this.getStatusProperty(40, true);
+        this.pyroDamage = this.getStatusProperty(40);
         /** @type {CharacterStatusProperty} */
-        this.electroDamage = this.getStatusProperty(41, true);
+        this.electroDamage = this.getStatusProperty(41);
         /** @type {CharacterStatusProperty} */
-        this.hydroDamage = this.getStatusProperty(42, true);
+        this.hydroDamage = this.getStatusProperty(42);
         /** @type {CharacterStatusProperty} */
-        this.dendroDamage = this.getStatusProperty(43, true);
+        this.dendroDamage = this.getStatusProperty(43);
         /** @type {CharacterStatusProperty} */
-        this.anemoDamage = this.getStatusProperty(44, true);
+        this.anemoDamage = this.getStatusProperty(44);
         /** @type {CharacterStatusProperty} */
-        this.geoDamage = this.getStatusProperty(45, true);
+        this.geoDamage = this.getStatusProperty(45);
         /** @type {CharacterStatusProperty} */
-        this.cryoDamage = this.getStatusProperty(46, true);
+        this.cryoDamage = this.getStatusProperty(46);
         /** @type {CharacterStatusProperty} */
-        this.pyroRes = this.getStatusProperty(50, true);
+        this.pyroRes = this.getStatusProperty(50);
         /** @type {CharacterStatusProperty} */
-        this.electroRes = this.getStatusProperty(51, true);
+        this.electroRes = this.getStatusProperty(51);
         /** @type {CharacterStatusProperty} */
-        this.hydroRes = this.getStatusProperty(52, true);
+        this.hydroRes = this.getStatusProperty(52);
         /** @type {CharacterStatusProperty} */
-        this.dendroRes = this.getStatusProperty(53, true);
+        this.dendroRes = this.getStatusProperty(53);
         /** @type {CharacterStatusProperty} */
-        this.anemoRes = this.getStatusProperty(54, true);
+        this.anemoRes = this.getStatusProperty(54);
         /** @type {CharacterStatusProperty} */
-        this.geoRes = this.getStatusProperty(55, true);
+        this.geoRes = this.getStatusProperty(55);
         /** @type {CharacterStatusProperty} */
-        this.cryoRes = this.getStatusProperty(56, true);
+        this.cryoRes = this.getStatusProperty(56);
 
         /** @type {number} */
         this.pyroEnergyCost = data[70] ?? 0;
@@ -175,7 +175,7 @@ module.exports = class CharacterStatus {
      * @param {number} id 
      * @returns {CharacterStatusProperty}
      */
-    getStatusProperty(id, isPercent = false) {
-        return new CharacterStatusProperty(fightProps[id], this._data[id], isPercent, this.enka);
+    getStatusProperty(id) {
+        return new CharacterStatusProperty(fightProps[id], this._data[id], this.enka);
     }
 }
