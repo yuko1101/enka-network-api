@@ -6,9 +6,10 @@ module.exports = class CharacterStatusProperty {
     /** 
      * @param {string} id
      * @param {number} value
+     * @param {boolean} isPercent
      * @param {EnkaClient} enka
      */
-    constructor(id, value, enka) {
+    constructor(id, value, isPercent, enka) {
         /** @type {string} */
         this.id = id;
 
@@ -18,6 +19,9 @@ module.exports = class CharacterStatusProperty {
 
         /** @type {TextAssets} */
         this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
+
+        /** @type {boolean} */
+        this.isPercent = isPercent;
 
         /** @type {number} */
         this.value = value;
