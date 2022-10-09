@@ -3,10 +3,9 @@ declare class CharacterStatusProperty {
     /**
      * @param {string} id
      * @param {number} value
-     * @param {boolean} isPercent
      * @param {EnkaClient} enka
      */
-    constructor(id: string, value: number, isPercent: boolean, enka: EnkaClient);
+    constructor(id: string, value: number, enka: EnkaClient);
     /** @type {string} */
     id: string;
     /** @type {object} */
