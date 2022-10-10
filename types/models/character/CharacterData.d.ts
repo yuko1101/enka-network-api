@@ -16,10 +16,19 @@ declare class CharacterData {
     name: TextAssets;
     /** @type {TextAssets} */
     description: TextAssets;
+    /** @type {string} */
+    _nameId: string;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {ImageAssets} */
     sideIcon: ImageAssets;
+    /** @type {ImageAssets} */
+    gachaSplash: ImageAssets;
+    /**
+     * Travelers do not have this.
+     *  @type {ImageAssets}
+     */
+    gachaSlice: ImageAssets;
     /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
     qualityType: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
