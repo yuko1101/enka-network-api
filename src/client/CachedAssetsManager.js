@@ -35,6 +35,10 @@ module.exports = class CachedAssetsManager {
 
         /** @type {string} */
         this.cacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
+    }
+
+    /** @returns {void} */
+    cacheDirectorySetup() {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
         }
@@ -51,6 +55,7 @@ module.exports = class CachedAssetsManager {
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
      */
     async fetchLanguageData(lang) {
+        this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
         const res = await fetch(url);
         const json = await res.json();
@@ -59,6 +64,7 @@ module.exports = class CachedAssetsManager {
     }
 
     async fetchAllContents() {
+        this.cacheDirectorySetup();
         const promises = [];
         for (const lang of languages) {
             promises.push(this.fetchLanguageData(lang));
