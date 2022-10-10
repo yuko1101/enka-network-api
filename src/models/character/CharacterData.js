@@ -36,11 +36,24 @@ module.exports = class CharacterData {
         /** @type {TextAssets} */
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
+        /** @type {string} */
+        this._nameId = this._data.iconName.slice(this._data.iconName.lastIndexOf("_") + 1);
+
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.iconName);
 
         /** @type {ImageAssets} */
         this.sideIcon = new ImageAssets(this._data.sideIconName);
+
+        /** @type {ImageAssets} */
+        this.gachaSplash = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`);
+
+        /**
+         * Travelers do not have this.
+         *  @type {ImageAssets} 
+         */
+        this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`);
+
 
         /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
         this.qualityType = this._data.qualityType;
