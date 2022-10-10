@@ -104,7 +104,7 @@ module.exports = class CharacterData {
 
         if (this._releaseData) {
             /** @type {Date} */
-            this.releasedAt = new Date(`${this._releaseData.beginTime} CST`);
+            this.releasedAt = new Date(`${this._releaseData.beginTime}+8:00`);
         }
 
         /** @type {boolean} */
