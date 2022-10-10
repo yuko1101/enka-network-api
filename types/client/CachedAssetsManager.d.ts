@@ -8,6 +8,8 @@ declare class CachedAssetsManager {
     enka: EnkaClient;
     /** @type {string} */
     cacheDirectoryPath: string;
+    /** @returns {void} */
+    cacheDirectorySetup(): void;
     /**
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
      */
