@@ -22,7 +22,7 @@ module.exports = class Weapon {
         this.weaponData = new WeaponData(data.itemId, enka);
 
         /** @type {WeaponRefinement} */
-        this.refinement = this.weaponData.refinements[data.weapon.affixMap[this.weaponData._data.skillAffix[0]] ?? 0];
+        this.refinement = this.weaponData.refinements[data.weapon.affixMap?.[this.weaponData._data.skillAffix[0]] ?? 0];
 
         /** @type {number} */
         this.level = data.weapon.level;
