@@ -12,6 +12,7 @@ npm install enka-network-api
 ```
 
 First of all, you need to generate genshin data cache.
+It will take a few minutes. Just wait.
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient({ timeout: 4000 });
