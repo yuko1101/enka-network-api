@@ -36,6 +36,9 @@ module.exports = class CharacterData {
         /** @type {TextAssets} */
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
+        /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
+        this.bodyType = this._data.bodyType;
+
         /** @type {string} */
         this._nameId = this._data.iconName.slice(this._data.iconName.lastIndexOf("_") + 1);
 
@@ -111,11 +114,10 @@ module.exports = class CharacterData {
         }
 
         /** 
-         * Whether the character is (being) released or Traveler, or not.
-         * This implies whether the character is playable or not.
+         * Whether the character is playable.
          * @type {boolean} 
          */
-        this.isReleased = this._releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(id);
+        this.isPlayable = this._data.useType === "AVATAR_FORMAL";
 
     }
 }

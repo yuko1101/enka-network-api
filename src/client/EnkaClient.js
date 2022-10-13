@@ -58,11 +58,11 @@ module.exports = class EnkaClient {
     }
 
     /**
-     * @param {boolean} [releasedOnly=true]
+     * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}
      */
-    getAllCharacters(releasedOnly = true) {
-        return require(this.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).filter(c => !releasedOnly || (releasedOnly && characterUtils.isReleased(c.id, this))).map(c => characterUtils.getCharactersById(c.id, this)).reduce((a, b) => [...a, ...b]);
+    getAllCharacters(playableOnly = true) {
+        return require(this.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).map(c => characterUtils.getCharactersById(c.id, this)).map(chars => chars.filter(c => !playableOnly || (playableOnly && c.isPlayable))).reduce((a, b) => [...a, ...b]);
     }
 
     /**
