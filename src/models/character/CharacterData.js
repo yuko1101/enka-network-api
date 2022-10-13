@@ -39,6 +39,9 @@ module.exports = class CharacterData {
         /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
         this.bodyType = this._data.bodyType;
 
+        /** @type {"MALE" | "FEMALE"} */
+        this.gender = this.bodyType === "BODY_MALE" || this.bodyType === "BODY_BOY" ? "MALE" : "FEMALE";
+
         /** @type {string} */
         this._nameId = this._data.iconName.slice(this._data.iconName.lastIndexOf("_") + 1);
 
