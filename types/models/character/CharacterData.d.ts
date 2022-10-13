@@ -16,6 +16,10 @@ declare class CharacterData {
     name: TextAssets;
     /** @type {TextAssets} */
     description: TextAssets;
+    /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
+    bodyType: "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
+    /** @type {"MALE" | "FEMALE"} */
+    gender: "MALE" | "FEMALE";
     /** @type {string} */
     _nameId: string;
     /** @type {ImageAssets} */
@@ -53,10 +57,16 @@ declare class CharacterData {
     constellations: Constellation[];
     /** @type {object | null} */
     _releaseData: object | null;
-    /** @type {Date} */
+    /**
+     * This is undefined if the character is not (being) released character, like Travelers and test avatars.
+     * @type {Date}
+     */
     releasedAt: Date;
-    /** @type {boolean} */
-    isReleased: boolean;
+    /**
+     * Whether the character is playable.
+     * @type {boolean}
+     */
+    isPlayable: boolean;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

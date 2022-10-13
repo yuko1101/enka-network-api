@@ -26,10 +26,10 @@ declare class EnkaClient {
      */
     fetchUser(uid: number, parse?: boolean): Promise<User>;
     /**
-     * @param {boolean} [releasedOnly=true]
+     * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}
      */
-    getAllCharacters(releasedOnly?: boolean): CharacterData[];
+    getAllCharacters(playableOnly?: boolean): CharacterData[];
     /**
      * @param {number} id avatarId
      * @param {number} [skillDepotId] Mostly for Travelers.
