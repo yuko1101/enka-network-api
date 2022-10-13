@@ -103,13 +103,19 @@ module.exports = class CharacterData {
         this._releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === id);
 
         if (this._releaseData) {
-            /** @type {Date} */
+            /**
+             * This is undefined if the character is not (being) released character, like Travelers and test avatars.
+             * @type {Date} 
+             */
             this.releasedAt = new Date(`${this._releaseData.beginTime}+8:00`);
         }
 
-        /** @type {boolean} */
+        /** 
+         * Whether the character is (being) released or Traveler, or not.
+         * This implies whether the character is playable or not.
+         * @type {boolean} 
+         */
         this.isReleased = this._releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(id);
-
 
     }
 }
