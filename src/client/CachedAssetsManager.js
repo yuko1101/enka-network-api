@@ -2,6 +2,7 @@ const EnkaClient = require("./EnkaClient");
 const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
+const ConfigFile = require("../utils/ConfigFile");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -35,6 +36,12 @@ module.exports = class CachedAssetsManager {
 
         /** @type {string} */
         this.cacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
+
+        /** @type {number | null} */
+        this._cacheUpdater = null;
+
+        /** @type {ConfigFile | null} */
+        this._githubCache = null;
     }
 
     /** @returns {void} */
@@ -48,6 +55,12 @@ module.exports = class CachedAssetsManager {
         if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs"))) {
             fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "langs"));
         }
+        if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "github"))) {
+            fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "github"));
+        }
+        this._githubCache = new ConfigFile(path.resolve(this.cacheDirectoryPath, "github", "genshin_data.json"), {
+            "lastUpdate": 0,
+        });
     }
 
 
@@ -63,6 +76,8 @@ module.exports = class CachedAssetsManager {
         return json;
     }
 
+
+    /** @returns {void} */
     async fetchAllContents() {
         this.cacheDirectorySetup();
         const promises = [];
@@ -94,6 +109,45 @@ module.exports = class CachedAssetsManager {
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data", fileName))) return false;
         }
         return true;
+    }
+
+    /**
+     * Returns true if there were any updates, false if there were no updates.
+     * @returns {Promise<boolean>}
+     */
+    async updateContents() {
+        const now = Date.now();
+        const res = await fetch(`https://api.github.com/repos/Dimbreath/GenshinData/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`);
+        if (res.status !== 200) {
+            throw new Error("Request Failed");
+        }
+        const data = await res.json();
+
+        if (data.length === 0) return false;
+
+        // TODO: update cache
+
+        await this._githubCache.set("lastUpdate", now).save();
+    }
+
+    /** 
+     * @param {boolean} [instant]
+     * @param {number} [timeout]
+     * @returns {void}
+     */
+    activateAutoCacheUpdater(instant = true, timeout = 3600) {
+        if (instant) this.updateContents();
+        this._cacheUpdater = setInterval(async () => {
+            this.updateContents();
+        }, timeout);
+    }
+
+    /** @returns {void} */
+    deactivateAutoCacheUpdater() {
+        if (this._cacheUpdater !== null) {
+            clearInterval(this._cacheUpdater);
+            this._cacheUpdater = null;
+        }
     }
 
     /**
