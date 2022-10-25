@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
 const ConfigFile = require("../utils/ConfigFile");
+const { bindOptions } = require("../utils/options_utils");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -44,8 +45,8 @@ module.exports = class CachedAssetsManager {
         this._githubCache = null;
     }
 
-    /** @returns {void} */
-    cacheDirectorySetup() {
+    /** @returns {Promise<void>} */
+    async cacheDirectorySetup() {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
         }
@@ -58,9 +59,13 @@ module.exports = class CachedAssetsManager {
         if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "github"))) {
             fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "github"));
         }
-        this._githubCache = new ConfigFile(path.resolve(this.cacheDirectoryPath, "github", "genshin_data.json"), {
-            "lastUpdate": 0,
-        });
+
+        const githubCachePath = path.resolve(this.cacheDirectoryPath, "github", "genshin_data.json");
+        if (!fs.existsSync(githubCachePath) || !this._githubCache) {
+            this._githubCache = await new ConfigFile(githubCachePath, {
+                "lastUpdate": 0,
+            }).load();
+        }
     }
 
 
@@ -68,7 +73,7 @@ module.exports = class CachedAssetsManager {
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
      */
     async fetchLanguageData(lang) {
-        this.cacheDirectorySetup();
+        await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
         const res = await fetch(url);
         const json = await res.json();
@@ -77,9 +82,9 @@ module.exports = class CachedAssetsManager {
     }
 
 
-    /** @returns {void} */
+    /** @returns {Promise<void>} */
     async fetchAllContents() {
-        this.cacheDirectorySetup();
+        await this.cacheDirectorySetup();
         const promises = [];
         for (const lang of languages) {
             promises.push(this.fetchLanguageData(lang));
@@ -94,7 +99,9 @@ module.exports = class CachedAssetsManager {
                 return json;
             })());
         }
+        await this._githubCache.set("lastUpdate", Date.now()).save();
         await Promise.all(promises);
+
     }
 
     /**
@@ -113,33 +120,54 @@ module.exports = class CachedAssetsManager {
 
     /**
      * Returns true if there were any updates, false if there were no updates.
+     * @param {object} options
+     * @param {() => Promise<*>} [options.onUpdateStart]
+     * @param {() => Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
-    async updateContents() {
-        const now = Date.now();
+    async updateContents(options = {}) {
+        options = bindOptions({
+            onUpdateStart: null,
+            onUpdateEnd: null,
+        }, options);
+
+        await this.cacheDirectorySetup();
+
         const res = await fetch(`https://api.github.com/repos/Dimbreath/GenshinData/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`);
         if (res.status !== 200) {
             throw new Error("Request Failed");
         }
+
         const data = await res.json();
 
-        if (data.length === 0) return false;
-
-        // TODO: update cache
-
-        await this._githubCache.set("lastUpdate", now).save();
+        if (data.length !== 0) {
+            await options.onUpdateStart?.();
+            // fetch all because large file diff cannot be retrieved
+            await this.fetchAllContents();
+            await options.onUpdateEnd?.();
+        }
     }
 
     /** 
-     * @param {boolean} [instant]
-     * @param {number} [timeout]
+     * @param {object} [options]
+     * @param {boolean} [options.instant]
+     * @param {number} [options.timeout] in milliseconds
+     * @param {() => Promise<*>} [options.onUpdateStart]
+     * @param {() => Promise<*>} [options.onUpdateEnd]
      * @returns {void}
      */
-    activateAutoCacheUpdater(instant = true, timeout = 3600) {
-        if (instant) this.updateContents();
+    activateAutoCacheUpdater(options = {}) {
+        options = bindOptions({
+            instant: true,
+            timeout: 60 * 60 * 1000,
+            onUpdateStart: null,
+            onUpdateEnd: null,
+        }, options);
+        if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
+        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
         this._cacheUpdater = setInterval(async () => {
-            this.updateContents();
-        }, timeout);
+            this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
+        }, options.timeout);
     }
 
     /** @returns {void} */
