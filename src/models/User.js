@@ -34,19 +34,20 @@ module.exports = class User {
 
         /** @type {{avatar: CharacterData, level: number, costume?: Costume}[]} */
         this.showAvatarInfoList = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
-            const character = new CharacterData(obj.avatarId, enka);
-            delete obj["avatarId"];
+            let copyObj = {
+                ...obj,
+            }
+            const character = new CharacterData(copyObj.avatarId, enka);
+            copyObj['avatar'] = character
+            delete copyObj["avatarId"];
 
-            if (obj["costumeId"]) {
-                const costume = new Costume(obj["costumeId"], enka);
-                obj["costume"] = costume;
-                delete obj["costumeId"];
+            if (copyObj["costumeId"]) {
+                const costume = new Costume(copyObj["costumeId"], enka);
+                copyObj["costume"] = costume;
+                delete copyObj["costumeId"];
             }
 
-            return {
-                ...obj,
-                avatar: character,
-            };
+            return copyObj
         }) : [];
 
         /** @type {NameCard[]} */
