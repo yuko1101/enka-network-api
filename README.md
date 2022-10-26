@@ -6,7 +6,9 @@ An enka-network API wrapper for Genshin Impact.
 
 ## Installation
 
-Install enka-network-api
+**Node.js 16 or newer is required.**
+
+Install enka-network-api.
 ```sh-session
 npm install enka-network-api
 ```
