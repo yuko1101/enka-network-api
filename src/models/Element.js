@@ -2,7 +2,12 @@ const EnkaClient = require("../client/EnkaClient");
 const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const TextAssets = require("./assets/TextAssets");
 
-module.exports = class Element {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Element {
+
     /** 
      * @param {string} id 
      * @param {EnkaClient} enka
@@ -23,3 +28,5 @@ module.exports = class Element {
         this.name = new TextAssets(this._data.textMapContentTextMapHash, enka);
     }
 }
+
+module.exports = Element;

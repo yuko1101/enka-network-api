@@ -1,6 +1,11 @@
 const fs = require('fs');
 
-module.exports = class ConfigFile {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ConfigFile {
+
     /**
      * @param {string} filePath 
      * @param {*} defaultConfig 
@@ -171,3 +176,5 @@ module.exports = class ConfigFile {
     }
 
 }
+
+module.exports = ConfigFile;

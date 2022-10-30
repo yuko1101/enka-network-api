@@ -41,7 +41,12 @@ const fightProps = {
 }
 
 
-module.exports = class CharacterStatus {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class CharacterStatus {
+
     /** 
      * @param {object} data
      * @param {EnkaClient} enka
@@ -179,3 +184,5 @@ module.exports = class CharacterStatus {
         return new CharacterStatusProperty(fightProps[id], this._data[id], this.enka);
     }
 }
+
+module.exports = CharacterStatus;

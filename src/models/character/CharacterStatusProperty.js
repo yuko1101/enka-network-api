@@ -28,7 +28,12 @@ const percent = [
     "FIGHT_PROP_ICE_SUB_HURT",
 ]
 
-module.exports = class CharacterStatusProperty {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class CharacterStatusProperty {
+
     /** 
      * @param {string} id
      * @param {number} value
@@ -52,3 +57,5 @@ module.exports = class CharacterStatusProperty {
         this.value = value;
     }
 }
+
+module.exports = CharacterStatusProperty;

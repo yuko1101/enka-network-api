@@ -27,7 +27,12 @@ const contents = [
     "AvatarHeroEntityExcelConfigData.json", // Travelers
 ]
 
-module.exports = class CachedAssetsManager {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class CachedAssetsManager {
+
     /**
      * @param {EnkaClient} enka 
      */
@@ -194,3 +199,5 @@ module.exports = class CachedAssetsManager {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
     }
 }
+
+module.exports = CachedAssetsManager;

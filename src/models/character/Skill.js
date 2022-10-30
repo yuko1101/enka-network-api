@@ -3,7 +3,12 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
-module.exports = class Skill {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Skill {
+
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -31,3 +36,5 @@ module.exports = class Skill {
         this.icon = new ImageAssets(this._data.skillIcon);
     }
 }
+
+module.exports = Skill;

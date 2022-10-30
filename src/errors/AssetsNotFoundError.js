@@ -1,4 +1,9 @@
-module.exports = class AssetsNotFoundError extends Error {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class AssetsNotFoundError extends Error {
+
     /**
      * @param {string} category 
      * @param {string | number} id 
@@ -13,3 +18,5 @@ module.exports = class AssetsNotFoundError extends Error {
         this.id = id;
     }
 }
+
+module.exports = AssetsNotFoundError;

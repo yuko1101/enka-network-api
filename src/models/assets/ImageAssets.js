@@ -1,6 +1,11 @@
 const imageBaseUrl = "https://enka.network/ui"
 
-module.exports = class ImageAssets {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ImageAssets {
+
     /**
      * @param {string} name
      */
@@ -15,3 +20,5 @@ module.exports = class ImageAssets {
         this.isAvailable = this.name !== null && this.name !== undefined && this.name !== "";
     }
 }
+
+module.exports = ImageAssets;

@@ -3,7 +3,12 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
-module.exports = class PassiveTalent {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class PassiveTalent {
+
     /** 
     * @param {number} id
     * @param {EnkaClient} enka
@@ -34,3 +39,5 @@ module.exports = class PassiveTalent {
 
     }
 }
+
+module.exports = PassiveTalent;

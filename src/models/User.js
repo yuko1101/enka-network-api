@@ -4,7 +4,12 @@ const CharacterData = require("./character/CharacterData");
 const Costume = require("./character/Costume");
 const NameCard = require("./NameCard");
 
-module.exports = class User {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class User {
+
     /** 
      * @param {object} data
      * @param {boolean} parse
@@ -76,3 +81,5 @@ module.exports = class User {
         this.characters = data.avatarInfoList.map(a => new Character(a, enka));
     }
 }
+
+module.exports = User;

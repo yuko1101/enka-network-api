@@ -2,7 +2,12 @@ const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const TextAssets = require("../assets/TextAssets");
 
-module.exports = class ArtifactSplitSubstat {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ArtifactSplitSubstat {
+
     /**
      * @param {number} id 
      * @param {EnkaClient} enka
@@ -29,3 +34,5 @@ module.exports = class ArtifactSplitSubstat {
         this.value = this._data.propValue;
     }
 }
+
+module.exports = ArtifactSplitSubstat;

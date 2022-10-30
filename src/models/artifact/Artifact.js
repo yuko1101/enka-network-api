@@ -5,7 +5,12 @@ const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
-module.exports = class Artifact {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Artifact {
+
     /** 
      * @param {object} data
      * @param {EnkaClient} enka
@@ -47,3 +52,5 @@ module.exports = class Artifact {
 
     }
 }
+
+module.exports = Artifact;

@@ -9,7 +9,12 @@ const ElementalBurst = require("./ElementalBurst");
 const Costume = require("./Costume");
 const PassiveTalent = require("./PassiveTalent");
 
-module.exports = class CharacterData {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class CharacterData {
+
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -124,3 +129,5 @@ module.exports = class CharacterData {
 
     }
 }
+
+module.exports = CharacterData;

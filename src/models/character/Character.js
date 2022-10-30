@@ -8,7 +8,12 @@ const Skill = require("./Skill");
 const PassiveTalent = require("./PassiveTalent");
 const Costume = require("./Costume");
 
-module.exports = class Character {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Character {
+
     /** 
      * @param {object} data
      * @param {EnkaClient} enka
@@ -64,3 +69,5 @@ module.exports = class Character {
 
     }
 }
+
+module.exports = Character;

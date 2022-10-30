@@ -1,7 +1,12 @@
 const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
 
-module.exports = class ArtifactTotalSubstat {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ArtifactTotalSubstat {
+
     /**
      * @param {{appendPropId: string, statValue: number}} data 
      * @param {EnkaClient} enka
@@ -25,3 +30,5 @@ module.exports = class ArtifactTotalSubstat {
         this.value = data.statValue;
     }
 }
+
+module.exports = ArtifactTotalSubstat;

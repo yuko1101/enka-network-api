@@ -5,7 +5,12 @@ const TextAssets = require("../assets/TextAssets");
 const WeaponRefinement = require("./WeaponRefinement");
 const WeaponRefinements = require("./WeaponRefinements");
 
-module.exports = class WeaponData {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class WeaponData {
+
     /**
      * @param {number} id
      * @param {EnkaClient} enka
@@ -52,3 +57,5 @@ module.exports = class WeaponData {
         this.refinements = this._data.skillAffix[0] !== 0 ? new WeaponRefinements(this._data.skillAffix[0], enka).refinements : [];
     }
 }
+
+module.exports = WeaponData;

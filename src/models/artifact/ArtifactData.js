@@ -3,7 +3,12 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
-module.exports = class ArtifactData {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ArtifactData {
+
     /** 
      * @param {number} id
      * @param {number} setNameTextMapHash
@@ -58,3 +63,5 @@ module.exports = class ArtifactData {
 
     }
 }
+
+module.exports = ArtifactData;

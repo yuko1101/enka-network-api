@@ -2,7 +2,12 @@ const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
 const CharacterStatusProperty = require("../character/CharacterStatusProperty");
 
-module.exports = class WeaponRefinement {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class WeaponRefinement {
+
     /** 
      * @param {object} data
      * @param {EnkaClient} enka
@@ -30,3 +35,5 @@ module.exports = class WeaponRefinement {
         this.paramList = data.paramList;
     }
 }
+
+module.exports = WeaponRefinement;

@@ -4,7 +4,12 @@ const TextAssets = require("../assets/TextAssets");
 const WeaponData = require("./WeaponData");
 const WeaponRefinement = require("./WeaponRefinement");
 
-module.exports = class Weapon {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Weapon {
+
     /**
      * @param {object} data
      * @param {EnkaClient} enka
@@ -43,3 +48,5 @@ module.exports = class Weapon {
 
     }
 }
+
+module.exports = Weapon;

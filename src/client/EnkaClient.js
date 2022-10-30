@@ -11,7 +11,12 @@ const Costume = require("../models/character/Costume");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
-module.exports = class EnkaClient {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class EnkaClient {
+
     /**
      * @param {object} [options]
      * @param {string} [options.userAgent="Mozilla/5.0"]
@@ -106,3 +111,5 @@ module.exports = class EnkaClient {
     }
 
 }
+
+module.exports = EnkaClient;

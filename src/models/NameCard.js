@@ -3,7 +3,12 @@ const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const ImageAssets = require("./assets/ImageAssets");
 const TextAssets = require("./assets/TextAssets");
 
-module.exports = class NameCard {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class NameCard {
+
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -33,3 +38,5 @@ module.exports = class NameCard {
 
     }
 }
+
+module.exports = NameCard;

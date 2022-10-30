@@ -4,7 +4,12 @@ const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 const CharacterStatusProperty = require("./CharacterStatusProperty");
 
-module.exports = class Constellation {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class Constellation {
+
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -38,3 +43,5 @@ module.exports = class Constellation {
         this.paramList = this._data.paramList;
     }
 }
+
+module.exports = Constellation;

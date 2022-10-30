@@ -3,7 +3,12 @@ const Element = require("../Element");
 const Skill = require("./Skill");
 
 /** @extends {Skill} */
-module.exports = class ElementalBurst extends Skill {
+/** 
+ * @exports
+ * @module enka-network-api
+ */
+class ElementalBurst extends Skill {
+
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -19,3 +24,5 @@ module.exports = class ElementalBurst extends Skill {
 
     }
 }
+
+module.exports = ElementalBurst;
