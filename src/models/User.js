@@ -32,13 +32,13 @@ module.exports = class User {
         /** @type {CharacterData} */
         this.profilePictureCharacter = new CharacterData(data.playerInfo.profilePicture.avatarId, enka);
 
-        /** @type {{avatar: CharacterData, level: number, costume?: Costume}[]} */
-        this.showAvatarInfoList = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
+        /** @type {{characterData: CharacterData, level: number, costume?: Costume}[]} */
+        this.charactersPreview = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
             let copyObj = {
                 ...obj,
             }
             const character = new CharacterData(copyObj.avatarId, enka);
-            copyObj['avatar'] = character
+            copyObj["characterData"] = character
             delete copyObj["avatarId"];
 
             if (copyObj["costumeId"]) {
@@ -51,7 +51,7 @@ module.exports = class User {
         }) : [];
 
         /** @type {NameCard[]} */
-        this.showNameCardList = data.playerInfo.showNameCardIdList ? data.playerInfo.showNameCardIdList.map(id => new NameCard(id, enka)) : [];
+        this.nameCards = data.playerInfo.showNameCardIdList ? data.playerInfo.showNameCardIdList.map(id => new NameCard(id, enka)) : [];
 
         /** @type {number} */
         this.level = data.playerInfo.level;
@@ -60,19 +60,19 @@ module.exports = class User {
         this.worldLevel = data.playerInfo.worldLevel;
 
         /** @type {NameCard} */
-        this.nameCard = new NameCard(data.playerInfo.nameCardId, enka);
+        this.profileCard = new NameCard(data.playerInfo.nameCardId, enka);
 
         /** @type {number} */
-        this.finishAchievementNum = data.playerInfo.finishAchievementNum;
+        this.achievements = data.playerInfo.finishAchievementNum;
 
         /** @type {number} */
-        this.towerFloorIndex = data.playerInfo.towerFloorIndex;
+        this.abyssFloor = data.playerInfo.towerFloorIndex;
 
         /** @type {number} */
-        this.towerLevelIndex = data.playerInfo.towerLevelIndex;
+        this.abyssLevel = data.playerInfo.towerLevelIndex;
 
 
         /** @type {Character[]} */
-        this.avatarInfoList = data.avatarInfoList.map(a => new Character(a, enka));
+        this.characters = data.avatarInfoList.map(a => new Character(a, enka));
     }
 }

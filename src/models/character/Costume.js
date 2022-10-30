@@ -28,7 +28,7 @@ module.exports = class Costume {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {number} */
-        this.avatarId = this._data.AKOANLMAFDD;
+        this.characterId = this._data.AKOANLMAFDD;
 
         /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;
@@ -38,5 +38,7 @@ module.exports = class Costume {
 
         /** @type {ImageAssets} */
         this.sideIcon = new ImageAssets(this._data.sideIconName);
+
+
     }
 }

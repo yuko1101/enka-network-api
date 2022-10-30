@@ -36,7 +36,7 @@ module.exports = class WeaponData {
         this.awakenIcon = new ImageAssets(this._data.awakenIcon);
 
         /** @type {number} */
-        this.rankLevel = this._data.rankLevel;
+        this.stars = this._data.rankLevel;
 
         /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
         this.weaponType = this._data.weaponType;

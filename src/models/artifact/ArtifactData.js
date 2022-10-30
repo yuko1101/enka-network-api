@@ -54,7 +54,7 @@ module.exports = class ArtifactData {
         this.icon = new ImageAssets(this._data.icon);
 
         /** @type {number} */
-        this.rankLevel = this._data.rankLevel;
+        this.stars = this._data.rankLevel;
 
     }
 }

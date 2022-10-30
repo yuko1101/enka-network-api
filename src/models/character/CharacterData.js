@@ -62,10 +62,10 @@ module.exports = class CharacterData {
 
 
         /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
-        this.qualityType = this._data.qualityType;
+        this.rarity = this._data.qualityType;
 
         /** @type {number} */
-        this.stars = this.qualityType.startsWith("QUALITY_ORANGE") ? 5 : 4;
+        this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
         /** @type {object[]} */
         this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c.AKOANLMAFDD === id);

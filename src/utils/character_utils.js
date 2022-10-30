@@ -27,11 +27,11 @@ module.exports.hasEnergySkill = (skillDepotId, enka) => {
 }
 
 /**
- * @param {number} avatarId
+ * @param {number} characterId
  * @param {EnkaClient} enka
  * @returns {boolean}
  */
-module.exports.isReleased = (avatarId, enka) => {
-    const releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === avatarId);
-    return releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(avatarId);
+module.exports.isReleased = (characterId, enka) => {
+    const releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === characterId);
+    return releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(characterId);
 }

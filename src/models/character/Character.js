@@ -22,10 +22,10 @@ module.exports = class Character {
         this._data = data;
 
         /** @type {CharacterData} */
-        this.avatar = new CharacterData(data.avatarId, enka, data.skillDepotId);
+        this.characterData = new CharacterData(data.avatarId, enka, data.skillDepotId);
 
         /** @type {Costume} */
-        this.costume = data.costumeId ? this.avatar.costumes.find(c => c.id === data.costumeId) : this.avatar.costumes.find(c => c.isDefault);
+        this.costume = data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault);
 
         /** @type {Artifact[]} */
         this.artifacts = data.equipList.filter(item => item.hasOwnProperty("reliquary")).map(artifact => new Artifact(artifact, enka));
@@ -49,18 +49,18 @@ module.exports = class Character {
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         /** @type {Constellation[]} */
-        this.unlockedConstellations = this.avatar.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
+        this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
         /** @type {{skill: Skill, level: number}[]} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             return {
-                skill: this.avatar.skills.find(s => s.id === key),
+                skill: this.characterData.skills.find(s => s.id === key),
                 level: value
             };
         });
 
         /** @type {PassiveTalent[]} */
-        this.unlockedPassiveTalents = this.avatar.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
+        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
 
     }
 }
