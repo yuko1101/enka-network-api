@@ -33,12 +33,17 @@ module.exports = class Costume {
         /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;
 
+        /** @type {string} */
+        this._nameId = this._data.IFIODPDADEI.slice(this._data.IFIODPDADEI.lastIndexOf("_") + 1);
+
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.IFIODPDADEI);
 
         /** @type {ImageAssets} */
         this.sideIcon = new ImageAssets(this._data.sideIconName);
 
+        /** @type {ImageAssets} */
+        this.splashImage = new ImageAssets(`UI_Costume_${this._nameId}`);
 
     }
 }
