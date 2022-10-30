@@ -2,7 +2,7 @@
 
 ## About
 
-An enka-network API wrapper for Genshin Impact.
+An enka.network API wrapper for Genshin Impact.
 
 ## Installation
 
