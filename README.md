@@ -5,7 +5,7 @@
 		<a href="https://www.npmjs.com/package/enka-network-api"><img src="https://img.shields.io/npm/v/enka-network-api.svg?maxAge=3600" alt="npm version" /></a>
 		<a href="https://www.npmjs.com/package/enka-network-api"><img src="https://img.shields.io/npm/dt/enka-network-api.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/yuko1101/enka-network-api/actions/workflows/codeql.yml"><img src="https://github.com/yuko1101/enka-network-api/actions/workflows/codeql.yml/badge.svg">
-    		<a href="https://github.com/yuko1101/enka-network-api/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+    <a href="https://github.com/yuko1101/enka-network-api/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
 	</p>
 </div>
 
@@ -31,6 +31,13 @@ It will take a few minutes. Just wait.
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
+
+// // Change the directory to store cache data.
+// // Default directory is **/enka-network-api/cache.
+// // Re-fetching contents may be required, if you update 
+// // enka-network-api with the cache directory in it.
+// enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
+// enka.cachedAssetsManager.cacheDirectorySetup();
 
 console.log("Fetching Genshin Data...");
 enka.cachedAssetsManager.fetchAllContents().then(() => {
