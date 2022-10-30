@@ -31,7 +31,7 @@ declare class ArtifactData {
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {number} */
-    rankLevel: number;
+    stars: number;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

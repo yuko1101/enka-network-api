@@ -27,14 +27,14 @@ declare class CharacterData {
     /** @type {ImageAssets} */
     sideIcon: ImageAssets;
     /** @type {ImageAssets} */
-    gachaSplash: ImageAssets;
+    splashImage: ImageAssets;
     /**
      * Travelers do not have this.
      *  @type {ImageAssets}
      */
     gachaSlice: ImageAssets;
     /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
-    qualityType: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
+    rarity: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
     stars: number;
     /** @type {object[]} */

@@ -10,7 +10,7 @@ declare class Character {
     /** @type {object} */
     _data: object;
     /** @type {CharacterData} */
-    avatar: CharacterData;
+    characterData: CharacterData;
     /** @type {Costume} */
     costume: Costume;
     /** @type {Artifact[]} */

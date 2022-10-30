@@ -18,28 +18,28 @@ declare class User {
     signature: string | null;
     /** @type {CharacterData} */
     profilePictureCharacter: CharacterData;
-    /** @type {{avatar: CharacterData, level: number, costume?: Costume}[]} */
-    showAvatarInfoList: {
-        avatar: CharacterData;
+    /** @type {{characterData: CharacterData, level: number, costume?: Costume}[]} */
+    charactersPreview: {
+        characterData: CharacterData;
         level: number;
         costume?: Costume;
     }[];
     /** @type {NameCard[]} */
-    showNameCardList: NameCard[];
+    nameCards: NameCard[];
     /** @type {number} */
     level: number;
     /** @type {number} */
     worldLevel: number;
     /** @type {NameCard} */
-    nameCard: NameCard;
+    profileCard: NameCard;
     /** @type {number} */
-    finishAchievementNum: number;
+    achievements: number;
     /** @type {number} */
-    towerFloorIndex: number;
+    abyssFloor: number;
     /** @type {number} */
-    towerLevelIndex: number;
+    abyssLevel: number;
     /** @type {Character[]} */
-    avatarInfoList: Character[];
+    characters: Character[];
 }
 import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");

@@ -20,7 +20,7 @@ declare class WeaponData {
     /** @type {ImageAssets} */
     awakenIcon: ImageAssets;
     /** @type {number} */
-    rankLevel: number;
+    stars: number;
     /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
     weaponType: "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
     /** @type {object} */

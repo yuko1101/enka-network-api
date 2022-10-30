@@ -16,13 +16,17 @@ declare class Costume {
     /** @type {TextAssets} */
     description: TextAssets;
     /** @type {number} */
-    avatarId: number;
+    characterId: number;
     /** @type {boolean} */
     isDefault: boolean;
+    /** @type {string} */
+    _nameId: string;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {ImageAssets} */
     sideIcon: ImageAssets;
+    /** @type {ImageAssets} */
+    splashImage: ImageAssets;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
