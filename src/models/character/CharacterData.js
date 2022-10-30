@@ -52,7 +52,7 @@ module.exports = class CharacterData {
         this.sideIcon = new ImageAssets(this._data.sideIconName);
 
         /** @type {ImageAssets} */
-        this.gachaSplash = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`);
+        this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`);
 
         /**
          * Travelers do not have this.
