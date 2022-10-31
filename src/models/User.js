@@ -74,7 +74,7 @@ class User {
         this.abyssFloor = data.playerInfo.towerFloorIndex;
 
         /** @type {number} */
-        this.abyssLevel = data.playerInfo.towerLevelIndex;
+        this.abyssChamber = data.playerInfo.towerLevelIndex;
 
 
         /** @type {Character[]} */
