@@ -53,6 +53,12 @@ class Character {
         /** @type {number} */
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
+        /** 
+         * Traveler's friendship is always 1.
+         *  @type {number} 
+         */
+        this.friendship = data.fetterInfo?.expLevel ?? 1;
+
         /** @type {Constellation[]} */
         this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
