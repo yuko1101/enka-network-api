@@ -25,7 +25,7 @@ const contents = [
     "ReliquaryAffixExcelConfigData.json", // Artifact Affix
     "AvatarCodexExcelConfigData.json", // Character Release Information
     "AvatarHeroEntityExcelConfigData.json", // Travelers
-]
+];
 
 /** 
  * @exports
