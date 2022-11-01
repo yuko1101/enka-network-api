@@ -1,4 +1,8 @@
 export = NameCard;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class NameCard {
     /**
      * @param {number} id

@@ -1,4 +1,8 @@
 export = ImageAssets;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class ImageAssets {
     /**
      * @param {string} name

@@ -1,4 +1,8 @@
 export = Character;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Character {
     /**
      * @param {object} data
@@ -27,6 +31,11 @@ declare class Character {
     ascension: number;
     /** @type {number} */
     maxLevel: number;
+    /**
+     * Traveler's friendship is always 1.
+     *  @type {number}
+     */
+    friendship: number;
     /** @type {Constellation[]} */
     unlockedConstellations: Constellation[];
     /** @type {{skill: Skill, level: number}[]} */

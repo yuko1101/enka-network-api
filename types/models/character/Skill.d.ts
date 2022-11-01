@@ -1,4 +1,8 @@
 export = Skill;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Skill {
     /**
      * @param {number} id

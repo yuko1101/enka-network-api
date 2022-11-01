@@ -1,4 +1,8 @@
 export = PassiveTalent;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class PassiveTalent {
     /**
     * @param {number} id

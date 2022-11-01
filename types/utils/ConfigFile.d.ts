@@ -1,4 +1,8 @@
 export = ConfigFile;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class ConfigFile {
     /**
      * @param {string} filePath

@@ -1,4 +1,8 @@
 export = TextAssets;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class TextAssets {
     /**
      * @param {number} id

@@ -1,4 +1,8 @@
 export = Element;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Element {
     /**
      * @param {string} id

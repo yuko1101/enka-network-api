@@ -1,4 +1,8 @@
 export = User;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class User {
     /**
      * @param {object} data
@@ -37,7 +41,7 @@ declare class User {
     /** @type {number} */
     abyssFloor: number;
     /** @type {number} */
-    abyssLevel: number;
+    abyssChamber: number;
     /** @type {Character[]} */
     characters: Character[];
 }

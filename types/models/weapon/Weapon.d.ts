@@ -1,4 +1,8 @@
 export = Weapon;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Weapon {
     /**
      * @param {object} data

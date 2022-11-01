@@ -1,4 +1,8 @@
 export = CharacterStatusProperty;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class CharacterStatusProperty {
     /**
      * @param {string} id

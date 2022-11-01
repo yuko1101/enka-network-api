@@ -1,4 +1,8 @@
 export = Artifact;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Artifact {
     /**
      * @param {object} data

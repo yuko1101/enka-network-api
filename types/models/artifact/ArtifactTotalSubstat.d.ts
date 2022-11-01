@@ -1,4 +1,8 @@
 export = ArtifactTotalSubstat;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class ArtifactTotalSubstat {
     /**
      * @param {{appendPropId: string, statValue: number}} data

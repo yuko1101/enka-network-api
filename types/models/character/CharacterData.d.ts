@@ -1,4 +1,8 @@
 export = CharacterData;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class CharacterData {
     /**
      * @param {number} id

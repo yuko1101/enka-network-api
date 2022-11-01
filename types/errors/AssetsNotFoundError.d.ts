@@ -1,4 +1,8 @@
 export = AssetsNotFoundError;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class AssetsNotFoundError extends Error {
     /**
      * @param {string} category

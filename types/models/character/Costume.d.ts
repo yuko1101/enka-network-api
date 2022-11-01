@@ -1,4 +1,8 @@
 export = Costume;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Costume {
     /**
      * @param {number} id

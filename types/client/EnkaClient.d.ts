@@ -1,4 +1,8 @@
 export = EnkaClient;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class EnkaClient {
     /**
      * @param {object} [options]

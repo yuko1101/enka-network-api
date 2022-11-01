@@ -1,4 +1,8 @@
 export = CharacterStatus;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class CharacterStatus {
     /**
      * @param {object} data

@@ -1,4 +1,8 @@
 export = CachedAssetsManager;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class CachedAssetsManager {
     /**
      * @param {EnkaClient} enka

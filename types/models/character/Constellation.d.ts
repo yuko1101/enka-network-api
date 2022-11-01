@@ -1,4 +1,8 @@
 export = Constellation;
+/**
+ * @exports
+ * @module enka-network-api
+ */
 declare class Constellation {
     /**
      * @param {number} id
