@@ -104,8 +104,8 @@ class CachedAssetsManager {
                 return json;
             })());
         }
-        await this._githubCache.set("lastUpdate", Date.now()).save();
         await Promise.all(promises);
+        await this._githubCache.set("lastUpdate", Date.now()).save();
 
     }
 
