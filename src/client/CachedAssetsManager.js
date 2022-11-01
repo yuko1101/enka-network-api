@@ -48,6 +48,9 @@ class CachedAssetsManager {
 
         /** @type {ConfigFile | null} */
         this._githubCache = null;
+
+        /** @type {boolean} */
+        this._isFetching = false;
     }
 
     /** @returns {Promise<void>} */
@@ -104,8 +107,10 @@ class CachedAssetsManager {
                 return json;
             })());
         }
+        this._isFetching = true;
         await Promise.all(promises);
         await this._githubCache.set("lastUpdate", Date.now()).save();
+        this._isFetching = false;
 
     }
 
@@ -171,6 +176,7 @@ class CachedAssetsManager {
         if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
         if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
         this._cacheUpdater = setInterval(async () => {
+            if (this._isFetching) return;
             this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
         }, options.timeout);
     }
