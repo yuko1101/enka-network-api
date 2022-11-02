@@ -164,6 +164,7 @@ class CachedAssetsManager {
      * @param {number} [options.timeout] in milliseconds
      * @param {() => Promise<*>} [options.onUpdateStart]
      * @param {() => Promise<*>} [options.onUpdateEnd]
+     * @param {(e: Error) => Promise<*>} [options.onError]
      * @returns {void}
      */
     activateAutoCacheUpdater(options = {}) {
@@ -172,12 +173,17 @@ class CachedAssetsManager {
             timeout: 60 * 60 * 1000,
             onUpdateStart: null,
             onUpdateEnd: null,
+            onError: null,
         }, options);
         if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
         if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
-            this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
+            try {
+                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
+            } catch (e) {
+                options.onError?.(e);
+            }
         }, options.timeout);
     }
 
