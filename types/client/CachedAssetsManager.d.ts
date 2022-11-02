@@ -16,6 +16,8 @@ declare class CachedAssetsManager {
     _cacheUpdater: number | null;
     /** @type {ConfigFile | null} */
     _githubCache: ConfigFile | null;
+    /** @type {boolean} */
+    _isFetching: boolean;
     /** @returns {Promise<void>} */
     cacheDirectorySetup(): Promise<void>;
     /**
