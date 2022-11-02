@@ -25,45 +25,52 @@ Install enka-network-api.
 npm install enka-network-api
 ```
 
-First of all, you need to generate genshin data cache.
+**GenshinData, which is a repo we fetch the cache data from, has been deleted.**
 
-It will take a few minutes. Just wait.
+Temporarily, you can download the cache data of version 3.2 from [Google Drive](https://drive.google.com/file/d/149QwZDZyKY9_A6lycLbuYIVTgL27RzIx/view?usp=sharing).
+
+Unzip and place it to cache directory.
+Default directory is **/enka-network-api/cache.
+
+~~First of all, you need to generate genshin data cache.~~
+
+~~It will take a few minutes. Just wait.~~
 ```js
-const { EnkaClient } = require("enka-network-api");
-const enka = new EnkaClient();
+// const { EnkaClient } = require("enka-network-api");
+// const enka = new EnkaClient();
 
-// // Change the directory to store cache data.
-// // Default directory is **/enka-network-api/cache.
-// // Re-fetching contents may be required, if you update 
-// // enka-network-api with the cache directory in it.
-// enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
-// enka.cachedAssetsManager.cacheDirectorySetup();
+// // // Change the directory to store cache data.
+// // // Default directory is **/enka-network-api/cache.
+// // // Re-fetching contents may be required, if you update 
+// // // enka-network-api with the cache directory in it.
+// // enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
+// // enka.cachedAssetsManager.cacheDirectorySetup();
 
-console.log("Fetching Genshin Data...");
-enka.cachedAssetsManager.fetchAllContents().then(() => {
-  console.log("Fetching Completed!");
-});
+// console.log("Fetching Genshin Data...");
+// enka.cachedAssetsManager.fetchAllContents().then(() => {
+//   console.log("Fetching Completed!");
+// });
 ```
 
-OR, just activate auto cache updater.
+~~OR, just activate auto cache updater.~~
 
 ```js
-const { EnkaClient } = require("enka-network-api");
-const enka = new EnkaClient();
+// const { EnkaClient } = require("enka-network-api");
+// const enka = new EnkaClient();
 
-enka.cachedAssetsManager.activateAutoCacheUpdater({
-    instant: true, // Run the first update check immediately
-    timeout: 60 * 60 * 1000, // 1 hour interval
-    onUpdateStart: async () => {
-        console.log("Updating Genshin Data...");
-    },
-    onUpdateEnd: async () => {
-        console.log("Updating Completed!");
-    }
-});
+// enka.cachedAssetsManager.activateAutoCacheUpdater({
+//     instant: true, // Run the first update check immediately
+//     timeout: 60 * 60 * 1000, // 1 hour interval
+//     onUpdateStart: async () => {
+//         console.log("Updating Genshin Data...");
+//     },
+//     onUpdateEnd: async () => {
+//         console.log("Updating Completed!");
+//     }
+// });
 
-// // deactivate
-// enka.cachedAssetsManager.deactivateAutoCacheUpdater();
+// // // deactivate
+// // enka.cachedAssetsManager.deactivateAutoCacheUpdater();
 ```
 
 ## Fetching Player Data
