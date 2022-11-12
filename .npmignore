@@ -4,5 +4,6 @@ cache/
 .vscode/
 .github/
 .fleet/
+.devcontainer/
 img/
 docs/
