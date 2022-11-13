@@ -20,21 +20,27 @@ An enka.network API wrapper for Genshin Impact.
 
 **Node.js 16 or newer is required.**
 
-Install enka-network-api.
+Install enka-network-api including genshin cache data.
 ```sh-session
 npm install enka-network-api
 ```
 
+If you have already moved the cache to another folder, you can also install without downloading the cache.
+```sh-session
+npm install enka-network-api --enka_nocache=true
+```
+
+#
+
+
 **GenshinData, which is a repo we fetch the cache data from, has been deleted.**
 
-Temporarily, you can download the cache data of version 3.2 from [Google Drive](https://drive.google.com/file/d/149QwZDZyKY9_A6lycLbuYIVTgL27RzIx/view?usp=sharing).
+And temporarily you cannot use the auto-cache updater
 
-Unzip and place it to cache directory.
-Default directory is **/enka-network-api/cache.
+~~You can activate auto cache updater.~~
 
-~~First of all, you need to generate genshin data cache.~~
+~~When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder.~~
 
-~~It will take a few minutes. Just wait.~~
 ```js
 // const { EnkaClient } = require("enka-network-api");
 // const enka = new EnkaClient();
@@ -45,18 +51,6 @@ Default directory is **/enka-network-api/cache.
 // // // enka-network-api with the cache directory in it.
 // // enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
 // // enka.cachedAssetsManager.cacheDirectorySetup();
-
-// console.log("Fetching Genshin Data...");
-// enka.cachedAssetsManager.fetchAllContents().then(() => {
-//   console.log("Fetching Completed!");
-// });
-```
-
-~~OR, just activate auto cache updater.~~
-
-```js
-// const { EnkaClient } = require("enka-network-api");
-// const enka = new EnkaClient();
 
 // enka.cachedAssetsManager.activateAutoCacheUpdater({
 //     instant: true, // Run the first update check immediately
@@ -72,6 +66,8 @@ Default directory is **/enka-network-api/cache.
 // // // deactivate
 // // enka.cachedAssetsManager.deactivateAutoCacheUpdater();
 ```
+
+# How to use
 
 ## Fetching Player Data
 
