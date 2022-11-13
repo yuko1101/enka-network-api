@@ -10,6 +10,6 @@
   "author": "yuko1101 (https://github.com/yuko1101)",
   "license": "MIT",
   "dependencies": {
-    "enka-network-api": "file:.."
+    "enka-network-api": "github:yuko1101/enka-network-api"
   }
 }
