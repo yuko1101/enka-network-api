@@ -39,7 +39,7 @@ And temporarily you cannot use the auto-cache updater
 
 ~~You can activate auto cache updater.~~
 
-~~When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder.~~
+~~When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache, just delete all folders/files in it.**)~~
 
 ```js
 // const { EnkaClient } = require("enka-network-api");
