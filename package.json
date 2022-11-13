@@ -30,6 +30,9 @@
   },
   "homepage": "https://github.com/yuko1101/enka-network-api#readme",
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/request": "^2.48.8"
   }
 }

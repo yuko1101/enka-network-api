@@ -2,12 +2,11 @@ const User = require("../models/User");
 const UserNotFoundError = require("../errors/UserNotFoundError");
 const { bindOptions } = require("../utils/options_utils");
 const characterUtils = require("../utils/character_utils");
-
-const fetch = require("node-fetch"); // for nodejs 16 or below
 const CachedAssetsManager = require("./CachedAssetsManager");
 const CharacterData = require("../models/character/CharacterData");
 const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
+const { fetchJSON } = require("../utils/request_utils");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -48,17 +47,14 @@ class EnkaClient {
         const abortController = new AbortController();
         const timeoutId = setTimeout(() => abortController.abort("timeout"), this.options.timeout);
 
-        const response = await fetch(url, {
-            headers: { "User-Agent": this.options.userAgent },
-            signal: abortController.signal,
-        });
+        const response = await fetchJSON(url, this, true);
 
         clearTimeout(timeoutId);
 
-        if (response.status !== 200) {
+        if (response.statusCode !== 200) {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
-        const data = await response.json();
+        const data = response.body;
         return new User(data, parse, this);
     }
 
