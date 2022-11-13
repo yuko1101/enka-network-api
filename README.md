@@ -98,6 +98,6 @@ const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
 
 const weapons = enka.getAllWeapons();
-// print weapons names with language "jp"
+// print weapon names with language "jp"
 console.log(weapons.map(w => w.name.get("jp")));
 ```
