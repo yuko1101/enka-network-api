@@ -6,7 +6,7 @@ const CachedAssetsManager = require("./CachedAssetsManager");
 const CharacterData = require("../models/character/CharacterData");
 const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
-const { fetchJSON } = require("../utils/request_utils");
+const { fetchJSON } = require("../utils/axios_utils");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -51,10 +51,10 @@ class EnkaClient {
 
         clearTimeout(timeoutId);
 
-        if (response.statusCode !== 200) {
+        if (response.status !== 200) {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
-        const data = response.body;
+        const data = response.data;
         return new User(data, parse, this);
     }
 

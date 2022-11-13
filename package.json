@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/yuko1101/enka-network-api#readme",
   "dependencies": {
-    "request": "^2.88.2",
+    "axios": "^1.1.3",
     "unzipper": "^0.10.11"
   },
   "devDependencies": {

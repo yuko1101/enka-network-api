@@ -1,10 +1,9 @@
 const EnkaClient = require("./EnkaClient");
 const fs = require("fs");
 const path = require("path");
-const request = require("request");
 const ConfigFile = require("../utils/ConfigFile");
 const { bindOptions } = require("../utils/options_utils");
-const { fetchJSON } = require("../utils/request_utils");
+const { fetchJSON } = require("../utils/axios_utils");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -103,7 +102,7 @@ class CachedAssetsManager {
     async fetchLanguageData(lang) {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
-        const json = (await fetchJSON(url, enka)).body;
+        const json = (await fetchJSON(url, enka)).data;
         fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(json));
         return json;
     }
@@ -120,7 +119,7 @@ class CachedAssetsManager {
             const url = `${contentBaseUrl}/ExcelBinOutput/${content}`;
             const fileName = content.split("/").pop();
             promises.push((async () => {
-                const json = (await fetchJSON(url, enka)).body;
+                const json = (await fetchJSON(url, enka)).data;
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", fileName), JSON.stringify(json));
                 return json;
             })());
@@ -162,11 +161,11 @@ class CachedAssetsManager {
         await this.cacheDirectorySetup();
 
         const res = await fetchJSON(`https://api.github.com/repos/Dimbreath/GenshinData/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`, enka);
-        if (res.statusCode !== 200) {
+        if (res.status !== 200) {
             throw new Error("Request Failed");
         }
 
-        const data = res.body;
+        const data = res.data;
 
         if (data.length !== 0) {
             await options.onUpdateStart?.();
