@@ -27,6 +27,25 @@ const contents = [
     "AvatarHeroEntityExcelConfigData.json", // Travelers
 ];
 
+const manualTextMapWhiteList = [
+    "EquipType",
+    "EQUIP_BRACER",
+    "EQUIP_DRESS",
+    "EQUIP_SHOES",
+    "EQUIP_RING",
+    "EQUIP_NECKLACE",
+    "ElementType",
+    "None",
+    "Fire",
+    "Water",
+    "Grass",
+    "Electric",
+    "Wind",
+    "Ice",
+    "Rock",
+    "WeaponType",
+]
+
 /** 
  * @exports
  * @module enka-network-api
@@ -110,8 +129,8 @@ class CachedAssetsManager {
         this._isFetching = true;
         await Promise.all(promises);
         await this._githubCache.set("lastUpdate", Date.now()).save();
+        await this.removeUnusedTextData();
         this._isFetching = false;
-
     }
 
     /**
@@ -209,6 +228,60 @@ class CachedAssetsManager {
      */
     getJSONDataPath(name) {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
+    }
+
+
+    /**
+     * Remove all unused TextHashMaps
+     */
+    async removeUnusedTextData() {
+        const required = [];
+        require(this.getJSONDataPath("AvatarExcelConfigData")).forEach(c => {
+            required.push(c.nameTextMapHash, c.descTextMapHash);
+        });
+        require(this.getJSONDataPath("ManualTextMapConfigData")).forEach(m => {
+            const id = m.textMapId;
+            if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
+            required.push(m.textMapContentTextMapHash);
+        });
+        require(this.getJSONDataPath("ReliquaryExcelConfigData")).forEach(a => {
+            required.push(a.nameTextMapHash, a.descTextMapHash)
+        });
+        require(this.getJSONDataPath("EquipAffixExcelConfigData")).forEach(s => {
+            required.push(s.nameTextMapHash, s.descTextMapHash);
+        });
+        require(this.getJSONDataPath("AvatarTalentExcelConfigData")).forEach(c => {
+            required.push(c.nameTextMapHash, c.descTextMapHash);
+        });
+        require(this.getJSONDataPath("AvatarCostumeExcelConfigData")).forEach(c => {
+            required.push(c.nameTextMapHash, c.descTextMapHash);
+        });
+        require(this.getJSONDataPath("ProudSkillExcelConfigData")).forEach(p => {
+            required.push(p.nameTextMapHash, p.descTextMapHash);
+        });
+        require(this.getJSONDataPath("AvatarSkillExcelConfigData")).forEach(s => {
+            required.push(s.nameTextMapHash, s.descTextMapHash);
+        });
+        require(this.getJSONDataPath("WeaponExcelConfigData")).forEach(w => {
+            required.push(w.nameTextMapHash, w.descTextMapHash);
+        });
+        require(this.getJSONDataPath("EquipAffixExcelConfigData")).forEach(r => {
+            required.push(r.nameTextMapHash, r.descTextMapHash);
+        });
+        require(this.getJSONDataPath("MaterialExcelConfigData")).forEach(m => {
+            required.push(m.nameTextMapHash, m.descTextMapHash);
+        });
+
+        const requiredStringKeys = required.map(key => key.toString());
+
+        const langPath = path.resolve(this.cacheDirectoryPath, "langs");
+        for (const file of fs.readdirSync(langPath)) {
+            const data = JSON.parse(fs.readFileSync(path.resolve(langPath, file)));
+            for (const key of Object.keys(data)) {
+                if (!requiredStringKeys.includes(key)) delete data[key];
+            }
+            fs.writeFileSync(path.resolve(langPath, file), JSON.stringify(data));
+        }
     }
 }
 
