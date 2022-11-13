@@ -17,6 +17,8 @@ declare class NameCard {
     _data: object;
     /** @type {TextAssets} */
     name: TextAssets;
+    /** @type {TextAssets} */
+    description: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
     /** @type {ImageAssets[]} */

@@ -69,6 +69,10 @@ declare class CachedAssetsManager {
      * @returns {string}
      */
     getJSONDataPath(name: string): string;
+    /**
+     * Remove all unused TextHashMaps
+     */
+    removeUnusedTextData(): Promise<void>;
 }
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
