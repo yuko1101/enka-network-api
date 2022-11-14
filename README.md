@@ -35,7 +35,7 @@ npm install enka-network-api --enka_nocache=true
 
 **GenshinData, which is a repo we fetch the cache data from, has been deleted.**
 
-And temporarily you cannot use the auto-cache updater
+And temporarily you cannot use the auto-cache updater.
 
 ~~You can activate auto cache updater.~~
 
