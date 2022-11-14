@@ -27,7 +27,7 @@ axios.get(url, {
         res.data.on("end", () => {
             fs.createReadStream("cache.zip")
                 .pipe(unzipper.Extract({ path: "./" }))
-                .on("end", () => {
+                .on("close", () => {
                     fs.rmSync("cache.zip");
                 });
         });
