@@ -7,6 +7,7 @@ const CharacterData = require("../models/character/CharacterData");
 const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
 const { fetchJSON } = require("../utils/axios_utils");
+const NameCard = require("../models/NameCard");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -104,6 +105,21 @@ class EnkaClient {
      */
     getCostumeById(id) {
         return new Costume(id, this);
+    }
+
+    /**
+     * @returns {NameCard[]}
+     */
+    getAllNameCards() {
+        return require(this.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).filter(m => m.materialType === "MATERIAL_NAMECARD").map(n => new NameCard(n.id, this, n));
+    }
+
+    /**
+     * @param {number} id
+     * @returns {NameCard}
+     */
+    getNameCardById(id) {
+        return new NameCard(id, this);
     }
 
 }

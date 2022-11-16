@@ -12,8 +12,9 @@ class NameCard {
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id, enka) {
+    constructor(id, enka, data = null) {
 
         /** @type {number} */
         this.id = id;
@@ -23,7 +24,7 @@ class NameCard {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).find(m => m.id === id);
+        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).find(m => m.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("NameCard", id);
 
