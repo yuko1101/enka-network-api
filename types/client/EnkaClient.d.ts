@@ -59,9 +59,19 @@ declare class EnkaClient {
      * @returns {Costume}
      */
     getCostumeById(id: number): Costume;
+    /**
+     * @returns {NameCard[]}
+     */
+    getAllNameCards(): NameCard[];
+    /**
+     * @param {number} id
+     * @returns {NameCard}
+     */
+    getNameCardById(id: number): NameCard;
 }
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
 import CharacterData = require("../models/character/CharacterData");
 import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
+import NameCard = require("../models/NameCard");

@@ -7,8 +7,9 @@ declare class Costume {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient);
+    constructor(id: number, enka: EnkaClient, data?: object);
     /** @type {number} */
     id: number;
     /** @type {EnkaClient} */
