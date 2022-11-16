@@ -80,7 +80,7 @@ class EnkaClient {
      * @returns {WeaponData[]}
      */
     getAllWeapons() {
-        return require(this.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).map(w => new WeaponData(w.id, this));
+        return require(this.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).map(w => new WeaponData(w.id, this, w));
     }
 
     /** 
@@ -96,7 +96,7 @@ class EnkaClient {
      * @returns {Costume[]}
      */
     getAllCostumes(includeDefaults) {
-        return require(this.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(c.OGKFGGNLLDG, this));
+        return require(this.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(c[Object.keys(c)[0]], this, c));
     }
 
     /**

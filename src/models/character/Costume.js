@@ -12,8 +12,9 @@ class Costume {
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id, enka) {
+    constructor(id, enka, data = null) {
 
         /** @type {number} */
         this.id = id;
@@ -22,7 +23,7 @@ class Costume {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).find(c => c.OGKFGGNLLDG === id);
+        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).find(c => c[Object.keys(e)[0]] === id);
 
         if (!this._data) throw new AssetsNotFoundError("Costume", id);
 
@@ -33,16 +34,18 @@ class Costume {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {number} */
-        this.characterId = this._data.AKOANLMAFDD;
+        this.characterId = this._data[Object.keys(this._data)[Object.keys(this._data).indexOf("jsonName") - 1]]; // Previous key of "jsonName"
 
         /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;
 
+        if (this.isDefault) return;
+
         /** @type {string} */
-        this._nameId = this._data.IFIODPDADEI.slice(this._data.IFIODPDADEI.lastIndexOf("_") + 1);
+        this._nameId = this._data.jsonName?.slice(this._data.jsonName.lastIndexOf("_") + 1);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.IFIODPDADEI);
+        this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`);
 
         /** @type {ImageAssets} */
         this.sideIcon = new ImageAssets(this._data.sideIconName);

@@ -14,8 +14,9 @@ class WeaponData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id, enka) {
+    constructor(id, enka, data = null) {
 
         /** @type {EnkaClient} */
         this.enka = enka;
@@ -25,7 +26,7 @@ class WeaponData {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).find(w => w.id === id);
+        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).find(w => w.id === id);
         if (!this._data) throw new AssetsNotFoundError("Weapon", id);
 
         /** @type {TextAssets} */

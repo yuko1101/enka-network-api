@@ -73,10 +73,10 @@ class CharacterData {
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
         /** @type {object[]} */
-        this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c.AKOANLMAFDD === id);
+        this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c[Object.keys(c)[Object.keys(c).indexOf("jsonName") - 1]] === id); // Previous key of "jsonName"
 
         /** @type {Costume[]} */
-        this.costumes = this._costumeData.map(c => new Costume(c.OGKFGGNLLDG, enka));
+        this.costumes = this._costumeData.map(c => new Costume(c[Object.keys(c)[0]], enka, c));
 
 
 
