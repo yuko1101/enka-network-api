@@ -8,8 +8,9 @@ declare class User {
      * @param {object} data
      * @param {boolean} parse
      * @param {EnkaClient} enka
+     * @param {number} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: object, parse: boolean, enka: EnkaClient);
+    constructor(data: object, enka: EnkaClient, parse?: boolean, uid?: number);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */
@@ -42,6 +43,8 @@ declare class User {
     abyssFloor: number;
     /** @type {number} */
     abyssChamber: number;
+    /** @type {boolean} */
+    showCharacterDetails: boolean;
     /** @type {Character[]} */
     characters: Character[];
 }
