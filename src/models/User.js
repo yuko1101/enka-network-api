@@ -76,9 +76,11 @@ class User {
         /** @type {number} */
         this.abyssChamber = data.playerInfo.towerLevelIndex;
 
+        /** @type {boolean} */
+        this.showCharacterDetails = !!data.avatarInfoList;
 
         /** @type {Character[]} */
-        this.characters = data.avatarInfoList.map(a => new Character(a, enka));
+        this.characters = data.avatarInfoList?.map(a => new Character(a, enka)) ?? [];
     }
 }
 
