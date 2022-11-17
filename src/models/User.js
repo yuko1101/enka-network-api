@@ -69,7 +69,7 @@ class User {
         this.profileCard = new NameCard(data.playerInfo.nameCardId, enka);
 
         /** @type {number} */
-        this.achievements = data.playerInfo.finishAchievementNum;
+        this.achievements = data.playerInfo.finishAchievementNum ?? 0;
 
         /** @type {number} */
         this.abyssFloor = data.playerInfo.towerFloorIndex;
