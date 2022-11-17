@@ -14,8 +14,9 @@ class User {
      * @param {object} data
      * @param {boolean} parse
      * @param {EnkaClient} enka
+     * @param {number} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, parse, enka) {
+    constructor(data, parse, enka, uid = null) {
         /** @type {EnkaClient} */
         this.enka = enka;
 
@@ -26,7 +27,7 @@ class User {
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents at least once.");
 
         /** @type {number} */
-        this.uid = Number(data.uid);
+        this.uid = isNaN(Number(data.uid)) && uid ? uid : Number(data.uid);
 
         /** @type {string} */
         this.nickname = data.playerInfo.nickname;

@@ -56,7 +56,7 @@ class EnkaClient {
             throw new UserNotFoundError(`User with uid ${uid} was not found.`);
         }
         const data = response.data;
-        return new User(data, parse, this);
+        return new User(data, parse, this, uid);
     }
 
     /**
