@@ -45,8 +45,8 @@ class Artifact {
 
         /** @type {{split: ArtifactSplitSubstat[], total: ArtifactTotalSubstat[]}} */
         this.substats = {
-            split: data.reliquary.appendPropIdList.map(id => new ArtifactSplitSubstat(id, enka)),
-            total: data.flat.reliquarySubstats.map(obj => new ArtifactTotalSubstat(obj, enka))
+            split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? [],
+            total: data.flat.reliquarySubstats?.map(obj => new ArtifactTotalSubstat(obj, enka)) ?? []
         };
 
 
