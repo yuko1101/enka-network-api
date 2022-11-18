@@ -77,10 +77,16 @@ class EnkaClient {
     }
 
     /**
+     * @param {boolean} [excludeInvalidWeapons]
      * @returns {WeaponData[]}
      */
-    getAllWeapons() {
-        return require(this.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).map(w => new WeaponData(w.id, this, w));
+    getAllWeapons(excludeInvalidWeapons = true) {
+        const weapons = require(this.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData"));
+        if (excludeInvalidWeapons) {
+            return weapons.filter(w => w.weaponPromoteId === w.id).map(w => new WeaponData(w.id, this, w));
+        } else {
+            return weapons.map(w => new WeaponData(w.id, this, w));
+        }
     }
 
     /** 
