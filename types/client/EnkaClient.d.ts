@@ -41,9 +41,10 @@ declare class EnkaClient {
      */
     getCharacterById(id: number, skillDepotId?: number): CharacterData[];
     /**
+     * @param {boolean} [excludeInvalidWeapons]
      * @returns {WeaponData[]}
      */
-    getAllWeapons(): WeaponData[];
+    getAllWeapons(excludeInvalidWeapons?: boolean): WeaponData[];
     /**
      * @param {number} id
      * @returns {WeaponData}
