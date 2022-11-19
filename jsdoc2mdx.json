@@ -2,9 +2,9 @@
     "locales": [
         "en"
     ],
-    "outDir": "../enka-network-api-docs/docs/api",
-    "localesDir": "../enka-network-api-docs/i18n/{locale}/docusaurus-plugin-content-docs/current/api",
-    "sidebar": "../enka-network-api-docs",
+    "outDir": "./docs/docs/api",
+    "localesDir": "./docs/i18n/{locale}/docusaurus-plugin-content-docs/current/api",
+    "sidebar": "./docs",
     "jsdoc": "./jsdoc.json",
     "bulma": false
 }
