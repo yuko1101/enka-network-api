@@ -6,8 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'EnkaNetworkAPI',
+  tagline: 'Node.js Enka.Network API wrapper for Genshin Impact',
   url: 'https://enka-network-api-docs.vercel.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -16,8 +16,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'yuko1101', // Usually your GitHub org/user name.
+  projectName: 'enka-network-api', // Usually your repo name.
 
   // Even if you don't use internationalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -47,23 +47,23 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'enka-network-api',
+        title: 'EnkaNetworkAPI',
         logo: {
           alt: 'EnkaNetwork',
-          src: 'img/logo.svg',
+          src: 'img/enka-logo.png',
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Get Started',
           },
           {
             type: 'doc',
             docId: 'api/EnkaClient',
             position: 'left',
-            label: 'Docs'
+            label: 'Documentation'
           },
           // { to: '/examples', label: 'Examples', position: 'left' },
           {
@@ -77,31 +77,35 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Contents',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Get Started',
                 to: '/docs/intro',
               },
+              {
+                label: 'Documentation',
+                to: '/docs/api/EnkaClient'
+              }
             ],
           },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
-          },
+          // {
+          //   title: 'Community',
+          //   items: [
+          //     {
+          //       label: 'Stack Overflow',
+          //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+          //     },
+          //     {
+          //       label: 'Discord',
+          //       href: 'https://discordapp.com/invite/docusaurus',
+          //     },
+          //     {
+          //       label: 'Twitter',
+          //       href: 'https://twitter.com/docusaurus',
+          //     },
+          //   ],
+          // },
           {
             title: 'More',
             items: [
