@@ -1,0 +1,10 @@
+{
+    "locales": [
+        "en"
+    ],
+    "outDir": "../enka-network-api-docs/docs/api",
+    "localesDir": "../enka-network-api-docs/i18n/{locale}/docusaurus-plugin-content-docs/current/api",
+    "sidebar": "../enka-network-api-docs",
+    "jsdoc": "./jsdoc.json",
+    "bulma": false
+}

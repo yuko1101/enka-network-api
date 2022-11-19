@@ -1,0 +1,15 @@
+{
+    "source": {
+        "include": [
+            "./src/"
+        ],
+        "includePattern": ".+\\.(m?js|ts)$"
+    },
+    "sourceType": "module",
+    "opts": {
+        "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./docs/",
+        "recurse": true
+    }
+}
