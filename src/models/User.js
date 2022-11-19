@@ -11,8 +11,8 @@ class User {
 
     /** 
      * @param {object} data
-     * @param {boolean} parse
      * @param {EnkaClient} enka
+     * @param {boolean} parse
      * @param {number} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data, enka, parse = true, uid = null) {
