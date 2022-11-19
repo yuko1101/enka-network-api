@@ -36,9 +36,9 @@ declare class EnkaClient {
     /**
      * @param {number} id characterId
      * @param {number} [skillDepotId] Mostly for Travelers.
-     * @returns {CharacterData[]}
+     * @returns {CharacterData}
      */
-    getCharacterById(id: number, skillDepotId?: number): CharacterData[];
+    getCharacterById(id: number, skillDepotId?: number): CharacterData;
     /**
      * @param {boolean} [excludeInvalidWeapons]
      * @returns {WeaponData[]}

@@ -69,7 +69,7 @@ class EnkaClient {
     /**
      * @param {number} id characterId
      * @param {number} [skillDepotId] Mostly for Travelers.
-     * @returns {CharacterData[]}
+     * @returns {CharacterData}
      */
     getCharacterById(id, skillDepotId) {
         return new CharacterData(id, this, skillDepotId);
