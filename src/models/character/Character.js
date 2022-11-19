@@ -9,7 +9,7 @@ const PassiveTalent = require("./PassiveTalent");
 const Costume = require("./Costume");
 
 /** 
- * @exports
+ * @exports Character
  * @module enka-network-api
  */
 class Character {

@@ -1,5 +1,5 @@
 /** 
- * @exports
+ * @exports UserNotFoundError
  * @module enka-network-api
  */
 class UserNotFoundError extends Error {

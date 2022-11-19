@@ -29,7 +29,7 @@ const percent = [
 ]
 
 /** 
- * @exports
+ * @exports CharacterStatusProperty
  * @module enka-network-api
  */
 class CharacterStatusProperty {

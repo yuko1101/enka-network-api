@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 /** 
- * @exports
+ * @exports ConfigFile
  * @module enka-network-api
  */
 class ConfigFile {

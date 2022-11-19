@@ -6,7 +6,7 @@ const WeaponRefinement = require("./WeaponRefinement");
 const WeaponRefinements = require("./WeaponRefinements");
 
 /** 
- * @exports
+ * @exports WeaponData
  * @module enka-network-api
  */
 class WeaponData {

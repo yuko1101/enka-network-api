@@ -3,7 +3,7 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @exports
+ * @exports ArtifactSplitSubstat
  * @module enka-network-api
  */
 class ArtifactSplitSubstat {

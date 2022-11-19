@@ -6,7 +6,7 @@ const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
 /** 
- * @exports
+ * @exports Artifact
  * @module enka-network-api
  */
 class Artifact {

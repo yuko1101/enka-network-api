@@ -5,7 +5,7 @@ const Costume = require("./character/Costume");
 const NameCard = require("./NameCard");
 
 /** 
- * @exports
+ * @exports User
  * @module enka-network-api
  */
 class User {

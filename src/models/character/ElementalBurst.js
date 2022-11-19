@@ -4,7 +4,7 @@ const Skill = require("./Skill");
 
 /** @extends {Skill} */
 /** 
- * @exports
+ * @exports ElementalBurst
  * @module enka-network-api
  */
 class ElementalBurst extends Skill {

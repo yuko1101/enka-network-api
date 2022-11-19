@@ -3,7 +3,7 @@ const TextAssets = require("../assets/TextAssets");
 const CharacterStatusProperty = require("../character/CharacterStatusProperty");
 
 /** 
- * @exports
+ * @exports WeaponRefinement
  * @module enka-network-api
  */
 class WeaponRefinement {

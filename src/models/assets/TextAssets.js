@@ -2,7 +2,7 @@ const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
 /** 
- * @exports
+ * @exports TextAssets
  * @module enka-network-api
  */
 class TextAssets {
