@@ -1,9 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: gh-pages
 
 permissions:
   id-token: write
+  pages: write
 
 # Controls when the workflow will run
 on:
