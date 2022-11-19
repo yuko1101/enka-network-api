@@ -1,7 +1,7 @@
 {
     "source": {
         "include": [
-            "./src/"
+            "../src/"
         ],
         "includePattern": ".+\\.(m?js|ts)$"
     },
@@ -9,7 +9,7 @@
     "opts": {
         "template": "templates/default",
         "encoding": "utf8",
-        "destination": "./docs/",
+        "destination": "./out/",
         "recurse": true
     }
 }
