@@ -9,7 +9,7 @@ const config = {
   title: 'EnkaNetworkAPI',
   tagline: 'Node.js Enka.Network API wrapper for Genshin Impact',
   url: 'https://enka-network-api-docs.vercel.app',
-  baseUrl: '/',
+  baseUrl: process.env.npm_config_base_url ?? '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
