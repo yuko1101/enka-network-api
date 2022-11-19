@@ -65,7 +65,7 @@ const config = {
             position: 'left',
             label: 'Docs'
           },
-          { to: '/examples', label: 'Examples', position: 'left' },
+          // { to: '/examples', label: 'Examples', position: 'left' },
           {
             href: 'https://github.com/yuko1101/enka-network-api',
             label: 'GitHub',
@@ -105,10 +105,10 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
+              // {
+              //   label: 'Blog',
+              //   to: '/blog',
+              // },
               {
                 label: 'GitHub',
                 href: 'https://github.com/yuko1101/enka-network-api',
