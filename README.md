@@ -102,4 +102,4 @@ const weapons = enka.getAllWeapons();
 console.log(weapons.map(w => w.name.get("jp")));
 ```
 
-For more information, please check [Documentation](https://enka-network-api-docs.vercel.app).
+For more information, please check [Documentation](https://enka-network-api.vercel.app/docs/api/EnkaClient).
