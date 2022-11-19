@@ -89,34 +89,34 @@ const config = {
               }
             ],
           },
-          // {
-          //   title: 'Community',
-          //   items: [
-          //     {
-          //       label: 'Stack Overflow',
-          //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-          //     },
-          //     {
-          //       label: 'Discord',
-          //       href: 'https://discordapp.com/invite/docusaurus',
-          //     },
-          //     {
-          //       label: 'Twitter',
-          //       href: 'https://twitter.com/docusaurus',
-          //     },
-          //   ],
-          // },
           {
-            title: 'More',
+            title: 'GitHub',
             items: [
-              // {
-              //   label: 'Blog',
-              //   to: '/blog',
-              // },
               {
-                label: 'GitHub',
+                label: 'Repository',
                 href: 'https://github.com/yuko1101/enka-network-api',
               },
+              {
+                label: 'Issues',
+                href: 'https://github.com/yuko1101/enka-network-api/issues',
+              },
+              {
+                label: 'Pull requests',
+                href: 'https://discordapp.com/invite/docusaurus',
+              },
+            ],
+          },
+          {
+            title: 'Other Links',
+            items: [
+              {
+                label: 'npm',
+                href: 'https://www.npmjs.com/package/enka-network-api'
+              },
+              {
+                label: 'EnkaNetwork',
+                href: 'https://enka.network'
+              }
             ],
           },
         ],
