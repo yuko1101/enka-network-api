@@ -54,7 +54,7 @@ class WeaponData {
         /** @type {TextAssets} */
         this.weaponTypeName = new TextAssets(this._weaponTypeData.textMapContentTextMapHash, enka);
 
-        /** @type {WeaponRefinement[]} */
+        /** @type {Array<WeaponRefinement>} */
         this.refinements = this._data.skillAffix[0] !== 0 ? new WeaponRefinements(this._data.skillAffix[0], enka).refinements : [];
     }
 }

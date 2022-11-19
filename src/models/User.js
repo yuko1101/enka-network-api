@@ -38,7 +38,7 @@ class User {
         /** @type {CharacterData} */
         this.profilePictureCharacter = new CharacterData(data.playerInfo.profilePicture.avatarId, enka);
 
-        /** @type {{characterData: CharacterData, level: number, costume?: Costume}[]} */
+        /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
         this.charactersPreview = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
             let copyObj = {
                 ...obj,
@@ -56,7 +56,7 @@ class User {
             return copyObj
         }) : [];
 
-        /** @type {NameCard[]} */
+        /** @type {Array<NameCard>} */
         this.nameCards = data.playerInfo.showNameCardIdList ? data.playerInfo.showNameCardIdList.map(id => new NameCard(id, enka)) : [];
 
         /** @type {number} */
@@ -80,7 +80,7 @@ class User {
         /** @type {boolean} */
         this.showCharacterDetails = !!data.avatarInfoList;
 
-        /** @type {Character[]} */
+        /** @type {Array<Character>} */
         this.characters = data.avatarInfoList?.map(a => new Character(a, enka)) ?? [];
     }
 }

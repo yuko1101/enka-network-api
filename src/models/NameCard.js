@@ -37,7 +37,7 @@ class NameCard {
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
 
-        /** @type {ImageAssets[]} */
+        /** @type {Array<ImageAssets>} */
         this.pictures = this._data.picPath.map(name => new ImageAssets(name));
 
     }

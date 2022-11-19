@@ -28,10 +28,10 @@ class WeaponRefinement {
         /** @type {TextAssets} */
         this.description = new TextAssets(data.descTextMapHash, enka);
 
-        /** @type {CharacterStatusProperty[]} */
+        /** @type {Array<CharacterStatusProperty>} */
         this.addProps = data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new CharacterStatusProperty(p.propType, p.value, enka));
 
-        /** @type {number[]} */
+        /** @type {Array<number>} */
         this.paramList = data.paramList;
     }
 }

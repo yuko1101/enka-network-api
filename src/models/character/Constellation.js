@@ -36,10 +36,10 @@ class Constellation {
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
 
-        /** @type {CharacterStatusProperty[]} */
+        /** @type {Array<CharacterStatusProperty>} */
         this.addProps = this._data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new CharacterStatusProperty(p.propType, p.value, enka));
 
-        /** @type {number[]} */
+        /** @type {Array<number>} */
         this.paramList = this._data.paramList;
     }
 }

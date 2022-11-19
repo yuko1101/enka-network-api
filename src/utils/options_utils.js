@@ -49,7 +49,7 @@ module.exports.bindOptions = (defaultOptions, options) => {
  * Get the path where the value is null, or undefined.
  * @param {*} object 
  * @param {*} path 
- * @returns {string[][]}
+ * @returns {Array<Array<string>>}
  */
 function getNullPath(object, path = []) {
     const result = [];
@@ -69,7 +69,7 @@ function getNullPath(object, path = []) {
  * Warning: This function will not work with circular object.
  * @private
  * @param {object} object 
- * @returns {{path: string[], value: any}[]}
+ * @returns {Array<{path: Array<string>, value: any}>}
  */
 function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
     const result = [];
@@ -93,7 +93,7 @@ function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
 
 /**
  * @param {object} object 
- * @param {string[]} path 
+ * @param {Array<string>} path 
  * @returns {*}
  */
 function getPath(object, path) {
@@ -108,7 +108,7 @@ function getPath(object, path) {
 
 /**
  * @param {object} object
- * @param {string[]} path
+ * @param {Array<string>} path
  * @returns {boolean}
  */
 function hasPath(object, path) {
@@ -124,7 +124,7 @@ function hasPath(object, path) {
 
 /**
  * @param {object} object 
- * @param {string[]} path 
+ * @param {Array<string>} path 
  * @param {*} value 
  */
 function setPath(object, path, value) {

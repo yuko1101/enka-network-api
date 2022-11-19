@@ -72,10 +72,10 @@ class CharacterData {
         /** @type {number} */
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
-        /** @type {object[]} */
+        /** @type {Array<object>} */
         this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c[Object.keys(c)[Object.keys(c).indexOf("jsonName") - 1]] === id); // Previous key of "jsonName"
 
-        /** @type {Costume[]} */
+        /** @type {Array<Costume>} */
         this.costumes = this._costumeData.map(c => new Costume(c[Object.keys(c)[0]], enka, c));
 
 
@@ -89,7 +89,7 @@ class CharacterData {
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
 
 
-        /** @type {Skill[]} */
+        /** @type {Array<Skill>} */
         this.skills = this._skillData.skills.filter(id => id !== 0).map(id => new Skill(id, enka));
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
@@ -102,11 +102,11 @@ class CharacterData {
             this.element = this.elementalBurst.costElemType;
         }
 
-        /** @type {PassiveTalent[]} */
+        /** @type {Array<PassiveTalent>} */
         this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => p.hasOwnProperty("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
 
 
-        /** @type {Constellation[]} */
+        /** @type {Array<Constellation>} */
         this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
 
 

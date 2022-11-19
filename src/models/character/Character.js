@@ -32,7 +32,7 @@ class Character {
         /** @type {Costume} */
         this.costume = data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault);
 
-        /** @type {Artifact[]} */
+        /** @type {Array<Artifact>} */
         this.artifacts = data.equipList.filter(item => item.hasOwnProperty("reliquary")).map(artifact => new Artifact(artifact, enka));
 
         /** @type {Weapon} */
@@ -59,10 +59,10 @@ class Character {
          */
         this.friendship = data.fetterInfo?.expLevel ?? 1;
 
-        /** @type {Constellation[]} */
+        /** @type {Array<Constellation>} */
         this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
-        /** @type {{skill: Skill, level: number}[]} */
+        /** @type {Array<{skill: Skill, level: number}>} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             return {
                 skill: this.characterData.skills.find(s => s.id === key),
@@ -70,7 +70,7 @@ class Character {
             };
         });
 
-        /** @type {PassiveTalent[]} */
+        /** @type {Array<PassiveTalent>} */
         this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
 
     }

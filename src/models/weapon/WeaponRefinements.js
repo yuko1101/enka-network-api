@@ -20,10 +20,10 @@ class WeaponRefinements {
         this.enka = enka;
 
 
-        /** @type {object[]} */
+        /** @type {Array<object>} */
         this._data = require(enka.cachedAssetsManager.getJSONDataPath("EquipAffixExcelConfigData")).filter(a => a.id === id).sort((a, b) => a.level - b.level);
 
-        /** @type {WeaponRefinement[]} */
+        /** @type {Array<WeaponRefinement>} */
         this.refinements = this._data.map(r => new WeaponRefinement(r, enka));
 
     }

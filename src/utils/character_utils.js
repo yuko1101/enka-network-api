@@ -4,7 +4,7 @@ const CharacterData = require("../models/character/CharacterData");
 /** 
  * @param {number} id 
  * @param {EnkaClient} enka
- * @returns {CharacterData[]}
+ * @returns {Array<CharacterData>}
  */
 module.exports.getCharactersById = (id, enka) => {
     const data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).find(c => c.id === id);

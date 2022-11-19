@@ -9,7 +9,7 @@ class ConfigFile {
     /**
      * @param {string} filePath 
      * @param {*} defaultConfig 
-     * @param {(string | number)[]} route 
+     * @param {Array<(string | number)>} route 
      * @param {*} storedData
      */
     constructor(filePath, defaultConfig, route = [], storedData) {
@@ -19,7 +19,7 @@ class ConfigFile {
         this.defaultConfig = defaultConfig;
         /** @readonly @type {*} */
         this.data = storedData ?? defaultConfig;
-        /** @readonly @type {(string | number)[]} */
+        /** @readonly @type {Array<(string | number)>} */
         this.route = route;
     }
 
@@ -105,7 +105,7 @@ class ConfigFile {
     }
 
     /**
-     * @param {(string | number)[]} key
+     * @param {Array<(string | number)>} key
      * @returns {ConfigFile}
      */
     get(...key) {
@@ -115,7 +115,7 @@ class ConfigFile {
 
     /**
      * 
-     * @param  {(string | number)[]} key 
+     * @param  {Array<(string | number)>} key 
      * @returns {boolean}
      */
     has(...key) {
