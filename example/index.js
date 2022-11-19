@@ -1,13 +1,11 @@
 const { EnkaClient } = require("enka-network-api");
-
-run();
-
+const client = new EnkaClient({ timeout: 4000, defaultLanguage: "jp" });
 
 async function run() {
-    const client = new EnkaClient({ timeout: 4000, defaultLanguage: "jp" });
-    // await client.cachedAssetsManager.fetchAllContents();
     const user = await client.fetchUser(825436941);
+    const names = user.characters.map(c => c.characterData.name.get("en"));
 
-    console.log(user.avatarInfoList[3].weapon.refinement.description.get());
-    setInterval(() => { }, 1000);
+    console.log(names);
 }
+
+run();
