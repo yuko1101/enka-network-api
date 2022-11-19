@@ -1,7 +1,6 @@
 export = Weapon;
 /**
- * @exports
- * @module enka-network-api
+ * @en Weapon
  */
 declare class Weapon {
     /**
@@ -21,7 +20,7 @@ declare class Weapon {
     level: number;
     /** @type {number} */
     promoteLevel: number;
-    /** @type {{type: TextAssets, value: number, _propData: object}[]} */
+    /** @type {Array<{type: TextAssets, value: number, _propData: object}>} */
     weaponStats: {
         type: TextAssets;
         value: number;

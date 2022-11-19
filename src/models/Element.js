@@ -3,8 +3,7 @@ const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const TextAssets = require("./assets/TextAssets");
 
 /** 
- * @exports Element
- * @module enka-network-api
+ * @en Element
  */
 class Element {
 

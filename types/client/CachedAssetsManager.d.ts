@@ -1,7 +1,6 @@
 export = CachedAssetsManager;
 /**
- * @exports
- * @module enka-network-api
+ * @en CachedAssetsManager
  */
 declare class CachedAssetsManager {
     /**
@@ -33,8 +32,8 @@ declare class CachedAssetsManager {
     /**
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
-     * @param {() => Promise<*>} [options.onUpdateStart]
-     * @param {() => Promise<*>} [options.onUpdateEnd]
+     * @param {function(): Promise<*>} [options.onUpdateStart]
+     * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
     updateContents(options?: {
@@ -45,9 +44,9 @@ declare class CachedAssetsManager {
      * @param {object} [options]
      * @param {boolean} [options.instant]
      * @param {number} [options.timeout] in milliseconds
-     * @param {() => Promise<*>} [options.onUpdateStart]
-     * @param {() => Promise<*>} [options.onUpdateEnd]
-     * @param {(e: Error) => Promise<*>} [options.onError]
+     * @param {function(): Promise<*>} [options.onUpdateStart]
+     * @param {function(): Promise<*>} [options.onUpdateEnd]
+     * @param {function(Error): Promise<*>} [options.onError]
      * @returns {void}
      */
     activateAutoCacheUpdater(options?: {
@@ -55,7 +54,7 @@ declare class CachedAssetsManager {
         timeout?: number;
         onUpdateStart?: () => Promise<any>;
         onUpdateEnd?: () => Promise<any>;
-        onError?: (e: Error) => Promise<any>;
+        onError?: (arg0: Error) => Promise<any>;
     }): void;
     /** @returns {void} */
     deactivateAutoCacheUpdater(): void;

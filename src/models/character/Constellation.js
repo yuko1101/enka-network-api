@@ -5,8 +5,7 @@ const TextAssets = require("../assets/TextAssets");
 const CharacterStatusProperty = require("./CharacterStatusProperty");
 
 /** 
- * @exports Constellation
- * @module enka-network-api
+ * @en Constellation
  */
 class Constellation {
 

@@ -1,7 +1,6 @@
 export = PassiveTalent;
 /**
- * @exports
- * @module enka-network-api
+ * @en PassiveTalent
  */
 declare class PassiveTalent {
     /**

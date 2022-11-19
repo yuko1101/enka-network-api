@@ -1,7 +1,6 @@
 export = WeaponRefinement;
 /**
- * @exports
- * @module enka-network-api
+ * @en WeaponRefinement
  */
 declare class WeaponRefinement {
     /**
@@ -19,10 +18,10 @@ declare class WeaponRefinement {
     name: TextAssets;
     /** @type {TextAssets} */
     description: TextAssets;
-    /** @type {CharacterStatusProperty[]} */
-    addProps: CharacterStatusProperty[];
-    /** @type {number[]} */
-    paramList: number[];
+    /** @type {Array<CharacterStatusProperty>} */
+    addProps: Array<CharacterStatusProperty>;
+    /** @type {Array<number>} */
+    paramList: Array<number>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

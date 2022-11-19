@@ -12,8 +12,7 @@ const NameCard = require("../models/NameCard");
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
 /** 
- * @exports EnkaClient
- * @module enka-network-api
+ * @en EnkaClient
  */
 class EnkaClient {
 

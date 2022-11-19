@@ -2,8 +2,7 @@ const EnkaClient = require("../../client/EnkaClient");
 const WeaponRefinement = require("./WeaponRefinement");
 
 /** 
- * @exports WeaponRefinements
- * @module enka-network-api
+ * @en WeaponRefinements
  */
 class WeaponRefinements {
 

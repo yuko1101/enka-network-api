@@ -1,7 +1,6 @@
 export = ArtifactSplitSubstat;
 /**
- * @exports
- * @module enka-network-api
+ * @en ArtifactSplitSubstat
  */
 declare class ArtifactSplitSubstat {
     /**

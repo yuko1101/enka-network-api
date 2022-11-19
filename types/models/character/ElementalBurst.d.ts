@@ -1,8 +1,7 @@
 export = ElementalBurst;
 /** @extends {Skill} */
 /**
- * @exports
- * @module enka-network-api
+ * @en ElementalBurst
  */
 declare class ElementalBurst extends Skill {
     /** @type {Element} */

@@ -1,7 +1,6 @@
 export = TextAssets;
 /**
- * @exports
- * @module enka-network-api
+ * @en TextAssets
  */
 declare class TextAssets {
     /**

@@ -2,8 +2,7 @@ const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @exports ArtifactTotalSubstat
- * @module enka-network-api
+ * @en ArtifactTotalSubstat
  */
 class ArtifactTotalSubstat {
 

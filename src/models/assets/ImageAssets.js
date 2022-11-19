@@ -1,8 +1,7 @@
 const imageBaseUrl = "https://enka.network/ui"
 
 /** 
- * @exports ImageAssets
- * @module enka-network-api
+ * @en ImageAssets
  */
 class ImageAssets {
 

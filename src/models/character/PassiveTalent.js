@@ -4,8 +4,7 @@ const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @exports PassiveTalent
- * @module enka-network-api
+ * @en PassiveTalent
  */
 class PassiveTalent {
 

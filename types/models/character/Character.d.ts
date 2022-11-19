@@ -1,7 +1,6 @@
 export = Character;
 /**
- * @exports
- * @module enka-network-api
+ * @en Character
  */
 declare class Character {
     /**
@@ -17,8 +16,8 @@ declare class Character {
     characterData: CharacterData;
     /** @type {Costume} */
     costume: Costume;
-    /** @type {Artifact[]} */
-    artifacts: Artifact[];
+    /** @type {Array<Artifact>} */
+    artifacts: Array<Artifact>;
     /** @type {Weapon} */
     weapon: Weapon;
     /** @type {CharacterStatus} */
@@ -36,15 +35,15 @@ declare class Character {
      *  @type {number}
      */
     friendship: number;
-    /** @type {Constellation[]} */
-    unlockedConstellations: Constellation[];
-    /** @type {{skill: Skill, level: number}[]} */
+    /** @type {Array<Constellation>} */
+    unlockedConstellations: Array<Constellation>;
+    /** @type {Array<{skill: Skill, level: number}>} */
     skillLevels: {
         skill: Skill;
         level: number;
     }[];
-    /** @type {PassiveTalent[]} */
-    unlockedPassiveTalents: PassiveTalent[];
+    /** @type {Array<PassiveTalent>} */
+    unlockedPassiveTalents: Array<PassiveTalent>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import CharacterData = require("./CharacterData");

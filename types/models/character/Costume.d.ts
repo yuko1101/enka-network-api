@@ -1,7 +1,6 @@
 export = Costume;
 /**
- * @exports
- * @module enka-network-api
+ * @en Costume
  */
 declare class Costume {
     /**

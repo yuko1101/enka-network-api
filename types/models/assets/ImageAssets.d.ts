@@ -1,7 +1,6 @@
 export = ImageAssets;
 /**
- * @exports
- * @module enka-network-api
+ * @en ImageAssets
  */
 declare class ImageAssets {
     /**

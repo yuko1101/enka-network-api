@@ -1,7 +1,6 @@
 export = WeaponData;
 /**
- * @exports
- * @module enka-network-api
+ * @en WeaponData
  */
 declare class WeaponData {
     /**
@@ -32,8 +31,8 @@ declare class WeaponData {
     _weaponTypeData: object;
     /** @type {TextAssets} */
     weaponTypeName: TextAssets;
-    /** @type {WeaponRefinement[]} */
-    refinements: WeaponRefinement[];
+    /** @type {Array<WeaponRefinement>} */
+    refinements: Array<WeaponRefinement>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

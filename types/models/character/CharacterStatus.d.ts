@@ -1,7 +1,6 @@
 export = CharacterStatus;
 /**
- * @exports
- * @module enka-network-api
+ * @en CharacterStatus
  */
 declare class CharacterStatus {
     /**
@@ -103,8 +102,8 @@ declare class CharacterStatus {
     attack: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
     defense: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty[]} */
-    statusProperties: CharacterStatusProperty[];
+    /** @type {Array<CharacterStatusProperty>} */
+    statusProperties: Array<CharacterStatusProperty>;
     /**
      * @private
      * @param {number} id

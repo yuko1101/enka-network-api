@@ -1,7 +1,6 @@
 export = Artifact;
 /**
- * @exports
- * @module enka-network-api
+ * @en Artifact
  */
 declare class Artifact {
     /**
@@ -24,11 +23,11 @@ declare class Artifact {
         type: TextAssets;
         statValue: number;
     };
-    /** @type {{split: ArtifactSplitSubstat[], total: ArtifactTotalSubstat[]}} */
+    /** @type {Array<{split: Array<ArtifactSplitSubstat>, total: ArtifactTotalSubstat}>} */
     substats: {
-        split: ArtifactSplitSubstat[];
-        total: ArtifactTotalSubstat[];
-    };
+        split: Array<ArtifactSplitSubstat>;
+        total: ArtifactTotalSubstat;
+    }[];
 }
 import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");

@@ -4,8 +4,7 @@ const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @exports Costume
- * @module enka-network-api
+ * @en Costume
  */
 class Costume {
 

@@ -1,7 +1,6 @@
 export = WeaponRefinements;
 /**
- * @exports
- * @module enka-network-api
+ * @en WeaponRefinements
  */
 declare class WeaponRefinements {
     /**
@@ -13,10 +12,10 @@ declare class WeaponRefinements {
     id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object[]} */
-    _data: object[];
-    /** @type {WeaponRefinement[]} */
-    refinements: WeaponRefinement[];
+    /** @type {Array<object>} */
+    _data: Array<object>;
+    /** @type {Array<WeaponRefinement>} */
+    refinements: Array<WeaponRefinement>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import WeaponRefinement = require("./WeaponRefinement");

@@ -1,7 +1,6 @@
 export = Element;
 /**
- * @exports
- * @module enka-network-api
+ * @en Element
  */
 declare class Element {
     /**

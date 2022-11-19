@@ -1,7 +1,6 @@
 export = User;
 /**
- * @exports
- * @module enka-network-api
+ * @en User
  */
 declare class User {
     /**
@@ -23,14 +22,14 @@ declare class User {
     signature: string | null;
     /** @type {CharacterData} */
     profilePictureCharacter: CharacterData;
-    /** @type {{characterData: CharacterData, level: number, costume?: Costume}[]} */
+    /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
     charactersPreview: {
         characterData: CharacterData;
         level: number;
-        costume?: Costume;
+        costume: Costume | null;
     }[];
-    /** @type {NameCard[]} */
-    nameCards: NameCard[];
+    /** @type {Array<NameCard>} */
+    nameCards: Array<NameCard>;
     /** @type {number} */
     level: number;
     /** @type {number} */
@@ -45,8 +44,8 @@ declare class User {
     abyssChamber: number;
     /** @type {boolean} */
     showCharacterDetails: boolean;
-    /** @type {Character[]} */
-    characters: Character[];
+    /** @type {Array<Character>} */
+    characters: Array<Character>;
 }
 import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");

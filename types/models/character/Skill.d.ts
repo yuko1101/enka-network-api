@@ -1,7 +1,6 @@
 export = Skill;
 /**
- * @exports
- * @module enka-network-api
+ * @en Skill
  */
 declare class Skill {
     /**

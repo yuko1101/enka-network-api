@@ -1,7 +1,6 @@
 export = ArtifactData;
 /**
- * @exports
- * @module enka-network-api
+ * @en ArtifactData
  */
 declare class ArtifactData {
     /**

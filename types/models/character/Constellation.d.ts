@@ -1,7 +1,6 @@
 export = Constellation;
 /**
- * @exports
- * @module enka-network-api
+ * @en Constellation
  */
 declare class Constellation {
     /**
@@ -21,10 +20,10 @@ declare class Constellation {
     description: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
-    /** @type {CharacterStatusProperty[]} */
-    addProps: CharacterStatusProperty[];
-    /** @type {number[]} */
-    paramList: number[];
+    /** @type {Array<CharacterStatusProperty>} */
+    addProps: Array<CharacterStatusProperty>;
+    /** @type {Array<number>} */
+    paramList: Array<number>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");

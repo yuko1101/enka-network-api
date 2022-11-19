@@ -1,7 +1,6 @@
 export = CharacterData;
 /**
- * @exports
- * @module enka-network-api
+ * @en CharacterData
  */
 declare class CharacterData {
     /**
@@ -41,24 +40,24 @@ declare class CharacterData {
     rarity: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
     stars: number;
-    /** @type {object[]} */
-    _costumeData: object[];
-    /** @type {Costume[]} */
-    costumes: Costume[];
+    /** @type {Array<object>} */
+    _costumeData: Array<object>;
+    /** @type {Array<Costume>} */
+    costumes: Array<Costume>;
     /** @type {number} */
     skillDepotId: number;
     /** @type {object} */
     _skillData: object;
-    /** @type {Skill[]} */
-    skills: Skill[];
+    /** @type {Array<Skill>} */
+    skills: Array<Skill>;
     /** @type {ElementalBurst} */
     elementalBurst: ElementalBurst;
     /** @type {Element} */
     element: Element;
-    /** @type {PassiveTalent[]} */
-    passiveTalents: PassiveTalent[];
-    /** @type {Constellation[]} */
-    constellations: Constellation[];
+    /** @type {Array<PassiveTalent>} */
+    passiveTalents: Array<PassiveTalent>;
+    /** @type {Array<Constellation>} */
+    constellations: Array<Constellation>;
     /** @type {object | null} */
     _releaseData: object | null;
     /**

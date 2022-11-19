@@ -47,8 +47,7 @@ const manualTextMapWhiteList = [
 ]
 
 /** 
- * @exports CachedAssetsManager
- * @module enka-network-api
+ * @en CachedAssetsManager
  */
 class CachedAssetsManager {
 

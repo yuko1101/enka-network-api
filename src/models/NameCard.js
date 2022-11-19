@@ -4,8 +4,7 @@ const ImageAssets = require("./assets/ImageAssets");
 const TextAssets = require("./assets/TextAssets");
 
 /** 
- * @exports NameCard
- * @module enka-network-api
+ * @en NameCard
  */
 class NameCard {
 

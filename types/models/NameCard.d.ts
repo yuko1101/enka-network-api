@@ -1,7 +1,6 @@
 export = NameCard;
 /**
- * @exports
- * @module enka-network-api
+ * @en NameCard
  */
 declare class NameCard {
     /**
@@ -22,8 +21,8 @@ declare class NameCard {
     description: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
-    /** @type {ImageAssets[]} */
-    pictures: ImageAssets[];
+    /** @type {Array<ImageAssets>} */
+    pictures: Array<ImageAssets>;
 }
 import EnkaClient = require("../client/EnkaClient");
 import TextAssets = require("./assets/TextAssets");

@@ -1,24 +1,23 @@
 export = ConfigFile;
 /**
- * @exports
- * @module enka-network-api
+ * @en ConfigFile
  */
 declare class ConfigFile {
     /**
      * @param {string} filePath
      * @param {*} defaultConfig
-     * @param {(string | number)[]} route
+     * @param {Array<(string | number)>} route
      * @param {*} storedData
      */
-    constructor(filePath: string, defaultConfig: any, route: (string | number)[], storedData: any);
+    constructor(filePath: string, defaultConfig: any, route: Array<(string | number)>, storedData: any);
     /** @readonly @type {string} */
     readonly filePath: string;
     /** @readonly @type {*} */
     readonly defaultConfig: any;
     /** @readonly @type {*} */
     readonly data: any;
-    /** @readonly @type {(string | number)[]} */
-    readonly route: (string | number)[];
+    /** @readonly @type {Array<(string | number)>} */
+    readonly route: Array<(string | number)>;
     /**
      * @param {boolean} [compact=false]
      * @returns {Promise<ConfigFile>}
@@ -45,16 +44,16 @@ declare class ConfigFile {
      */
     getValue(key?: string | number): any;
     /**
-     * @param {(string | number)[]} key
+     * @param {Array<(string | number)>} key
      * @returns {ConfigFile}
      */
-    get(...key: (string | number)[]): ConfigFile;
+    get(...key: Array<(string | number)>): ConfigFile;
     /**
      *
-     * @param  {(string | number)[]} key
+     * @param  {Array<(string | number)>} key
      * @returns {boolean}
      */
-    has(...key: (string | number)[]): boolean;
+    has(...key: Array<(string | number)>): boolean;
     /**
      * @returns {boolean}
      */

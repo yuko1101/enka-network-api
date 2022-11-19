@@ -42,8 +42,7 @@ const fightProps = {
 
 
 /** 
- * @exports CharacterStatus
- * @module enka-network-api
+ * @en CharacterStatus
  */
 class CharacterStatus {
 

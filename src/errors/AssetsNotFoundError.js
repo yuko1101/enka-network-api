@@ -1,6 +1,5 @@
 /** 
- * @exports AssetsNotFoundError
- * @module enka-network-api
+ * @en AssetsNotFoundError
  */
 class AssetsNotFoundError extends Error {
 

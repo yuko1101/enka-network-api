@@ -1,7 +1,6 @@
 export = UserNotFoundError;
 /**
- * @exports
- * @module enka-network-api
+ * @en UserNotFoundError
  */
 declare class UserNotFoundError extends Error {
     constructor(message: any);

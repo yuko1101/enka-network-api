@@ -1,7 +1,6 @@
 export = ArtifactTotalSubstat;
 /**
- * @exports
- * @module enka-network-api
+ * @en ArtifactTotalSubstat
  */
 declare class ArtifactTotalSubstat {
     /**

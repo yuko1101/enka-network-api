@@ -4,8 +4,7 @@ const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @exports ArtifactData
- * @module enka-network-api
+ * @en ArtifactData
  */
 class ArtifactData {
 
