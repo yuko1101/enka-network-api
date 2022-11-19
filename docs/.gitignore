@@ -1,6 +1,7 @@
 # Docs
 docs/api/
 i18n/
+sidebars-api.js
 
 # Dependencies
 /node_modules
