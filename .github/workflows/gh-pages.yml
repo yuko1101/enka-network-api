@@ -40,7 +40,7 @@ jobs:
       - name: Generate Docs
         run: npm run docs-gen
       - name: Build
-        run: npm run build --base-url=${{ github.event.repository.name }}
+        run: npm run build --base-url=/${{ github.event.repository.name }}/
       # Setup
       - name: Setup Pages
         uses: actions/configure-pages@v1
