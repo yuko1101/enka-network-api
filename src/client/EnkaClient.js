@@ -52,7 +52,9 @@ class EnkaClient {
         clearTimeout(timeoutId);
 
         if (response.status !== 200) {
-            throw new UserNotFoundError(`User with uid ${uid} was not found.`);
+            if (response.status === 429) throw new Error("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.")
+            if (response.status === 500) throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
+            throw new Error(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
         }
         const data = response.data;
         return new User(data, this, parse, uid);
