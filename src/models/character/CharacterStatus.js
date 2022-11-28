@@ -3,8 +3,16 @@ const CharacterStatusProperty = require("./CharacterStatusProperty");
 
 const fightProps = {
     1: "FIGHT_PROP_BASE_HP",
+    2: "FIGHT_PROP_HP",
+    3: "FIGHT_PROP_HP_PERCENT",
     4: "FIGHT_PROP_BASE_ATTACK",
+    5: "FIGHT_PROP_ATTACK",
+    6: "FIGHT_PROP_ATTACK_PERCENT",
     7: "FIGHT_PROP_BASE_DEFENSE",
+    8: "FIGHT_PROP_DEFENSE",
+    9: "FIGHT_PROP_DEFENSE_PERCENT",
+    10: "FIGHT_PROP_BASE_SPEED",
+    11: "FIGHT_PROP_SPEED_PERCENT",
     20: "FIGHT_PROP_CRITICAL",
     22: "FIGHT_PROP_CRITICAL_HURT",
     23: "FIGHT_PROP_CHARGE_EFFICIENCY",
@@ -34,10 +42,20 @@ const fightProps = {
     74: "", // Anemo Energy Cost
     75: "", // Cryo Energy Cost
     76: "", // Geo Energy Cost
+    80: "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
+    81: "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
+    1000: "", // Current Pyro Energy
+    1001: "", // Current Electro Energy
+    1002: "", // Current Hydro Energy
+    1003: "", // Current Dendro Energy
+    1004: "", // Current Anemo Energy
+    1005: "", // Current Cryo Energy
+    1006: "", // Current Geo Energy
     1010: "FIGHT_PROP_CUR_HP",
     2000: "FIGHT_PROP_MAX_HP",
-    2001: "FIGHT_PROP_ATTACK",
-    2002: "FIGHT_PROP_DEFENSE"
+    2001: "FIGHT_PROP_CUR_ATTACK",
+    2002: "FIGHT_PROP_CUR_DEFENSE",
+    2003: "FIGHT_PROP_CUR_SPEED",
 }
 
 
@@ -61,9 +79,25 @@ class CharacterStatus {
         /** @type {CharacterStatusProperty} */
         this.baseHP = this.getStatusProperty(1);
         /** @type {CharacterStatusProperty} */
+        this.flatHP = this.getStatusProperty(2);
+        /** HP percent @type {CharacterStatusProperty} */
+        this.percentHP = this.getStatusProperty(3);
+        /** @type {CharacterStatusProperty} */
         this.baseAttack = this.getStatusProperty(4);
         /** @type {CharacterStatusProperty} */
+        this.flatAttack = this.getStatusProperty(5);
+        /** Attack percent @type {CharacterStatusProperty} */
+        this.percentAttack = this.getStatusProperty(6);
+        /** @type {CharacterStatusProperty} */
         this.baseDefense = this.getStatusProperty(7);
+        /** @type {CharacterStatusProperty} */
+        this.flatDefense = this.getStatusProperty(8);
+        /** Defense percent @type {CharacterStatusProperty} */
+        this.percentDefense = this.getStatusProperty(9);
+        /** @type {CharacterStatusProperty} */
+        this.baseSpeed = this.getStatusProperty(10);
+        /** Speed percent @type {CharacterStatusProperty} */
+        this.percentSpeed = this.getStatusProperty(11);
         /** @type {CharacterStatusProperty} */
         this.critRate = this.getStatusProperty(20);
         /** @type {CharacterStatusProperty} */
@@ -135,6 +169,11 @@ class CharacterStatus {
             this.geoEnergyCost
         );
 
+        /** @type {CharacterStatusProperty} */
+        this.cooldownReduction = this.getStatusProperty(80);
+        /** @type {CharacterStatusProperty} */
+        this.shieldStrength = this.getStatusProperty(81);
+
         /** @type {number} */
         this.currentPyroEnergy = data[1000] ?? 0;
         /** @type {number} */
@@ -166,10 +205,12 @@ class CharacterStatus {
 
         /** @type {CharacterStatusProperty} */
         this.maxHP = this.getStatusProperty(2000);
-        /** @type {CharacterStatusProperty} */
+        /** Current Attack @type {CharacterStatusProperty} */
         this.attack = this.getStatusProperty(2001);
-        /** @type {CharacterStatusProperty} */
+        /** Current Defense @type {CharacterStatusProperty} */
         this.defense = this.getStatusProperty(2002);
+        /** Current Speed @type {CharacterStatusProperty} */
+        this.speed = this.getStatusProperty(2003);
 
         /** @type {Array<CharacterStatusProperty>} */
         this.statusProperties = Object.values(this).filter(value => value instanceof CharacterStatusProperty);
@@ -177,10 +218,11 @@ class CharacterStatus {
     /**
      * @private
      * @param {number} id 
+     * @param {number} [defaultValue]
      * @returns {CharacterStatusProperty}
      */
-    getStatusProperty(id) {
-        return new CharacterStatusProperty(fightProps[id], this._data[id], this.enka);
+    getStatusProperty(id, defaultValue = 0) {
+        return new CharacterStatusProperty(fightProps[id], this._data[id] ?? defaultValue, this.enka);
     }
 }
 

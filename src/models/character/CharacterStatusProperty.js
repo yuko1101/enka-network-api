@@ -3,6 +3,11 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const TextAssets = require("../assets/TextAssets");
 
 const percent = [
+    "FIGHT_PROP_HP_PERCENT",
+    "FIGHT_PROP_ATTACK_PERCENT",
+    "FIGHT_PROP_DEFENSE_PERCENT",
+    "FIGHT_PROP_SPEED_PERCENT",
+
     "FIGHT_PROP_CRITICAL",
     "FIGHT_PROP_CRITICAL_HURT",
 
@@ -26,6 +31,9 @@ const percent = [
     "FIGHT_PROP_WIND_SUB_HURT",
     "FIGHT_PROP_ROCK_SUB_HURT",
     "FIGHT_PROP_ICE_SUB_HURT",
+
+    "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
+    "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
 ]
 
 /** 
