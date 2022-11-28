@@ -4,6 +4,7 @@ const path = require("path");
 const ConfigFile = require("../utils/ConfigFile");
 const { bindOptions } = require("../utils/options_utils");
 const { fetchJSON } = require("../utils/axios_utils");
+const { move } = require("../utils/file_utils");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -59,7 +60,10 @@ class CachedAssetsManager {
         this.enka = enka;
 
         /** @type {string} */
-        this.cacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
+        this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
+
+        /** @type {string} */
+        this.cacheDirectoryPath = enka.options.cacheDirectory ?? this.defaultCacheDirectoryPath;
 
         /** @type {number | null} */
         this._cacheUpdater = null;
@@ -75,6 +79,15 @@ class CachedAssetsManager {
     async cacheDirectorySetup() {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
+
+            const defaultCacheFiles = fs.readdirSync(this.defaultCacheDirectoryPath);
+            if (defaultCacheFiles.length > 0) {
+                try {
+                    move(this.defaultCacheDirectoryPath, this.cacheDirectoryPath);
+                } catch (e) {
+                    console.error(`Auto-Moving cache data failed with error: ${e}`);
+                }
+            }
         }
         if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data"))) {
             fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "data"));

@@ -21,13 +21,15 @@ class EnkaClient {
      * @param {string} [options.userAgent="Mozilla/5.0"]
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
+     * @param {string} [options.cacheDirectory]
      */
     constructor(options) {
-        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"}} */
+        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null}} */
         this.options = bindOptions({
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",
+            "cacheDirectory": null
         }, options);
 
         /** @type {CachedAssetsManager} */
