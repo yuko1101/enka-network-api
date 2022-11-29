@@ -10,7 +10,7 @@ const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt",
 
 
 // Thanks @Dimbreath
-const contentBaseUrl = "https://raw.githubusercontent.com/Dimbreath/GenshinData/master";
+const contentBaseUrl = "https://gitlab.com/Dimbreath/gamedata/-/raw/main";
 const contents = [
     "AvatarExcelConfigData.json", // Characters
     "AvatarCostumeExcelConfigData.json", // Costumes
@@ -114,7 +114,7 @@ class CachedAssetsManager {
     async fetchLanguageData(lang) {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
-        const json = (await fetchJSON(url, enka)).data;
+        const json = (await fetchJSON(url, this.enka)).data;
         fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(json));
         return json;
     }
@@ -131,7 +131,7 @@ class CachedAssetsManager {
             const url = `${contentBaseUrl}/ExcelBinOutput/${content}`;
             const fileName = content.split("/").pop();
             promises.push((async () => {
-                const json = (await fetchJSON(url, enka)).data;
+                const json = (await fetchJSON(url, this.enka)).data;
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", fileName), JSON.stringify(json));
                 return json;
             })());
@@ -172,7 +172,7 @@ class CachedAssetsManager {
 
         await this.cacheDirectorySetup();
 
-        const res = await fetchJSON(`https://api.github.com/repos/Dimbreath/GenshinData/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`, enka);
+        const res = await fetchJSON(`https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`, this.enka);
         if (res.status !== 200) {
             throw new Error("Request Failed");
         }
