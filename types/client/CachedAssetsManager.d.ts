@@ -10,6 +10,8 @@ declare class CachedAssetsManager {
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {string} */
+    defaultCacheDirectoryPath: string;
+    /** @type {string} */
     cacheDirectoryPath: string;
     /** @type {number | null} */
     _cacheUpdater: number | null;
@@ -21,8 +23,9 @@ declare class CachedAssetsManager {
     cacheDirectorySetup(): Promise<void>;
     /**
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
+     * @param {boolean} [store=true]
      */
-    fetchLanguageData(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi"): Promise<any>;
+    fetchLanguageData(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi", store?: boolean): Promise<any>;
     /** @returns {Promise<void>} */
     fetchAllContents(): Promise<void>;
     /**
@@ -70,8 +73,10 @@ declare class CachedAssetsManager {
     getJSONDataPath(name: string): string;
     /**
      * Remove all unused TextHashMaps
+     * @param {object} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
+     * @param {object} langsData {en: [Object object], jp: [Object object], ...}
      */
-    removeUnusedTextData(): Promise<void>;
+    removeUnusedTextData(data: object, langsData: object): {};
 }
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");

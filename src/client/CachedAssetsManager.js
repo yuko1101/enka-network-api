@@ -140,10 +140,7 @@ class CachedAssetsManager {
         }
         await Promise.all(promises);
 
-        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "genshinData.json"), JSON.stringify(genshinData));
-
         const langsData = {};
-
         const langPromises = [];
         for (const lang of languages) {
             langPromises.push(
@@ -155,10 +152,7 @@ class CachedAssetsManager {
         }
         await Promise.all(langPromises);
 
-        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langData.json"), JSON.stringify(langsData));
-
         const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
-        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "clearLangData.json"), JSON.stringify(clearLangsData));
         for (const lang of Object.keys(clearLangsData)) {
             fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
         }
@@ -317,9 +311,9 @@ class CachedAssetsManager {
             for (const key of Object.keys(langData)) {
                 if (!requiredStringKeys.includes(key)) delete langData[key];
             }
-            console.log(Object.keys(langData).length + " keys in " + lang);
+            // console.log(Object.keys(langData).length + " keys in " + lang);
             clearLangsData[lang] = langData;
-            console.log(Object.keys(clearLangsData).length + " langs");
+            // console.log(Object.keys(clearLangsData).length + " langs");
         };
 
         return clearLangsData;

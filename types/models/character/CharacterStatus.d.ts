@@ -15,9 +15,25 @@ declare class CharacterStatus {
     /** @type {CharacterStatusProperty} */
     baseHP: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
+    flatHP: CharacterStatusProperty;
+    /** HP percent @type {CharacterStatusProperty} */
+    percentHP: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
     baseAttack: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
+    flatAttack: CharacterStatusProperty;
+    /** Attack percent @type {CharacterStatusProperty} */
+    percentAttack: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
     baseDefense: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    flatDefense: CharacterStatusProperty;
+    /** Defense percent @type {CharacterStatusProperty} */
+    percentDefense: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    baseSpeed: CharacterStatusProperty;
+    /** Speed percent @type {CharacterStatusProperty} */
+    percentSpeed: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
     critRate: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
@@ -78,6 +94,10 @@ declare class CharacterStatus {
     geoEnergyCost: number;
     /** @type {number} */
     energyCost: number;
+    /** @type {CharacterStatusProperty} */
+    cooldownReduction: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    shieldStrength: CharacterStatusProperty;
     /** @type {number} */
     currentPyroEnergy: number;
     /** @type {number} */
@@ -98,15 +118,18 @@ declare class CharacterStatus {
     currentHP: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
     maxHP: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
+    /** Current Attack @type {CharacterStatusProperty} */
     attack: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
+    /** Current Defense @type {CharacterStatusProperty} */
     defense: CharacterStatusProperty;
+    /** Current Speed @type {CharacterStatusProperty} */
+    speed: CharacterStatusProperty;
     /** @type {Array<CharacterStatusProperty>} */
     statusProperties: Array<CharacterStatusProperty>;
     /**
      * @private
      * @param {number} id
+     * @param {number} [defaultValue]
      * @returns {CharacterStatusProperty}
      */
     private getStatusProperty;

@@ -32,39 +32,45 @@ npm install enka-network-api --enka-nocache=true
 
 #
 
+## About Genshin Cache Data
+You can change your cache directory.
+```js
+// Change the directory to store cache data.
+// Default directory is **/enka-network-api/cache.
+// Re-fetching contents may be required, if you update 
+// enka-network-api with the cache directory in it.
+const enka = new EnkaClient();
+enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
+enka.cachedAssetsManager.cacheDirectorySetup();
 
-**GenshinData, which is a repo we fetch the cache data from, has been deleted.**
+// OR
 
-And temporarily you cannot use the auto-cache updater.
+const enka = new EnkaClient({ cacheDirectory: "./cache" });
+enka.cachedAssetsManager.cacheDirectorySetup();
 
-~~You can activate auto cache updater.~~
+```
 
-~~When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache, just delete all folders/files in it.**)~~
+Also, you can activate auto cache updater.
+
+When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache, just delete all folders/files in it when moving directory.**)
 
 ```js
-// const { EnkaClient } = require("enka-network-api");
-// const enka = new EnkaClient();
+const { EnkaClient } = require("enka-network-api");
+const enka = new EnkaClient();
 
-// // // Change the directory to store cache data.
-// // // Default directory is **/enka-network-api/cache.
-// // // Re-fetching contents may be required, if you update 
-// // // enka-network-api with the cache directory in it.
-// // enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
-// // enka.cachedAssetsManager.cacheDirectorySetup();
+enka.cachedAssetsManager.activateAutoCacheUpdater({
+    instant: true, // Run the first update check immediately
+    timeout: 60 * 60 * 1000, // 1 hour interval
+    onUpdateStart: async () => {
+        console.log("Updating Genshin Data...");
+    },
+    onUpdateEnd: async () => {
+        console.log("Updating Completed!");
+    }
+});
 
-// enka.cachedAssetsManager.activateAutoCacheUpdater({
-//     instant: true, // Run the first update check immediately
-//     timeout: 60 * 60 * 1000, // 1 hour interval
-//     onUpdateStart: async () => {
-//         console.log("Updating Genshin Data...");
-//     },
-//     onUpdateEnd: async () => {
-//         console.log("Updating Completed!");
-//     }
-// });
-
-// // // deactivate
-// // enka.cachedAssetsManager.deactivateAutoCacheUpdater();
+// // deactivate
+// enka.cachedAssetsManager.deactivateAutoCacheUpdater();
 ```
 
 # How to use

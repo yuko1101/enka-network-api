@@ -8,17 +8,20 @@ declare class EnkaClient {
      * @param {string} [options.userAgent="Mozilla/5.0"]
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
+     * @param {string} [options.cacheDirectory]
      */
     constructor(options?: {
         userAgent?: string;
         timeout?: int;
         defaultLanguage?: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
+        cacheDirectory?: string;
     });
-    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"}} */
+    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null}} */
     options: {
         userAgent: string;
         timeout: number;
         defaultLanguage: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
+        cacheDirectory: string | null;
     };
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;
