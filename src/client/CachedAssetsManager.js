@@ -12,20 +12,20 @@ const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt",
 // Thanks @Dimbreath
 const contentBaseUrl = "https://gitlab.com/Dimbreath/gamedata/-/raw/main";
 const contents = [
-    "AvatarExcelConfigData.json", // Characters
-    "AvatarCostumeExcelConfigData.json", // Costumes
-    "AvatarSkillDepotExcelConfigData.json", // Skill Depot
-    "AvatarSkillExcelConfigData.json", // Skills
-    "AvatarTalentExcelConfigData.json", // Constellations
-    "ReliquaryExcelConfigData.json", // Artifacts
-    "WeaponExcelConfigData.json", // Weapons
-    "EquipAffixExcelConfigData.json", // Artifact Sets
-    "ManualTextMapConfigData.json", // Fight Props
-    "MaterialExcelConfigData.json", // Materials (including NameCards)
-    "ProudSkillExcelConfigData.json", // Passive Talents
-    "ReliquaryAffixExcelConfigData.json", // Artifact Affix
-    "AvatarCodexExcelConfigData.json", // Character Release Information
-    "AvatarHeroEntityExcelConfigData.json", // Travelers
+    "AvatarExcelConfigData", // Characters
+    "AvatarCostumeExcelConfigData", // Costumes
+    "AvatarSkillDepotExcelConfigData", // Skill Depot
+    "AvatarSkillExcelConfigData", // Skills
+    "AvatarTalentExcelConfigData", // Constellations
+    "ReliquaryExcelConfigData", // Artifacts
+    "WeaponExcelConfigData", // Weapons
+    "EquipAffixExcelConfigData", // Artifact Sets
+    "ManualTextMapConfigData", // Fight Props
+    "MaterialExcelConfigData", // Materials (including NameCards)
+    "ProudSkillExcelConfigData", // Passive Talents
+    "ReliquaryAffixExcelConfigData", // Artifact Affix
+    "AvatarCodexExcelConfigData", // Character Release Information
+    "AvatarHeroEntityExcelConfigData", // Travelers
 ];
 
 const manualTextMapWhiteList = [
@@ -110,12 +110,13 @@ class CachedAssetsManager {
 
     /** 
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
+     * @param {boolean} [store=true]
      */
-    async fetchLanguageData(lang) {
+    async fetchLanguageData(lang, store = true) {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
         const json = (await fetchJSON(url, this.enka)).data;
-        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(json));
+        if (store) fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(json));
         return json;
     }
 
@@ -123,23 +124,46 @@ class CachedAssetsManager {
     /** @returns {Promise<void>} */
     async fetchAllContents() {
         await this.cacheDirectorySetup();
+
+        this._isFetching = true;
+
         const promises = [];
-        for (const lang of languages) {
-            promises.push(this.fetchLanguageData(lang));
-        }
+        const genshinData = {};
         for (const content of contents) {
-            const url = `${contentBaseUrl}/ExcelBinOutput/${content}`;
-            const fileName = content.split("/").pop();
+            const fileName = `${content}.json`;
+            const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
             promises.push((async () => {
                 const json = (await fetchJSON(url, this.enka)).data;
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", fileName), JSON.stringify(json));
-                return json;
+                genshinData[content] = json;
             })());
         }
-        this._isFetching = true;
         await Promise.all(promises);
+
+        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "genshinData.json"), JSON.stringify(genshinData));
+
+        const langsData = {};
+
+        const langPromises = [];
+        for (const lang of languages) {
+            langPromises.push(
+                (async () => {
+                    const data = await this.fetchLanguageData(lang, false);
+                    langsData[lang] = data;
+                })()
+            );
+        }
+        await Promise.all(langPromises);
+
+        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langData.json"), JSON.stringify(langsData));
+
+        const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
+        fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "clearLangData.json"), JSON.stringify(clearLangsData));
+        for (const lang of Object.keys(clearLangsData)) {
+            fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
+        }
+
         await this._githubCache.set("lastUpdate", Date.now()).save();
-        await this.removeUnusedTextData();
         this._isFetching = false;
     }
 
@@ -151,7 +175,7 @@ class CachedAssetsManager {
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`))) return false;
         }
         for (const content of contents) {
-            const fileName = content.split("/").pop();
+            const fileName = `${content}.json`;
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data", fileName))) return false;
         }
         return true;
@@ -243,55 +267,62 @@ class CachedAssetsManager {
 
     /**
      * Remove all unused TextHashMaps
+     * @param {object} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
+     * @param {object} langsData {en: [Object object], jp: [Object object], ...}
      */
-    async removeUnusedTextData() {
+    removeUnusedTextData(data, langsData) {
         const required = [];
-        require(this.getJSONDataPath("AvatarExcelConfigData")).forEach(c => {
+        data["AvatarExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
-        require(this.getJSONDataPath("ManualTextMapConfigData")).forEach(m => {
+        data["ManualTextMapConfigData"].forEach(m => {
             const id = m.textMapId;
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
             required.push(m.textMapContentTextMapHash);
         });
-        require(this.getJSONDataPath("ReliquaryExcelConfigData")).forEach(a => {
+        data["ReliquaryExcelConfigData"].forEach(a => {
             required.push(a.nameTextMapHash, a.descTextMapHash)
         });
-        require(this.getJSONDataPath("EquipAffixExcelConfigData")).forEach(s => {
+        data["EquipAffixExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
         });
-        require(this.getJSONDataPath("AvatarTalentExcelConfigData")).forEach(c => {
+        data["AvatarTalentExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
-        require(this.getJSONDataPath("AvatarCostumeExcelConfigData")).forEach(c => {
+        data["AvatarCostumeExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
-        require(this.getJSONDataPath("ProudSkillExcelConfigData")).forEach(p => {
+        data["ProudSkillExcelConfigData"].forEach(p => {
             required.push(p.nameTextMapHash, p.descTextMapHash);
         });
-        require(this.getJSONDataPath("AvatarSkillExcelConfigData")).forEach(s => {
+        data["AvatarSkillExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
         });
-        require(this.getJSONDataPath("WeaponExcelConfigData")).forEach(w => {
+        data["WeaponExcelConfigData"].forEach(w => {
             required.push(w.nameTextMapHash, w.descTextMapHash);
         });
-        require(this.getJSONDataPath("EquipAffixExcelConfigData")).forEach(r => {
+        data["EquipAffixExcelConfigData"].forEach(r => {
             required.push(r.nameTextMapHash, r.descTextMapHash);
         });
-        require(this.getJSONDataPath("MaterialExcelConfigData")).forEach(m => {
+        data["MaterialExcelConfigData"].forEach(m => {
             required.push(m.nameTextMapHash, m.descTextMapHash);
         });
 
         const requiredStringKeys = required.map(key => key.toString());
 
-        const langPath = path.resolve(this.cacheDirectoryPath, "langs");
-        for (const file of fs.readdirSync(langPath)) {
-            const data = JSON.parse(fs.readFileSync(path.resolve(langPath, file)));
-            for (const key of Object.keys(data)) {
-                if (!requiredStringKeys.includes(key)) delete data[key];
+        const clearLangsData = {};
+
+        for (const lang of Object.keys(langsData)) {
+            const langData = { ...langsData[lang] };
+            for (const key of Object.keys(langData)) {
+                if (!requiredStringKeys.includes(key)) delete langData[key];
             }
-            fs.writeFileSync(path.resolve(langPath, file), JSON.stringify(data));
-        }
+            console.log(Object.keys(langData).length + " keys in " + lang);
+            clearLangsData[lang] = langData;
+            console.log(Object.keys(clearLangsData).length + " langs");
+        };
+
+        return clearLangsData;
     }
 }
 
