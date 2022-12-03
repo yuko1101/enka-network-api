@@ -22,7 +22,7 @@ class Costume {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).find(c => c[Object.keys(e)[0]] === id);
+        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).find(c => c[Object.keys(c)[0]] === id);
 
         if (!this._data) throw new AssetsNotFoundError("Costume", id);
 
