@@ -9,19 +9,22 @@ declare class EnkaClient {
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
      * @param {string} [options.cacheDirectory]
+     * @param {boolean} [options.showFetchCacheLog=true]
      */
     constructor(options?: {
         userAgent?: string;
         timeout?: int;
         defaultLanguage?: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
         cacheDirectory?: string;
+        showFetchCacheLog?: boolean;
     });
-    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null}} */
+    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null, showFetchCacheLog: boolean}} */
     options: {
         userAgent: string;
         timeout: number;
         defaultLanguage: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
         cacheDirectory: string | null;
+        showFetchCacheLog: boolean;
     };
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;

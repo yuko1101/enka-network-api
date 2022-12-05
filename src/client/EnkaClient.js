@@ -22,14 +22,16 @@ class EnkaClient {
      * @param {int} [options.timeout=3000] http request timeout in milliseconds
      * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
      * @param {string} [options.cacheDirectory]
+     * @param {boolean} [options.showFetchCacheLog=true]
      */
     constructor(options) {
-        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null}} */
+        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null, showFetchCacheLog: boolean}} */
         this.options = bindOptions({
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",
-            "cacheDirectory": null
+            "cacheDirectory": null,
+            "showFetchCacheLog": true,
         }, options);
 
         /** @type {CachedAssetsManager} */

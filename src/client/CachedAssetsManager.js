@@ -127,6 +127,10 @@ class CachedAssetsManager {
 
         this._isFetching = true;
 
+        if (this.enka.options.showFetchCacheLog) {
+            console.info("Downloading structure data files...");
+        }
+
         const promises = [];
         const genshinData = {};
         for (const content of contents) {
@@ -134,11 +138,18 @@ class CachedAssetsManager {
             const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
             promises.push((async () => {
                 const json = (await fetchJSON(url, this.enka)).data;
-                fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", fileName), JSON.stringify(json));
+                if (this.enka.options.showFetchCacheLog) {
+                    console.info(`Downloaded data/${fileName}`);
+                }
                 genshinData[content] = json;
             })());
         }
         await Promise.all(promises);
+
+        if (this.enka.options.showFetchCacheLog) {
+            console.info("> Downloaded all structure data files");
+            console.info("Downloading language files...");
+        }
 
         const langsData = {};
         const langPromises = [];
@@ -146,19 +157,41 @@ class CachedAssetsManager {
             langPromises.push(
                 (async () => {
                     const data = await this.fetchLanguageData(lang, false);
+                    if (this.enka.options.showFetchCacheLog) {
+                        console.info(`Downloaded langs/${lang}.json`);
+                    }
                     langsData[lang] = data;
                 })()
             );
         }
         await Promise.all(langPromises);
 
+        if (this.enka.options.showFetchCacheLog) {
+            console.info("> Downloaded all language files");
+            console.info("Parsing data... (This may take more than 10 minutes)")
+        }
+
         const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
+
+        if (this.enka.options.showFetchCacheLog) {
+            console.info("> Parsing completed");
+            console.info("Saving into files...");
+        }
+
         for (const lang of Object.keys(clearLangsData)) {
             fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
         }
 
+        for (const key of Object.keys(genshinData)) {
+            fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
+        }
+
         await this._githubCache.set("lastUpdate", Date.now()).save();
         this._isFetching = false;
+
+        if (this.enka.options.showFetchCacheLog) {
+            console.info(">> All Completed");
+        }
     }
 
     /**
