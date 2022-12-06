@@ -74,6 +74,9 @@ class CachedAssetsManager {
         /** @type {Array<string>} */
         this._contentsSrc = contents;
 
+        /** @type {Array<string>} */
+        this._langs = languages;
+
         /** @type {boolean} */
         this._isFetching = false;
     }

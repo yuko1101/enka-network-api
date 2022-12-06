@@ -19,6 +19,8 @@ declare class CachedAssetsManager {
     _githubCache: ConfigFile | null;
     /** @type {Array<string>} */
     _contentsSrc: Array<string>;
+    /** @type {Array<string>} */
+    _langs: Array<string>;
     /** @type {boolean} */
     _isFetching: boolean;
     /** @returns {Promise<void>} */
