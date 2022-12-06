@@ -23,11 +23,11 @@ declare class Artifact {
         type: TextAssets;
         statValue: number;
     };
-    /** @type {Array<{split: Array<ArtifactSplitSubstat>, total: ArtifactTotalSubstat}>} */
+    /** @type {{split: Array<ArtifactSplitSubstat>, total: ArtifactTotalSubstat}} */
     substats: {
         split: Array<ArtifactSplitSubstat>;
         total: ArtifactTotalSubstat;
-    }[];
+    };
 }
 import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
