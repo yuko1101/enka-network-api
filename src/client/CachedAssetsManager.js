@@ -71,6 +71,9 @@ class CachedAssetsManager {
         /** @type {ConfigFile | null} */
         this._githubCache = null;
 
+        /** @type {Array<string>} */
+        this._contentsSrc = contents;
+
         /** @type {boolean} */
         this._isFetching = false;
     }
