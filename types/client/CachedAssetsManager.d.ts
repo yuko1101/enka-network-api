@@ -30,8 +30,14 @@ declare class CachedAssetsManager {
      * @param {boolean} [store=true]
      */
     fetchLanguageData(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi", store?: boolean): Promise<any>;
-    /** @returns {Promise<void>} */
-    fetchAllContents(): Promise<void>;
+    /**
+     * @param {object} options
+     * @param {boolean} [options.useRawGenshinData=false]
+     * @returns {Promise<void>}
+     */
+    fetchAllContents(options: {
+        useRawGenshinData?: boolean;
+    }): Promise<void>;
     /**
      * @returns {boolean}
      */
@@ -39,17 +45,20 @@ declare class CachedAssetsManager {
     /**
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
+     * @param {boolean} [options.useRawGenshinData=false]
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
     updateContents(options?: {
+        useRawGenshinData?: boolean;
         onUpdateStart?: () => Promise<any>;
         onUpdateEnd?: () => Promise<any>;
     }): Promise<boolean>;
     /**
      * @param {object} [options]
-     * @param {boolean} [options.instant]
+     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.instant=true]
      * @param {number} [options.timeout] in milliseconds
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -57,6 +66,7 @@ declare class CachedAssetsManager {
      * @returns {void}
      */
     activateAutoCacheUpdater(options?: {
+        useRawGenshinData?: boolean;
         instant?: boolean;
         timeout?: number;
         onUpdateStart?: () => Promise<any>;
@@ -81,6 +91,7 @@ declare class CachedAssetsManager {
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
      */
     removeUnusedTextData(data: object, langsData: object): {};
+    _downloadCacheZip(): Promise<void>;
 }
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");

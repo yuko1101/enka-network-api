@@ -1,6 +1,8 @@
 const EnkaClient = require("./EnkaClient");
 const fs = require("fs");
 const path = require("path");
+const { Axios } = require("axios");
+const unzipper = require("unzipper");
 const ConfigFile = require("../utils/ConfigFile");
 const { bindOptions } = require("../utils/options_utils");
 const { fetchJSON } = require("../utils/axios_utils");
@@ -109,6 +111,7 @@ class CachedAssetsManager {
         if (!fs.existsSync(githubCachePath) || !this._githubCache) {
             this._githubCache = await new ConfigFile(githubCachePath, {
                 "lastUpdate": 0,
+                "rawLastUpdate": 0,
             }).load();
         }
     }
@@ -127,77 +130,98 @@ class CachedAssetsManager {
     }
 
 
-    /** @returns {Promise<void>} */
-    async fetchAllContents() {
+    /** 
+     * @param {object} options
+     * @param {boolean} [options.useRawGenshinData=false]
+     * @returns {Promise<void>} 
+     */
+    async fetchAllContents(options) {
+        options = bindOptions({
+            useRawGenshinData: false,
+        }, options);
+
         await this.cacheDirectorySetup();
 
         this._isFetching = true;
 
-        if (this.enka.options.showFetchCacheLog) {
-            console.info("Downloading structure data files...");
-        }
+        if (!options.useRawGenshinData) {
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("Downloading cache.zip...");
+            }
+            await this._downloadCacheZip();
+            await this._githubCache.set("lastUpdate", Date.now()).save();
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("Download completed");
+            }
+        } else {
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("Downloading structure data files...");
+            }
 
-        const promises = [];
-        const genshinData = {};
-        for (const content of contents) {
-            const fileName = `${content}.json`;
-            const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
-            promises.push((async () => {
-                const json = (await fetchJSON(url, this.enka)).data;
-                if (this.enka.options.showFetchCacheLog) {
-                    console.info(`Downloaded data/${fileName}`);
-                }
-                genshinData[content] = json;
-            })());
-        }
-        await Promise.all(promises);
-
-        if (this.enka.options.showFetchCacheLog) {
-            console.info("> Downloaded all structure data files");
-            console.info("Downloading language files...");
-        }
-
-        const langsData = {};
-        const langPromises = [];
-        for (const lang of languages) {
-            langPromises.push(
-                (async () => {
-                    const data = await this.fetchLanguageData(lang, false);
+            const promises = [];
+            const genshinData = {};
+            for (const content of contents) {
+                const fileName = `${content}.json`;
+                const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
+                promises.push((async () => {
+                    const json = (await fetchJSON(url, this.enka)).data;
                     if (this.enka.options.showFetchCacheLog) {
-                        console.info(`Downloaded langs/${lang}.json`);
+                        console.info(`Downloaded data/${fileName}`);
                     }
-                    langsData[lang] = data;
-                })()
-            );
+                    genshinData[content] = json;
+                })());
+            }
+            await Promise.all(promises);
+
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("> Downloaded all structure data files");
+                console.info("Downloading language files...");
+            }
+
+            const langsData = {};
+            const langPromises = [];
+            for (const lang of languages) {
+                langPromises.push(
+                    (async () => {
+                        const data = await this.fetchLanguageData(lang, false);
+                        if (this.enka.options.showFetchCacheLog) {
+                            console.info(`Downloaded langs/${lang}.json`);
+                        }
+                        langsData[lang] = data;
+                    })()
+                );
+            }
+            await Promise.all(langPromises);
+
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("> Downloaded all language files");
+                console.info("Parsing data... (This may take more than 10 minutes)")
+            }
+
+            const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
+
+            if (this.enka.options.showFetchCacheLog) {
+                console.info("> Parsing completed");
+                console.info("Saving into files...");
+            }
+
+            for (const lang of Object.keys(clearLangsData)) {
+                fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
+            }
+
+            for (const key of Object.keys(genshinData)) {
+                fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
+            }
+
+            await this._githubCache.set("rawLastUpdate", Date.now()).save();
+
+            if (this.enka.options.showFetchCacheLog) {
+                console.info(">> All Completed");
+            }
         }
-        await Promise.all(langPromises);
-
-        if (this.enka.options.showFetchCacheLog) {
-            console.info("> Downloaded all language files");
-            console.info("Parsing data... (This may take more than 10 minutes)")
-        }
-
-        const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
-
-        if (this.enka.options.showFetchCacheLog) {
-            console.info("> Parsing completed");
-            console.info("Saving into files...");
-        }
-
-        for (const lang of Object.keys(clearLangsData)) {
-            fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
-        }
-
-        for (const key of Object.keys(genshinData)) {
-            fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
-        }
-
-        await this._githubCache.set("lastUpdate", Date.now()).save();
         this._isFetching = false;
 
-        if (this.enka.options.showFetchCacheLog) {
-            console.info(">> All Completed");
-        }
+
     }
 
     /**
@@ -217,6 +241,7 @@ class CachedAssetsManager {
     /**
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
+     * @param {boolean} [options.useRawGenshinData=false]
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
@@ -225,11 +250,16 @@ class CachedAssetsManager {
         options = bindOptions({
             onUpdateStart: null,
             onUpdateEnd: null,
+            useRawGenshinData: false,
         }, options);
 
         await this.cacheDirectorySetup();
 
-        const res = await fetchJSON(`https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${new Date(this._githubCache.getValue("lastUpdate")).toISOString()}`, this.enka);
+        const url = useRawGenshinData
+            ? `https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${new Date(this._githubCache.getValue("rawLastUpdate") ?? 0).toISOString()}`
+            : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${new Date(this._githubCache.getValue("lastUpdate") ?? 0).toISOString()}`;
+
+        const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
             throw new Error("Request Failed");
         }
@@ -239,14 +269,15 @@ class CachedAssetsManager {
         if (data.length !== 0) {
             await options.onUpdateStart?.();
             // fetch all because large file diff cannot be retrieved
-            await this.fetchAllContents();
+            await this.fetchAllContents({ useRawGenshinData: options.useRawGenshinData });
             await options.onUpdateEnd?.();
         }
     }
 
     /** 
      * @param {object} [options]
-     * @param {boolean} [options.instant]
+     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.instant=true]
      * @param {number} [options.timeout] in milliseconds
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -255,6 +286,7 @@ class CachedAssetsManager {
      */
     activateAutoCacheUpdater(options = {}) {
         options = bindOptions({
+            useRawGenshinData: false,
             instant: true,
             timeout: 60 * 60 * 1000,
             onUpdateStart: null,
@@ -262,7 +294,7 @@ class CachedAssetsManager {
             onError: null,
         }, options);
         if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
-        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
+        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData });
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
             try {
@@ -356,6 +388,34 @@ class CachedAssetsManager {
         };
 
         return clearLangsData;
+    }
+
+    async _downloadCacheZip() {
+        const axios = new Axios({});
+
+        const url = "https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip";
+
+        const res = await axios.get(url, {
+            responseType: "stream"
+        }).catch(e => {
+            throw new Error(`Failed to download genshin data from ${url} with an error: ${e}`);
+        });
+        if (res.status == 200) {
+            await new Promise(resolve => {
+                res.data.pipe(fs.createWriteStream("cache.zip"));
+                res.data.on("end", () => {
+                    fs.createReadStream("cache.zip")
+                        .pipe(unzipper.Extract({ path: "./" }))
+                        .on("close", () => {
+                            fs.rmSync("cache.zip");
+                            resolve();
+                        });
+                });
+            });
+
+        } else {
+            throw new Error(`Failed to download genshin data from ${url} with status ${res.status} - ${res.statusText}`);
+        }
     }
 }
 
