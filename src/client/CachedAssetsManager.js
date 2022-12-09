@@ -298,7 +298,7 @@ class CachedAssetsManager {
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
             try {
-                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd });
+                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData });
             } catch (e) {
                 options.onError?.(e);
             }
