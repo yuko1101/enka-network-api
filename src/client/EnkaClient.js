@@ -29,9 +29,9 @@ const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 class EnkaClient {
 
     /**
-     * @param {EnkaClientOptions} options
+     * @param {EnkaClientOptions} [options]
      */
-    constructor(options) {
+    constructor(options = {}) {
         /** @type {EnkaClientOptions} */
         this.options = bindOptions({
             "userAgent": "Mozilla/5.0",
