@@ -24,13 +24,17 @@ Install enka-network-api including genshin cache data.
 ```sh-session
 npm install enka-network-api
 ```
+<details>
+    <summary>Install using ghproxy.com</summary>
+    
+    npm install enka-network-api --enka-ghproxy=true
+</details>
+<br>
 
 If you have already moved the cache to another folder, you can also install without downloading the cache.
 ```sh-session
 npm install enka-network-api --enka-nocache=true
 ```
-
-#
 
 ## About Genshin Cache Data
 You can change your cache directory.
