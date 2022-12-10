@@ -390,10 +390,19 @@ class CachedAssetsManager {
         return clearLangsData;
     }
 
-    async _downloadCacheZip() {
+    /**
+     * @param {object} options
+     * @param {boolean} options.ghproxy Whether to use ghproxy.com
+     * @returns {Promise<void>}
+     */
+    async _downloadCacheZip(options) {
+        options = bindOptions({
+            ghproxy: false
+        }, options);
+
         const axios = new Axios({});
 
-        const url = "https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip";
+        const url = (options.ghproxy ? "https://ghproxy.com/" : "") + "https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip";
 
         const res = await axios.get(url, {
             responseType: "stream"

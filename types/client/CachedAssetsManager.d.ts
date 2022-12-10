@@ -91,7 +91,14 @@ declare class CachedAssetsManager {
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
      */
     removeUnusedTextData(data: object, langsData: object): {};
-    _downloadCacheZip(): Promise<void>;
+    /**
+     * @param {object} options
+     * @param {boolean} options.ghproxy Whether to use ghproxy.com
+     * @returns {Promise<void>}
+     */
+    _downloadCacheZip(options: {
+        ghproxy: boolean;
+    }): Promise<void>;
 }
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
