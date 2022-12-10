@@ -7,6 +7,7 @@ const Constellation = require("./Constellation");
 const Skill = require("./Skill");
 const PassiveTalent = require("./PassiveTalent");
 const Costume = require("./Costume");
+const SkillLevel = require("./SkillLevel");
 
 /** 
  * @en Character
@@ -61,13 +62,19 @@ class Character {
         /** @type {Array<Constellation>} */
         this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
-        /** @type {Array<{skill: Skill, level: number}>} */
+        /** @type {Array<{skill: Skill, level: SkillLevel}>} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
+            const skill = [...this.characterData.skills, this.characterData.elementalBurst].find(s => s.id.toString() === key);
+            if (!skill) return null;
+
+            const base = value;
+            const extra = data.proudSkillExtraLevelMap?.[skill._data.proudSkillGroupId] ?? 0
+
             return {
-                skill: this.characterData.skills.find(s => s.id === key),
-                level: value
+                skill,
+                level: new SkillLevel(base, extra)
             };
-        });
+        }).filter(s => s !== null);
 
         /** @type {Array<PassiveTalent>} */
         this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));

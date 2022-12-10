@@ -17,6 +17,7 @@ const Costume = require("./models/character/Costume");
 const ElementalBurst = require("./models/character/ElementalBurst");
 const PassiveTalent = require("./models/character/PassiveTalent");
 const Skill = require("./models/character/Skill");
+const SkillLevel = require("./models/character/SkillLevel");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
@@ -45,6 +46,7 @@ module.exports = {
     ElementalBurst,
     PassiveTalent,
     Skill,
+    SkillLevel,
     Weapon,
     WeaponData,
     WeaponRefinement,
