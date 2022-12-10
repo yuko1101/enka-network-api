@@ -29,7 +29,7 @@ npm install enka-network-api
     
     npm install enka-network-api --enka-ghproxy=true
 </details>
-<br>
+<br/>
 
 If you have already moved the cache to another folder, you can also install without downloading the cache.
 ```sh-session
