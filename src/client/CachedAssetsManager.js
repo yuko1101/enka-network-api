@@ -133,6 +133,7 @@ class CachedAssetsManager {
     /** 
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>} 
      */
     async fetchAllContents(options) {
@@ -242,15 +243,17 @@ class CachedAssetsManager {
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
     async updateContents(options = {}) {
         options = bindOptions({
+            useRawGenshinData: false,
+            ghproxy: false,
             onUpdateStart: null,
             onUpdateEnd: null,
-            useRawGenshinData: false,
         }, options);
 
         await this.cacheDirectorySetup();
@@ -269,7 +272,7 @@ class CachedAssetsManager {
         if (data.length !== 0) {
             await options.onUpdateStart?.();
             // fetch all because large file diff cannot be retrieved
-            await this.fetchAllContents({ useRawGenshinData: options.useRawGenshinData });
+            await this.fetchAllContents({ useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
             await options.onUpdateEnd?.();
         }
     }
@@ -278,6 +281,7 @@ class CachedAssetsManager {
      * @param {object} [options]
      * @param {boolean} [options.useRawGenshinData=false]
      * @param {boolean} [options.instant=true]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {number} [options.timeout] in milliseconds
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -288,17 +292,18 @@ class CachedAssetsManager {
         options = bindOptions({
             useRawGenshinData: false,
             instant: true,
+            ghproxy: false,
             timeout: 60 * 60 * 1000,
             onUpdateStart: null,
             onUpdateEnd: null,
             onError: null,
         }, options);
         if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
-        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData });
+        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
             try {
-                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData });
+                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
             } catch (e) {
                 options.onError?.(e);
             }
@@ -392,7 +397,7 @@ class CachedAssetsManager {
 
     /**
      * @param {object} options
-     * @param {boolean} options.ghproxy Whether to use ghproxy.com
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
     async _downloadCacheZip(options) {
