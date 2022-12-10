@@ -5,7 +5,7 @@ export = EnkaClient;
  * @type {object}
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {int} [timeout=3000] http request timeout in milliseconds
- * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
+ * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
  */
@@ -77,7 +77,7 @@ type EnkaClientOptions = {
      * http request timeout in milliseconds
      */
     timeout?: int;
-    defaultLanguage?: import("./CachedAssetsManager").LanguageCode;
+    defaultLanguage?: LanguageCode;
     cacheDirectory?: string;
     showFetchCacheLog?: boolean;
 };
@@ -87,3 +87,4 @@ import CharacterData = require("../models/character/CharacterData");
 import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
 import NameCard = require("../models/NameCard");
+import { LanguageCode } from "./CachedAssetsManager";

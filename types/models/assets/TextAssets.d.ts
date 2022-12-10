@@ -13,9 +13,10 @@ declare class TextAssets {
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /**
-     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
+     * @param {LanguageCode} [lang]
      * @returns {string}
      */
-    get(lang?: import("../../client/CachedAssetsManager").LanguageCode): string;
+    get(lang?: LanguageCode): string;
 }
 import EnkaClient = require("../../client/EnkaClient");
+import { LanguageCode } from "../../client/CachedAssetsManager";

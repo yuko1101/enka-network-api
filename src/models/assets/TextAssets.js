@@ -1,5 +1,6 @@
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const { LanguageCode } = require("../../client/CachedAssetsManager");
 
 /** 
  * @en TextAssets
@@ -18,7 +19,7 @@ class TextAssets {
     }
 
     /** 
-     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
+     * @param {LanguageCode} [lang]
      * @returns {string}
      */
     get(lang) {

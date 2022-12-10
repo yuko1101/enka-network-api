@@ -8,6 +8,7 @@ const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
 const { fetchJSON } = require("../utils/axios_utils");
 const NameCard = require("../models/NameCard");
+const { LanguageCode } = require("./CachedAssetsManager");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -17,7 +18,7 @@ const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
  * @type {object}
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {int} [timeout=3000] http request timeout in milliseconds
- * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
+ * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
  */
