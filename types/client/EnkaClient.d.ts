@@ -14,9 +14,9 @@ export = EnkaClient;
  */
 declare class EnkaClient {
     /**
-     * @param {EnkaClientOptions} options
+     * @param {EnkaClientOptions} [options]
      */
-    constructor(options: EnkaClientOptions);
+    constructor(options?: EnkaClientOptions);
     /** @type {EnkaClientOptions} */
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
