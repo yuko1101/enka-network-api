@@ -37,10 +37,10 @@ declare class Character {
     friendship: number;
     /** @type {Array<Constellation>} */
     unlockedConstellations: Array<Constellation>;
-    /** @type {Array<{skill: Skill, level: number}>} */
+    /** @type {Array<{skill: Skill, level: SkillLevel}>} */
     skillLevels: {
         skill: Skill;
-        level: number;
+        level: SkillLevel;
     }[];
     /** @type {Array<PassiveTalent>} */
     unlockedPassiveTalents: Array<PassiveTalent>;
@@ -53,4 +53,5 @@ import Weapon = require("../weapon/Weapon");
 import CharacterStatus = require("./CharacterStatus");
 import Constellation = require("./Constellation");
 import Skill = require("./Skill");
+import SkillLevel = require("./SkillLevel");
 import PassiveTalent = require("./PassiveTalent");
