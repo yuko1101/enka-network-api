@@ -33,10 +33,12 @@ declare class CachedAssetsManager {
     /**
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
     fetchAllContents(options: {
         useRawGenshinData?: boolean;
+        ghproxy?: boolean;
     }): Promise<void>;
     /**
      * @returns {boolean}
@@ -46,12 +48,14 @@ declare class CachedAssetsManager {
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
     updateContents(options?: {
         useRawGenshinData?: boolean;
+        ghproxy?: boolean;
         onUpdateStart?: () => Promise<any>;
         onUpdateEnd?: () => Promise<any>;
     }): Promise<boolean>;
@@ -59,6 +63,7 @@ declare class CachedAssetsManager {
      * @param {object} [options]
      * @param {boolean} [options.useRawGenshinData=false]
      * @param {boolean} [options.instant=true]
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {number} [options.timeout] in milliseconds
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -68,6 +73,7 @@ declare class CachedAssetsManager {
     activateAutoCacheUpdater(options?: {
         useRawGenshinData?: boolean;
         instant?: boolean;
+        ghproxy?: boolean;
         timeout?: number;
         onUpdateStart?: () => Promise<any>;
         onUpdateEnd?: () => Promise<any>;
@@ -93,11 +99,11 @@ declare class CachedAssetsManager {
     removeUnusedTextData(data: object, langsData: object): {};
     /**
      * @param {object} options
-     * @param {boolean} options.ghproxy Whether to use ghproxy.com
+     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
     _downloadCacheZip(options: {
-        ghproxy: boolean;
+        ghproxy?: boolean;
     }): Promise<void>;
 }
 import EnkaClient = require("./EnkaClient");
