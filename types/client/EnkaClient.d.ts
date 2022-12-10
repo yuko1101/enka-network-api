@@ -1,31 +1,24 @@
 export = EnkaClient;
 /**
+ * @en EnkaClientOptions
+ * @typedef EnkaClientOptions
+ * @type {object}
+ * @property {string} [userAgent="Mozilla/5.0"]
+ * @property {int} [timeout=3000] http request timeout in milliseconds
+ * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
+ * @property {string} [cacheDirectory]
+ * @property {boolean} [showFetchCacheLog=true]
+ */
+/**
  * @en EnkaClient
  */
 declare class EnkaClient {
     /**
-     * @param {object} [options]
-     * @param {string} [options.userAgent="Mozilla/5.0"]
-     * @param {int} [options.timeout=3000] http request timeout in milliseconds
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
-     * @param {string} [options.cacheDirectory]
-     * @param {boolean} [options.showFetchCacheLog=true]
+     * @param {EnkaClientOptions} options
      */
-    constructor(options?: {
-        userAgent?: string;
-        timeout?: int;
-        defaultLanguage?: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
-        cacheDirectory?: string;
-        showFetchCacheLog?: boolean;
-    });
-    /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null, showFetchCacheLog: boolean}} */
-    options: {
-        userAgent: string;
-        timeout: number;
-        defaultLanguage: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
-        cacheDirectory: string | null;
-        showFetchCacheLog: boolean;
-    };
+    constructor(options: EnkaClientOptions);
+    /** @type {EnkaClientOptions} */
+    options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;
     /**
@@ -75,6 +68,19 @@ declare class EnkaClient {
      */
     getNameCardById(id: number): NameCard;
 }
+declare namespace EnkaClient {
+    export { EnkaClientOptions };
+}
+type EnkaClientOptions = {
+    userAgent?: string;
+    /**
+     * http request timeout in milliseconds
+     */
+    timeout?: int;
+    defaultLanguage?: import("./CachedAssetsManager").LanguageCode;
+    cacheDirectory?: string;
+    showFetchCacheLog?: boolean;
+};
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
 import CharacterData = require("../models/character/CharacterData");

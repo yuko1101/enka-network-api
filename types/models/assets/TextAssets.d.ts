@@ -13,9 +13,9 @@ declare class TextAssets {
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /**
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string}
      */
-    get(lang?: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi"): string;
+    get(lang?: import("../../client/CachedAssetsManager").LanguageCode): string;
 }
 import EnkaClient = require("../../client/EnkaClient");

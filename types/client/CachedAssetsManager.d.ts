@@ -26,10 +26,10 @@ declare class CachedAssetsManager {
     /** @returns {Promise<void>} */
     cacheDirectorySetup(): Promise<void>;
     /**
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
+     * @param {LanguageCode} lang
      * @param {boolean} [store=true]
      */
-    fetchLanguageData(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi", store?: boolean): Promise<any>;
+    fetchLanguageData(lang: LanguageCode, store?: boolean): Promise<any>;
     /**
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
@@ -82,10 +82,10 @@ declare class CachedAssetsManager {
     /** @returns {void} */
     deactivateAutoCacheUpdater(): void;
     /**
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang
+     * @param {LanguageCode} lang
      * @returns {string}
      */
-    getLanguageDataPath(lang: "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi"): string;
+    getLanguageDataPath(lang: LanguageCode): string;
     /**
      * @param {string} name without extensions (.json)
      * @returns {string}
@@ -106,5 +106,9 @@ declare class CachedAssetsManager {
         ghproxy?: boolean;
     }): Promise<void>;
 }
+declare namespace CachedAssetsManager {
+    export { LanguageCode };
+}
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
+type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";

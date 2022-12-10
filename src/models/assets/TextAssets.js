@@ -18,7 +18,7 @@ class TextAssets {
     }
 
     /** 
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string}
      */
     get(lang) {

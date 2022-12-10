@@ -10,6 +10,11 @@ const { move } = require("../utils/file_utils");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
+/**
+ * @en LanguageCode
+ * @typedef LanguageCode
+ * @type {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"}
+ */
 
 // Thanks @Dimbreath
 const contentBaseUrl = "https://gitlab.com/Dimbreath/gamedata/-/raw/main";
@@ -118,7 +123,7 @@ class CachedAssetsManager {
 
 
     /** 
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
+     * @param {LanguageCode} lang 
      * @param {boolean} [store=true]
      */
     async fetchLanguageData(lang, store = true) {
@@ -319,7 +324,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} lang 
+     * @param {LanguageCode} lang 
      * @returns {string}
      */
     getLanguageDataPath(lang) {

@@ -11,21 +11,27 @@ const NameCard = require("../models/NameCard");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
+/**
+ * @en EnkaClientOptions
+ * @typedef EnkaClientOptions
+ * @type {object}
+ * @property {string} [userAgent="Mozilla/5.0"]
+ * @property {int} [timeout=3000] http request timeout in milliseconds
+ * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
+ * @property {string} [cacheDirectory]
+ * @property {boolean} [showFetchCacheLog=true]
+ */
+
 /** 
  * @en EnkaClient
  */
 class EnkaClient {
 
     /**
-     * @param {object} [options]
-     * @param {string} [options.userAgent="Mozilla/5.0"]
-     * @param {int} [options.timeout=3000] http request timeout in milliseconds
-     * @param {"chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi"} [options.defaultLanguage="en"]
-     * @param {string} [options.cacheDirectory]
-     * @param {boolean} [options.showFetchCacheLog=true]
+     * @param {EnkaClientOptions} options
      */
     constructor(options) {
-        /** @type {{userAgent: string, timeout: number, defaultLanguage: "chs"|"cht"|"de"|"en"|"es"|"fr"|"id"|"jp"|"kr"|"pt"|"ru"|"th"|"vi", cacheDirectory: string | null, showFetchCacheLog: boolean}} */
+        /** @type {EnkaClientOptions} */
         this.options = bindOptions({
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
