@@ -56,7 +56,7 @@ enka.cachedAssetsManager.cacheDirectorySetup();
 
 Also, you can activate auto cache updater.
 
-When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache, just delete all folders/files in it when moving directory.**)
+When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache when moving directory, just delete all folders/files in it.**)
 
 ```js
 const { EnkaClient } = require("enka-network-api");
