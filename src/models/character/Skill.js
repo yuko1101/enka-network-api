@@ -5,6 +5,7 @@ const TextAssets = require("../assets/TextAssets");
 
 /** 
  * @en Skill
+ * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 class Skill {
 

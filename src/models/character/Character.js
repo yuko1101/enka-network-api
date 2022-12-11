@@ -64,7 +64,7 @@ class Character {
 
         /** @type {Array<{skill: Skill, level: SkillLevel}>} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
-            const skill = [...this.characterData.skills, this.characterData.elementalBurst].find(s => s.id.toString() === key);
+            const skill = this.characterData.skills.find(s => s.id.toString() === key);
             if (!skill) return null;
 
             const base = value;

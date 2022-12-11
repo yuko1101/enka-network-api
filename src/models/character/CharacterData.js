@@ -8,6 +8,8 @@ const Constellation = require("./Constellation");
 const ElementalBurst = require("./ElementalBurst");
 const Costume = require("./Costume");
 const PassiveTalent = require("./PassiveTalent");
+const ElementalSkill = require("./ElementalSkill");
+const NormalAttack = require("./NormalAttack");
 
 /** 
  * @en CharacterData
@@ -87,10 +89,6 @@ class CharacterData {
 
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
 
-
-        /** @type {Array<Skill>} */
-        this.skills = this._skillData.skills.filter(id => id !== 0).map(id => new Skill(id, enka));
-
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
         // `elementalBurst` cannot be retrieved.
         if (this._skillData.energySkill) {
@@ -100,6 +98,18 @@ class CharacterData {
             /** @type {Element} */
             this.element = this.elementalBurst.costElemType;
         }
+
+        const _skills = this._skillData.skills.map((id, index) => {
+            if (!id) return null;
+            if (index === 0) return new NormalAttack(id, enka);
+            if (index === 1) return new ElementalSkill(id, enka);
+            return new Skill(id, enka);
+        }).filter(s => s !== null);
+        if (this.elementalBurst) _skills.push(this.elementalBurst);
+
+        /** @type {Array<Skill>} */
+        this.skills = _skills;
+
 
         /** @type {Array<PassiveTalent>} */
         this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => p.hasOwnProperty("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)

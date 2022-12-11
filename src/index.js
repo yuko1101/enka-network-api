@@ -15,9 +15,12 @@ const CharacterStatusProperty = require("./models/character/CharacterStatusPrope
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
 const ElementalBurst = require("./models/character/ElementalBurst");
+const ElementalSkill = require("./models/character/ElementalSkill");
+const NormalAttack = require("./models/character/NormalAttack");
 const PassiveTalent = require("./models/character/PassiveTalent");
 const Skill = require("./models/character/Skill");
 const SkillLevel = require("./models/character/SkillLevel");
+const UniqueSkill = require("./models/character/UniqueSkill");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
@@ -44,9 +47,12 @@ module.exports = {
     Constellation,
     Costume,
     ElementalBurst,
+    ElementalSkill,
+    NormalAttack,
     PassiveTalent,
     Skill,
     SkillLevel,
+    UniqueSkill,
     Weapon,
     WeaponData,
     WeaponRefinement,
