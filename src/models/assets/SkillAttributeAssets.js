@@ -20,7 +20,7 @@ class SkillAttributeAssets extends TextAssets {
 
     /**
      * @param {LanguageCode} [lang]
-     * @returns {{ name: string, valueText: string, usedNumbers: Array[number] }}
+     * @returns {{ name: string, valueText: string, usedNumbers: Array<number> }}
      */
     getAttributeData(lang) {
         const text = this.get(lang);

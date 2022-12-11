@@ -14,12 +14,12 @@ declare class SkillAttributeAssets extends TextAssets {
     _paramList: Array<number>;
     /**
      * @param {LanguageCode} [lang]
-     * @returns {{ name: string, valueText: string, usedNumbers: Array[number] }}
+     * @returns {{ name: string, valueText: string, usedNumbers: Array<number> }}
      */
     getAttributeData(lang?: LanguageCode): {
         name: string;
         valueText: string;
-        usedNumbers: any[][number];
+        usedNumbers: Array<number>;
     };
 }
 import TextAssets = require("./TextAssets");
