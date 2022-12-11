@@ -1,3 +1,4 @@
+const SkillAttributeAssets = require("../../assets/SkillAttributeAssets");
 const TextAssets = require("../../assets/TextAssets");
 const Skill = require("./Skill");
 
@@ -16,23 +17,27 @@ class UpgradableSkill extends Skill {
 
     /**
      * @param {number} level
-     * @returns {Array<{name: TextAssets, value: number}> | null}
+     * @returns {Array<SkillAttributeAssets>}
      */
     getSkillAttributes(level) {
         const proudSkillGroupId = this._data.proudSkillGroupId;
-        if (!proudSkillGroupId) return null;
+        if (!proudSkillGroupId) return [];
 
         const leveledSkillData = require(this.enka.cachedAssetsManager.getJSONDataPath("ProudSkillExcelConfigData")).find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
-        if (!leveledSkillData) return null;
+        if (!leveledSkillData) return [];
 
-        if (!leveledSkillData.paramDescList || !leveledSkillData.paramList) return null;
+        if (!leveledSkillData.paramDescList) return [];
 
-        return leveledSkillData.paramDescList.map((id, index) => {
-            return {
-                name: new TextAssets(id, this.enka),
-                value: leveledSkillData.paramList[index]
+        return leveledSkillData.paramDescList.map(id => {
+            // TODO: better filter
+            try {
+                new TextAssets(id, this.enka).get("en");
+            } catch (e) {
+                return null;
             }
-        });
+
+            return new SkillAttributeAssets(id, this.enka, leveledSkillData.paramList);
+        }).filter(attr => attr !== null);
     }
 }
 

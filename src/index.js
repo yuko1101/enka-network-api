@@ -7,6 +7,7 @@ const ArtifactData = require("./models/artifact/ArtifactData");
 const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./models/artifact/ArtifactTotalSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
+const SkillAttributeAssets = require("./models/assets/SkillAttributeAssets");
 const TextAssets = require("./models/assets/TextAssets");
 const ElementalBurst = require("./models/character/talents/ElementalBurst");
 const ElementalSkill = require("./models/character/talents/ElementalSkill");
@@ -40,6 +41,7 @@ module.exports = {
     ArtifactSplitSubstat,
     ArtifactTotalSubstat,
     ImageAssets,
+    SkillAttributeAssets,
     TextAssets,
     ElementalBurst,
     ElementalSkill,
