@@ -368,7 +368,7 @@ class CachedAssetsManager {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
-            required.push(p.nameTextMapHash, p.descTextMapHash);
+            required.push(p.nameTextMapHash, p.descTextMapHash, ...(p.paramDescList ?? []));
         });
         data["AvatarSkillExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
