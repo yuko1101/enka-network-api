@@ -21,6 +21,6 @@ declare class PassiveTalent {
     /** @type {ImageAssets} */
     icon: ImageAssets;
 }
-import EnkaClient = require("../../client/EnkaClient");
-import TextAssets = require("../assets/TextAssets");
-import ImageAssets = require("../assets/ImageAssets");
+import EnkaClient = require("../../../client/EnkaClient");
+import TextAssets = require("../../assets/TextAssets");
+import ImageAssets = require("../../assets/ImageAssets");

@@ -10,4 +10,4 @@ declare class ElementalBurst extends UniqueSkill {
     costElemVal: number;
 }
 import UniqueSkill = require("./UniqueSkill");
-import Element = require("../Element");
+import Element = require("../../Element");
