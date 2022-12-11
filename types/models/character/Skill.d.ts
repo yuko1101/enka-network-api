@@ -1,6 +1,7 @@
 export = Skill;
 /**
  * @en Skill
+ * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 declare class Skill {
     /**

@@ -15,9 +15,12 @@ import CharacterStatusProperty = require("./models/character/CharacterStatusProp
 import Constellation = require("./models/character/Constellation");
 import Costume = require("./models/character/Costume");
 import ElementalBurst = require("./models/character/ElementalBurst");
+import ElementalSkill = require("./models/character/ElementalSkill");
+import NormalAttack = require("./models/character/NormalAttack");
 import PassiveTalent = require("./models/character/PassiveTalent");
 import Skill = require("./models/character/Skill");
 import SkillLevel = require("./models/character/SkillLevel");
+import UniqueSkill = require("./models/character/UniqueSkill");
 import Weapon = require("./models/weapon/Weapon");
 import WeaponData = require("./models/weapon/WeaponData");
 import WeaponRefinement = require("./models/weapon/WeaponRefinement");
@@ -25,4 +28,4 @@ import WeaponRefinements = require("./models/weapon/WeaponRefinements");
 import Element = require("./models/Element");
 import NameCard = require("./models/NameCard");
 import User = require("./models/User");
-export { EnkaClient, CachedAssetsManager, AssetsNotFoundError, UserNotFoundError, Artifact, ArtifactData, ArtifactSplitSubstat, ArtifactTotalSubstat, ImageAssets, TextAssets, Character, CharacterData, CharacterStatus, CharacterStatusProperty, Constellation, Costume, ElementalBurst, PassiveTalent, Skill, SkillLevel, Weapon, WeaponData, WeaponRefinement, WeaponRefinements, Element, NameCard, User };
+export { EnkaClient, CachedAssetsManager, AssetsNotFoundError, UserNotFoundError, Artifact, ArtifactData, ArtifactSplitSubstat, ArtifactTotalSubstat, ImageAssets, TextAssets, Character, CharacterData, CharacterStatus, CharacterStatusProperty, Constellation, Costume, ElementalBurst, ElementalSkill, NormalAttack, PassiveTalent, Skill, SkillLevel, UniqueSkill, Weapon, WeaponData, WeaponRefinement, WeaponRefinements, Element, NameCard, User };

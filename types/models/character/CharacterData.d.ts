@@ -48,12 +48,12 @@ declare class CharacterData {
     skillDepotId: number;
     /** @type {object} */
     _skillData: object;
-    /** @type {Array<Skill>} */
-    skills: Array<Skill>;
     /** @type {ElementalBurst} */
     elementalBurst: ElementalBurst;
     /** @type {Element} */
     element: Element;
+    /** @type {Array<Skill>} */
+    skills: Array<Skill>;
     /** @type {Array<PassiveTalent>} */
     passiveTalents: Array<PassiveTalent>;
     /** @type {Array<Constellation>} */
@@ -75,8 +75,8 @@ import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
 import Costume = require("./Costume");
-import Skill = require("./Skill");
 import ElementalBurst = require("./ElementalBurst");
 import Element = require("../Element");
+import Skill = require("./Skill");
 import PassiveTalent = require("./PassiveTalent");
 import Constellation = require("./Constellation");
