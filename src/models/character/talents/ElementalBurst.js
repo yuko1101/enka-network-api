@@ -1,5 +1,5 @@
-const EnkaClient = require("../../client/EnkaClient");
-const Element = require("../Element");
+const EnkaClient = require("../../../client/EnkaClient");
+const Element = require("../../Element");
 const UniqueSkill = require("./UniqueSkill");
 
 /** 

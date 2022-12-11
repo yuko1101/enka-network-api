@@ -4,10 +4,10 @@ const CharacterData = require("./CharacterData");
 const Weapon = require("../weapon/Weapon");
 const CharacterStatus = require("./CharacterStatus");
 const Constellation = require("./Constellation");
-const Skill = require("./Skill");
-const PassiveTalent = require("./PassiveTalent");
+const Skill = require("./talents/Skill");
+const PassiveTalent = require("./talents/PassiveTalent");
 const Costume = require("./Costume");
-const SkillLevel = require("./SkillLevel");
+const SkillLevel = require("./talents/SkillLevel");
 
 /** 
  * @en Character

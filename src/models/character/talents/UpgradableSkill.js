@@ -1,12 +1,10 @@
-const EnkaClient = require("../../client/EnkaClient");
 const Skill = require("./Skill");
 
-/** 
- * @en NormalAttack
+/**
+ * @en CombatSkill
  * @extends {Skill}
  */
-class NormalAttack extends Skill {
-
+class UpgradableSkill extends Skill {
     /** 
      * @param {number} id
      * @param {EnkaClient} enka
@@ -16,4 +14,4 @@ class NormalAttack extends Skill {
     }
 }
 
-module.exports = NormalAttack;
+module.exports = UpgradableSkill;

@@ -8,19 +8,20 @@ const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./models/artifact/ArtifactTotalSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
 const TextAssets = require("./models/assets/TextAssets");
+const ElementalBurst = require("./models/character/talents/ElementalBurst");
+const ElementalSkill = require("./models/character/talents/ElementalSkill");
+const NormalAttack = require("./models/character/talents/NormalAttack");
+const PassiveTalent = require("./models/character/talents/PassiveTalent");
+const Skill = require("./models/character/talents/Skill");
+const SkillLevel = require("./models/character/talents/SkillLevel");
+const UniqueSkill = require("./models/character/talents/UniqueSkill");
+const UpgradableSkill = require("./models/character/talents/UpgradableSkill");
 const Character = require("./models/character/Character");
 const CharacterData = require("./models/character/CharacterData");
 const CharacterStatus = require("./models/character/CharacterStatus");
 const CharacterStatusProperty = require("./models/character/CharacterStatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
-const ElementalBurst = require("./models/character/ElementalBurst");
-const ElementalSkill = require("./models/character/ElementalSkill");
-const NormalAttack = require("./models/character/NormalAttack");
-const PassiveTalent = require("./models/character/PassiveTalent");
-const Skill = require("./models/character/Skill");
-const SkillLevel = require("./models/character/SkillLevel");
-const UniqueSkill = require("./models/character/UniqueSkill");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
@@ -40,12 +41,6 @@ module.exports = {
     ArtifactTotalSubstat,
     ImageAssets,
     TextAssets,
-    Character,
-    CharacterData,
-    CharacterStatus,
-    CharacterStatusProperty,
-    Constellation,
-    Costume,
     ElementalBurst,
     ElementalSkill,
     NormalAttack,
@@ -53,6 +48,13 @@ module.exports = {
     Skill,
     SkillLevel,
     UniqueSkill,
+    UpgradableSkill,
+    Character,
+    CharacterData,
+    CharacterStatus,
+    CharacterStatusProperty,
+    Constellation,
+    Costume,
     Weapon,
     WeaponData,
     WeaponRefinement,

@@ -1,12 +1,12 @@
-const EnkaClient = require("../../client/EnkaClient");
-const Skill = require("./Skill");
+const EnkaClient = require("../../../client/EnkaClient");
+const UpgradableSkill = require("./UpgradableSkill");
 
 /** 
  * @en UniqueSkill
- * @extends {Skill}
+ * @extends {UpgradableSkill}
  * @description Elemental Skill and Elemental Burst
  */
-class UniqueSkill extends Skill {
+class UniqueSkill extends UpgradableSkill {
 
     /** 
      * @param {number} id

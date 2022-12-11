@@ -1,7 +1,7 @@
-const EnkaClient = require("../../client/EnkaClient");
-const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
-const ImageAssets = require("../assets/ImageAssets");
-const TextAssets = require("../assets/TextAssets");
+const EnkaClient = require("../../../client/EnkaClient");
+const AssetsNotFoundError = require("../../../errors/AssetsNotFoundError");
+const ImageAssets = require("../../assets/ImageAssets");
+const TextAssets = require("../../assets/TextAssets");
 
 /** 
  * @en Skill

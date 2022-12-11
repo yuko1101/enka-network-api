@@ -2,14 +2,14 @@ const EnkaClient = require("../../client/EnkaClient");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 const Element = require("../Element");
-const Skill = require("./Skill");
+const Skill = require("./talents/Skill");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const Constellation = require("./Constellation");
-const ElementalBurst = require("./ElementalBurst");
+const ElementalBurst = require("./talents/ElementalBurst");
 const Costume = require("./Costume");
-const PassiveTalent = require("./PassiveTalent");
-const ElementalSkill = require("./ElementalSkill");
-const NormalAttack = require("./NormalAttack");
+const PassiveTalent = require("./talents/PassiveTalent");
+const ElementalSkill = require("./talents/ElementalSkill");
+const NormalAttack = require("./talents/NormalAttack");
 
 /** 
  * @en CharacterData
