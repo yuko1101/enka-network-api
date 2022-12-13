@@ -69,6 +69,7 @@ enka.cachedAssetsManager.activateAutoCacheUpdater({
         console.log("Updating Genshin Data...");
     },
     onUpdateEnd: async () => {
+        enka.cachedAssetsManager.refreshAllData(); // Refresh memory
         console.log("Updating Completed!");
     }
 });
