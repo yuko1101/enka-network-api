@@ -24,7 +24,7 @@ class TextAssets {
      */
     get(lang) {
         lang ??= this.enka.options.defaultLanguage;
-        const text = require(this.enka.cachedAssetsManager.getLanguageDataPath(lang))[this.id];
+        const text = this.enka.cachedAssetsManager.getLanguageData(lang)[this.id];
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
         return text;
     }

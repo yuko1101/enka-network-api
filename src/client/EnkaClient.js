@@ -76,7 +76,7 @@ class EnkaClient {
      * @returns {CharacterData[]}
      */
     getAllCharacters(playableOnly = true) {
-        return require(this.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).map(c => characterUtils.getCharactersById(c.id, this)).map(chars => chars.filter(c => !playableOnly || (playableOnly && c.isPlayable))).reduce((a, b) => [...a, ...b]);
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").map(c => characterUtils.getCharactersById(c.id, this)).map(chars => chars.filter(c => !playableOnly || (playableOnly && c.isPlayable))).reduce((a, b) => [...a, ...b]);
     }
 
     /**
@@ -93,7 +93,7 @@ class EnkaClient {
      * @returns {WeaponData[]}
      */
     getAllWeapons(excludeInvalidWeapons = true) {
-        const weapons = require(this.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData"));
+        const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
         if (excludeInvalidWeapons) {
             return weapons.filter(w => w.weaponPromoteId === w.id).map(w => new WeaponData(w.id, this, w));
         } else {
@@ -114,7 +114,7 @@ class EnkaClient {
      * @returns {Costume[]}
      */
     getAllCostumes(includeDefaults) {
-        return require(this.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(c[Object.keys(c)[0]], this, c));
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(c[Object.keys(c)[0]], this, c));
     }
 
     /**
@@ -129,7 +129,7 @@ class EnkaClient {
      * @returns {NameCard[]}
      */
     getAllNameCards() {
-        return require(this.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).filter(m => m.materialType === "MATERIAL_NAMECARD").map(n => new NameCard(n.id, this, n));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === "MATERIAL_NAMECARD").map(n => new NameCard(n.id, this, n));
     }
 
     /**

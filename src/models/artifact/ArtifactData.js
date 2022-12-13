@@ -23,7 +23,7 @@ class ArtifactData {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("ReliquaryExcelConfigData")).find(a => a.id === id);
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(a => a.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Artifact", id);
 
@@ -34,7 +34,7 @@ class ArtifactData {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {object} */
-        this._setData = require(enka.cachedAssetsManager.getJSONDataPath("EquipAffixExcelConfigData")).find(s => s.nameTextMapHash === setNameTextMapHash);
+        this._setData = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").find(s => s.nameTextMapHash === setNameTextMapHash);
 
         if (!this._setData) throw new AssetsNotFoundError("Artifact Set with nameTextMapHash", setNameTextMapHash);
 
@@ -48,7 +48,7 @@ class ArtifactData {
         this.equipType = this._data.equipType;
 
         /** @type {object} */
-        this._equipTypeData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === this.equipType);
+        this._equipTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.equipType);
         if (!this._equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
 
         /** @type {TextAssets} */

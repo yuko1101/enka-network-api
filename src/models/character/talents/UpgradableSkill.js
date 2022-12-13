@@ -23,7 +23,7 @@ class UpgradableSkill extends Skill {
         const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return [];
 
-        const leveledSkillData = require(this.enka.cachedAssetsManager.getJSONDataPath("ProudSkillExcelConfigData")).find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
+        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
         if (!leveledSkillData) return [];
 
         if (!leveledSkillData.paramDescList) return [];

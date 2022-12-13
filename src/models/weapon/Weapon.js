@@ -36,7 +36,7 @@ class Weapon {
 
         /** @type {Array<{type: TextAssets, value: number, _propData: object}>} */
         this.weaponStats = data.flat.weaponStats.map(obj => {
-            const propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === obj.appendPropId);
+            const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === obj.appendPropId);
             if (!propData) throw new AssetsNotFoundError("Fight Prop", obj.appendPropId);
             return {
                 type: new TextAssets(propData.textMapContentTextMapHash, enka),

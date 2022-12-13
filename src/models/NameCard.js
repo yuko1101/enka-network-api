@@ -23,7 +23,7 @@ class NameCard {
 
 
         /** @type {object} */
-        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("MaterialExcelConfigData")).find(m => m.id === id);
+        this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("NameCard", id);
 

@@ -32,7 +32,7 @@ class Artifact {
         const reliquaryMainstat = data.flat.reliquaryMainstat;
 
         /** @type {object} */
-        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === reliquaryMainstat.mainPropId);
+        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === reliquaryMainstat.mainPropId);
 
         if (!this._propData) throw new AssetsNotFoundError("Fight Prop", reliquaryMainstat.mainPropId)
 

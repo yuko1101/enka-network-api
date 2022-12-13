@@ -31,7 +31,7 @@ class CharacterData {
 
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).find(c => c.id === id);
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Character", id);
 
@@ -74,7 +74,7 @@ class CharacterData {
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
         /** @type {Array<object>} */
-        this._costumeData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCostumeExcelConfigData")).filter(c => c[Object.keys(c)[Object.keys(c).indexOf("jsonName") - 1]] === id); // Previous key of "jsonName"
+        this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[Object.keys(c)[Object.keys(c).indexOf("jsonName") - 1]] === id); // Previous key of "jsonName"
 
         /** @type {Array<Costume>} */
         this.costumes = this._costumeData.map(c => new Costume(c[Object.keys(c)[0]], enka, c));
@@ -85,7 +85,7 @@ class CharacterData {
         this.skillDepotId = candSkillDepotId ?? this._data.skillDepotId;
 
         /** @type {object} */
-        this._skillData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarSkillDepotExcelConfigData")).find(s => s.id === this.skillDepotId);
+        this._skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);
 
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
 
@@ -120,7 +120,7 @@ class CharacterData {
 
 
         /** @type {object | null} */
-        this._releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === id);
+        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id);
 
         if (this._releaseData) {
             /**

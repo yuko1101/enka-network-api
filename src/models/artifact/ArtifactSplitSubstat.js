@@ -19,11 +19,11 @@ class ArtifactSplitSubstat {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("ReliquaryAffixExcelConfigData")).find(a => a.id === id);
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(a => a.id === id);
         if (!this._data) throw new AssetsNotFoundError("Artifact Substat", id);
 
         /** @type {object} */
-        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === this._data.propType);
+        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this._data.propType);
         if (!this._propData) throw new AssetsNotFoundError("Fight Prop", this._data.propType);
 
         /** @type {TextAssets} */

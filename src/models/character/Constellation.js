@@ -22,7 +22,7 @@ class Constellation {
         this.enka = enka;
 
         /** @type {object} */
-        this._data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarTalentExcelConfigData")).find(c => c.talentId === id);
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(c => c.talentId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);
 

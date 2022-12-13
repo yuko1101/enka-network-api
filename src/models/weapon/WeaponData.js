@@ -25,7 +25,7 @@ class WeaponData {
 
 
         /** @type {object} */
-        this._data = data ?? require(enka.cachedAssetsManager.getJSONDataPath("WeaponExcelConfigData")).find(w => w.id === id);
+        this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(w => w.id === id);
         if (!this._data) throw new AssetsNotFoundError("Weapon", id);
 
         /** @type {TextAssets} */
@@ -47,7 +47,7 @@ class WeaponData {
         this.weaponType = this._data.weaponType;
 
         /** @type {object} */
-        this._weaponTypeData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === this.weaponType);
+        this._weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.weaponType);
         if (!this._weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
 
         /** @type {TextAssets} */

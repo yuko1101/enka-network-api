@@ -51,7 +51,7 @@ class CharacterStatusProperty {
         this.id = id;
 
         /** @type {object} */
-        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === id);
+        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
         if (!this._propData) throw new AssetsNotFoundError("Fight Prop", id);
 
         /** @type {TextAssets} */

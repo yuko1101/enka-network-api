@@ -10,6 +10,9 @@ const { move } = require("../utils/file_utils");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
+let dataMemory = {};
+let langDataMemory = {};
+
 /**
  * @en LanguageCode
  * @typedef LanguageCode
@@ -337,6 +340,52 @@ class CachedAssetsManager {
      */
     getJSONDataPath(name) {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
+    }
+
+    /**
+     * @param {string} name without extensions (.json)
+     * @returns {object}
+     */
+    getGenshinCacheData(name) {
+        if (!Object.keys(dataMemory).includes(name)) {
+            dataMemory[name] = JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8"));
+        }
+        return dataMemory[name];
+    }
+
+    /**
+     * @param {LanguageCode} lang
+     * @return {object}
+     */
+    getLanguageData(lang) {
+        if (!Object.keys(langDataMemory).includes(lang)) {
+            langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
+        }
+        return langDataMemory[lang];
+    }
+
+    /**
+     * Clean memory of cache data. 
+     * Then reload data that was loaded before the clean if `reload` is true.
+     * If `reload` is false, load each file as needed.
+     * @param {boolean} reload
+     * @return {void}
+     */
+    refreshAllData(reload = false) {
+        const loadedData = reload ? Object.keys(dataMemory) : null;
+        const loadedLangs = reload ? Object.keys(langDataMemory) : null;
+
+        dataMemory = {};
+        langDataMemory = {};
+
+        if (reload) {
+            for (const name of loadedData) {
+                this.getGenshinCacheData(name);
+            }
+            for (const lang of loadedLangs) {
+                this.getLanguageData(lang);
+            }
+        }
     }
 
 

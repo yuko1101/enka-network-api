@@ -7,7 +7,7 @@ const CharacterData = require("../models/character/CharacterData");
  * @returns {Array<CharacterData>}
  */
 module.exports.getCharactersById = (id, enka) => {
-    const data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarExcelConfigData")).find(c => c.id === id);
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
     if (data.candSkillDepotIds && data.candSkillDepotIds.length > 0) {
         return data.candSkillDepotIds.filter(skillDepotId => this.hasEnergySkill(skillDepotId, enka)).map(skillDepotId => new CharacterData(id, enka, skillDepotId));
     } else {
@@ -22,7 +22,7 @@ module.exports.getCharactersById = (id, enka) => {
  * @returns {boolean}
  */
 module.exports.hasEnergySkill = (skillDepotId, enka) => {
-    const data = require(enka.cachedAssetsManager.getJSONDataPath("AvatarSkillDepotExcelConfigData")).find(s => s.id === skillDepotId);
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === skillDepotId);
     return !!data.energySkill;
 }
 
@@ -32,6 +32,6 @@ module.exports.hasEnergySkill = (skillDepotId, enka) => {
  * @returns {boolean}
  */
 module.exports.isReleased = (characterId, enka) => {
-    const releaseData = require(enka.cachedAssetsManager.getJSONDataPath("AvatarCodexExcelConfigData")).find(r => r.avatarId === characterId);
-    return releaseData || require(enka.cachedAssetsManager.getJSONDataPath("AvatarHeroEntityExcelConfigData")).map(t => t.avatarId).includes(characterId);
+    const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === characterId);
+    return releaseData || enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").map(t => t.avatarId).includes(characterId);
 }

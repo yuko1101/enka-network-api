@@ -19,7 +19,7 @@ class ArtifactTotalSubstat {
         this._data = data;
 
         /** @type {object} */
-        this._propData = require(enka.cachedAssetsManager.getJSONDataPath("ManualTextMapConfigData")).find(t => t.textMapId === data.appendPropId);
+        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === data.appendPropId);
         if (!this._propData) throw new AssetsNotFoundError("Fight Prop", data.appendPropId);
 
         /** @type {TextAssets} */
