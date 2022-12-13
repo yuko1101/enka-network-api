@@ -92,6 +92,24 @@ declare class CachedAssetsManager {
      */
     getJSONDataPath(name: string): string;
     /**
+     * @param {string} name without extensions (.json)
+     * @returns {object}
+     */
+    getGenshinCacheData(name: string): object;
+    /**
+     * @param {LanguageCode} lang
+     * @return {object}
+     */
+    getLanguageData(lang: LanguageCode): object;
+    /**
+     * Clean memory of cache data.
+     * Then reload data that was loaded before the clean if `reload` is true.
+     * If `reload` is false, load each file as needed.
+     * @param {boolean} reload
+     * @return {void}
+     */
+    refreshAllData(reload?: boolean): void;
+    /**
      * Remove all unused TextHashMaps
      * @param {object} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
