@@ -266,7 +266,7 @@ class CachedAssetsManager {
 
         await this.cacheDirectorySetup();
 
-        const url = useRawGenshinData
+        const url = options.useRawGenshinData
             ? `https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${new Date(this._githubCache.getValue("rawLastUpdate") ?? 0).toISOString()}`
             : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${new Date(this._githubCache.getValue("lastUpdate") ?? 0).toISOString()}`;
 
