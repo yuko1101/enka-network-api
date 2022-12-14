@@ -33,9 +33,11 @@ declare class CharacterData {
     splashImage: ImageAssets;
     /**
      * Travelers do not have this.
-     *  @type {ImageAssets}
+     * @type {ImageAssets}
      */
     gachaSlice: ImageAssets;
+    /** @type {ImageAssets} */
+    cardIcon: ImageAssets;
     /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
     rarity: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */

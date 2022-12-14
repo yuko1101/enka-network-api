@@ -31,6 +31,8 @@ declare class Costume {
     sideIcon: ImageAssets;
     /** @type {ImageAssets} */
     splashImage: ImageAssets;
+    /** @type {ImageAssets} */
+    cardIcon: ImageAssets;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
