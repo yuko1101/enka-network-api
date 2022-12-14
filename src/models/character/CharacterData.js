@@ -62,10 +62,12 @@ class CharacterData {
 
         /**
          * Travelers do not have this.
-         *  @type {ImageAssets} 
+         * @type {ImageAssets} 
          */
         this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`);
 
+        /** @type {ImageAssets} */
+        this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`);
 
         /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
         this.rarity = this._data.qualityType;

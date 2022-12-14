@@ -38,20 +38,22 @@ class Costume {
         /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;
 
-        if (this.isDefault) return;
+        if (!this.isDefault) {
+            /** @type {string} */
+            this._nameId = this._data.jsonName?.slice(this._data.jsonName.lastIndexOf("_") + 1);
 
-        /** @type {string} */
-        this._nameId = this._data.jsonName?.slice(this._data.jsonName.lastIndexOf("_") + 1);
+            /** @type {ImageAssets} */
+            this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`);
+
+            /** @type {ImageAssets} */
+            this.sideIcon = new ImageAssets(this._data.sideIconName);
+
+            /** @type {ImageAssets} */
+            this.splashImage = new ImageAssets(`UI_Costume_${this._nameId}`);
+        }
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`);
-
-        /** @type {ImageAssets} */
-        this.sideIcon = new ImageAssets(this._data.sideIconName);
-
-        /** @type {ImageAssets} */
-        this.splashImage = new ImageAssets(`UI_Costume_${this._nameId}`);
-
+        this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`);
     }
 }
 
