@@ -46,6 +46,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        appId: "4A2TGIJGTR",
+        apiKey: "ddbb5051e54bc52f44d60f24eb353e87",
+        indexName: "enka-network-api",
+      },
       navbar: {
         title: 'EnkaNetworkAPI',
         logo: {
