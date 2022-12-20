@@ -1,5 +1,7 @@
 # Dev files
 example/test.js
+example/package-lock.json
+example/package.json
 
 # Caches
 cache/
