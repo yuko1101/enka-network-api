@@ -27,7 +27,7 @@ class SkillAttributeAssets extends TextAssets {
 
         const usedNumbers = [];
 
-        const replaced = text.replace(/\{([^}]+):([^}]+)\}/, (match, key, format) => {
+        const replaced = text.replace(/\{([^}]+):([^}]+)\}/g, (match, key, format) => {
             const index = Number(key.slice("param".length)) - 1;
             if (isNaN(index) || this._paramList.length <= index) return match;
 
