@@ -1,5 +1,7 @@
 # EnkaNetworkAPI
 
+![Enka.Network](https://github.com/yuko1101/enka-network-api/blob/main/img/enka-splash.png?raw=true)
+
 <div align="center">
 	<p>
 		<a href="https://www.npmjs.com/package/enka-network-api"><img src="https://img.shields.io/npm/v/enka-network-api.svg?maxAge=3600" alt="npm version" /></a>
@@ -9,12 +11,25 @@
 	</p>
 </div>
 
-![Enka.Network](https://github.com/yuko1101/enka-network-api/blob/main/img/enka-splash.png?raw=true)
-
+<div align="center">
+    <a href="https://enka-network-api.vercel.app/docs/api/EnkaClient">
+        <b>&lt;/&gt; Documentation</b>
+    </a>
+    <b>|</b>
+    <a href="https://www.npmjs.com/package/enka-network-api">
+        <b>⚙ NPM</b>
+    </a>
+</div>
 
 ## About
 
 An enka.network API wrapper for Genshin Impact.
+
+### Features
+- User Data and Character Status using EnkaNetwork.
+- All Characters and All Weapons Data. (Including More Advanced Info, such as Skill Attributes and Weapon Refiments.)
+- Cache Updater for the new update of Genshin Impact. (Update character and weapons immediately.)
+
 
 ## Installation
 
@@ -112,5 +127,7 @@ const weapons = enka.getAllWeapons();
 // print weapon names with language "jp"
 console.log(weapons.map(w => w.name.get("jp")));
 ```
+
+More examples are available in [example](https://github.com/yuko1101/enka-network-api/tree/main/example) folder.
 
 For more information, please check [Documentation](https://enka-network-api.vercel.app/docs/api/EnkaClient).
