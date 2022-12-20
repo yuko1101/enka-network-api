@@ -15,7 +15,7 @@
     <a href="https://enka-network-api.vercel.app/docs/api/EnkaClient">
         <b>&lt;/&gt; Documentation</b>
     </a>
-    <b>|</b>
+    <b> | </b>
     <a href="https://www.npmjs.com/package/enka-network-api">
         <b>⚙ NPM</b>
     </a>
