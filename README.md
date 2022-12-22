@@ -110,8 +110,8 @@ enka.cachedAssetsManager.activateAutoCacheUpdater({
 
 # How to use
 
-## Fetching Player Data
-
+## Fetching Player Data 
+[EnkaClient#fetchUser](https://enka-network-api.vercel.app/docs/api/EnkaClient#fetchUser)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
@@ -122,7 +122,7 @@ enka.fetchUser(825436941).then(user => {
 ```
 
 ## Genshin Character List
-
+[EnkaClient#getAllCharacters](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllCharacters)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
@@ -133,7 +133,7 @@ console.log(characters.map(c => c.name.get("en")));
 ```
 
 ## Genshin Weapon List
-
+[EnkaClient#getAllWeapons](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllWeapons)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
