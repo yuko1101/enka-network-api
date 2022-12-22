@@ -52,6 +52,10 @@ npm install enka-network-api --enka-nocache=true
 ```
 
 ## About Genshin Cache Data
+Genshin cache data is from Dimbreath/GenshinData (private repo).
+
+This data contains data of characters, weapons, materials, and more structure information of Genshin Impact.
+
 You can change your cache directory.
 ```js
 // Change the directory to store cache data.
@@ -68,6 +72,17 @@ const enka = new EnkaClient({ cacheDirectory: "./cache" });
 enka.cachedAssetsManager.cacheDirectorySetup();
 
 ```
+
+### Updating
+
+You can update your gensin cache data.
+```js
+const { EnkaClient } = require("enka-network-api");
+const enka = new EnkaClient({showFetchCacheLog: true}); // showFetchCacheLog is true by default
+
+enka.cachedAssetsManager.fetchAllContents(); // returns promise
+```
+
 
 Also, you can activate auto cache updater.
 
