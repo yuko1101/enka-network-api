@@ -27,7 +27,7 @@ An enka.network API wrapper for Genshin Impact.
 
 ### Features
 - User Data and Character Status using EnkaNetwork.
-- All Characters and All Weapons Data. (Including More Advanced Info, such as Skill Attributes and Weapon Refiments.)
+- All Characters and All Weapons Data. (Including More Advanced Info, such as Skill Attributes and Weapon Refinements.)
 - Cache Updater for the new update of Genshin Impact. (Update characters and weapons immediately.)
 
 
@@ -75,7 +75,7 @@ enka.cachedAssetsManager.cacheDirectorySetup();
 
 ### Updating
 
-You can update your gensin cache data.
+You can update your genshin cache data.
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient({showFetchCacheLog: true}); // showFetchCacheLog is true by default
