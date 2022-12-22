@@ -9,7 +9,7 @@ for (const weapon of weapons) {
 
     const refinement = weapon.refinements[0];
     const refinementName = refinement ? refinement.name.get() : "No refinements";
-    const refinementDesc = refinement ? refinement.description.get().replace(/<[^>]+>/g, "") : "No information";
+    const refinementDesc = refinement ? refinement.description.get().replace(/\<[^\>]+\>/g, "") : "No information";
 
     console.log(`${name} (★${stars}) > ${refinementName}: ${refinementDesc}`);
 }
