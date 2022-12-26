@@ -4,6 +4,7 @@ const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
 const ArtifactData = require("./models/artifact/ArtifactData");
+const ArtifactMainstat = require("./models/artifact/ArtifactMainstat");
 const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./models/artifact/ArtifactTotalSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
@@ -38,6 +39,7 @@ module.exports = {
     UserNotFoundError,
     Artifact,
     ArtifactData,
+    ArtifactMainstat,
     ArtifactSplitSubstat,
     ArtifactTotalSubstat,
     ImageAssets,

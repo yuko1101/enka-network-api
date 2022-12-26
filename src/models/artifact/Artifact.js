@@ -4,6 +4,7 @@ const TextAssets = require("../assets/TextAssets");
 const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const ArtifactMainstat = require("./ArtifactMainstat");
 
 /**
  * @en SubstatsContainer
@@ -37,25 +38,14 @@ class Artifact {
         /** @type {number} */
         this.level = data.reliquary.level;
 
-        const reliquaryMainstat = data.flat.reliquaryMainstat;
-
-        /** @type {object} */
-        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === reliquaryMainstat.mainPropId);
-
-        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", reliquaryMainstat.mainPropId)
-
-        /** @type {{type: TextAssets, statValue: number}} */
-        this.mainstat = {
-            type: new TextAssets(this._propData.textMapContentTextMapHash, enka),
-            statValue: reliquaryMainstat.statValue
-        };
+        /** @type {ArtifactMainstat} */
+        this.mainstat = new ArtifactMainstat(data.flat.reliquaryMainstat, enka);
 
         /** @type {SubstatsContainer} */
         this.substats = {
             total: data.flat.reliquarySubstats?.map(obj => new ArtifactTotalSubstat(obj, enka)) ?? [],
             split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? []
         };
-
 
     }
 }

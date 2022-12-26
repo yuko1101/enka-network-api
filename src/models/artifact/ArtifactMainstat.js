@@ -3,12 +3,12 @@ const { percent } = require("../../utils/prop_utils");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
- * @en ArtifactTotalSubstat
+ * @en ArtifactMainstat
  */
-class ArtifactTotalSubstat {
+class ArtifactMainstat {
 
     /**
-     * @param {{appendPropId: string, statValue: number}} data 
+     * @param {{mainPropId: string, statValue: number}} data 
      * @param {EnkaClient} enka
      */
     constructor(data, enka) {
@@ -16,22 +16,22 @@ class ArtifactTotalSubstat {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {{appendPropId: string, statValue: number}} */
+        /** @type {{mainPropId: string, statValue: number}} */
         this._data = data;
 
         /** @type {object} */
-        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === data.appendPropId);
-        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", data.appendPropId);
+        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === data.mainPropId);
+        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", data.mainPropId);
 
         /** @type {TextAssets} */
         this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
 
         /** @type {boolean} */
-        this.isPercent = percent.includes(data.appendPropId);
+        this.isPercent = percent.includes(data.mainPropId);
 
         /** @type {string} */
         this.value = data.statValue;
     }
 }
 
-module.exports = ArtifactTotalSubstat;
+module.exports = ArtifactMainstat;

@@ -1,5 +1,6 @@
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const { percent } = require("../../utils/prop_utils");
 const TextAssets = require("../assets/TextAssets");
 
 /** 
@@ -28,6 +29,9 @@ class ArtifactSplitSubstat {
 
         /** @type {TextAssets} */
         this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
+
+        /** @type {boolean} */
+        this.isPercent = percent.includes(this._data.propType);
 
         /** @type {number} */
         this.value = this._data.propValue;

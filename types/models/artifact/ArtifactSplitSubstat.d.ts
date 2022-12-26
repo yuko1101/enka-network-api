@@ -18,6 +18,8 @@ declare class ArtifactSplitSubstat {
     _propData: object;
     /** @type {TextAssets} */
     type: TextAssets;
+    /** @type {boolean} */
+    isPercent: boolean;
     /** @type {number} */
     value: number;
 }

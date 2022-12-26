@@ -1,21 +1,21 @@
-export = ArtifactTotalSubstat;
+export = ArtifactMainstat;
 /**
- * @en ArtifactTotalSubstat
+ * @en ArtifactMainstat
  */
-declare class ArtifactTotalSubstat {
+declare class ArtifactMainstat {
     /**
-     * @param {{appendPropId: string, statValue: number}} data
+     * @param {{mainPropId: string, statValue: number}} data
      * @param {EnkaClient} enka
      */
     constructor(data: {
-        appendPropId: string;
+        mainPropId: string;
         statValue: number;
     }, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {{appendPropId: string, statValue: number}} */
+    /** @type {{mainPropId: string, statValue: number}} */
     _data: {
-        appendPropId: string;
+        mainPropId: string;
         statValue: number;
     };
     /** @type {object} */

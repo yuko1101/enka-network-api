@@ -23,13 +23,8 @@ declare class Artifact {
     artifactData: ArtifactData;
     /** @type {number} */
     level: number;
-    /** @type {object} */
-    _propData: object;
-    /** @type {{type: TextAssets, statValue: number}} */
-    mainstat: {
-        type: TextAssets;
-        statValue: number;
-    };
+    /** @type {ArtifactMainstat} */
+    mainstat: ArtifactMainstat;
     /** @type {SubstatsContainer} */
     substats: SubstatsContainer;
 }
@@ -38,7 +33,7 @@ declare namespace Artifact {
 }
 import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
-import TextAssets = require("../assets/TextAssets");
+import ArtifactMainstat = require("./ArtifactMainstat");
 type SubstatsContainer = {
     total: Array<ArtifactTotalSubstat>;
     split: Array<ArtifactSplitSubstat>;
