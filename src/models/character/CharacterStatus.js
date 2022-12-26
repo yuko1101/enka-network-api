@@ -77,27 +77,27 @@ class CharacterStatus {
 
 
         /** @type {CharacterStatusProperty} */
-        this.baseHP = this.getStatusProperty(1);
+        this.healthBase = this.getStatusProperty(1);
         /** @type {CharacterStatusProperty} */
-        this.flatHP = this.getStatusProperty(2);
-        /** HP percent @type {CharacterStatusProperty} */
-        this.percentHP = this.getStatusProperty(3);
+        this.healthFlat = this.getStatusProperty(2);
         /** @type {CharacterStatusProperty} */
-        this.baseAttack = this.getStatusProperty(4);
+        this.healthPercent = this.getStatusProperty(3);
         /** @type {CharacterStatusProperty} */
-        this.flatAttack = this.getStatusProperty(5);
-        /** Attack percent @type {CharacterStatusProperty} */
-        this.percentAttack = this.getStatusProperty(6);
+        this.attackBase = this.getStatusProperty(4);
         /** @type {CharacterStatusProperty} */
-        this.baseDefense = this.getStatusProperty(7);
+        this.attackFlat = this.getStatusProperty(5);
         /** @type {CharacterStatusProperty} */
-        this.flatDefense = this.getStatusProperty(8);
-        /** Defense percent @type {CharacterStatusProperty} */
-        this.percentDefense = this.getStatusProperty(9);
+        this.attackPercent = this.getStatusProperty(6);
         /** @type {CharacterStatusProperty} */
-        this.baseSpeed = this.getStatusProperty(10);
-        /** Speed percent @type {CharacterStatusProperty} */
-        this.percentSpeed = this.getStatusProperty(11);
+        this.defenseBase = this.getStatusProperty(7);
+        /** @type {CharacterStatusProperty} */
+        this.defenseFlat = this.getStatusProperty(8);
+        /** @type {CharacterStatusProperty} */
+        this.defensePercent = this.getStatusProperty(9);
+        /** @type {CharacterStatusProperty} */
+        this.speedBase = this.getStatusProperty(10);
+        /** @type {CharacterStatusProperty} */
+        this.speedPercent = this.getStatusProperty(11);
         /** @type {CharacterStatusProperty} */
         this.critRate = this.getStatusProperty(20);
         /** @type {CharacterStatusProperty} */
@@ -201,10 +201,10 @@ class CharacterStatus {
         );
 
         /** @type {CharacterStatusProperty} */
-        this.currentHP = this.getStatusProperty(1010);
+        this.currentHealth = this.getStatusProperty(1010);
 
         /** @type {CharacterStatusProperty} */
-        this.maxHP = this.getStatusProperty(2000);
+        this.maxHealth = this.getStatusProperty(2000);
         /** Current Attack @type {CharacterStatusProperty} */
         this.attack = this.getStatusProperty(2001);
         /** Current Defense @type {CharacterStatusProperty} */

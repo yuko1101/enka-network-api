@@ -13,27 +13,27 @@ declare class CharacterStatus {
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {CharacterStatusProperty} */
-    baseHP: CharacterStatusProperty;
+    healthBase: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    flatHP: CharacterStatusProperty;
-    /** HP percent @type {CharacterStatusProperty} */
-    percentHP: CharacterStatusProperty;
+    healthFlat: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    baseAttack: CharacterStatusProperty;
+    healthPercent: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    flatAttack: CharacterStatusProperty;
-    /** Attack percent @type {CharacterStatusProperty} */
-    percentAttack: CharacterStatusProperty;
+    attackBase: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    baseDefense: CharacterStatusProperty;
+    attackFlat: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    flatDefense: CharacterStatusProperty;
-    /** Defense percent @type {CharacterStatusProperty} */
-    percentDefense: CharacterStatusProperty;
+    attackPercent: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    baseSpeed: CharacterStatusProperty;
-    /** Speed percent @type {CharacterStatusProperty} */
-    percentSpeed: CharacterStatusProperty;
+    defenseBase: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    defenseFlat: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    defensePercent: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    speedBase: CharacterStatusProperty;
+    /** @type {CharacterStatusProperty} */
+    speedPercent: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
     critRate: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
@@ -115,9 +115,9 @@ declare class CharacterStatus {
     /** @type {number} */
     currentEnergy: number;
     /** @type {CharacterStatusProperty} */
-    currentHP: CharacterStatusProperty;
+    currentHealth: CharacterStatusProperty;
     /** @type {CharacterStatusProperty} */
-    maxHP: CharacterStatusProperty;
+    maxHealth: CharacterStatusProperty;
     /** Current Attack @type {CharacterStatusProperty} */
     attack: CharacterStatusProperty;
     /** Current Defense @type {CharacterStatusProperty} */
