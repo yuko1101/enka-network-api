@@ -24,7 +24,10 @@ declare class ArtifactTotalSubstat {
     type: TextAssets;
     /** @type {boolean} */
     isPercent: boolean;
-    /** @type {string} */
+    /**
+     * @type {string}
+     * @description Already multiplied by 100 if the value is a percentage.
+     */
     value: string;
 }
 import EnkaClient = require("../../client/EnkaClient");
