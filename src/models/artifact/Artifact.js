@@ -5,6 +5,14 @@ const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 
+/**
+ * @en SubstatsContainer
+ * @typedef SubstatsContainer
+ * @type {object}
+ * @property {Array<ArtifactTotalSubstat>} total
+ * @property {Array<ArtifactSplitSubstat>} split
+ */
+
 /** 
  * @en Artifact
  */
@@ -42,10 +50,10 @@ class Artifact {
             statValue: reliquaryMainstat.statValue
         };
 
-        /** @type {{split: Array<ArtifactSplitSubstat>, total: Array<ArtifactTotalSubstat>}} */
+        /** @type {SubstatsContainer} */
         this.substats = {
-            split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? [],
-            total: data.flat.reliquarySubstats?.map(obj => new ArtifactTotalSubstat(obj, enka)) ?? []
+            total: data.flat.reliquarySubstats?.map(obj => new ArtifactTotalSubstat(obj, enka)) ?? [],
+            split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? []
         };
 
 
