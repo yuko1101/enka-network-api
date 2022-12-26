@@ -19,6 +19,11 @@
     <a href="https://www.npmjs.com/package/enka-network-api">
         <b>⚙ NPM</b>
     </a>
+    <b> | </b>
+    <i class="fab fa-github"></i>
+    <a href="https://github.com/yuko1101/enka-network-api">
+        <b> GitHub</b>
+    </a>
 </div>
 
 ## About
