@@ -29,7 +29,10 @@ class ArtifactTotalSubstat {
         /** @type {boolean} */
         this.isPercent = percent.includes(data.appendPropId);
 
-        /** @type {string} */
+        /** 
+         * @type {string} 
+         * @description Already multiplied by 100 if the value is a percentage.
+         */
         this.value = data.statValue;
     }
 }
