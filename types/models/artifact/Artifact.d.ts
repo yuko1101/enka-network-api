@@ -1,5 +1,12 @@
 export = Artifact;
 /**
+ * @en SubstatsContainer
+ * @typedef SubstatsContainer
+ * @type {object}
+ * @property {Array<ArtifactTotalSubstat>} total
+ * @property {Array<ArtifactSplitSubstat>} split
+ */
+/**
  * @en Artifact
  */
 declare class Artifact {
@@ -23,14 +30,18 @@ declare class Artifact {
         type: TextAssets;
         statValue: number;
     };
-    /** @type {{split: Array<ArtifactSplitSubstat>, total: ArtifactTotalSubstat}} */
-    substats: {
-        split: Array<ArtifactSplitSubstat>;
-        total: ArtifactTotalSubstat;
-    };
+    /** @type {SubstatsContainer} */
+    substats: SubstatsContainer;
+}
+declare namespace Artifact {
+    export { SubstatsContainer };
 }
 import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
 import TextAssets = require("../assets/TextAssets");
-import ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
+type SubstatsContainer = {
+    total: Array<ArtifactTotalSubstat>;
+    split: Array<ArtifactSplitSubstat>;
+};
 import ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
+import ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
