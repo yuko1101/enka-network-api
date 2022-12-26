@@ -23,7 +23,7 @@ class User {
         this._data = data;
 
         if (!parse) return;
-        if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents at least once.");
+        if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
         /** @type {number} */
         this.uid = isNaN(Number(data.uid)) && uid ? uid : Number(data.uid);
