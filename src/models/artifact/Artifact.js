@@ -3,7 +3,6 @@ const ArtifactData = require("./ArtifactData");
 const TextAssets = require("../assets/TextAssets");
 const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
 const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
-const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ArtifactMainstat = require("./ArtifactMainstat");
 
 /**
