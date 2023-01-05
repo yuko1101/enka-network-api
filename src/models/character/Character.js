@@ -53,6 +53,9 @@ class Character {
         /** @type {number} */
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
+        /** @type {number} */
+        this.stamina = Number(data.propMap[10010]?.ival ?? 10000) / 100
+
         /** 
          * Traveler's friendship is always 1.
          *  @type {number} 

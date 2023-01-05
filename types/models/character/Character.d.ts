@@ -30,6 +30,8 @@ declare class Character {
     ascension: number;
     /** @type {number} */
     maxLevel: number;
+    /** @type {number} */
+    stamina: number;
     /**
      * Traveler's friendship is always 1.
      *  @type {number}
