@@ -35,7 +35,7 @@ const fightProps = {
     54: "FIGHT_PROP_WIND_SUB_HURT",
     55: "FIGHT_PROP_ROCK_SUB_HURT",
     56: "FIGHT_PROP_ICE_SUB_HURT",
-    70: "", // Pyro Enegry Cost
+    70: "", // Pyro Energy Cost
     71: "", // Electro Energy Cost
     72: "", // Hydro Energy Cost
     73: "", // Dendro Energy Cost
