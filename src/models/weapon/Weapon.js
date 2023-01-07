@@ -32,7 +32,13 @@ class Weapon {
         this.level = data.weapon.level;
 
         /** @type {number} */
-        this.promoteLevel = data.weapon.promoteLevel;
+        this.ascension = data.weapon.promoteLevel ?? 0;
+
+        /** @type {number} */
+        this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
+
+        /** @type {boolean} */
+        this.isAwaken = this.ascension >= 2;
 
         /** @type {Array<{type: TextAssets, value: number, _propData: object}>} */
         this.weaponStats = data.flat.weaponStats.map(obj => {
