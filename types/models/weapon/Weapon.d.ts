@@ -14,20 +14,20 @@ declare class Weapon {
     _data: object;
     /** @type {WeaponData} */
     weaponData: WeaponData;
-    /** @type {WeaponRefinement} */
-    refinement: WeaponRefinement;
+    /** @type {WeaponRefinement | null} */
+    refinement: WeaponRefinement | null;
     /** @type {number} */
     level: number;
     /** @type {number} */
-    promoteLevel: number;
-    /** @type {Array<{type: TextAssets, value: number, _propData: object}>} */
-    weaponStats: {
-        type: TextAssets;
-        value: number;
-        _propData: object;
-    }[];
+    ascension: number;
+    /** @type {number} */
+    maxLevel: number;
+    /** @type {boolean} */
+    isAwaken: boolean;
+    /** @type {Array<StatusProperty>} */
+    weaponStats: Array<StatusProperty>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import WeaponData = require("./WeaponData");
 import WeaponRefinement = require("./WeaponRefinement");
-import TextAssets = require("../assets/TextAssets");
+import StatusProperty = require("../StatusProperty");

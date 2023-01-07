@@ -12,72 +12,72 @@ declare class CharacterStatus {
     _data: object;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {CharacterStatusProperty} */
-    healthBase: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    healthFlat: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    healthPercent: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    attackBase: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    attackFlat: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    attackPercent: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    defenseBase: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    defenseFlat: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    defensePercent: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    speedBase: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    speedPercent: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    critRate: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    critDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    chargeEfficiency: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    healAdd: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    healedAdd: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    elementMastery: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    physicalRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    physicalDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    pyroDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    electroDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    hydroDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    dendroDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    anemoDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    geoDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    cryoDamage: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    pyroRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    electroRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    hydroRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    dendroRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    anemoRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    geoRes: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    cryoRes: CharacterStatusProperty;
+    /** @type {StatusProperty} */
+    healthBase: StatusProperty;
+    /** @type {StatusProperty} */
+    healthFlat: StatusProperty;
+    /** @type {StatusProperty} */
+    healthPercent: StatusProperty;
+    /** @type {StatusProperty} */
+    attackBase: StatusProperty;
+    /** @type {StatusProperty} */
+    attackFlat: StatusProperty;
+    /** @type {StatusProperty} */
+    attackPercent: StatusProperty;
+    /** @type {StatusProperty} */
+    defenseBase: StatusProperty;
+    /** @type {StatusProperty} */
+    defenseFlat: StatusProperty;
+    /** @type {StatusProperty} */
+    defensePercent: StatusProperty;
+    /** @type {StatusProperty} */
+    speedBase: StatusProperty;
+    /** @type {StatusProperty} */
+    speedPercent: StatusProperty;
+    /** @type {StatusProperty} */
+    critRate: StatusProperty;
+    /** @type {StatusProperty} */
+    critDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    chargeEfficiency: StatusProperty;
+    /** @type {StatusProperty} */
+    healAdd: StatusProperty;
+    /** @type {StatusProperty} */
+    healedAdd: StatusProperty;
+    /** @type {StatusProperty} */
+    elementMastery: StatusProperty;
+    /** @type {StatusProperty} */
+    physicalRes: StatusProperty;
+    /** @type {StatusProperty} */
+    physicalDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    pyroDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    electroDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    hydroDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    dendroDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    anemoDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    geoDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    cryoDamage: StatusProperty;
+    /** @type {StatusProperty} */
+    pyroRes: StatusProperty;
+    /** @type {StatusProperty} */
+    electroRes: StatusProperty;
+    /** @type {StatusProperty} */
+    hydroRes: StatusProperty;
+    /** @type {StatusProperty} */
+    dendroRes: StatusProperty;
+    /** @type {StatusProperty} */
+    anemoRes: StatusProperty;
+    /** @type {StatusProperty} */
+    geoRes: StatusProperty;
+    /** @type {StatusProperty} */
+    cryoRes: StatusProperty;
     /** @type {number} */
     pyroEnergyCost: number;
     /** @type {number} */
@@ -94,10 +94,10 @@ declare class CharacterStatus {
     geoEnergyCost: number;
     /** @type {number} */
     energyCost: number;
-    /** @type {CharacterStatusProperty} */
-    cooldownReduction: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    shieldStrength: CharacterStatusProperty;
+    /** @type {StatusProperty} */
+    cooldownReduction: StatusProperty;
+    /** @type {StatusProperty} */
+    shieldStrength: StatusProperty;
     /** @type {number} */
     currentPyroEnergy: number;
     /** @type {number} */
@@ -114,25 +114,25 @@ declare class CharacterStatus {
     currentGeoEnergy: number;
     /** @type {number} */
     currentEnergy: number;
-    /** @type {CharacterStatusProperty} */
-    currentHealth: CharacterStatusProperty;
-    /** @type {CharacterStatusProperty} */
-    maxHealth: CharacterStatusProperty;
-    /** Current Attack @type {CharacterStatusProperty} */
-    attack: CharacterStatusProperty;
-    /** Current Defense @type {CharacterStatusProperty} */
-    defense: CharacterStatusProperty;
-    /** Current Speed @type {CharacterStatusProperty} */
-    speed: CharacterStatusProperty;
-    /** @type {Array<CharacterStatusProperty>} */
-    statusProperties: Array<CharacterStatusProperty>;
+    /** @type {StatusProperty} */
+    currentHealth: StatusProperty;
+    /** @type {StatusProperty} */
+    maxHealth: StatusProperty;
+    /** Current Attack @type {StatusProperty} */
+    attack: StatusProperty;
+    /** Current Defense @type {StatusProperty} */
+    defense: StatusProperty;
+    /** Current Speed @type {StatusProperty} */
+    speed: StatusProperty;
+    /** @type {Array<StatusProperty>} */
+    statusProperties: Array<StatusProperty>;
     /**
      * @private
      * @param {number} id
      * @param {number} [defaultValue]
-     * @returns {CharacterStatusProperty}
+     * @returns {StatusProperty}
      */
     private getStatusProperty;
 }
 import EnkaClient = require("../../client/EnkaClient");
-import CharacterStatusProperty = require("./CharacterStatusProperty");
+import StatusProperty = require("../StatusProperty");

@@ -18,11 +18,11 @@ declare class WeaponRefinement {
     name: TextAssets;
     /** @type {TextAssets} */
     description: TextAssets;
-    /** @type {Array<CharacterStatusProperty>} */
-    addProps: Array<CharacterStatusProperty>;
+    /** @type {Array<StatusProperty>} */
+    addProps: Array<StatusProperty>;
     /** @type {Array<number>} */
     paramList: Array<number>;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
-import CharacterStatusProperty = require("../character/CharacterStatusProperty");
+import StatusProperty = require("../StatusProperty");

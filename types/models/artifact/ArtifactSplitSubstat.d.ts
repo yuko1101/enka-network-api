@@ -1,27 +1,16 @@
 export = ArtifactSplitSubstat;
 /**
  * @en ArtifactSplitSubstat
+ * @extends {StatusProperty}
  */
-declare class ArtifactSplitSubstat {
+declare class ArtifactSplitSubstat extends StatusProperty {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id: number, enka: EnkaClient);
-    /** @type {number} */
-    id: number;
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
     /** @type {object} */
     _data: object;
-    /** @type {object} */
-    _propData: object;
-    /** @type {TextAssets} */
-    type: TextAssets;
-    /** @type {boolean} */
-    isPercent: boolean;
-    /** @type {number} */
-    value: number;
 }
+import StatusProperty = require("../StatusProperty");
 import EnkaClient = require("../../client/EnkaClient");
-import TextAssets = require("../assets/TextAssets");
