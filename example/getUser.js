@@ -19,7 +19,7 @@ async function run() {
         const level = char.level;
         const maxLevel = char.maxLevel;
         const statsList = char.status.statusProperties.map(stats => {
-            const value = stats.value * (stats.isPercent ? 100 : 1)
+            const value = stats.value * (stats.isPercent ? 100 : 1) // or just use stats.getFormattedValue()
             const fixed = stats.isPercent ? 1 : 0; // To what decimal place
             const suffix = stats.isPercent ? "%" : "";
             return `- ${stats.type.get()}: ${value.toFixed(fixed)}${suffix}`;
