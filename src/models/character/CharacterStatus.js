@@ -1,5 +1,5 @@
 const EnkaClient = require("../../client/EnkaClient");
-const CharacterStatusProperty = require("./CharacterStatusProperty");
+const StatusProperty = require("../StatusProperty");
 
 const fightProps = {
     1: "FIGHT_PROP_BASE_HP",
@@ -76,71 +76,71 @@ class CharacterStatus {
         this.enka = enka;
 
 
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.healthBase = this.getStatusProperty(1);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.healthFlat = this.getStatusProperty(2);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.healthPercent = this.getStatusProperty(3);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.attackBase = this.getStatusProperty(4);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.attackFlat = this.getStatusProperty(5);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.attackPercent = this.getStatusProperty(6);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.defenseBase = this.getStatusProperty(7);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.defenseFlat = this.getStatusProperty(8);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.defensePercent = this.getStatusProperty(9);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.speedBase = this.getStatusProperty(10);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.speedPercent = this.getStatusProperty(11);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.critRate = this.getStatusProperty(20);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.critDamage = this.getStatusProperty(22);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.chargeEfficiency = this.getStatusProperty(23);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.healAdd = this.getStatusProperty(26);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.healedAdd = this.getStatusProperty(27);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.elementMastery = this.getStatusProperty(28);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.physicalRes = this.getStatusProperty(29);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.physicalDamage = this.getStatusProperty(30);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.pyroDamage = this.getStatusProperty(40);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.electroDamage = this.getStatusProperty(41);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.hydroDamage = this.getStatusProperty(42);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.dendroDamage = this.getStatusProperty(43);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.anemoDamage = this.getStatusProperty(44);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.geoDamage = this.getStatusProperty(45);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.cryoDamage = this.getStatusProperty(46);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.pyroRes = this.getStatusProperty(50);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.electroRes = this.getStatusProperty(51);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.hydroRes = this.getStatusProperty(52);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.dendroRes = this.getStatusProperty(53);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.anemoRes = this.getStatusProperty(54);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.geoRes = this.getStatusProperty(55);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.cryoRes = this.getStatusProperty(56);
 
         /** @type {number} */
@@ -169,9 +169,9 @@ class CharacterStatus {
             this.geoEnergyCost
         );
 
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.cooldownReduction = this.getStatusProperty(80);
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.shieldStrength = this.getStatusProperty(81);
 
         /** @type {number} */
@@ -200,29 +200,29 @@ class CharacterStatus {
             this.currentGeoEnergy
         );
 
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.currentHealth = this.getStatusProperty(1010);
 
-        /** @type {CharacterStatusProperty} */
+        /** @type {StatusProperty} */
         this.maxHealth = this.getStatusProperty(2000);
-        /** Current Attack @type {CharacterStatusProperty} */
+        /** Current Attack @type {StatusProperty} */
         this.attack = this.getStatusProperty(2001);
-        /** Current Defense @type {CharacterStatusProperty} */
+        /** Current Defense @type {StatusProperty} */
         this.defense = this.getStatusProperty(2002);
-        /** Current Speed @type {CharacterStatusProperty} */
+        /** Current Speed @type {StatusProperty} */
         this.speed = this.getStatusProperty(2003);
 
-        /** @type {Array<CharacterStatusProperty>} */
-        this.statusProperties = Object.values(this).filter(value => value instanceof CharacterStatusProperty);
+        /** @type {Array<StatusProperty>} */
+        this.statusProperties = Object.values(this).filter(value => value instanceof StatusProperty);
     }
     /**
      * @private
      * @param {number} id 
      * @param {number} [defaultValue]
-     * @returns {CharacterStatusProperty}
+     * @returns {StatusProperty}
      */
     getStatusProperty(id, defaultValue = 0) {
-        return new CharacterStatusProperty(fightProps[id], this._data[id] ?? defaultValue, this.enka);
+        return new StatusProperty(fightProps[id], this._data[id] ?? defaultValue, this.enka);
     }
 }
 

@@ -4,9 +4,7 @@ const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
 const ArtifactData = require("./models/artifact/ArtifactData");
-const ArtifactMainstat = require("./models/artifact/ArtifactMainstat");
 const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
-const ArtifactTotalSubstat = require("./models/artifact/ArtifactTotalSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
 const SkillAttributeAssets = require("./models/assets/SkillAttributeAssets");
 const TextAssets = require("./models/assets/TextAssets");
@@ -21,7 +19,7 @@ const UpgradableSkill = require("./models/character/talents/UpgradableSkill");
 const Character = require("./models/character/Character");
 const CharacterData = require("./models/character/CharacterData");
 const CharacterStatus = require("./models/character/CharacterStatus");
-const CharacterStatusProperty = require("./models/character/CharacterStatusProperty");
+const StatusProperty = require("./models/StatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
 const Weapon = require("./models/weapon/Weapon");
@@ -39,9 +37,7 @@ module.exports = {
     UserNotFoundError,
     Artifact,
     ArtifactData,
-    ArtifactMainstat,
     ArtifactSplitSubstat,
-    ArtifactTotalSubstat,
     ImageAssets,
     SkillAttributeAssets,
     TextAssets,
@@ -56,7 +52,7 @@ module.exports = {
     Character,
     CharacterData,
     CharacterStatus,
-    CharacterStatusProperty,
+    StatusProperty,
     Constellation,
     Costume,
     Weapon,

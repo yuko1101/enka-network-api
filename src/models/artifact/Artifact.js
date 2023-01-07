@@ -1,15 +1,13 @@
 const EnkaClient = require("../../client/EnkaClient");
 const ArtifactData = require("./ArtifactData");
-const TextAssets = require("../assets/TextAssets");
 const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
-const ArtifactTotalSubstat = require("./ArtifactTotalSubstat");
-const ArtifactMainstat = require("./ArtifactMainstat");
+const StatusProperty = require("../StatusProperty");
 
 /**
  * @en SubstatsContainer
  * @typedef SubstatsContainer
  * @type {object}
- * @property {Array<ArtifactTotalSubstat>} total
+ * @property {Array<StatusProperty>} total
  * @property {Array<ArtifactSplitSubstat>} split
  */
 
@@ -37,12 +35,12 @@ class Artifact {
         /** @type {number} */
         this.level = data.reliquary.level;
 
-        /** @type {ArtifactMainstat} */
-        this.mainstat = new ArtifactMainstat(data.flat.reliquaryMainstat, enka);
+        /** @type {StatusProperty} */
+        this.mainstat = new StatusProperty(data.flat.reliquaryMainstat.mainPropId, data.flat.reliquaryMainstat.statValue, enka, true);
 
         /** @type {SubstatsContainer} */
         this.substats = {
-            total: data.flat.reliquarySubstats?.map(obj => new ArtifactTotalSubstat(obj, enka)) ?? [],
+            total: data.flat.reliquarySubstats?.map(obj => new StatusProperty(obj.appendPropId, obj.statValue, enka, true)) ?? [],
             split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? []
         };
 

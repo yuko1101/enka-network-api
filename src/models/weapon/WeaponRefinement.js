@@ -1,6 +1,6 @@
 const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
-const CharacterStatusProperty = require("../character/CharacterStatusProperty");
+const StatusProperty = require("../StatusProperty");
 
 /** 
  * @en WeaponRefinement
@@ -27,8 +27,8 @@ class WeaponRefinement {
         /** @type {TextAssets} */
         this.description = new TextAssets(data.descTextMapHash, enka);
 
-        /** @type {Array<CharacterStatusProperty>} */
-        this.addProps = data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new CharacterStatusProperty(p.propType, p.value, enka));
+        /** @type {Array<StatusProperty>} */
+        this.addProps = data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
         /** @type {Array<number>} */
         this.paramList = data.paramList;
