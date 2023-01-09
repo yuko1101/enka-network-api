@@ -7,6 +7,7 @@ const ConfigFile = require("../utils/ConfigFile");
 const { bindOptions } = require("../utils/options_utils");
 const { fetchJSON } = require("../utils/axios_utils");
 const { move } = require("../utils/file_utils");
+const ObjectKeysManager = require("./ObjectKeysManager");
 
 const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -500,20 +501,3 @@ class CachedAssetsManager {
 }
 
 module.exports = CachedAssetsManager;
-
-/**
- * @en ObjectKeysManager
- */
-class ObjectKeysManager {
-    /** @param {CachedAssetsManager} cachedAssetsManager */
-    constructor(cachedAssetsManager) {
-        const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
-        const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea");
-        const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme");
-
-        this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301);
-        this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003);
-        this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5);
-
-    }
-}

@@ -1,5 +1,6 @@
 const EnkaClient = require("./client/EnkaClient");
 const CachedAssetsManager = require("./client/CachedAssetsManager");
+const ObjectKeysManager = require("./client/ObjectKeysManager");
 const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
@@ -33,6 +34,7 @@ const User = require("./models/User");
 module.exports = {
     EnkaClient,
     CachedAssetsManager,
+    ObjectKeysManager,
     AssetsNotFoundError,
     UserNotFoundError,
     Artifact,
