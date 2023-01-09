@@ -93,7 +93,6 @@ class CachedAssetsManager {
         /** @type {boolean} */
         this._isFetching = false;
 
-        if (!objectKeysManager) objectKeysManager = new ObjectKeysManager(this);
     }
 
     /** @returns {Promise<void>} */
@@ -371,6 +370,7 @@ class CachedAssetsManager {
 
     /** @returns {ObjectKeysManager} */
     getObjectKeysManager() {
+        if (!objectKeysManager) objectKeysManager = new ObjectKeysManager(this);
         return objectKeysManager;
     }
 
@@ -388,7 +388,7 @@ class CachedAssetsManager {
         dataMemory = {};
         langDataMemory = {};
 
-        objectKeysManager = new ObjectKeysManager(this);
+        objectKeysManager = undefined;
 
         if (reload) {
             for (const name of loadedData) {
@@ -397,6 +397,7 @@ class CachedAssetsManager {
             for (const lang of loadedLangs) {
                 this.getLanguageData(lang);
             }
+            objectKeysManager = new ObjectKeysManager(this);
         }
     }
 
