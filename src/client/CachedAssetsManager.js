@@ -14,7 +14,6 @@ const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt",
 let dataMemory = {};
 let langDataMemory = {};
 
-/** @type {ObjectKeysManager} */
 let objectKeysManager;
 
 /**
