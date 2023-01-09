@@ -15,14 +15,16 @@ class Costume {
      */
     constructor(id, enka, data = null) {
 
+        const keys = enka.cachedAssetsManager.getObjectKeysManager();
+
         /** @type {number} */
-        this.id = id;
+        this.id = data ? data[keys.costumeIdKey] : id;
 
         /** @type {EnkaClient} */
         this.enka = enka;
 
         /** @type {object} */
-        this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[Object.keys(c)[0]] === id);
+        this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === id);
 
         if (!this._data) throw new AssetsNotFoundError("Costume", id);
 
@@ -33,7 +35,7 @@ class Costume {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {number} */
-        this.characterId = this._data[Object.keys(this._data)[Object.keys(this._data).indexOf("jsonName") - 1]]; // Previous key of "jsonName"
+        this.characterId = this._data[keys.costumeCharacterIdKey]; // Previous key of "jsonName"
 
         /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;

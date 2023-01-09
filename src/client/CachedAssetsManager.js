@@ -13,6 +13,9 @@ const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt",
 let dataMemory = {};
 let langDataMemory = {};
 
+/** @type {ObjectKeysManager} */
+let objectKeysManager;
+
 /**
  * @en LanguageCode
  * @typedef LanguageCode
@@ -89,6 +92,8 @@ class CachedAssetsManager {
 
         /** @type {boolean} */
         this._isFetching = false;
+
+        if (!objectKeysManager) objectKeysManager = new ObjectKeysManager(this);
     }
 
     /** @returns {Promise<void>} */
@@ -364,6 +369,11 @@ class CachedAssetsManager {
         return langDataMemory[lang];
     }
 
+    /** @returns {ObjectKeysManager} */
+    getObjectKeysManager() {
+        return objectKeysManager;
+    }
+
     /**
      * Clean memory of cache data. 
      * Then reload data that was loaded before the clean if `reload` is true.
@@ -377,6 +387,8 @@ class CachedAssetsManager {
 
         dataMemory = {};
         langDataMemory = {};
+
+        objectKeysManager = new ObjectKeysManager(this);
 
         if (reload) {
             for (const name of loadedData) {
@@ -488,3 +500,18 @@ class CachedAssetsManager {
 }
 
 module.exports = CachedAssetsManager;
+
+
+class ObjectKeysManager {
+    /** @param {CachedAssetsManager} cachedAssetsManager */
+    constructor(cachedAssetsManager) {
+        const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
+        const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea");
+        const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme");
+
+        this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301);
+        this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003);
+        this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5);
+
+    }
+}

@@ -114,7 +114,7 @@ class EnkaClient {
      * @returns {Costume[]}
      */
     getAllCostumes(includeDefaults) {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(c[Object.keys(c)[0]], this, c));
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(null, this, c));
     }
 
     /**
