@@ -52,6 +52,9 @@ class Costume {
 
             /** @type {ImageAssets} */
             this.splashImage = new ImageAssets(`UI_Costume_${this._nameId}`);
+
+            /** @type {number} */
+            this.stars = this._data[keys.costumeStarKey];
         }
 
         /** @type {ImageAssets} */
