@@ -31,6 +31,8 @@ declare class Costume {
     sideIcon: ImageAssets;
     /** @type {ImageAssets} */
     splashImage: ImageAssets;
+    /** @type {number} */
+    stars: number;
     /** @type {ImageAssets} */
     cardIcon: ImageAssets;
 }

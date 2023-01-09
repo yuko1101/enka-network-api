@@ -101,6 +101,8 @@ declare class CachedAssetsManager {
      * @return {object}
      */
     getLanguageData(lang: LanguageCode): object;
+    /** @returns {ObjectKeysManager} */
+    getObjectKeysManager(): ObjectKeysManager;
     /**
      * Clean memory of cache data.
      * Then reload data that was loaded before the clean if `reload` is true.
@@ -130,3 +132,10 @@ declare namespace CachedAssetsManager {
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
 type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
+declare class ObjectKeysManager {
+    /** @param {CachedAssetsManager} cachedAssetsManager */
+    constructor(cachedAssetsManager: CachedAssetsManager);
+    costumeIdKey: any;
+    costumeCharacterIdKey: any;
+    costumeStarKey: any;
+}
