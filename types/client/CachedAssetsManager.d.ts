@@ -132,6 +132,9 @@ declare namespace CachedAssetsManager {
 import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
 type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
+/**
+ * @en ObjectKeysManager
+ */
 declare class ObjectKeysManager {
     /** @param {CachedAssetsManager} cachedAssetsManager */
     constructor(cachedAssetsManager: CachedAssetsManager);

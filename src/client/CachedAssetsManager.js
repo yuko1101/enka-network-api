@@ -501,7 +501,9 @@ class CachedAssetsManager {
 
 module.exports = CachedAssetsManager;
 
-
+/**
+ * @en ObjectKeysManager
+ */
 class ObjectKeysManager {
     /** @param {CachedAssetsManager} cachedAssetsManager */
     constructor(cachedAssetsManager) {
