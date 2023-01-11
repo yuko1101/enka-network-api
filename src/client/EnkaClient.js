@@ -46,7 +46,7 @@ class EnkaClient {
     }
 
     /** 
-     * @param {number} uid
+     * @param {number | string} uid
      * @param {boolean} parse
      * @returns {Promise<User>}
      */
