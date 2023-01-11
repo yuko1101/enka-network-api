@@ -51,7 +51,7 @@ class EnkaClient {
      * @returns {Promise<User>}
      */
     async fetchUser(uid, parse = true) {
-        if (typeof uid !== "number") throw new Error("Parameter `uid` must be a number.");
+        if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
 
         const url = getUserUrl(uid);
 
