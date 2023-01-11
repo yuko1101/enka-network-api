@@ -39,7 +39,7 @@ class Character {
         this.weapon = new Weapon(data.equipList.find(item => item.hasOwnProperty("weapon")), enka);
 
         /** @type {CharacterStatus} */
-        this.status = new CharacterStatus(data.fightPropMap, enka);
+        this.status = new CharacterStatus(data.fightPropMap, enka, this.characterData.element);
 
         /** @type {number} */
         this.level = Number(data.propMap[4001]?.ival ?? 0);

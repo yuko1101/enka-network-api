@@ -1,4 +1,5 @@
 const EnkaClient = require("../../client/EnkaClient");
+const Element = require("../Element");
 const StatusProperty = require("../StatusProperty");
 
 const fightProps = {
@@ -67,8 +68,9 @@ class CharacterStatus {
     /** 
      * @param {object} data
      * @param {EnkaClient} enka
+     * @param {Element} element
      */
-    constructor(data, enka) {
+    constructor(data, enka, element) {
         /** @type {object} */
         this._data = data;
 
@@ -142,6 +144,19 @@ class CharacterStatus {
         this.geoRes = this.getStatusProperty(55);
         /** @type {StatusProperty} */
         this.cryoRes = this.getStatusProperty(56);
+
+        /** 
+         * Element damage bonus which matches the character's element. (Physical DMG ignored.)
+         * @type {StatusProperty | null} 
+         */
+        this.matchedElementDamage =
+            element?.id === "Fire" ? this.pyroDamage :
+                element?.id === "Electric" ? this.electroDamage :
+                    element?.id === "Water" ? this.hydroDamage :
+                        element?.id === "Grass" ? this.dendroDamage :
+                            element?.id === "Wind" ? this.anemoDamage :
+                                element?.id === "Rock" ? this.geoDamage :
+                                    element?.id === "Ice" ? this.cryoDamage : null
 
         /** @type {number} */
         this.pyroEnergyCost = data[70] ?? 0;
