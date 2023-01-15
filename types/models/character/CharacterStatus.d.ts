@@ -6,8 +6,9 @@ declare class CharacterStatus {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
+     * @param {Element} element
      */
-    constructor(data: object, enka: EnkaClient);
+    constructor(data: object, enka: EnkaClient, element: Element);
     /** @type {object} */
     _data: object;
     /** @type {EnkaClient} */
@@ -78,6 +79,11 @@ declare class CharacterStatus {
     geoRes: StatusProperty;
     /** @type {StatusProperty} */
     cryoRes: StatusProperty;
+    /**
+     * Element damage bonus which matches the character's element. (Physical DMG ignored.)
+     * @type {StatusProperty | null}
+     */
+    matchedElementDamage: StatusProperty | null;
     /** @type {number} */
     pyroEnergyCost: number;
     /** @type {number} */
@@ -136,3 +142,4 @@ declare class CharacterStatus {
 }
 import EnkaClient = require("../../client/EnkaClient");
 import StatusProperty = require("../StatusProperty");
+import Element = require("../Element");

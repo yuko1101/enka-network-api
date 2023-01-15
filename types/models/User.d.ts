@@ -7,9 +7,9 @@ declare class User {
      * @param {object} data
      * @param {EnkaClient} enka
      * @param {boolean} parse
-     * @param {number} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
+     * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: object, enka: EnkaClient, parse?: boolean, uid?: number);
+    constructor(data: object, enka: EnkaClient, parse?: boolean, uid?: number | string);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */

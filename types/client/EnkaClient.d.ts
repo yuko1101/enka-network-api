@@ -8,6 +8,7 @@ export = EnkaClient;
  * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
+ * @property {string} [apiKey]
  */
 /**
  * @en EnkaClient
@@ -22,11 +23,11 @@ declare class EnkaClient {
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;
     /**
-     * @param {number} uid
+     * @param {number | string} uid
      * @param {boolean} parse
      * @returns {Promise<User>}
      */
-    fetchUser(uid: number, parse?: boolean): Promise<User>;
+    fetchUser(uid: number | string, parse?: boolean): Promise<User>;
     /**
      * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}
@@ -80,6 +81,7 @@ type EnkaClientOptions = {
     defaultLanguage?: LanguageCode;
     cacheDirectory?: string;
     showFetchCacheLog?: boolean;
+    apiKey?: string;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
