@@ -21,6 +21,7 @@ const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
  * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
+ * @property {string} [apiKey]
  */
 
 /** 
@@ -39,6 +40,7 @@ class EnkaClient {
             "defaultLanguage": "en",
             "cacheDirectory": null,
             "showFetchCacheLog": true,
+            "apiKey": null,
         }, options);
 
         /** @type {CachedAssetsManager} */
@@ -53,7 +55,7 @@ class EnkaClient {
     async fetchUser(uid, parse = true) {
         if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
 
-        const url = getUserUrl(uid);
+        const url = getUserUrl(uid) + (this.options.apiKey ? `?key=${this.options.apiKey}` : "");
 
         const abortController = new AbortController();
         const timeoutId = setTimeout(() => abortController.abort("timeout"), this.options.timeout);
