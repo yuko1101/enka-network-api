@@ -115,8 +115,9 @@ declare class CachedAssetsManager {
      * Remove all unused TextHashMaps
      * @param {object} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
+     * @param {boolean} [showLog=true]
      */
-    removeUnusedTextData(data: object, langsData: object): {};
+    removeUnusedTextData(data: object, langsData: object, showLog?: boolean): {};
     /**
      * @param {object} options
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com

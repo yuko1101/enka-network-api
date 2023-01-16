@@ -56,6 +56,13 @@ declare class CharacterData {
     element: Element;
     /** @type {Array<Skill>} */
     skills: Array<Skill>;
+    /**
+     * Can be null if the character doesn't have element such as traveler without elements
+     * @type {ElementalSkill | null}
+     */
+    elementalSkill: ElementalSkill | null;
+    /** @type {NormalAttack} */
+    normalAttack: NormalAttack;
     /** @type {Array<PassiveTalent>} */
     passiveTalents: Array<PassiveTalent>;
     /** @type {Array<Constellation>} */
@@ -80,5 +87,7 @@ import Costume = require("./Costume");
 import ElementalBurst = require("./talents/ElementalBurst");
 import Element = require("../Element");
 import Skill = require("./talents/Skill");
+import ElementalSkill = require("./talents/ElementalSkill");
+import NormalAttack = require("./talents/NormalAttack");
 import PassiveTalent = require("./talents/PassiveTalent");
 import Constellation = require("./Constellation");
