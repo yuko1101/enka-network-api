@@ -114,6 +114,15 @@ class CharacterData {
         /** @type {Array<Skill>} */
         this.skills = _skills;
 
+        /** 
+         * Can be null if the character doesn't have element such as traveler without elements 
+         * @type {ElementalSkill | null} 
+         */
+        this.elementalSkill = _skills.find(s => s instanceof ElementalSkill) ?? null;
+
+        /** @type {NormalAttack} */
+        this.normalAttack = _skills.find(s => s instanceof NormalAttack);
+
 
         /** @type {Array<PassiveTalent>} */
         this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => p.hasOwnProperty("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
@@ -124,7 +133,7 @@ class CharacterData {
 
 
         /** @type {object | null} */
-        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id);
+        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id) ?? null;
 
         if (this._releaseData) {
             /**
