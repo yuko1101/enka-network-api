@@ -406,8 +406,9 @@ class CachedAssetsManager {
      * Remove all unused TextHashMaps
      * @param {object} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
+     * @param {boolean} [showLog=true]
      */
-    removeUnusedTextData(data, langsData) {
+    removeUnusedTextData(data, langsData, showLog = true) {
         const required = [];
         data["AvatarExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
@@ -447,9 +448,12 @@ class CachedAssetsManager {
 
         const requiredStringKeys = required.map(key => key.toString());
 
+        if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`)
+
         const clearLangsData = {};
 
         for (const lang of Object.keys(langsData)) {
+            if (showLog) console.info(`Modifying language "${lang}"...`);
             const langData = { ...langsData[lang] };
             for (const key of Object.keys(langData)) {
                 if (!requiredStringKeys.includes(key)) delete langData[key];
@@ -458,6 +462,8 @@ class CachedAssetsManager {
             clearLangsData[lang] = langData;
             // console.log(Object.keys(clearLangsData).length + " langs");
         };
+
+        if (showLog) console.info(`Removing unused keys completed.`);
 
         return clearLangsData;
     }
