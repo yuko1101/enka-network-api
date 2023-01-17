@@ -11,6 +11,10 @@ declare class ImageAssets {
     name: string;
     /** @type {string} */
     url: string;
+    /** @type {string} */
+    imageType: string;
+    /** @type {string} */
+    mihoyoUrl: string;
     /** @type {boolean} */
     isAvailable: boolean;
 }
