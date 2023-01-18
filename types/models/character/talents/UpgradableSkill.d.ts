@@ -5,11 +5,6 @@ export = UpgradableSkill;
  */
 declare class UpgradableSkill extends Skill {
     /**
-     * @param {number} id
-     * @param {EnkaClient} enka
-     */
-    constructor(id: number, enka: EnkaClient);
-    /**
      * @param {number} level
      * @returns {Array<SkillAttributeAssets>}
      */
