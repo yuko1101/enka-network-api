@@ -8,4 +8,6 @@ cache/
 img/
 docs/
 
+.eslintrc.json
+.eslintignore
 cache.zip
