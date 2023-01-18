@@ -1,13 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../../client/EnkaClient");
 const UpgradableSkill = require("./UpgradableSkill");
 
-/** 
+/**
  * @en NormalAttack
  * @extends {UpgradableSkill}
  */
 class NormalAttack extends UpgradableSkill {
 
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      */

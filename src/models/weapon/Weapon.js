@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const StatusProperty = require("../StatusProperty");
 const WeaponData = require("./WeaponData");
+// eslint-disable-next-line no-unused-vars
 const WeaponRefinement = require("./WeaponRefinement");
 
-/** 
+/**
  * @en Weapon
  */
 class Weapon {

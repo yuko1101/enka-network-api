@@ -1,13 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
 const StatusProperty = require("../StatusProperty");
 
-/** 
+/**
  * @en WeaponRefinement
  */
 class WeaponRefinement {
 
-    /** 
+    /**
      * @param {object} data
      * @param {EnkaClient} enka
      */
@@ -28,7 +29,7 @@ class WeaponRefinement {
         this.description = new TextAssets(data.descTextMapHash, enka);
 
         /** @type {Array<StatusProperty>} */
-        this.addProps = data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new StatusProperty(p.propType, p.value, enka));
+        this.addProps = data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
         /** @type {Array<number>} */
         this.paramList = data.paramList;

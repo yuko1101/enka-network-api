@@ -1,15 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 const StatusProperty = require("../StatusProperty");
 
-/** 
+/**
  * @en Constellation
  */
 class Constellation {
 
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      */
@@ -36,7 +37,7 @@ class Constellation {
         this.icon = new ImageAssets(this._data.icon);
 
         /** @type {Array<StatusProperty>} */
-        this.addProps = this._data.addProps.filter(p => p.hasOwnProperty("propType") && p.hasOwnProperty("value")).map(p => new StatusProperty(p.propType, p.value, enka));
+        this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
         /** @type {Array<number>} */
         this.paramList = this._data.paramList;

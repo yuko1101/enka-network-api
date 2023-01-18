@@ -1,14 +1,14 @@
-const fs = require('fs');
+const fs = require("fs");
 
-/** 
+/**
  * @en ConfigFile
  */
 class ConfigFile {
 
     /**
-     * @param {string} filePath 
-     * @param {*} defaultConfig 
-     * @param {Array<(string | number)>} route 
+     * @param {string} filePath
+     * @param {*} defaultConfig
+     * @param {Array<(string | number)>} route
      * @param {*} storedData
      */
     constructor(filePath, defaultConfig, route = [], storedData) {
@@ -27,12 +27,7 @@ class ConfigFile {
      * @returns {Promise<ConfigFile>}
      */
     async save(compact = false) {
-        var text;
-        if (compact) {
-            text = JSON.stringify(this.data);
-        } else {
-            text = JSON.stringify(this.data, null, 4);
-        }
+        const text = compact ? JSON.stringify(this.data) : JSON.stringify(this.data, null, 4);
         fs.writeFileSync(this.filePath, text);
         return this;
     }
@@ -67,7 +62,7 @@ class ConfigFile {
             }
         }
         this.getCurrentRouteObject()[key] = value;
-        return this
+        return this;
     }
 
     /**
@@ -84,8 +79,7 @@ class ConfigFile {
         } else if (Array.isArray(this.getCurrentRouteObject())) {
             if (this.route.length === 0) {
                 this.data = [...this.data, value];
-            }
-            else {
+            } else {
                 this.getParentRouteObject()[this.route[this.route.length - 1]] = [...this.getParentRouteObject()[this.route[this.route.length - 1]], value];
             }
         }
@@ -113,14 +107,14 @@ class ConfigFile {
     }
 
     /**
-     * 
-     * @param  {Array<(string | number)>} key 
+     *
+     * @param  {Array<(string | number)>} key
      * @returns {boolean}
      */
     has(...key) {
         const newRoute = [...this.route, ...key];
-        var obj = this.data;
-        for (var i = 0; i < newRoute.length; i++) {
+        let obj = this.data;
+        for (let i = 0; i < newRoute.length; i++) {
             obj = obj[newRoute[i]];
             if (obj === undefined) {
                 return false;
@@ -157,8 +151,8 @@ class ConfigFile {
      * @private
      */
     getCurrentRouteObject() {
-        var obj = this.data;
-        for (var i = 0; i < this.route.length; i++) {
+        let obj = this.data;
+        for (let i = 0; i < this.route.length; i++) {
             obj = obj[this.route[i]];
         }
         return obj;
@@ -167,8 +161,8 @@ class ConfigFile {
      * @private
      */
     getParentRouteObject() {
-        var obj = this.data;
-        for (var i = 0; i < this.route.length - 1; i++) {
+        let obj = this.data;
+        for (let i = 0; i < this.route.length - 1; i++) {
             obj = obj[this.route[i]];
         }
         return obj;

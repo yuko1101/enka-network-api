@@ -1,20 +1,25 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const Artifact = require("../artifact/Artifact");
 const CharacterData = require("./CharacterData");
 const Weapon = require("../weapon/Weapon");
 const CharacterStatus = require("./CharacterStatus");
+// eslint-disable-next-line no-unused-vars
 const Constellation = require("./Constellation");
+// eslint-disable-next-line no-unused-vars
 const Skill = require("./talents/Skill");
+// eslint-disable-next-line no-unused-vars
 const PassiveTalent = require("./talents/PassiveTalent");
+// eslint-disable-next-line no-unused-vars
 const Costume = require("./Costume");
 const SkillLevel = require("./talents/SkillLevel");
 
-/** 
+/**
  * @en Character
  */
 class Character {
 
-    /** 
+    /**
      * @param {object} data
      * @param {EnkaClient} enka
      */
@@ -33,10 +38,10 @@ class Character {
         this.costume = data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault);
 
         /** @type {Array<Artifact>} */
-        this.artifacts = data.equipList.filter(item => item.hasOwnProperty("reliquary")).map(artifact => new Artifact(artifact, enka));
+        this.artifacts = data.equipList.filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
 
         /** @type {Weapon} */
-        this.weapon = new Weapon(data.equipList.find(item => item.hasOwnProperty("weapon")), enka);
+        this.weapon = new Weapon(data.equipList.find(item => Object.keys(item).includes("weapon")), enka);
 
         /** @type {CharacterStatus} */
         this.status = new CharacterStatus(data.fightPropMap, enka, this.characterData.element);
@@ -54,11 +59,11 @@ class Character {
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         /** @type {number} */
-        this.stamina = Number(data.propMap[10010]?.ival ?? 10000) / 100
+        this.stamina = Number(data.propMap[10010]?.ival ?? 10000) / 100;
 
-        /** 
+        /**
          * Traveler's friendship is always 1.
-         *  @type {number} 
+         *  @type {number}
          */
         this.friendship = data.fetterInfo?.expLevel ?? 1;
 
@@ -71,11 +76,11 @@ class Character {
             if (!skill) return null;
 
             const base = value;
-            const extra = data.proudSkillExtraLevelMap?.[skill._data.proudSkillGroupId] ?? 0
+            const extra = data.proudSkillExtraLevelMap?.[skill._data.proudSkillGroupId] ?? 0;
 
             return {
                 skill,
-                level: new SkillLevel(base, extra)
+                level: new SkillLevel(base, extra),
             };
         }).filter(s => s !== null);
 

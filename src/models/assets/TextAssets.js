@@ -1,13 +1,15 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+// eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("../../client/CachedAssetsManager");
 
-/** 
+/**
  * @en TextAssets
  */
 class TextAssets {
 
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      */
@@ -18,7 +20,7 @@ class TextAssets {
         this.enka = enka;
     }
 
-    /** 
+    /**
      * @param {LanguageCode} [lang]
      * @returns {string}
      */

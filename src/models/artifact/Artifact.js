@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const ArtifactData = require("./ArtifactData");
 const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
@@ -11,12 +12,12 @@ const StatusProperty = require("../StatusProperty");
  * @property {Array<ArtifactSplitSubstat>} split
  */
 
-/** 
+/**
  * @en Artifact
  */
 class Artifact {
 
-    /** 
+    /**
      * @param {object} data
      * @param {EnkaClient} enka
      */
@@ -41,7 +42,7 @@ class Artifact {
         /** @type {SubstatsContainer} */
         this.substats = {
             total: data.flat.reliquarySubstats?.map(obj => new StatusProperty(obj.appendPropId, obj.statValue, enka, true)) ?? [],
-            split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? []
+            split: data.reliquary.appendPropIdList?.map(id => new ArtifactSplitSubstat(id, enka)) ?? [],
         };
 
     }

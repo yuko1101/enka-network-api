@@ -1,15 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 const Character = require("./character/Character");
 const CharacterData = require("./character/CharacterData");
 const Costume = require("./character/Costume");
 const NameCard = require("./NameCard");
 
-/** 
+/**
  * @en User
  */
 class User {
 
-    /** 
+    /**
      * @param {object} data
      * @param {EnkaClient} enka
      * @param {boolean} parse
@@ -39,11 +40,11 @@ class User {
 
         /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
         this.charactersPreview = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
-            let copyObj = {
+            const copyObj = {
                 ...obj,
-            }
+            };
             const character = new CharacterData(copyObj.avatarId, enka);
-            copyObj["characterData"] = character
+            copyObj["characterData"] = character;
             delete copyObj["avatarId"];
 
             if (copyObj["costumeId"]) {
@@ -52,7 +53,7 @@ class User {
                 delete copyObj["costumeId"];
             }
 
-            return copyObj
+            return copyObj;
         }) : [];
 
         /** @type {Array<NameCard>} */

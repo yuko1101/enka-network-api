@@ -1,11 +1,11 @@
-/** 
+/**
  * @en AssetsNotFoundError
  */
 class AssetsNotFoundError extends Error {
 
     /**
-     * @param {string} category 
-     * @param {string | number} id 
+     * @param {string} category
+     * @param {string | number} id
      */
     constructor(category, id) {
         super(`${category} ${id} was not found. Try to update cached assets using EnkaClient#cachedAssetsManager#fetchAllContents`);

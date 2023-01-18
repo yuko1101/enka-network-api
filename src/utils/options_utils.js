@@ -1,6 +1,6 @@
 /**
- * @param {object} defaultOptions 
- * @param {object} options 
+ * @param {object} defaultOptions
+ * @param {object} options
  * @returns {object}
  */
 module.exports.bindOptions = (defaultOptions, options) => {
@@ -14,18 +14,18 @@ module.exports.bindOptions = (defaultOptions, options) => {
 
         // もしパスが途中で途切れていたら、その奥は直接コピーする
         if (!hasPath(result, path)) {
-            for (var i = 0; i < path.length; i++) {
+            for (let i = 0; i < path.length; i++) {
                 const checkPath = path.slice(0, i + 1);
 
                 if (!hasPath(result, checkPath)) {
                     const resultPath = checkPath.slice(0, -1);
 
                     if (getPath(result, resultPath) === null) {
-                        resultPath.pop()
+                        resultPath.pop();
                         const object = resultPath.reduce((acc, key) => acc[key], result);
                         const adjustPath = path.slice(i - 1);
                         const key = adjustPath.pop();
-                        setPath(object, adjustPath, { [key]: value })
+                        setPath(object, adjustPath, { [key]: value });
                         break;
                     } else {
                         const object = resultPath.reduce((acc, key) => acc[key], result);
@@ -43,12 +43,12 @@ module.exports.bindOptions = (defaultOptions, options) => {
 
     }
     return result;
-}
+};
 
 /**
  * Get the path where the value is null, or undefined.
- * @param {*} object 
- * @param {*} path 
+ * @param {*} object
+ * @param {*} path
  * @returns {Array<Array<string>>}
  */
 function getNullPath(object, path = []) {
@@ -65,10 +65,10 @@ function getNullPath(object, path = []) {
     return result;
 }
 
-/** 
+/**
  * Warning: This function will not work with circular object.
  * @private
- * @param {object} object 
+ * @param {object} object
  * @returns {Array<{path: Array<string>, value: any}>}
  */
 function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
@@ -92,13 +92,13 @@ function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
 }
 
 /**
- * @param {object} object 
- * @param {Array<string>} path 
+ * @param {object} object
+ * @param {Array<string>} path
  * @returns {*}
  */
 function getPath(object, path) {
     for (const key of path) {
-        if (!object.hasOwnProperty(key)) {
+        if (!Object.keys(object).includes(key)) {
             return undefined;
         }
         object = object[key];
@@ -114,7 +114,7 @@ function getPath(object, path) {
 function hasPath(object, path) {
     for (const key of path) {
         if (typeof object !== "object" || object === null) return false;
-        if (!object.hasOwnProperty(key)) {
+        if (!Object.keys(object).includes(key)) {
             return false;
         }
         object = object[key];
@@ -123,14 +123,14 @@ function hasPath(object, path) {
 }
 
 /**
- * @param {object} object 
- * @param {Array<string>} path 
- * @param {*} value 
+ * @param {object} object
+ * @param {Array<string>} path
+ * @param {*} value
  */
 function setPath(object, path, value) {
     const last = path.pop();
     for (const key of path) {
-        if (object.hasOwnProperty(key)) {
+        if (Object.keys(object).includes(key)) {
             object = object[key];
         } else {
             object[key] = {};
@@ -142,8 +142,8 @@ function setPath(object, path, value) {
 
 /** @returns {string} */
 module.exports.generateUuid = () => {
-    var chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
-    for (var i = 0; i < chars.length; i++) {
+    const chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
+    for (let i = 0; i < chars.length; i++) {
         switch (chars[i]) {
             case "x":
                 chars[i] = Math.floor(Math.random() * 16).toString(16);
@@ -154,4 +154,4 @@ module.exports.generateUuid = () => {
         }
     }
     return chars.join("");
-}
+};

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("./EnkaClient");
 const fs = require("fs");
 const path = require("path");
@@ -58,15 +59,15 @@ const manualTextMapWhiteList = [
     "Ice",
     "Rock",
     "WeaponType",
-]
+];
 
-/** 
+/**
  * @en CachedAssetsManager
  */
 class CachedAssetsManager {
 
     /**
-     * @param {EnkaClient} enka 
+     * @param {EnkaClient} enka
      */
     constructor(enka) {
         /** @type {EnkaClient} */
@@ -129,8 +130,8 @@ class CachedAssetsManager {
     }
 
 
-    /** 
-     * @param {LanguageCode} lang 
+    /**
+     * @param {LanguageCode} lang
      * @param {boolean} [store=true]
      */
     async fetchLanguageData(lang, store = true) {
@@ -142,11 +143,11 @@ class CachedAssetsManager {
     }
 
 
-    /** 
+    /**
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
-     * @returns {Promise<void>} 
+     * @returns {Promise<void>}
      */
     async fetchAllContents(options) {
         options = bindOptions({
@@ -201,14 +202,14 @@ class CachedAssetsManager {
                             console.info(`Downloaded langs/${lang}.json`);
                         }
                         langsData[lang] = data;
-                    })()
+                    })(),
                 );
             }
             await Promise.all(langPromises);
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Downloaded all language files");
-                console.info("Parsing data... (This may take more than 10 minutes)")
+                console.info("Parsing data... (This may take more than 10 minutes)");
             }
 
             const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
@@ -289,7 +290,7 @@ class CachedAssetsManager {
         }
     }
 
-    /** 
+    /**
      * @param {object} [options]
      * @param {boolean} [options.useRawGenshinData=false]
      * @param {boolean} [options.instant=true]
@@ -331,7 +332,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param {LanguageCode} lang 
+     * @param {LanguageCode} lang
      * @returns {string}
      */
     getLanguageDataPath(lang) {
@@ -375,7 +376,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * Clean memory of cache data. 
+     * Clean memory of cache data.
      * Then reload data that was loaded before the clean if `reload` is true.
      * If `reload` is false, load each file as needed.
      * @param {boolean} reload
@@ -419,7 +420,7 @@ class CachedAssetsManager {
             required.push(m.textMapContentTextMapHash);
         });
         data["ReliquaryExcelConfigData"].forEach(a => {
-            required.push(a.nameTextMapHash, a.descTextMapHash)
+            required.push(a.nameTextMapHash, a.descTextMapHash);
         });
         data["EquipAffixExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
@@ -448,7 +449,7 @@ class CachedAssetsManager {
 
         const requiredStringKeys = required.map(key => key.toString());
 
-        if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`)
+        if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`);
 
         const clearLangsData = {};
 
@@ -461,9 +462,9 @@ class CachedAssetsManager {
             // console.log(Object.keys(langData).length + " keys in " + lang);
             clearLangsData[lang] = langData;
             // console.log(Object.keys(clearLangsData).length + " langs");
-        };
+        }
 
-        if (showLog) console.info(`Removing unused keys completed.`);
+        if (showLog) console.info("Removing unused keys completed.");
 
         return clearLangsData;
     }
@@ -475,7 +476,7 @@ class CachedAssetsManager {
      */
     async _downloadCacheZip(options) {
         options = bindOptions({
-            ghproxy: false
+            ghproxy: false,
         }, options);
 
         const axios = new Axios({});
@@ -483,7 +484,7 @@ class CachedAssetsManager {
         const url = (options.ghproxy ? "https://ghproxy.com/" : "") + "https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip";
 
         const res = await axios.get(url, {
-            responseType: "stream"
+            responseType: "stream",
         }).catch(e => {
             throw new Error(`Failed to download genshin data from ${url} with an error: ${e}`);
         });

@@ -1,9 +1,9 @@
-/** 
+/**
  * @en SkillLevel
  */
 class SkillLevel {
 
-    /** 
+    /**
      * @param {number} base
      * @param {number} extra
      */

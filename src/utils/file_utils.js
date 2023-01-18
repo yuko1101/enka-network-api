@@ -1,8 +1,8 @@
 const fs = require("fs");
 
 /**
- * @param {string} dirFrom 
- * @param {string} dirTo 
+ * @param {string} dirFrom
+ * @param {string} dirTo
  */
 module.exports.move = (dirFrom, dirTo) => {
     const files = fs.readdirSync(dirFrom);
@@ -17,7 +17,7 @@ module.exports.move = (dirFrom, dirTo) => {
         }
     }
 
-}
+};
 
 /**
  * @param {string} fileFrom
@@ -25,4 +25,4 @@ module.exports.move = (dirFrom, dirTo) => {
  */
 module.exports.moveFile = (fileFrom, fileTo) => {
     fs.renameSync(fileFrom, fileTo);
-}
+};

@@ -1,14 +1,15 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
-/** 
+/**
  * @en ArtifactData
  */
 class ArtifactData {
 
-    /** 
+    /**
      * @param {number} id
      * @param {number} setNameTextMapHash
      * @param {EnkaClient} enka

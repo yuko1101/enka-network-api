@@ -1,14 +1,15 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const TextAssets = require("./assets/TextAssets");
 
-/** 
+/**
  * @en Element
  */
 class Element {
 
-    /** 
-     * @param {string} id 
+    /**
+     * @param {string} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {

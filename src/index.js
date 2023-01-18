@@ -64,4 +64,4 @@ module.exports = {
     Element,
     NameCard,
     User,
-}
+};

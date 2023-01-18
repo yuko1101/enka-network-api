@@ -1,4 +1,4 @@
-/** 
+/**
  * @en UserNotFoundError
  */
 class UserNotFoundError extends Error {

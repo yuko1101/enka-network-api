@@ -1,12 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 const { Axios, AxiosResponse } = require("axios");
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 
 const axios = new Axios({});
 
-/** 
+/**
  * @param {string} url
  * @param {EnkaClient} enka
- * @returns {Promise<AxiosResponse>} 
+ * @returns {Promise<AxiosResponse>}
  */
 module.exports.fetchJSON = async (url, enka, enableTimeout = false) => {
     const options = { headers: { "User-Agent": enka.options.userAgent, "accept-encoding": "*" } };
@@ -17,4 +19,4 @@ module.exports.fetchJSON = async (url, enka, enableTimeout = false) => {
     res.data = JSON.parse(res.data);
 
     return res;
-}
+};

@@ -8,6 +8,7 @@ const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
 const { fetchJSON } = require("../utils/axios_utils");
 const NameCard = require("../models/NameCard");
+// eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("./CachedAssetsManager");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
@@ -24,7 +25,7 @@ const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
  * @property {string} [apiKey]
  */
 
-/** 
+/**
  * @en EnkaClient
  */
 class EnkaClient {
@@ -47,7 +48,7 @@ class EnkaClient {
         this.cachedAssetsManager = new CachedAssetsManager(this);
     }
 
-    /** 
+    /**
      * @param {number | string} uid
      * @param {boolean} parse
      * @returns {Promise<User>}
@@ -65,7 +66,7 @@ class EnkaClient {
         clearTimeout(timeoutId);
 
         if (response.status !== 200) {
-            if (response.status === 429) throw new Error("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.")
+            if (response.status === 429) throw new Error("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.");
             if (response.status === 500) throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
             throw new Error(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
         }
@@ -103,7 +104,7 @@ class EnkaClient {
         }
     }
 
-    /** 
+    /**
      * @param {number} id
      * @returns {WeaponData}
      */

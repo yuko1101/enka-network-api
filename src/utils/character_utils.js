@@ -1,8 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 const CharacterData = require("../models/character/CharacterData");
 
-/** 
- * @param {number} id 
+/**
+ * @param {number} id
  * @param {EnkaClient} enka
  * @returns {Array<CharacterData>}
  */
@@ -14,17 +15,17 @@ module.exports.getCharactersById = (id, enka) => {
         if (!this.hasEnergySkill(data.skillDepotId, enka)) return [];
         return [new CharacterData(id, enka)];
     }
-}
+};
 
 /**
- * @param {number} skillDepotId 
+ * @param {number} skillDepotId
  * @param {EnkaClient} enka
  * @returns {boolean}
  */
 module.exports.hasEnergySkill = (skillDepotId, enka) => {
     const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === skillDepotId);
     return !!data.energySkill;
-}
+};
 
 /**
  * @param {number} characterId
@@ -34,4 +35,4 @@ module.exports.hasEnergySkill = (skillDepotId, enka) => {
 module.exports.isReleased = (characterId, enka) => {
     const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === characterId);
     return releaseData || enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").map(t => t.avatarId).includes(characterId);
-}
+};

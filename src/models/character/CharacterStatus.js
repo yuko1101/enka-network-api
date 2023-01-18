@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
+// eslint-disable-next-line no-unused-vars
 const Element = require("../Element");
 const StatusProperty = require("../StatusProperty");
 
@@ -57,15 +59,15 @@ const fightProps = {
     2001: "FIGHT_PROP_CUR_ATTACK",
     2002: "FIGHT_PROP_CUR_DEFENSE",
     2003: "FIGHT_PROP_CUR_SPEED",
-}
+};
 
 
-/** 
+/**
  * @en CharacterStatus
  */
 class CharacterStatus {
 
-    /** 
+    /**
      * @param {object} data
      * @param {EnkaClient} enka
      * @param {Element} element
@@ -145,9 +147,9 @@ class CharacterStatus {
         /** @type {StatusProperty} */
         this.cryoRes = this.getStatusProperty(56);
 
-        /** 
+        /**
          * Element damage bonus which matches the character's element. (Physical DMG ignored.)
-         * @type {StatusProperty | null} 
+         * @type {StatusProperty | null}
          */
         this.matchedElementDamage =
             element?.id === "Fire" ? this.pyroDamage :
@@ -156,7 +158,7 @@ class CharacterStatus {
                         element?.id === "Grass" ? this.dendroDamage :
                             element?.id === "Wind" ? this.anemoDamage :
                                 element?.id === "Rock" ? this.geoDamage :
-                                    element?.id === "Ice" ? this.cryoDamage : null
+                                    element?.id === "Ice" ? this.cryoDamage : null;
 
         /** @type {number} */
         this.pyroEnergyCost = data[70] ?? 0;
@@ -181,7 +183,7 @@ class CharacterStatus {
             this.dendroEnergyCost,
             this.anemoEnergyCost,
             this.cryoEnergyCost,
-            this.geoEnergyCost
+            this.geoEnergyCost,
         );
 
         /** @type {StatusProperty} */
@@ -212,7 +214,7 @@ class CharacterStatus {
             this.currentDendroEnergy,
             this.currentAnemoEnergy,
             this.currentCryoEnergy,
-            this.currentGeoEnergy
+            this.currentGeoEnergy,
         );
 
         /** @type {StatusProperty} */
@@ -232,7 +234,7 @@ class CharacterStatus {
     }
     /**
      * @private
-     * @param {number} id 
+     * @param {number} id
      * @param {number} [defaultValue]
      * @returns {StatusProperty}
      */

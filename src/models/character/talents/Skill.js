@@ -1,15 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../../client/EnkaClient");
 const AssetsNotFoundError = require("../../../errors/AssetsNotFoundError");
 const ImageAssets = require("../../assets/ImageAssets");
 const TextAssets = require("../../assets/TextAssets");
 
-/** 
+/**
  * @en Skill
  * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 class Skill {
 
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      */

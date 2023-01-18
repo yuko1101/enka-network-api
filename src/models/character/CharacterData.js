@@ -1,6 +1,8 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
+// eslint-disable-next-line no-unused-vars
 const Element = require("../Element");
 const Skill = require("./talents/Skill");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
@@ -11,12 +13,12 @@ const PassiveTalent = require("./talents/PassiveTalent");
 const ElementalSkill = require("./talents/ElementalSkill");
 const NormalAttack = require("./talents/NormalAttack");
 
-/** 
+/**
  * @en CharacterData
  */
 class CharacterData {
 
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      * @param {number} [candSkillDepotIds]
@@ -62,7 +64,7 @@ class CharacterData {
 
         /**
          * Travelers do not have this.
-         * @type {ImageAssets} 
+         * @type {ImageAssets}
          */
         this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`);
 
@@ -84,7 +86,6 @@ class CharacterData {
         this.costumes = this._costumeData.map(c => new Costume(null, enka, c));
 
 
-
         /** @type {number} */
         this.skillDepotId = candSkillDepotId ?? this._data.skillDepotId;
 
@@ -103,20 +104,20 @@ class CharacterData {
             this.element = this.elementalBurst.costElemType;
         }
 
-        const _skills = this._skillData.skills.map((id, index) => {
-            if (!id) return null;
-            if (index === 0) return new NormalAttack(id, enka);
-            if (index === 1) return new ElementalSkill(id, enka);
-            return new Skill(id, enka);
+        const _skills = this._skillData.skills.map((skillId, index) => {
+            if (!skillId) return null;
+            if (index === 0) return new NormalAttack(skillId, enka);
+            if (index === 1) return new ElementalSkill(skillId, enka);
+            return new Skill(skillId, enka);
         }).filter(s => s !== null);
         if (this.elementalBurst) _skills.push(this.elementalBurst);
 
         /** @type {Array<Skill>} */
         this.skills = _skills;
 
-        /** 
-         * Can be null if the character doesn't have element such as traveler without elements 
-         * @type {ElementalSkill | null} 
+        /**
+         * Can be null if the character doesn't have element such as traveler without elements
+         * @type {ElementalSkill | null}
          */
         this.elementalSkill = _skills.find(s => s instanceof ElementalSkill) ?? null;
 
@@ -125,11 +126,11 @@ class CharacterData {
 
 
         /** @type {Array<PassiveTalent>} */
-        this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => p.hasOwnProperty("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
+        this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => Object.keys(p).includes("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
 
 
         /** @type {Array<Constellation>} */
-        this.constellations = this._skillData.talents.filter(id => id !== 0).map(id => new Constellation(id, enka));
+        this.constellations = this._skillData.talents.filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
 
 
         /** @type {object | null} */
@@ -138,14 +139,14 @@ class CharacterData {
         if (this._releaseData) {
             /**
              * This is undefined if the character is not (being) released character, like Travelers and test avatars.
-             * @type {Date} 
+             * @type {Date}
              */
             this.releasedAt = new Date(`${this._releaseData.beginTime}+8:00`);
         }
 
-        /** 
+        /**
          * Whether the character is playable.
-         * @type {boolean} 
+         * @type {boolean}
          */
         this.isPlayable = this._data.useType === "AVATAR_FORMAL";
 

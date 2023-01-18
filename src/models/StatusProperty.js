@@ -1,14 +1,15 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const { percent } = require("../utils/prop_utils");
 const TextAssets = require("./assets/TextAssets");
 
-/** 
+/**
  * @en StatusProperty
  */
 class StatusProperty {
 
-    /** 
+    /**
      * @param {string} id
      * @param {number} value
      * @param {EnkaClient} enka

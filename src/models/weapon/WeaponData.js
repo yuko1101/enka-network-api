@@ -1,11 +1,13 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
+// eslint-disable-next-line no-unused-vars
 const WeaponRefinement = require("./WeaponRefinement");
 const WeaponRefinements = require("./WeaponRefinements");
 
-/** 
+/**
  * @en WeaponData
  */
 class WeaponData {

@@ -1,12 +1,13 @@
 const TextAssets = require("./TextAssets");
+// eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("../../client/CachedAssetsManager");
 
-/** 
+/**
  * @en SkillAttributeAssets
  * @extends {TextAssets}
  */
 class SkillAttributeAssets extends TextAssets {
-    /** 
+    /**
      * @param {number} id
      * @param {EnkaClient} enka
      * @param {Array<number>} paramList

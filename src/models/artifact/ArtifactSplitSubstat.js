@@ -1,15 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const StatusProperty = require("../StatusProperty");
 
-/** 
+/**
  * @en ArtifactSplitSubstat
  * @extends {StatusProperty}
  */
 class ArtifactSplitSubstat extends StatusProperty {
 
     /**
-     * @param {number} id 
+     * @param {number} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {

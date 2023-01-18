@@ -7,9 +7,9 @@ const imageTypes = {
     "character_icon": [/^UI_AvatarIcon_(.+)$/],
     "equip": [/^UI_EquipIcon_(.+?)(_Awaken)?$/, /^UI_RelicIcon_(.+)$/],
     "constellation_icon": [/^UI_Talent_(.+)$/],
-}
+};
 
-/** 
+/**
  * @en ImageAssets
  */
 class ImageAssets {
