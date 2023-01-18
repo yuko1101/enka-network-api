@@ -8,8 +8,8 @@ class ConfigFile {
     /**
      * @param {string} filePath
      * @param {*} defaultConfig
-     * @param {Array<(string | number)>} route
-     * @param {*} storedData
+     * @param {Array<(string | number)>} [route]
+     * @param {*} [storedData]
      */
     constructor(filePath, defaultConfig, route = [], storedData) {
         /** @readonly @type {string} */

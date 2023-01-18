@@ -6,10 +6,10 @@ declare class ConfigFile {
     /**
      * @param {string} filePath
      * @param {*} defaultConfig
-     * @param {Array<(string | number)>} route
-     * @param {*} storedData
+     * @param {Array<(string | number)>} [route]
+     * @param {*} [storedData]
      */
-    constructor(filePath: string, defaultConfig: any, route: Array<(string | number)>, storedData: any);
+    constructor(filePath: string, defaultConfig: any, route?: Array<(string | number)>, storedData?: any);
     /** @readonly @type {string} */
     readonly filePath: string;
     /** @readonly @type {*} */
