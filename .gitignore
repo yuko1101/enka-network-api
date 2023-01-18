@@ -1,5 +1,5 @@
 # Dev files
-example/test.js
+example/test.mjs
 example/package-lock.json
 example/package.json
 
