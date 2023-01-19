@@ -10,6 +10,7 @@ const { fetchJSON } = require("../utils/axios_utils");
 const NameCard = require("../models/NameCard");
 // eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("./CachedAssetsManager");
+const EnkaNetworkError = require("../errors/EnkaNetworkError");
 
 const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
 
@@ -66,9 +67,16 @@ class EnkaClient {
         clearTimeout(timeoutId);
 
         if (response.status !== 200) {
-            if (response.status === 429) throw new Error("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.");
-            if (response.status === 500) throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
-            throw new Error(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
+            switch (response.status) {
+                case 424:
+                    throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.");
+                case 429:
+                    throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.");
+                case 500:
+                    throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
+            }
         }
         const data = response.data;
         return new User(data, this, parse, uid);
