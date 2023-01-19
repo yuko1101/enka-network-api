@@ -1,6 +1,7 @@
 export = AssetsNotFoundError;
 /**
  * @en AssetsNotFoundError
+ * @extends {Error}
  */
 declare class AssetsNotFoundError extends Error {
     /**

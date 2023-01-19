@@ -4,7 +4,7 @@
   ],
   "compilerOptions": {
     "lib": [
-      "ES2022"
+      "es6"
     ],
     "allowJs": true,
     "declaration": true,

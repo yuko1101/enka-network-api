@@ -1,5 +1,6 @@
 /**
  * @en AssetsNotFoundError
+ * @extends {Error}
  */
 class AssetsNotFoundError extends Error {
 

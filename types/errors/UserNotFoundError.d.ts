@@ -1,7 +1,8 @@
 export = UserNotFoundError;
 /**
  * @en UserNotFoundError
+ * @extends {EnkaNetworkError}
  */
-declare class UserNotFoundError extends Error {
-    constructor(message: any);
+declare class UserNotFoundError extends EnkaNetworkError {
 }
+import EnkaNetworkError = require("./EnkaNetworkError");

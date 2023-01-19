@@ -1,5 +1,6 @@
 /**
  * @en EnkaNetworkError
+ * @extends {Error}
  */
 class EnkaNetworkError extends Error {
 
