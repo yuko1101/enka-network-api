@@ -8,7 +8,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\example\\test.mjs"
+            "program": "${workspaceFolder}\\example\\test.js"
         }
     ]
 }
