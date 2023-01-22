@@ -490,12 +490,14 @@ class CachedAssetsManager {
         });
         if (res.status == 200) {
             await new Promise(resolve => {
-                res.data.pipe(fs.createWriteStream("cache.zip"));
+                const cacheParentDirectory = path.resolve(this.cacheDirectoryPath, "..");
+                const zipPath = path.resolve(this.defaultCacheDirectoryPath, "..", "cache-downloaded.zip");
+                res.data.pipe(fs.createWriteStream(zipPath));
                 res.data.on("end", () => {
-                    fs.createReadStream("cache.zip")
-                        .pipe(unzipper.Extract({ path: "./" }))
+                    fs.createReadStream(zipPath)
+                        .pipe(unzipper.Extract({ path: cacheParentDirectory }))
                         .on("close", () => {
-                            fs.rmSync("cache.zip");
+                            fs.rmSync(zipPath);
                             resolve();
                         });
                 });
