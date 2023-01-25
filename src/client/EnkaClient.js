@@ -12,7 +12,7 @@ const NameCard = require("../models/NameCard");
 const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
 
-const getUserUrl = (uid) => `https://enka.network/u/${uid}/__data.json`;
+const getUserUrl = (uid) => `https://enka.network/api/uid/${uid}`;
 
 /**
  * @en EnkaClientOptions
