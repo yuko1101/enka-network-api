@@ -8,7 +8,6 @@ export = EnkaClient;
  * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
- * @property {string} [apiKey]
  */
 /**
  * @en EnkaClient
@@ -81,7 +80,6 @@ type EnkaClientOptions = {
     defaultLanguage?: LanguageCode;
     cacheDirectory?: string;
     showFetchCacheLog?: boolean;
-    apiKey?: string;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
