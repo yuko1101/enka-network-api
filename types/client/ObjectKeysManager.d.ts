@@ -11,5 +11,7 @@ declare class ObjectKeysManager {
     costumeCharacterIdKey: string;
     /** @type {string} */
     costumeStarKey: string;
+    /** @type {string} */
+    talentIsHiddenKey: string;
 }
 import CachedAssetsManager = require("./CachedAssetsManager");

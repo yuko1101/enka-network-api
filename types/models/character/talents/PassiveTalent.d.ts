@@ -20,6 +20,12 @@ declare class PassiveTalent {
     description: TextAssets;
     /** @type {ImageAssets} */
     icon: ImageAssets;
+    /**
+     * Whether the talent is hidden in the list of talents on the in-game character screen.
+     * e.g. Raiden Shogun's talent of not being able to cook. (Talent ID: 522301)
+     * @type {boolean}
+     */
+    isHidden: boolean;
 }
 import EnkaClient = require("../../../client/EnkaClient");
 import TextAssets = require("../../assets/TextAssets");

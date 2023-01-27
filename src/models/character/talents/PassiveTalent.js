@@ -37,6 +37,13 @@ class PassiveTalent {
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
 
+        /**
+         * Whether the talent is hidden in the list of talents on the in-game character screen.
+         * e.g. Raiden Shogun's talent of not being able to cook. (Talent ID: 522301)
+         * @type {boolean}
+         */
+        this.isHidden = this._data[enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey] ?? false;
+
     }
 }
 
