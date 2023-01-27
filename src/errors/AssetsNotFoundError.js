@@ -9,7 +9,7 @@ class AssetsNotFoundError extends Error {
      * @param {string | number} id
      */
     constructor(category, id) {
-        super(`${category} ${id} was not found. Try to update cached assets using EnkaClient#cachedAssetsManager#fetchAllContents`);
+        super(`${category} ${id} was not found. Try to update cached assets with EnkaClient#cachedAssetsManager#fetchAllContents`);
         /** @type {string} */
         this.name = "AssetsNotFoundError";
         /** @type {string} */
