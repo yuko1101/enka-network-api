@@ -423,9 +423,6 @@ class CachedAssetsManager {
         data["ReliquaryExcelConfigData"].forEach(a => {
             required.push(a.nameTextMapHash, a.descTextMapHash);
         });
-        data["ReliquarySetExcelConfigData"].forEach(s => {
-            required.push(...s.textList);
-        });
         data["EquipAffixExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
         });
