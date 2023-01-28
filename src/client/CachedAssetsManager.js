@@ -32,6 +32,7 @@ const contents = [
     "AvatarSkillExcelConfigData", // Skills
     "AvatarTalentExcelConfigData", // Constellations
     "ReliquaryExcelConfigData", // Artifacts
+    "ReliquarySetExcelConfigData", // Artifact Sets
     "WeaponExcelConfigData", // Weapons
     "EquipAffixExcelConfigData", // Artifact Sets
     "ManualTextMapConfigData", // Fight Props
@@ -421,6 +422,9 @@ class CachedAssetsManager {
         });
         data["ReliquaryExcelConfigData"].forEach(a => {
             required.push(a.nameTextMapHash, a.descTextMapHash);
+        });
+        data["ReliquarySetExcelConfigData"].forEach(s => {
+            required.push(...s.textList);
         });
         data["EquipAffixExcelConfigData"].forEach(s => {
             required.push(s.nameTextMapHash, s.descTextMapHash);
