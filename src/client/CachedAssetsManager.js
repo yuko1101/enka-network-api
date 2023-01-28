@@ -459,12 +459,13 @@ class CachedAssetsManager {
 
         for (const lang of Object.keys(langsData)) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
-            const langData = { ...langsData[lang] };
-            for (const key of Object.keys(langData)) {
-                if (!requiredStringKeys.includes(key)) delete langData[key];
+            clearLangsData[lang] = {};
+            for (const key of Object.keys(langsData[lang])) {
+                if (requiredStringKeys.includes(key)) {
+                    clearLangsData[lang][key] = langsData[lang][key];
+                }
             }
             // console.log(Object.keys(langData).length + " keys in " + lang);
-            clearLangsData[lang] = langData;
             // console.log(Object.keys(clearLangsData).length + " langs");
         }
 
