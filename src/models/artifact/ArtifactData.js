@@ -53,7 +53,7 @@ class ArtifactData {
         if (!this._equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
 
         /** @type {TextAssets} */
-        this.equiqTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash, enka);
+        this.equipTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash, enka);
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon);
