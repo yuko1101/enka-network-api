@@ -34,7 +34,7 @@ const contents = [
     "ReliquaryExcelConfigData", // Artifacts
     "ReliquarySetExcelConfigData", // Artifact Sets
     "WeaponExcelConfigData", // Weapons
-    "EquipAffixExcelConfigData", // Artifact Sets
+    "EquipAffixExcelConfigData", // Artifact Set Bonus
     "ManualTextMapConfigData", // Fight Props
     "MaterialExcelConfigData", // Materials (including NameCards)
     "ProudSkillExcelConfigData", // Passive Talents
