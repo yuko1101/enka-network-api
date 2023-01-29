@@ -119,10 +119,10 @@ class EnkaClient {
     }
 
     /**
-     * @param {boolean} includeDefaults Whether to include default costumes
+     * @param {boolean} [includeDefaults] Whether to include default costumes
      * @returns {Costume[]}
      */
-    getAllCostumes(includeDefaults) {
+    getAllCostumes(includeDefaults = false) {
         return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(null, this, c));
     }
 
