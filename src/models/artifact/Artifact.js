@@ -31,7 +31,7 @@ class Artifact {
 
 
         /** @type {ArtifactData} */
-        this.artifactData = new ArtifactData(data.itemId, Number(data.flat.setNameTextMapHash), enka);
+        this.artifactData = new ArtifactData(data.itemId, enka);
 
         /** @type {number} */
         this.level = data.reliquary.level;

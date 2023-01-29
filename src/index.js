@@ -6,6 +6,8 @@ const EnkaNetworkError = require("./errors/EnkaNetworkError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
 const ArtifactData = require("./models/artifact/ArtifactData");
+const ArtifactSet = require("./models/artifact/ArtifactSet");
+const ArtifactSetBonus = require("./models/artifact/ArtifactSetBonus");
 const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
 const ImageAssets = require("./models/assets/ImageAssets");
 const SkillAttributeAssets = require("./models/assets/SkillAttributeAssets");
@@ -41,6 +43,8 @@ module.exports = {
     UserNotFoundError,
     Artifact,
     ArtifactData,
+    ArtifactSet,
+    ArtifactSetBonus,
     ArtifactSplitSubstat,
     ImageAssets,
     SkillAttributeAssets,
