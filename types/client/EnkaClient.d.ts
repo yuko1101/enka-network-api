@@ -49,10 +49,10 @@ declare class EnkaClient {
      */
     getWeaponById(id: number): WeaponData;
     /**
-     * @param {boolean} includeDefaults Whether to include default costumes
+     * @param {boolean} [includeDefaults] Whether to include default costumes
      * @returns {Costume[]}
      */
-    getAllCostumes(includeDefaults: boolean): Costume[];
+    getAllCostumes(includeDefaults?: boolean): Costume[];
     /**
      * @param {number} id
      * @returns {Costume}
