@@ -12,6 +12,7 @@ const Costume = require("./Costume");
 const PassiveTalent = require("./talents/PassiveTalent");
 const ElementalSkill = require("./talents/ElementalSkill");
 const NormalAttack = require("./talents/NormalAttack");
+const NameCard = require("../NameCard");
 
 /**
  * @en CharacterData
@@ -70,6 +71,15 @@ class CharacterData {
 
         /** @type {ImageAssets} */
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`);
+
+        // TODO: better find
+        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.materialType === "MATERIAL_NAMECARD" && m.picPath[0] && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(m.picPath[0]));
+
+        /**
+         * If the character is Traveler, this is null.
+         * @type {NameCard | null}
+         */
+        this.nameCard = nameCardData ? new NameCard(nameCardData.id, enka, nameCardData) : null;
 
         /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
         this.rarity = this._data.qualityType;

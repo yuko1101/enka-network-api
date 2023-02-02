@@ -38,6 +38,11 @@ declare class CharacterData {
     gachaSlice: ImageAssets;
     /** @type {ImageAssets} */
     cardIcon: ImageAssets;
+    /**
+     * If the character is Traveler, this is null.
+     * @type {NameCard | null}
+     */
+    nameCard: NameCard | null;
     /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
     rarity: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
@@ -83,6 +88,7 @@ declare class CharacterData {
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
+import NameCard = require("../NameCard");
 import Costume = require("./Costume");
 import ElementalBurst = require("./talents/ElementalBurst");
 import Element = require("../Element");
