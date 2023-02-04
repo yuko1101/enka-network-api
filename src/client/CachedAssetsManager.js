@@ -27,6 +27,7 @@ let objectKeysManager;
 const contentBaseUrl = "https://gitlab.com/Dimbreath/gamedata/-/raw/main";
 const contents = [
     "AvatarExcelConfigData", // Characters
+    "FetterInfoExcelConfigData", // Advanced Characters Info
     "AvatarCostumeExcelConfigData", // Costumes
     "AvatarSkillDepotExcelConfigData", // Skill Depot
     "AvatarSkillExcelConfigData", // Skills
@@ -415,6 +416,19 @@ class CachedAssetsManager {
         data["AvatarExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
+        data["FetterInfoExcelConfigData"].forEach(c => {
+            required.push(
+                c.avatarNativeTextMapHash,
+                c.avatarVisionBeforTextMapHash,
+                c.avatarConstellationBeforTextMapHash,
+                c.avatarTitleTextMapHash,
+                c.avatarDetailTextMapHash,
+                c.cvChineseTextMapHash,
+                c.cvJapaneseTextMapHash,
+                c.cvEnglishTextMapHash,
+                c.cvKoreanTextMapHash,
+            );
+        });
         data["ManualTextMapConfigData"].forEach(m => {
             const id = m.textMapId;
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
@@ -448,7 +462,7 @@ class CachedAssetsManager {
             required.push(m.nameTextMapHash, m.descTextMapHash);
         });
 
-        const requiredStringKeys = required.map(key => key.toString());
+        const requiredStringKeys = required.filter(key => key).map(key => key.toString());
 
         if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`);
 
