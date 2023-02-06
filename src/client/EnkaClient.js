@@ -12,7 +12,7 @@ const NameCard = require("../models/NameCard");
 const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
 
-const getUserUrl = (uid) => `https://enka.network/api/uid/${uid}`;
+const getUserUrl = (uid) => `https://dev.enka.network/api/uid/${uid}`;
 
 /**
  * @en EnkaClientOptions
@@ -49,13 +49,14 @@ class EnkaClient {
 
     /**
      * @param {number | string} uid
+     * @param {boolean} collapse Whether to fetch rough user information (Very fast)
      * @param {boolean} parse
      * @returns {Promise<User>}
      */
-    async fetchUser(uid, parse = true) {
+    async fetchUser(uid, collapse = false, parse = true) {
         if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
 
-        const url = getUserUrl(uid);
+        const url = getUserUrl(uid) + (collapse ? "?info" : "");
 
         const abortController = new AbortController();
         const timeoutId = setTimeout(() => abortController.abort("timeout"), this.options.timeout);
