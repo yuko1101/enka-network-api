@@ -105,14 +105,14 @@ class CharacterData {
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
-        // `elementalBurst` cannot be retrieved.
-        if (this._skillData.energySkill) {
-            /** @type {ElementalBurst} */
-            this.elementalBurst = new ElementalBurst(this._skillData.energySkill, enka);
+        // `elementalBurst` and `element` cannot be retrieved.
+        const hasElement = this._skillData.energySkill;
 
-            /** @type {Element} */
-            this.element = this.elementalBurst.costElemType;
-        }
+        /** @type {ElementalBurst | null} */
+        this.elementalBurst = hasElement ? new ElementalBurst(this._skillData.energySkill, enka) : null;
+
+        /** @type {Element | null} */
+        this.element = hasElement ? this.elementalBurst.costElemType : null;
 
         const _skills = this._skillData.skills.map((skillId, index) => {
             if (!skillId) return null;
@@ -146,13 +146,11 @@ class CharacterData {
         /** @type {object | null} */
         this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id) ?? null;
 
-        if (this._releaseData) {
-            /**
-             * This is undefined if the character is not (being) released character, like Travelers and test avatars.
-             * @type {Date}
-             */
-            this.releasedAt = new Date(`${this._releaseData.beginTime}+8:00`);
-        }
+        /**
+         * This is undefined if the character is not (being) released character, like Travelers and test avatars.
+         * @type {Date | null}
+         */
+        this.releasedAt = this._releaseData ? new Date(`${this._releaseData.beginTime}+8:00`) : null;
 
         /**
          * Whether the character is playable.
