@@ -63,7 +63,7 @@ class User {
         this.level = data.playerInfo.level;
 
         /** @type {number} */
-        this.worldLevel = data.playerInfo.worldLevel;
+        this.worldLevel = data.playerInfo.worldLevel ?? 0;
 
         /** @type {NameCard} */
         this.profileCard = new NameCard(data.playerInfo.nameCardId, enka);
@@ -71,11 +71,11 @@ class User {
         /** @type {number} */
         this.achievements = data.playerInfo.finishAchievementNum ?? 0;
 
-        /** @type {number} */
-        this.abyssFloor = data.playerInfo.towerFloorIndex;
+        /** @type {number | null} */
+        this.abyssFloor = data.playerInfo.towerFloorIndex ?? null;
 
-        /** @type {number} */
-        this.abyssChamber = data.playerInfo.towerLevelIndex;
+        /** @type {number | null} */
+        this.abyssChamber = data.playerInfo.towerLevelIndex ?? null;
 
         /** @type {boolean} */
         this.showCharacterDetails = !!data.avatarInfoList;
