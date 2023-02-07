@@ -23,10 +23,11 @@ declare class EnkaClient {
     cachedAssetsManager: CachedAssetsManager;
     /**
      * @param {number | string} uid
+     * @param {boolean} collapse Whether to fetch rough user information (Very fast)
      * @param {boolean} parse
      * @returns {Promise<User>}
      */
-    fetchUser(uid: number | string, parse?: boolean): Promise<User>;
+    fetchUser(uid: number | string, collapse?: boolean, parse?: boolean): Promise<User>;
     /**
      * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}

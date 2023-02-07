@@ -38,10 +38,10 @@ declare class User {
     profileCard: NameCard;
     /** @type {number} */
     achievements: number;
-    /** @type {number} */
-    abyssFloor: number;
-    /** @type {number} */
-    abyssChamber: number;
+    /** @type {number | null} */
+    abyssFloor: number | null;
+    /** @type {number | null} */
+    abyssChamber: number | null;
     /** @type {boolean} */
     showCharacterDetails: boolean;
     /** @type {Array<Character>} */

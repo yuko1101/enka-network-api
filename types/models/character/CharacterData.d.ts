@@ -55,10 +55,10 @@ declare class CharacterData {
     skillDepotId: number;
     /** @type {object} */
     _skillData: object;
-    /** @type {ElementalBurst} */
-    elementalBurst: ElementalBurst;
-    /** @type {Element} */
-    element: Element;
+    /** @type {ElementalBurst | null} */
+    elementalBurst: ElementalBurst | null;
+    /** @type {Element | null} */
+    element: Element | null;
     /** @type {Array<Skill>} */
     skills: Array<Skill>;
     /**
@@ -76,9 +76,9 @@ declare class CharacterData {
     _releaseData: object | null;
     /**
      * This is undefined if the character is not (being) released character, like Travelers and test avatars.
-     * @type {Date}
+     * @type {Date | null}
      */
-    releasedAt: Date;
+    releasedAt: Date | null;
     /**
      * Whether the character is playable.
      * @type {boolean}
