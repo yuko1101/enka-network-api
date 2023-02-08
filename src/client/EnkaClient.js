@@ -58,12 +58,7 @@ class EnkaClient {
 
         const url = getUserUrl(uid) + (collapse ? "?info" : "");
 
-        const abortController = new AbortController();
-        const timeoutId = setTimeout(() => abortController.abort("timeout"), this.options.timeout);
-
         const response = await fetchJSON(url, this, true);
-
-        clearTimeout(timeoutId);
 
         if (response.status !== 200) {
             switch (response.status) {

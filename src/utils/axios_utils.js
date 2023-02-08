@@ -11,7 +11,7 @@ const axios = new Axios({});
  * @returns {Promise<AxiosResponse>}
  */
 module.exports.fetchJSON = async (url, enka, enableTimeout = false) => {
-    const options = { headers: { "User-Agent": enka.options.userAgent, "accept-encoding": "*" } };
+    const options = { headers: { "User-Agent": enka.options.userAgent } };
     if (enableTimeout) options.timeout = enka.options.timeout;
 
     const res = await axios.get(url, options);
