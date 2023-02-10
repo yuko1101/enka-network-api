@@ -11,6 +11,8 @@ const NameCard = require("../models/NameCard");
 // eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
+const ArtifactData = require("../models/artifact/ArtifactData");
+const { artifactRarityRangeMap } = require("../utils/constants");
 
 const getUserUrl = (uid) => `https://dev.enka.network/api/uid/${uid}`;
 
@@ -145,6 +147,25 @@ class EnkaClient {
         return new NameCard(id, this);
     }
 
+    /**
+     * @param {boolean} [highestRarityOnly=false]
+     * @returns {Array<ArtifactData>}
+     */
+    getAllArtifacts(highestRarityOnly = false) {
+        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(s => s.DisableFilter === 1).map(s => s.setId);
+
+        // including artifacts with invalid rarity
+        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filter(a => !a.appendPropNum && a.setId && !excludeSetIds.includes(a.setId));
+
+        return artifacts.filter(a => {
+            const allowedRarityRange = artifactRarityRangeMap[a.setId] ?? [4, 5];
+            const min = highestRarityOnly ? allowedRarityRange[1] : allowedRarityRange[0];
+            const max = allowedRarityRange[1];
+            if (max === null || max === 0 || min === 6 || min === null) return false;
+            const stars = a.rankLevel;
+            return (min <= stars && stars <= max);
+        }).map(a => new ArtifactData(a.id, this));
+    }
 }
 
 module.exports = EnkaClient;

@@ -13,8 +13,9 @@ class ArtifactData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [setData]
      */
-    constructor(id, enka) {
+    constructor(id, enka, setData = null) {
 
         /** @type {EnkaClient} */
         this.enka = enka;
@@ -51,7 +52,7 @@ class ArtifactData {
         this.stars = this._data.rankLevel;
 
         /** @type {ArtifactSet} */
-        this.set = new ArtifactSet(this._data.setId, enka);
+        this.set = new ArtifactSet(this._data.setId, enka, setData);
 
     }
 }

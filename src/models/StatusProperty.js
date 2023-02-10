@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
 const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
-const { percent } = require("../utils/prop_utils");
+const { percent } = require("../utils/constants");
 const TextAssets = require("./assets/TextAssets");
 
 /**
