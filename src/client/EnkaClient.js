@@ -13,7 +13,6 @@ const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
 const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
-const ArtifactSet = require("../models/artifact/ArtifactSet");
 const { separateWithValue } = require("../utils/object_utils");
 
 const getUserUrl = (uid) => `https://dev.enka.network/api/uid/${uid}`;
