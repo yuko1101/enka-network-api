@@ -68,6 +68,11 @@ declare class EnkaClient {
      * @returns {NameCard}
      */
     getNameCardById(id: number): NameCard;
+    /**
+     * @param {boolean} [highestRarityOnly=false]
+     * @returns {Array<ArtifactData>}
+     */
+    getAllArtifacts(highestRarityOnly?: boolean): Array<ArtifactData>;
 }
 declare namespace EnkaClient {
     export { EnkaClientOptions };
@@ -88,4 +93,5 @@ import CharacterData = require("../models/character/CharacterData");
 import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
 import NameCard = require("../models/NameCard");
+import ArtifactData = require("../models/artifact/ArtifactData");
 import { LanguageCode } from "./CachedAssetsManager";

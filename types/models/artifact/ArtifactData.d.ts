@@ -6,8 +6,9 @@ declare class ArtifactData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
+     * @param {object} [setData]
      */
-    constructor(id: number, enka: EnkaClient);
+    constructor(id: number, enka: EnkaClient, setData?: object);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */
