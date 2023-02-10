@@ -22,6 +22,7 @@ const UniqueSkill = require("./models/character/talents/UniqueSkill");
 const UpgradableSkill = require("./models/character/talents/UpgradableSkill");
 const Character = require("./models/character/Character");
 const CharacterData = require("./models/character/CharacterData");
+const CharacterDetails = require("./models/character/CharacterDetails");
 const CharacterStatus = require("./models/character/CharacterStatus");
 const StatusProperty = require("./models/StatusProperty");
 const Constellation = require("./models/character/Constellation");
@@ -59,6 +60,7 @@ module.exports = {
     UpgradableSkill,
     Character,
     CharacterData,
+    CharacterDetails,
     CharacterStatus,
     StatusProperty,
     Constellation,
