@@ -162,7 +162,6 @@ class EnkaClient {
             const allowedRarityRange = artifactRarityRangeMap[a.setId] ?? [4, 5];
             const min = highestRarityOnly ? allowedRarityRange[1] : allowedRarityRange[0];
             const max = allowedRarityRange[1];
-            if (max === null || max === 0 || min === 6 || min === null) return false;
             const stars = a.rankLevel;
             return (min <= stars && stars <= max);
         });
