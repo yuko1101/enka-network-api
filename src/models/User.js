@@ -35,8 +35,8 @@ class User {
         /** @type {string | null} */
         this.signature = data.playerInfo.signature ?? null;
 
-        /** @type {CharacterData} */
-        this.profilePictureCharacter = new CharacterData(data.playerInfo.profilePicture.avatarId, enka);
+        /** @type {CharacterData | null} */
+        this.profilePictureCharacter = data.playerInfo.profilePicture.avatarId ? new CharacterData(data.playerInfo.profilePicture.avatarId, enka) : null;
 
         /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
         this.charactersPreview = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
