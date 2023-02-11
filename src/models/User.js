@@ -29,8 +29,8 @@ class User {
         /** @type {number} */
         this.uid = isNaN(Number(data.uid)) && uid ? Number(uid) : Number(data.uid);
 
-        /** @type {string} */
-        this.nickname = data.playerInfo.nickname;
+        /** @type {string | null} */
+        this.nickname = data.playerInfo.nickname ?? null;
 
         /** @type {string | null} */
         this.signature = data.playerInfo.signature ?? null;
