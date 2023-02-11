@@ -84,6 +84,11 @@ declare class CharacterData {
      * @type {boolean}
      */
     isPlayable: boolean;
+    /**
+     * Information in the profile menu in in-game character screen.
+     * @type {CharacterDetails | null}
+     */
+    details: CharacterDetails | null;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
@@ -97,3 +102,4 @@ import ElementalSkill = require("./talents/ElementalSkill");
 import NormalAttack = require("./talents/NormalAttack");
 import PassiveTalent = require("./talents/PassiveTalent");
 import Constellation = require("./Constellation");
+import CharacterDetails = require("./CharacterDetails");
