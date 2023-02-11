@@ -15,7 +15,7 @@ const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
 const { separateWithValue } = require("../utils/object_utils");
 
-const getUserUrl = (uid) => `https://dev.enka.network/api/uid/${uid}`;
+const getUserUrl = (uid) => `https://enka.network/api/uid/${uid}`;
 
 /**
  * @en EnkaClientOptions
