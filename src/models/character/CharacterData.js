@@ -13,6 +13,7 @@ const PassiveTalent = require("./talents/PassiveTalent");
 const ElementalSkill = require("./talents/ElementalSkill");
 const NormalAttack = require("./talents/NormalAttack");
 const NameCard = require("../NameCard");
+const CharacterDetails = require("./CharacterDetails");
 
 /**
  * @en CharacterData
@@ -157,6 +158,18 @@ class CharacterData {
          * @type {boolean}
          */
         this.isPlayable = this._data.useType === "AVATAR_FORMAL";
+
+        let details;
+        try {
+            details = new CharacterDetails(null, enka, this.id);
+        } catch (e) {
+            details = null;
+        }
+        /**
+         * Information in the profile menu in in-game character screen.
+         * @type {CharacterDetails | null}
+         */
+        this.details = details;
 
     }
 }
