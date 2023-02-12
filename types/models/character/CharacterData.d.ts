@@ -39,7 +39,7 @@ declare class CharacterData {
     /** @type {ImageAssets} */
     cardIcon: ImageAssets;
     /**
-     * If the character is Traveler, this is null.
+     * If the character is Traveler, this will be null.
      * @type {NameCard | null}
      */
     nameCard: NameCard | null;
