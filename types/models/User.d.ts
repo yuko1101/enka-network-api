@@ -16,12 +16,12 @@ declare class User {
     _data: object;
     /** @type {number} */
     uid: number;
-    /** @type {string} */
-    nickname: string;
+    /** @type {string | null} */
+    nickname: string | null;
     /** @type {string | null} */
     signature: string | null;
-    /** @type {CharacterData} */
-    profilePictureCharacter: CharacterData;
+    /** @type {CharacterData | null} */
+    profilePictureCharacter: CharacterData | null;
     /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
     charactersPreview: {
         characterData: CharacterData;
