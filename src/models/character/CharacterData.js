@@ -77,7 +77,7 @@ class CharacterData {
         const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.materialType === "MATERIAL_NAMECARD" && m.picPath[0] && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(m.picPath[0]));
 
         /**
-         * If the character is Traveler, this is null.
+         * If the character is Traveler, this will be null.
          * @type {NameCard | null}
          */
         this.nameCard = nameCardData ? new NameCard(nameCardData.id, enka, nameCardData) : null;
