@@ -63,6 +63,8 @@ This data contains data of characters, weapons, materials, and more structure in
 
 You can change your cache directory.
 ```js
+const { EnkaClient } = require("enka-network-api");
+
 // Change the directory to store cache data.
 // Default directory is **/enka-network-api/cache.
 // Re-fetching contents may be required, if you update 
