@@ -79,7 +79,7 @@ declare namespace EnkaClient {
     export { EnkaClientOptions };
 }
 type EnkaClientOptions = {
-    enkaUrl?: string
+    enkaUrl?: string;
     userAgent?: string;
     /**
      * http request timeout in milliseconds
