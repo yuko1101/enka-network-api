@@ -23,7 +23,7 @@ const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
  * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [userAgent="Mozilla/5.0"]
- * @property {int} [timeout=3000] http request timeout in milliseconds
+ * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
