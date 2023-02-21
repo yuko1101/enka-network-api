@@ -16,7 +16,10 @@ module.exports.fetchJSON = async (url, enka, enableTimeout = false) => {
 
     const res = await axios.get(url, options);
 
-    res.data = JSON.parse(res.data);
+    try {
+        res.data = JSON.parse(res.data);
+    } catch (e) {
+    }
 
     return res;
 };

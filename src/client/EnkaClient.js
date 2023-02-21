@@ -71,7 +71,7 @@ class EnkaClient {
                     throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.");
                 case 429:
                     throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.");
-                case 500:
+                case 404:
                     throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
                 default:
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
