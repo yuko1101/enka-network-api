@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "install": "node scripts/install.js"
+    "install": "node scripts/install.js",
+    "lint": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore",
+    "lint-fix": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore --fix"
   },
   "keywords": [
     "nodejs",
