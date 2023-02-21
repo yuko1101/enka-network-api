@@ -15,12 +15,13 @@ const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
 const { separateWithValue } = require("../utils/object_utils");
 
-const getUserUrl = (uid) => `https://enka.network/api/uid/${uid}`;
+const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
  * @type {object}
+ * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {int} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
@@ -39,6 +40,7 @@ class EnkaClient {
     constructor(options = {}) {
         /** @type {EnkaClientOptions} */
         this.options = bindOptions({
+            "enkaUrl": "https://enka.network",
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",
@@ -59,7 +61,7 @@ class EnkaClient {
     async fetchUser(uid, collapse = false, parse = true) {
         if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
 
-        const url = getUserUrl(uid) + (collapse ? "?info" : "");
+        const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
 
         const response = await fetchJSON(url, this, true);
 

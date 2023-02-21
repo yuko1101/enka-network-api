@@ -3,8 +3,9 @@ export = EnkaClient;
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
  * @type {object}
+ * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [userAgent="Mozilla/5.0"]
- * @property {int} [timeout=3000] http request timeout in milliseconds
+ * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
@@ -78,11 +79,12 @@ declare namespace EnkaClient {
     export { EnkaClientOptions };
 }
 type EnkaClientOptions = {
+    enkaUrl?: string
     userAgent?: string;
     /**
      * http request timeout in milliseconds
      */
-    timeout?: int;
+    timeout?: bigint;
     defaultLanguage?: LanguageCode;
     cacheDirectory?: string;
     showFetchCacheLog?: boolean;
