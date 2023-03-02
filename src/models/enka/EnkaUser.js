@@ -10,15 +10,22 @@ class EnkaUser {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
+     * @param {string} username
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, enka, uid = null) {
+    constructor(data, enka, username, uid = null) {
 
         /** @type {object} */
         this._data = data;
 
         /** @type {EnkaClient} */
         this.enka = enka;
+
+        /**
+         * enka.network username, not in-game nickname
+         * @type {string}
+         */
+        this.username = username;
 
         const User = require("../User");
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
@@ -54,6 +61,13 @@ class EnkaUser {
 
         /** @type {number} */
         this.order = data.order;
+    }
+
+    /**
+     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     */
+    async fetchBuilds() {
+        return await this.enka.fetchEnkaUserBuilds(this.username, this.hash);
     }
 }
 

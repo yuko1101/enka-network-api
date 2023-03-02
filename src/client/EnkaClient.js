@@ -17,6 +17,7 @@ const { separateWithValue } = require("../utils/object_utils");
 const DetailedUser = require("../models/DetailedUser");
 const EnkaUser = require("../models/enka/EnkaUser");
 const EnkaProfile = require("../models/enka/EnkaProfile");
+const CharacterBuild = require("../models/enka/CharacterBuild");
 
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
@@ -123,7 +124,34 @@ class EnkaClient {
         }
         const data = response.data;
 
-        return Object.values(data).map(u => new EnkaUser(u, this));
+        return Object.values(data).map(u => new EnkaUser(u, this, username));
+    }
+
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @param {string} hash EnkaUser hash
+     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     */
+    async fetchEnkaUserBuilds(username, hash) {
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl, username)}/hoyos/${hash}/builds`;
+
+        const response = await fetchJSON(url, this, true);
+
+        if (response.status !== 200) {
+            switch (response.status) {
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+            }
+        }
+        const data = response.data;
+
+        const builds = {};
+        for (const characterId in data) {
+            const characterBuilds = data[characterId];
+            builds[characterId] = characterBuilds.map(b => new CharacterBuild(b, this));
+        }
+
+        return builds;
     }
 
     /**

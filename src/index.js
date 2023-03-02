@@ -29,6 +29,7 @@ const CharacterStatus = require("./models/character/CharacterStatus");
 const StatusProperty = require("./models/StatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
+const CharacterBuild = require("./models/enka/CharacterBuild");
 const EnkaProfile = require("./models/enka/EnkaProfile");
 // EnkaUser must be after EnkaProfile. (EnkaUser -> User -> EnkaProfile -> EnkaUser)
 const EnkaUser = require("./models/enka/EnkaUser");
@@ -71,6 +72,7 @@ module.exports = {
     StatusProperty,
     Constellation,
     Costume,
+    CharacterBuild,
     EnkaProfile,
     EnkaUser,
     Weapon,

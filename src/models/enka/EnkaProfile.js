@@ -46,6 +46,14 @@ class EnkaProfile {
         return await this.enka.fetchAllEnkaUsers(this.username);
     }
 
+    /**
+     * @param {string} hash EnkaUser hash
+     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     */
+    async fetchEnkaUserBuilds(hash) {
+        return await this.enka.fetchEnkaUserBuilds(this.username, hash);
+    }
+
 }
 
 module.exports = EnkaProfile;
