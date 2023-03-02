@@ -72,6 +72,8 @@ class EnkaClient {
 
         if (response.status !== 200) {
             switch (response.status) {
+                case 400:
+                    throw new Error(`Invalid UID format. (${uid} provided.)`);
                 case 424:
                     throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.");
                 case 429:
