@@ -100,6 +100,8 @@ class EnkaClient {
 
         if (response.status !== 200) {
             switch (response.status) {
+                case 404:
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`);
                 default:
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
             }
@@ -120,6 +122,8 @@ class EnkaClient {
 
         if (response.status !== 200) {
             switch (response.status) {
+                case 404:
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`);
                 default:
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
             }
@@ -141,6 +145,8 @@ class EnkaClient {
 
         if (response.status !== 200) {
             switch (response.status) {
+                case 404:
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`);
                 default:
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
             }
@@ -162,6 +168,8 @@ class EnkaClient {
 
         if (response.status !== 200) {
             switch (response.status) {
+                case 404:
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`);
                 default:
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
             }
