@@ -1,3 +1,5 @@
+// Avoid circular dependency causes errors.
+// EnkaClient must be first.
 const EnkaClient = require("./client/EnkaClient");
 const CachedAssetsManager = require("./client/CachedAssetsManager");
 const ObjectKeysManager = require("./client/ObjectKeysManager");
@@ -27,10 +29,14 @@ const CharacterStatus = require("./models/character/CharacterStatus");
 const StatusProperty = require("./models/StatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
+const EnkaProfile = require("./models/enka/EnkaProfile");
+// EnkaUser must be after EnkaProfile. (EnkaUser -> User -> EnkaProfile -> EnkaUser)
+const EnkaUser = require("./models/enka/EnkaUser");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
 const WeaponRefinements = require("./models/weapon/WeaponRefinements");
+const DetailedUser = require("./models/DetailedUser");
 const Element = require("./models/Element");
 const NameCard = require("./models/NameCard");
 const User = require("./models/User");
@@ -65,10 +71,13 @@ module.exports = {
     StatusProperty,
     Constellation,
     Costume,
+    EnkaProfile,
+    EnkaUser,
     Weapon,
     WeaponData,
     WeaponRefinement,
     WeaponRefinements,
+    DetailedUser,
     Element,
     NameCard,
     User,

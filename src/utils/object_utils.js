@@ -11,3 +11,15 @@ module.exports.separateWithValue = (array, callback) => {
     }
     return result;
 };
+
+/**
+ * @param {object} obj
+ * @param {object} newKeys
+ */
+module.exports.renameKeys = (obj, newKeys) => {
+    const keyValues = Object.keys(obj).map(key => {
+        const newKey = newKeys[key] || key;
+        return { [newKey]: obj[key] };
+    });
+    return Object.assign({}, ...keyValues);
+};

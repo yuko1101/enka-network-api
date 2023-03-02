@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 const EnkaClient = require("../client/EnkaClient");
-const Character = require("./character/Character");
 const CharacterData = require("./character/CharacterData");
 const Costume = require("./character/Costume");
+const EnkaProfile = require("./enka/EnkaProfile");
 const NameCard = require("./NameCard");
 
 /**
@@ -13,17 +13,15 @@ class User {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
-     * @param {boolean} parse
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, enka, parse = true, uid = null) {
+    constructor(data, enka, uid = null) {
         /** @type {EnkaClient} */
         this.enka = enka;
 
         /** @type {object} */
         this._data = data;
 
-        if (!parse) return;
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
         /** @type {number} */
@@ -77,11 +75,11 @@ class User {
         /** @type {number | null} */
         this.abyssChamber = data.playerInfo.towerLevelIndex ?? null;
 
-        /** @type {boolean} */
-        this.showCharacterDetails = !!data.avatarInfoList;
+        /** @type {number} */
+        this.ttl = data.ttl;
 
-        /** @type {Array<Character>} */
-        this.characters = data.avatarInfoList?.map(a => new Character(a, enka)) ?? [];
+        /** @type {EnkaProfile | null} */
+        this.enkaProfile = data.owner ? new EnkaProfile(data.owner, enka) : null;
     }
 }
 

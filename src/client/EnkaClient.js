@@ -14,8 +14,12 @@ const EnkaNetworkError = require("../errors/EnkaNetworkError");
 const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
 const { separateWithValue } = require("../utils/object_utils");
+const DetailedUser = require("../models/DetailedUser");
+const EnkaUser = require("../models/enka/EnkaUser");
+const EnkaProfile = require("../models/enka/EnkaProfile");
 
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
+const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
 
 /**
  * @en EnkaClientOptions
@@ -56,9 +60,9 @@ class EnkaClient {
      * @param {number | string} uid
      * @param {boolean} collapse Whether to fetch rough user information (Very fast)
      * @param {boolean} parse
-     * @returns {Promise<User>}
+     * @returns {Promise<User | DetailedUser>}
      */
-    async fetchUser(uid, collapse = false, parse = true) {
+    async fetchUser(uid, collapse = false) {
         if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
 
         const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
@@ -74,11 +78,52 @@ class EnkaClient {
                 case 404:
                     throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
             }
         }
         const data = response.data;
-        return new User(data, this, parse, uid);
+
+        return collapse ? new User(data, this, uid) : new DetailedUser(data, this, uid);
+    }
+
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @returns {Promise<EnkaProfile>}
+     */
+    async fetchEnkaProfile(username) {
+        const url = getEnkaProfileUrl(this.options.enkaUrl, username);
+
+        const response = await fetchJSON(url, this, true);
+
+        if (response.status !== 200) {
+            switch (response.status) {
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+            }
+        }
+        const data = response.data;
+
+        return new EnkaProfile(data, this);
+    }
+
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @returns {Promise<Array<EnkaUser>>}
+     */
+    async fetchAllEnkaUsers(username) {
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl, username)}/hoyos`;
+
+        const response = await fetchJSON(url, this, true);
+
+        if (response.status !== 200) {
+            switch (response.status) {
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+            }
+        }
+        const data = response.data;
+
+        return Object.values(data).map(u => new EnkaUser(u, this));
     }
 
     /**
