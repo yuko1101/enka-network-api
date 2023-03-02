@@ -32,6 +32,9 @@ class EnkaUser {
         /** @type {User} */
         this.user = new User(fixedData, enka, uid);
 
+        /** @type {number | null} */
+        this.uid = data.uid ?? null;
+
         /** @type {boolean} */
         this.isVerified = data.verified;
 

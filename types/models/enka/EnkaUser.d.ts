@@ -21,6 +21,8 @@ declare class EnkaUser {
     username: string;
     /** @type {User} */
     user: import("../User");
+    /** @type {number | null} */
+    uid: number | null;
     /** @type {boolean} */
     isVerified: boolean;
     /** @type {boolean} */
