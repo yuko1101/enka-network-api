@@ -132,6 +132,27 @@ class EnkaClient {
     /**
      * @param {string} username enka.network username, not in-game nickname
      * @param {string} hash EnkaUser hash
+     * @returns {Promise<EnkaUser>}
+     */
+    async fetchEnkaUser(username, hash) {
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl, username)}/hoyos/${hash}`;
+
+        const response = await fetchJSON(url, this, true);
+
+        if (response.status !== 200) {
+            switch (response.status) {
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+            }
+        }
+        const data = response.data;
+
+        return new EnkaUser(data, this, username);
+    }
+
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @param {string} hash EnkaUser hash
      * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
      */
     async fetchEnkaUserBuilds(username, hash) {
