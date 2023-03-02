@@ -221,11 +221,11 @@ class CachedAssetsManager {
                 console.info("Saving into files...");
             }
 
-            for (const lang of Object.keys(clearLangsData)) {
+            for (const lang in clearLangsData) {
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
             }
 
-            for (const key of Object.keys(genshinData)) {
+            for (const key in genshinData) {
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
             }
 
@@ -468,10 +468,10 @@ class CachedAssetsManager {
 
         const clearLangsData = {};
 
-        for (const lang of Object.keys(langsData)) {
+        for (const lang in langsData) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
-            for (const key of Object.keys(langsData[lang])) {
+            for (const key in langsData[lang]) {
                 if (requiredStringKeys.includes(key)) {
                     clearLangsData[lang][key] = langsData[lang][key];
                 }

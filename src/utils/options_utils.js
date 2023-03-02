@@ -53,7 +53,7 @@ module.exports.bindOptions = (defaultOptions, options) => {
  */
 function getNullPath(object, path = []) {
     const result = [];
-    for (const key of Object.keys(object)) {
+    for (const key in object) {
         const value = object[key];
         const newPath = [...path, key];
         if (typeof value === "object" && !Array.isArray(value) && value !== null && value !== undefined) {
@@ -73,7 +73,7 @@ function getNullPath(object, path = []) {
  */
 function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
     const result = [];
-    for (const key of Object.keys(object)) {
+    for (const key in object) {
         const value = object[key];
         const newPath = [...path, key];
         if (defaultOptionsNullPath.length !== 0) {
