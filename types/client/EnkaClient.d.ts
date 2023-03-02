@@ -48,7 +48,7 @@ declare class EnkaClient {
     /**
      * @param {string} username enka.network username, not in-game nickname
      * @param {string} hash EnkaUser hash
-     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
      */
     fetchEnkaUserBuilds(username: string, hash: string): Promise<{
         [x: string]: Array<CharacterBuild>;

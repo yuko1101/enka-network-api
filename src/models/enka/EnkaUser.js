@@ -64,7 +64,7 @@ class EnkaUser {
     }
 
     /**
-     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
      */
     async fetchBuilds() {
         return await this.enka.fetchEnkaUserBuilds(this.username, this.hash);

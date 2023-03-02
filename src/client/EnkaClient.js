@@ -153,7 +153,7 @@ class EnkaClient {
     /**
      * @param {string} username enka.network username, not in-game nickname
      * @param {string} hash EnkaUser hash
-     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
      */
     async fetchEnkaUserBuilds(username, hash) {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl, username)}/hoyos/${hash}/builds`;

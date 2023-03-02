@@ -43,7 +43,7 @@ declare class EnkaUser {
     /** @type {number} */
     order: number;
     /**
-     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
      */
     fetchBuilds(): Promise<{
         [x: string]: Array<CharacterBuild>;
