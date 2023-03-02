@@ -6,10 +6,9 @@ declare class User {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
-     * @param {boolean} parse
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: object, enka: EnkaClient, parse?: boolean, uid?: number | string);
+    constructor(data: object, enka: EnkaClient, uid?: number | string);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */
@@ -42,13 +41,13 @@ declare class User {
     abyssFloor: number | null;
     /** @type {number | null} */
     abyssChamber: number | null;
-    /** @type {boolean} */
-    showCharacterDetails: boolean;
-    /** @type {Array<Character>} */
-    characters: Array<Character>;
+    /** @type {number} */
+    ttl: number;
+    /** @type {EnkaProfile | null} */
+    enkaProfile: EnkaProfile | null;
 }
 import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");
 import Costume = require("./character/Costume");
 import NameCard = require("./NameCard");
-import Character = require("./character/Character");
+import EnkaProfile = require("./enka/EnkaProfile");

@@ -26,9 +26,33 @@ declare class EnkaClient {
      * @param {number | string} uid
      * @param {boolean} collapse Whether to fetch rough user information (Very fast)
      * @param {boolean} parse
-     * @returns {Promise<User>}
+     * @returns {Promise<User | DetailedUser>}
      */
-    fetchUser(uid: number | string, collapse?: boolean, parse?: boolean): Promise<User>;
+    fetchUser(uid: number | string, collapse?: boolean): Promise<User | DetailedUser>;
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @returns {Promise<EnkaProfile>}
+     */
+    fetchEnkaProfile(username: string): Promise<EnkaProfile>;
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @returns {Promise<Array<EnkaUser>>}
+     */
+    fetchAllEnkaUsers(username: string): Promise<Array<EnkaUser>>;
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @param {string} hash EnkaUser hash
+     * @returns {Promise<EnkaUser>}
+     */
+    fetchEnkaUser(username: string, hash: string): Promise<EnkaUser>;
+    /**
+     * @param {string} username enka.network username, not in-game nickname
+     * @param {string} hash EnkaUser hash
+     * @returns {Promise<Object.<string, Array<CharacterBuild>>>}
+     */
+    fetchEnkaUserBuilds(username: string, hash: string): Promise<{
+        [x: string]: Array<CharacterBuild>;
+    }>;
     /**
      * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}
@@ -91,6 +115,10 @@ type EnkaClientOptions = {
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
+import DetailedUser = require("../models/DetailedUser");
+import EnkaProfile = require("../models/enka/EnkaProfile");
+import EnkaUser = require("../models/enka/EnkaUser");
+import CharacterBuild = require("../models/enka/CharacterBuild");
 import CharacterData = require("../models/character/CharacterData");
 import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
