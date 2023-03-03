@@ -80,6 +80,9 @@ class User {
 
         /** @type {EnkaProfile | null} */
         this.enkaProfile = data.owner ? new EnkaProfile(data.owner, enka) : null;
+
+        /** @type {string | null} */
+        this.enkaUserHash = data.owner?.hash ?? null;
     }
 }
 
