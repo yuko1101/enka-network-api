@@ -89,6 +89,11 @@ declare class CharacterData {
      * @type {CharacterDetails | null}
      */
     details: CharacterDetails | null;
+    /**
+     * Get character's original name (Travelers -> Aether, Lumine)
+     * @returns {TextAssets}
+     */
+    getOriginalName(): TextAssets;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
