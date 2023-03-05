@@ -44,6 +44,11 @@ const contents = [
     "AvatarHeroEntityExcelConfigData", // Travelers
 ];
 
+const textMapWhiteList = [
+    2329553598, // Aether
+    3241049361, // Lumine
+];
+
 const manualTextMapWhiteList = [
     "EquipType",
     "EQUIP_BRACER",
@@ -413,6 +418,9 @@ class CachedAssetsManager {
      */
     removeUnusedTextData(data, langsData, showLog = true) {
         const required = [];
+
+        required.push(...textMapWhiteList);
+
         data["AvatarExcelConfigData"].forEach(c => {
             required.push(c.nameTextMapHash, c.descTextMapHash);
         });
