@@ -172,6 +172,21 @@ class CharacterData {
         this.details = details;
 
     }
+
+    /**
+     * Get character's original name (Travelers -> Aether, Lumine)
+     * @returns {TextAssets}
+     */
+    getOriginalName() {
+        switch (this.id) {
+            case 10000005:
+                return new TextAssets(2329553598, this.enka);
+            case 10000007:
+                return new TextAssets(3241049361, this.enka);
+            default:
+                return this.name;
+        }
+    }
 }
 
 module.exports = CharacterData;
