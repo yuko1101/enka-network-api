@@ -179,7 +179,7 @@ class EnkaClient {
         const builds = {};
         for (const characterId in data) {
             const characterBuilds = data[characterId];
-            builds[characterId] = characterBuilds.map(b => new CharacterBuild(b, this));
+            builds[characterId] = characterBuilds.map(b => new CharacterBuild(b, this, username, hash));
         }
 
         return builds;

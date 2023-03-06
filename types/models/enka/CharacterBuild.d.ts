@@ -6,12 +6,19 @@ declare class CharacterBuild {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
+     * @param {string} username
+     * @param {string} hash
      */
-    constructor(data: object, enka: EnkaClient);
+    constructor(data: object, enka: EnkaClient, username: string, hash: string);
     /** @type {object} */
     _data: object;
     /** @type {EnkaClient} */
     enka: EnkaClient;
+    /** @type {{username: string, hash: string}} */
+    enkaUserInfo: {
+        username: string;
+        hash: string;
+    };
     /** @type {number} */
     id: number;
     /** @type {string} */

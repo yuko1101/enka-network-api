@@ -10,14 +10,19 @@ class CharacterBuild {
     /**
      * @param {object} data
      * @param {EnkaClient} enka
+     * @param {string} username
+     * @param {string} hash
      */
-    constructor(data, enka) {
+    constructor(data, enka, username, hash) {
 
         /** @type {object} */
         this._data = data;
 
         /** @type {EnkaClient} */
         this.enka = enka;
+
+        /** @type {{username: string, hash: string}} */
+        this.enkaUserInfo = { username: username, hash: hash };
 
         /** @type {number} */
         this.id = data.id;

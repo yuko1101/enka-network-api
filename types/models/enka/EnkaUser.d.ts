@@ -17,8 +17,10 @@ declare class EnkaUser {
     /**
      * enka.network username, not in-game nickname
      * @type {string}
-     */
+    */
     username: string;
+    /** @type {string} */
+    hash: string;
     /** @type {User} */
     user: import("../User");
     /** @type {number | null} */
@@ -29,8 +31,6 @@ declare class EnkaUser {
     isPublic: boolean;
     /** @type {boolean} */
     isUidPublic: boolean;
-    /** @type {string} */
-    hash: string;
     /** @type {string} */
     verificationCode: string;
     /** @type {Date} */
