@@ -83,6 +83,9 @@ class User {
 
         /** @type {string | null} */
         this.enkaUserHash = data.owner?.hash ?? null;
+
+        /** @type {string} */
+        this.url = `${enka.options.enkaUrl}/u/${this.uid}`;
     }
 }
 

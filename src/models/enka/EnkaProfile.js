@@ -37,6 +37,9 @@ class EnkaProfile {
 
         /** @type {number} */
         this.signupState = data.profile.signup_state;
+
+        /** @type {string} */
+        this.url = `${enka.options.enkaUrl}/u/${this.username}`;
     }
 
     /**

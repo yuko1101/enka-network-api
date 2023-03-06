@@ -64,6 +64,9 @@ class EnkaUser {
 
         /** @type {number} */
         this.order = data.order;
+
+        /** @type {string} */
+        this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
     }
 
     /**
