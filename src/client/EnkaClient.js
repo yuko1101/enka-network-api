@@ -176,13 +176,7 @@ class EnkaClient {
         }
         const data = response.data;
 
-        const builds = {};
-        for (const characterId in data) {
-            const characterBuilds = data[characterId];
-            builds[characterId] = characterBuilds.map(b => new CharacterBuild(b, this, username, hash));
-        }
-
-        return builds;
+        return Object.fromEntries(Object.entries(data).map(([charId, builds]) => [charId, builds.map(b => new CharacterBuild(b, this, username, hash))]));
     }
 
     /**
