@@ -24,8 +24,11 @@ class EnkaUser {
         /**
          * enka.network username, not in-game nickname
          * @type {string}
-         */
+        */
         this.username = username;
+
+        /** @type {string} */
+        this.hash = data.hash;
 
         const User = require("../User");
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
@@ -43,9 +46,6 @@ class EnkaUser {
 
         /** @type {boolean} */
         this.isUidPublic = data.uid_public;
-
-        /** @type {string} */
-        this.hash = data.hash;
 
         /** @type {string} */
         this.verificationCode = data.verification_code;
