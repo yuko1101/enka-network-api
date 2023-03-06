@@ -44,6 +44,8 @@ declare class EnkaUser {
     region: "" | "CN" | "B" | "NA" | "EU" | "ASIA" | "TW";
     /** @type {number} */
     order: number;
+    /** @type {string} */
+    url: string;
     /**
      * @returns {Promise<Object<string, Array<CharacterBuild>>>}
      */

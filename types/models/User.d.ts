@@ -47,6 +47,8 @@ declare class User {
     enkaProfile: EnkaProfile | null;
     /** @type {string | null} */
     enkaUserHash: string | null;
+    /** @type {string} */
+    url: string;
 }
 import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");

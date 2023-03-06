@@ -24,6 +24,8 @@ declare class EnkaProfile {
     level: number;
     /** @type {number} */
     signupState: number;
+    /** @type {string} */
+    url: string;
     /**
      * @returns {Promise<Array<EnkaUser>>}
      */

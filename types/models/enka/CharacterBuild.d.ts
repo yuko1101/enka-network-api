@@ -31,6 +31,8 @@ declare class CharacterBuild {
     isPublic: boolean;
     /** @type {Character} */
     character: Character;
+    /** @type {string} */
+    url: string;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import Character = require("../character/Character");
