@@ -13,6 +13,10 @@ const PassiveTalent = require("./talents/PassiveTalent");
 // eslint-disable-next-line no-unused-vars
 const Costume = require("./Costume");
 const SkillLevel = require("./talents/SkillLevel");
+const UpgradableSkill = require("./talents/UpgradableSkill");
+const NormalAttack = require("./talents/NormalAttack");
+const ElementalSkill = require("./talents/ElementalSkill");
+const ElementalBurst = require("./talents/ElementalBurst");
 
 /**
  * @en Character
@@ -73,7 +77,7 @@ class Character {
         /** @type {Array<{skill: Skill, level: SkillLevel}>} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             const skill = this.characterData.skills.find(s => s.id.toString() === key);
-            if (!skill) return null;
+            if (!skill || !(skill instanceof UpgradableSkill)) return null;
 
             const base = value;
             const extra = data.proudSkillExtraLevelMap?.[skill._data.proudSkillGroupId] ?? 0;
@@ -82,7 +86,10 @@ class Character {
                 skill,
                 level: new SkillLevel(base, extra),
             };
-        }).filter(s => s !== null);
+        }).filter(s => s !== null).sort((a, b) => {
+            const getScore = (skill) => (skill instanceof NormalAttack) ? 0 : (skill instanceof ElementalSkill) ? 1 : (skill instanceof ElementalBurst) ? 2 : 3;
+            return getScore(a.skill) - getScore(b.skill);
+        });
 
         /** @type {Array<PassiveTalent>} */
         this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
