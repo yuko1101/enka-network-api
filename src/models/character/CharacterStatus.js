@@ -103,6 +103,14 @@ class CharacterStatus {
                                 element?.id === "Rock" ? this.geoDamage :
                                     element?.id === "Ice" ? this.cryoDamage : null;
 
+        const sortedDamageBonus = [this.pyroDamage, this.electroDamage, this.hydroDamage, this.dendroDamage, this.anemoDamage, this.geoDamage, this.cryoDamage, this.physicalDamage].sort((a, b) => b.value - a.value);
+        /**
+         * Including physical damage bonus.
+         * If there are more than two highest ones, this will be null.
+         * @type {StatusProperty | null}
+         */
+        this.maxElementDamage = sortedDamageBonus[0].value === sortedDamageBonus[1].value ? null : sortedDamageBonus[0];
+
         /** @type {number} */
         this.pyroEnergyCost = data[70] ?? 0;
         /** @type {number} */

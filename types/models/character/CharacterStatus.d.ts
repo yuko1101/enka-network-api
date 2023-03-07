@@ -84,6 +84,12 @@ declare class CharacterStatus {
      * @type {StatusProperty | null}
      */
     matchedElementDamage: StatusProperty | null;
+    /**
+     * Including physical damage bonus.
+     * If there are more than two highest ones, this will be null.
+     * @type {StatusProperty | null}
+     */
+    maxElementDamage: StatusProperty | null;
     /** @type {number} */
     pyroEnergyCost: number;
     /** @type {number} */
