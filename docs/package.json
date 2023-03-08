@@ -26,10 +26,10 @@
     "remark-breaks": "2.0.2"
   },
   "devDependencies": {
-    "@docusaurus/types": "^2.2.0",
     "@docusaurus/module-type-aliases": "2.2.0",
+    "@docusaurus/types": "^2.2.0",
     "commander": "^9.4.1",
-    "jsdoc-to-mdx": "^1.1.2"
+    "jsdoc-to-mdx": "^1.2.1"
   },
   "browserslist": {
     "production": [
