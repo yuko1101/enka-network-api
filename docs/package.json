@@ -28,8 +28,8 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.2.0",
     "@docusaurus/types": "^2.2.0",
-    "commander": "^9.4.1",
-    "jsdoc-to-mdx": "github:yuko1101/jsdoc-to-mdx"
+    "@yuko1101/jsdoc-to-mdx": "^1.2.2",
+    "commander": "^9.4.1"
   },
   "browserslist": {
     "production": [
