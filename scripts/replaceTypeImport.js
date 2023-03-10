@@ -9,7 +9,6 @@ function searchFilesInDir(dir) {
         if (loadedFile.isDirectory()) {
             searchFilesInDir(`${dir}/${file}`);
         } else if (file.endsWith(".js")) {
-            console.log(file);
             replaceTypeImport(`${dir}/${file}`);
         }
     }
