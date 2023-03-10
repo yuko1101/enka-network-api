@@ -4,11 +4,11 @@ export = CachedAssetsManager;
  */
 declare class CachedAssetsManager {
     /**
-     * @param {EnkaClient} enka
+     * @param {import("./EnkaClient")} enka
      */
-    constructor(enka: EnkaClient);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    constructor(enka: import("./EnkaClient"));
+    /** @type {import("./EnkaClient")} */
+    enka: import("./EnkaClient");
     /** @type {string} */
     defaultCacheDirectoryPath: string;
     /** @type {string} */
@@ -130,7 +130,6 @@ declare class CachedAssetsManager {
 declare namespace CachedAssetsManager {
     export { LanguageCode };
 }
-import EnkaClient = require("./EnkaClient");
 import ConfigFile = require("../utils/ConfigFile");
 type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 import ObjectKeysManager = require("./ObjectKeysManager");
