@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("./EnkaClient");
 const fs = require("fs");
 const path = require("path");
 const { Axios } = require("axios");
@@ -74,10 +72,10 @@ const manualTextMapWhiteList = [
 class CachedAssetsManager {
 
     /**
-     * @param {EnkaClient} enka
+     * @param {import("./EnkaClient")} enka
      */
     constructor(enka) {
-        /** @type {EnkaClient} */
+        /** @type {import("./EnkaClient")} */
         this.enka = enka;
 
         /** @type {string} */
