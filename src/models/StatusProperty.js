@@ -42,6 +42,15 @@ class StatusProperty {
     getFormattedValue() {
         return this.value * (this.isPercent ? 100 : 1);
     }
+
+    /**
+     * Returns simple value string.
+     * @returns {string}
+     */
+    toString() {
+        const fix = this.isPercent ? 1 : 0;
+        return this.getFormattedValue().toFixed(fix) + (this.isPercent ? "%" : "");
+    }
 }
 
 module.exports = StatusProperty;
