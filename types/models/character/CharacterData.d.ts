@@ -8,7 +8,7 @@ declare class CharacterData {
      * @param {EnkaClient} enka
      * @param {number} [candSkillDepotIds]
      */
-    constructor(id: number, enka: EnkaClient, candSkillDepotId?: any);
+    constructor(id: number, enka: EnkaClient, candSkillDepotId?: undefined);
     /** @type {number} */
     id: number;
     /** @type {EnkaClient} */

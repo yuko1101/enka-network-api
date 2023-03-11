@@ -17,7 +17,7 @@ declare class EnkaClient {
     /**
      * @param {EnkaClientOptions} [options]
      */
-    constructor(options?: EnkaClientOptions);
+    constructor(options?: EnkaClientOptions | undefined);
     /** @type {EnkaClientOptions} */
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
@@ -56,61 +56,61 @@ declare class EnkaClient {
      * @param {boolean} [playableOnly=true]
      * @returns {CharacterData[]}
      */
-    getAllCharacters(playableOnly?: boolean): CharacterData[];
+    getAllCharacters(playableOnly?: boolean | undefined): CharacterData[];
     /**
-     * @param {number} id characterId
-     * @param {number} [skillDepotId] Mostly for Travelers.
+     * @param {number | string} id characterId
+     * @param {number | string} [skillDepotId] Mostly for Travelers.
      * @returns {CharacterData}
      */
-    getCharacterById(id: number, skillDepotId?: number): CharacterData;
+    getCharacterById(id: number | string, skillDepotId?: string | number | undefined): CharacterData;
     /**
      * @param {boolean} [excludeInvalidWeapons]
      * @returns {WeaponData[]}
      */
-    getAllWeapons(excludeInvalidWeapons?: boolean): WeaponData[];
+    getAllWeapons(excludeInvalidWeapons?: boolean | undefined): WeaponData[];
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {WeaponData}
      */
-    getWeaponById(id: number): WeaponData;
+    getWeaponById(id: number | string): WeaponData;
     /**
      * @param {boolean} [includeDefaults] Whether to include default costumes
      * @returns {Costume[]}
      */
-    getAllCostumes(includeDefaults?: boolean): Costume[];
+    getAllCostumes(includeDefaults?: boolean | undefined): Costume[];
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {Costume}
      */
-    getCostumeById(id: number): Costume;
+    getCostumeById(id: number | string): Costume;
     /**
      * @returns {NameCard[]}
      */
     getAllNameCards(): NameCard[];
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {NameCard}
      */
-    getNameCardById(id: number): NameCard;
+    getNameCardById(id: number | string): NameCard;
     /**
      * @param {boolean} [highestRarityOnly=false]
      * @returns {Array<ArtifactData>}
      */
-    getAllArtifacts(highestRarityOnly?: boolean): Array<ArtifactData>;
+    getAllArtifacts(highestRarityOnly?: boolean | undefined): Array<ArtifactData>;
 }
 declare namespace EnkaClient {
     export { EnkaClientOptions };
 }
 type EnkaClientOptions = {
-    enkaUrl?: string;
-    userAgent?: string;
+    enkaUrl?: string | undefined;
+    userAgent?: string | undefined;
     /**
      * http request timeout in milliseconds
      */
-    timeout?: bigint;
-    defaultLanguage?: LanguageCode;
-    cacheDirectory?: string;
-    showFetchCacheLog?: boolean;
+    timeout?: bigint | undefined;
+    defaultLanguage?: CachedAssetsManager.LanguageCode | undefined;
+    cacheDirectory?: string | undefined;
+    showFetchCacheLog?: boolean | undefined;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
@@ -123,4 +123,3 @@ import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
 import NameCard = require("../models/NameCard");
 import ArtifactData = require("../models/artifact/ArtifactData");
-import { LanguageCode } from "./CachedAssetsManager";

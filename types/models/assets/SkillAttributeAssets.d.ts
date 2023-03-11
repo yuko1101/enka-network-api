@@ -6,17 +6,17 @@ export = SkillAttributeAssets;
 declare class SkillAttributeAssets extends TextAssets {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {Array<number>} paramList
      */
-    constructor(id: number, enka: EnkaClient, paramList: Array<number>);
+    constructor(id: number, enka: import("../../client/EnkaClient"), paramList: Array<number>);
     /** @type {Array<number>} */
     _paramList: Array<number>;
     /**
      * @param {LanguageCode} [lang]
      * @returns {{ name: string, valueText: string, usedNumbers: Array<number> }}
      */
-    getAttributeData(lang?: LanguageCode): {
+    getAttributeData(lang?: LanguageCode | undefined): {
         name: string;
         valueText: string;
         usedNumbers: Array<number>;

@@ -9,7 +9,7 @@ const { LanguageCode } = require("../../client/CachedAssetsManager");
 class SkillAttributeAssets extends TextAssets {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {Array<number>} paramList
      */
     constructor(id, enka, paramList) {

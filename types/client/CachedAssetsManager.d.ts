@@ -29,7 +29,7 @@ declare class CachedAssetsManager {
      * @param {LanguageCode} lang
      * @param {boolean} [store=true]
      */
-    fetchLanguageData(lang: LanguageCode, store?: boolean): Promise<any>;
+    fetchLanguageData(lang: LanguageCode, store?: boolean | undefined): Promise<any>;
     /**
      * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false]
@@ -37,8 +37,8 @@ declare class CachedAssetsManager {
      * @returns {Promise<void>}
      */
     fetchAllContents(options: {
-        useRawGenshinData?: boolean;
-        ghproxy?: boolean;
+        useRawGenshinData?: boolean | undefined;
+        ghproxy?: boolean | undefined;
     }): Promise<void>;
     /**
      * @returns {boolean}
@@ -54,10 +54,10 @@ declare class CachedAssetsManager {
      * @returns {Promise<boolean>}
      */
     updateContents(options?: {
-        useRawGenshinData?: boolean;
-        ghproxy?: boolean;
-        onUpdateStart?: () => Promise<any>;
-        onUpdateEnd?: () => Promise<any>;
+        useRawGenshinData?: boolean | undefined;
+        ghproxy?: boolean | undefined;
+        onUpdateStart?: (() => Promise<any>) | undefined;
+        onUpdateEnd?: (() => Promise<any>) | undefined;
     }): Promise<boolean>;
     /**
      * @param {object} [options]
@@ -71,14 +71,14 @@ declare class CachedAssetsManager {
      * @returns {void}
      */
     activateAutoCacheUpdater(options?: {
-        useRawGenshinData?: boolean;
-        instant?: boolean;
-        ghproxy?: boolean;
-        timeout?: number;
-        onUpdateStart?: () => Promise<any>;
-        onUpdateEnd?: () => Promise<any>;
-        onError?: (arg0: Error) => Promise<any>;
-    }): void;
+        useRawGenshinData?: boolean | undefined;
+        instant?: boolean | undefined;
+        ghproxy?: boolean | undefined;
+        timeout?: number | undefined;
+        onUpdateStart?: (() => Promise<any>) | undefined;
+        onUpdateEnd?: (() => Promise<any>) | undefined;
+        onError?: ((arg0: Error) => Promise<any>) | undefined;
+    } | undefined): void;
     /** @returns {void} */
     deactivateAutoCacheUpdater(): void;
     /**
@@ -117,14 +117,14 @@ declare class CachedAssetsManager {
      * @param {object} langsData {en: [Object object], jp: [Object object], ...}
      * @param {boolean} [showLog=true]
      */
-    removeUnusedTextData(data: object, langsData: object, showLog?: boolean): {};
+    removeUnusedTextData(data: object, langsData: object, showLog?: boolean | undefined): {};
     /**
      * @param {object} options
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
     _downloadCacheZip(options: {
-        ghproxy?: boolean;
+        ghproxy?: boolean | undefined;
     }): Promise<void>;
 }
 declare namespace CachedAssetsManager {

@@ -9,7 +9,7 @@ declare class EnkaUser {
      * @param {string} username
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: object, enka: EnkaClient, username: string, uid?: number | string);
+    constructor(data: object, enka: EnkaClient, username: string, uid?: string | number | undefined);
     /** @type {object} */
     _data: object;
     /** @type {EnkaClient} */
@@ -47,10 +47,10 @@ declare class EnkaUser {
     /** @type {string} */
     url: string;
     /**
-     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<import("./CharacterBuild")>>>}
      */
     fetchBuilds(): Promise<{
-        [x: string]: Array<CharacterBuild>;
+        [x: string]: Array<import("./CharacterBuild")>;
     }>;
 }
 import EnkaClient = require("../../client/EnkaClient");

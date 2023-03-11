@@ -8,7 +8,7 @@ declare class WeaponData {
      * @param {EnkaClient} enka
      * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: object);
+    constructor(id: number, enka: EnkaClient, data?: object | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */

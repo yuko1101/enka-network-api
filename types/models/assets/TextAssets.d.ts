@@ -16,7 +16,7 @@ declare class TextAssets {
      * @param {LanguageCode} [lang]
      * @returns {string}
      */
-    get(lang?: LanguageCode): string;
+    get(lang?: LanguageCode | undefined): string;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import { LanguageCode } from "../../client/CachedAssetsManager";

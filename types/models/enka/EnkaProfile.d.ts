@@ -32,10 +32,10 @@ declare class EnkaProfile {
     fetchAllEnkaUsers(): Promise<Array<EnkaUser>>;
     /**
      * @param {string} hash EnkaUser hash
-     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
+     * @returns {Promise<Object<string, Array<import("./CharacterBuild")>>>}
      */
     fetchEnkaUserBuilds(hash: string): Promise<{
-        [x: string]: Array<CharacterBuild>;
+        [x: string]: Array<import("./CharacterBuild")>;
     }>;
 }
 import EnkaClient = require("../../client/EnkaClient");

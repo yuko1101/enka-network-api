@@ -9,7 +9,7 @@ declare class ConfigFile {
      * @param {Array<(string | number)>} [route]
      * @param {*} [storedData]
      */
-    constructor(filePath: string, defaultConfig: any, route?: Array<(string | number)>, storedData?: any);
+    constructor(filePath: string, defaultConfig: any, route?: (string | number)[] | undefined, storedData?: any);
     /** @readonly @type {string} */
     readonly filePath: string;
     /** @readonly @type {*} */
@@ -22,7 +22,7 @@ declare class ConfigFile {
      * @param {boolean} [compact=false]
      * @returns {Promise<ConfigFile>}
      */
-    save(compact?: boolean): Promise<ConfigFile>;
+    save(compact?: boolean | undefined): Promise<ConfigFile>;
     /**
      * @returns {Promise<ConfigFile>}
      */

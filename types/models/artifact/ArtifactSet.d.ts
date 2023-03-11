@@ -8,7 +8,7 @@ declare class ArtifactSet {
      * @param {EnkaClient} enka
      * @param {object} [data]
      */
-    constructor(id: number, enka: EnkaClient, data?: object);
+    constructor(id: number, enka: EnkaClient, data?: object | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */

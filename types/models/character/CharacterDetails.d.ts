@@ -24,7 +24,7 @@ declare class CharacterDetails {
      * @param {EnkaClient} enka
      * @param {number} [characterId]
      */
-    constructor(id: number, enka: EnkaClient, characterId?: number);
+    constructor(id: number, enka: EnkaClient, characterId?: number | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {object} */
@@ -52,7 +52,7 @@ declare class CharacterDetails {
      * @param {LanguageCode} [lang]
      * @returns {TextAssets}
      */
-    getCvByLanguage(lang?: LanguageCode): TextAssets;
+    getCvByLanguage(lang?: LanguageCode | undefined): TextAssets;
 }
 declare namespace CharacterDetails {
     export { Birthday, CharacterVoices };
