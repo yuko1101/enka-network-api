@@ -25,7 +25,6 @@ declare class EnkaClient {
     /**
      * @param {number | string} uid
      * @param {boolean} collapse Whether to fetch rough user information (Very fast)
-     * @param {boolean} parse
      * @returns {Promise<User | DetailedUser>}
      */
     fetchUser(uid: number | string, collapse?: boolean): Promise<User | DetailedUser>;

@@ -26,6 +26,11 @@ declare class StatusProperty {
      * @returns {number}
      */
     getFormattedValue(): number;
+    /**
+     * Returns simple value string.
+     * @returns {string}
+     */
+    toString(): string;
 }
 import EnkaClient = require("../client/EnkaClient");
 import TextAssets = require("./assets/TextAssets");

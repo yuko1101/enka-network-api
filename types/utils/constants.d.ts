@@ -1,4 +1,4 @@
-export const fightProps: {
+export var fightProps: {
     1: string;
     2: string;
     3: string;
@@ -54,8 +54,8 @@ export const fightProps: {
     2002: string;
     2003: string;
 };
-export const percent: string[];
-export const artifactRarityRangeMap: {
+export var percent: string[];
+export var artifactRarityRangeMap: {
     "10001": number[];
     "10002": number[];
     "10003": number[];
