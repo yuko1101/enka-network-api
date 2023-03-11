@@ -98,7 +98,7 @@ class CharacterData {
 
 
         /** @type {number} */
-        this.skillDepotId = candSkillDepotId ?? this._data.skillDepotId;
+        this.skillDepotId = candSkillDepotId || this._data.skillDepotId;
 
         /** @type {object} */
         this._skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);

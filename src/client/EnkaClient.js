@@ -187,12 +187,12 @@ class EnkaClient {
     }
 
     /**
-     * @param {number} id characterId
-     * @param {number} [skillDepotId] Mostly for Travelers.
+     * @param {number | string} id characterId
+     * @param {number | string} [skillDepotId] Mostly for Travelers.
      * @returns {CharacterData}
      */
     getCharacterById(id, skillDepotId) {
-        return new CharacterData(id, this, skillDepotId);
+        return new CharacterData(Number(id), this, Number(skillDepotId));
     }
 
     /**
@@ -209,11 +209,11 @@ class EnkaClient {
     }
 
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {WeaponData}
      */
     getWeaponById(id) {
-        return new WeaponData(id, this);
+        return new WeaponData(Number(id), this);
     }
 
     /**
@@ -225,11 +225,11 @@ class EnkaClient {
     }
 
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {Costume}
      */
     getCostumeById(id) {
-        return new Costume(id, this);
+        return new Costume(Number(id), this);
     }
 
     /**
@@ -240,11 +240,11 @@ class EnkaClient {
     }
 
     /**
-     * @param {number} id
+     * @param {number | string} id
      * @returns {NameCard}
      */
     getNameCardById(id) {
-        return new NameCard(id, this);
+        return new NameCard(Number(id), this);
     }
 
     /**
