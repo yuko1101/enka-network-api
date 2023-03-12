@@ -354,7 +354,7 @@ class CachedAssetsManager {
 
     /**
      * @param {string} name without extensions (.json)
-     * @returns {object}
+     * @returns {object | any[]}
      */
     getGenshinCacheData(name) {
         if (!Object.keys(dataMemory).includes(name)) {
