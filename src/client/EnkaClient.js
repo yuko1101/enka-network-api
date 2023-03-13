@@ -192,6 +192,7 @@ class EnkaClient {
      * @returns {CharacterData}
      */
     getCharacterById(id, skillDepotId) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new CharacterData(Number(id), this, Number(skillDepotId));
     }
 
@@ -213,6 +214,7 @@ class EnkaClient {
      * @returns {WeaponData}
      */
     getWeaponById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new WeaponData(Number(id), this);
     }
 
@@ -229,6 +231,7 @@ class EnkaClient {
      * @returns {Costume}
      */
     getCostumeById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new Costume(Number(id), this);
     }
 
@@ -244,6 +247,7 @@ class EnkaClient {
      * @returns {NameCard}
      */
     getNameCardById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new NameCard(Number(id), this);
     }
 
