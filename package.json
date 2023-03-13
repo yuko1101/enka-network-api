@@ -4,6 +4,9 @@
   "description": "Enka-network API wrapper for Genshin Impact.",
   "main": "src/index.js",
   "types": "types/index.d.ts",
+  "directories": { 
+    "example": "example" 
+  },
   "scripts": {
     "install": "node scripts/install.js",
     "lint": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore",
@@ -26,6 +29,10 @@
     "enka"
   ],
   "author": "yuko1101 (https://github.com/yuko1101)",
+  "repository": { 
+    "type": "git", 
+    "url": "git+https://github.com/yuko1101/enka-network-api.git" 
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yuko1101/enka-network-api/issues"

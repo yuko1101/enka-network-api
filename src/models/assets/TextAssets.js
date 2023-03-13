@@ -30,6 +30,19 @@ class TextAssets {
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
         return text;
     }
+    
+    /**
+     * Returns null instead of throwing AssetsNotFoundError.
+     * @param {LanguageCode} [lang]
+     * @returns {string | null}
+     */
+    getNullable(lang) {
+        try {
+            return this.get(lang);
+        } catch (e) {
+            return null
+        }
+    }
 }
 
 module.exports = TextAssets;
