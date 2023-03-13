@@ -3,6 +3,15 @@ const TextAssets = require("./TextAssets");
 const { LanguageCode } = require("../../client/CachedAssetsManager");
 
 /**
+ * @en SkillAttributeData
+ * @typedef SkillAttributeData
+ * @type {object}
+ * @property {string} name
+ * @property {string} valueText
+ * @property {Array<number>} usedNumbers
+ */
+
+/**
  * @en SkillAttributeAssets
  * @extends {TextAssets}
  */
@@ -21,7 +30,7 @@ class SkillAttributeAssets extends TextAssets {
 
     /**
      * @param {LanguageCode} [lang]
-     * @returns {{ name: string, valueText: string, usedNumbers: Array<number> }}
+     * @returns {SkillAttributeData}
      */
     getAttributeData(lang) {
         const text = this.get(lang);
@@ -48,6 +57,19 @@ class SkillAttributeAssets extends TextAssets {
         const split = replaced.split("|");
 
         return { name: split[0], valueText: split[1], usedNumbers };
+    }
+
+    /**
+     * Returns null instead of throwing AssetsNotFoundError.
+     * @param {LanguageCode} [lang]
+     * @returns {SkillAttributeData | null}
+     */
+    getNullableAttributeData(lang) {
+        try {
+            return this.getAttributeData(lang);
+        } catch (e) {
+            return null;
+        }
     }
 }
 

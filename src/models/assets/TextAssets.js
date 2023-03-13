@@ -30,7 +30,7 @@ class TextAssets {
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
         return text;
     }
-    
+
     /**
      * Returns null instead of throwing AssetsNotFoundError.
      * @param {LanguageCode} [lang]
@@ -40,7 +40,7 @@ class TextAssets {
         try {
             return this.get(lang);
         } catch (e) {
-            return null
+            return null;
         }
     }
 }
