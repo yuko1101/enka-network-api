@@ -31,8 +31,9 @@ class CharacterDetails {
      * @param {number} id
      * @param {EnkaClient} enka
      * @param {number} [characterId]
+     * @param {boolean} [isArchon]
      */
-    constructor(id, enka, characterId = null) {
+    constructor(id, enka, characterId = null, isArchon = false) {
         if (!id && !characterId) throw new Error("An id or character id must be provided.");
 
         /** @type {EnkaClient} */
@@ -58,7 +59,7 @@ class CharacterDetails {
         this.vision = new TextAssets(this._data.avatarVisionBeforTextMapHash, enka);
 
         /** @type {TextAssets} */
-        this.constellation = new TextAssets(this._data.avatarConstellationBeforTextMapHash, enka);
+        this.constellation = new TextAssets(isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash, enka);
 
         /** @type {TextAssets} */
         this.title = new TextAssets(this._data.avatarTitleTextMapHash, enka);

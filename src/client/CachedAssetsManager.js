@@ -40,6 +40,7 @@ const contents = [
     "ReliquaryAffixExcelConfigData", // Artifact Affix
     "AvatarCodexExcelConfigData", // Character Release Information
     "AvatarHeroEntityExcelConfigData", // Travelers
+    "TrialAvatarFetterDataConfigData", // Archons
 ];
 
 const textMapWhiteList = [
@@ -450,6 +451,7 @@ class CachedAssetsManager {
             required.push(
                 c.avatarNativeTextMapHash,
                 c.avatarVisionBeforTextMapHash,
+                c.avatarConstellationAfterTextMapHash,
                 c.avatarConstellationBeforTextMapHash,
                 c.avatarTitleTextMapHash,
                 c.avatarDetailTextMapHash,

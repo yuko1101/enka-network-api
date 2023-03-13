@@ -92,6 +92,8 @@ declare class CharacterData {
      * @type {boolean}
      */
     isPlayable: boolean;
+    /** @type {boolean} */
+    isArchon: boolean;
     /**
      * Information in the profile menu in in-game character screen.
      * @type {CharacterDetails | null}

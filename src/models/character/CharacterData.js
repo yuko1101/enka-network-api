@@ -162,9 +162,14 @@ class CharacterData {
          */
         this.isPlayable = this._data.useType === "AVATAR_FORMAL";
 
+        const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").map(a => a.avatarId);
+
+        /** @type {boolean} */
+        this.isArchon = archonsIds.includes(this.id);
+
         let details;
         try {
-            details = new CharacterDetails(null, enka, this.id);
+            details = new CharacterDetails(null, enka, this.id, this.isArchon);
         } catch (e) {
             details = null;
         }

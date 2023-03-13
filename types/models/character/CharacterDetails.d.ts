@@ -23,8 +23,9 @@ declare class CharacterDetails {
      * @param {number} id
      * @param {EnkaClient} enka
      * @param {number} [characterId]
+     * @param {boolean} [isArchon]
      */
-    constructor(id: number, enka: EnkaClient, characterId?: number | undefined);
+    constructor(id: number, enka: EnkaClient, characterId?: number | undefined, isArchon?: boolean | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {Object<string, any>} */
