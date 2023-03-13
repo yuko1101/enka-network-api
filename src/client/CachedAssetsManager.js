@@ -500,7 +500,7 @@ class CachedAssetsManager {
 
         const clearLangsData = {};
 
-        async function modifyLang(lang) {
+        for (const lang in langsData) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
             for (const key in langsData[lang]) {
@@ -510,10 +510,6 @@ class CachedAssetsManager {
             }
             // console.log(Object.keys(langData).length + " keys in " + lang);
             // console.log(Object.keys(clearLangsData).length + " langs");
-        }
-
-        for (const lang in langsData) {
-            modifyLang(lang);
         }
 
         if (showLog) console.info("Removing unused keys completed.");
