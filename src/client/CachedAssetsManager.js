@@ -67,6 +67,14 @@ const manualTextMapWhiteList = [
 ];
 
 /**
+ * @param {boolean} useRawGenshinData
+ * @param {Date} date
+ */
+const getGitRemoteAPIUrl = (useRawGenshinData, rawDate, date) => useRawGenshinData
+    ? `https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${rawDate.toISOString()}`
+    : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
+
+/**
  * @en CachedAssetsManager
  */
 class CachedAssetsManager {
@@ -147,10 +155,28 @@ class CachedAssetsManager {
         return json;
     }
 
+    /**
+     * Whether the game data update is available or not.
+     * @param {boolean} [useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
+     * @returns {Promise<boolean>}
+     */
+    async checkForUpdates(useRawGenshinData = false) {
+        await this.cacheDirectorySetup();
+        const url = getGitRemoteAPIUrl(useRawGenshinData, new Date(this._githubCache.getValue("rawLastUpdate") ?? 0), new Date(this._githubCache.getValue("lastUpdate") ?? 0));
+
+        const res = await fetchJSON(url, this.enka);
+        if (res.status !== 200) {
+            throw new Error("Request Failed");
+        }
+
+        const data = res.data;
+
+        return data.length !== 0;
+    }
 
     /**
      * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
@@ -260,7 +286,7 @@ class CachedAssetsManager {
     /**
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -276,9 +302,7 @@ class CachedAssetsManager {
 
         await this.cacheDirectorySetup();
 
-        const url = options.useRawGenshinData
-            ? `https://gitlab.com/api/v4/projects/41287973/repository/commits?since=${new Date(this._githubCache.getValue("rawLastUpdate") ?? 0).toISOString()}`
-            : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${new Date(this._githubCache.getValue("lastUpdate") ?? 0).toISOString()}`;
+        const url = getGitRemoteAPIUrl(options.useRawGenshinData, new Date(this._githubCache.getValue("rawLastUpdate") ?? 0), new Date(this._githubCache.getValue("lastUpdate") ?? 0));
 
         const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
@@ -297,7 +321,7 @@ class CachedAssetsManager {
 
     /**
      * @param {object} [options]
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.instant=true]
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {number} [options.timeout] in milliseconds
