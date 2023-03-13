@@ -31,8 +31,14 @@ declare class CachedAssetsManager {
      */
     fetchLanguageData(lang: LanguageCode, store?: boolean | undefined): Promise<any>;
     /**
+     * Whether the game data update is available or not.
+     * @param {boolean} [useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
+     * @returns {Promise<boolean>}
+     */
+    checkForUpdates(useRawGenshinData?: boolean | undefined): Promise<boolean>;
+    /**
      * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
@@ -47,7 +53,7 @@ declare class CachedAssetsManager {
     /**
      * Returns true if there were any updates, false if there were no updates.
      * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {function(): Promise<*>} [options.onUpdateStart]
      * @param {function(): Promise<*>} [options.onUpdateEnd]
@@ -61,7 +67,7 @@ declare class CachedAssetsManager {
     }): Promise<boolean>;
     /**
      * @param {object} [options]
-     * @param {boolean} [options.useRawGenshinData=false]
+     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.instant=true]
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {number} [options.timeout] in milliseconds
