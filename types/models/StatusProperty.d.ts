@@ -13,8 +13,10 @@ declare class StatusProperty {
     id: string;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _propData: object;
+    /** @type {Object<string, any>} */
+    _propData: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     type: TextAssets;
     /** @type {boolean} */

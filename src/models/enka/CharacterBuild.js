@@ -8,14 +8,14 @@ const Character = require("../character/Character");
 class CharacterBuild {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {string} username
      * @param {string} hash
      */
     constructor(data, enka, username, hash) {
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
         /** @type {EnkaClient} */

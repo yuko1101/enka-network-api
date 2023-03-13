@@ -6,15 +6,19 @@ declare class Costume {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: object | undefined);
+    constructor(id: number, enka: EnkaClient, data?: {
+        [x: string]: any;
+    } | undefined);
     /** @type {number} */
     id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */

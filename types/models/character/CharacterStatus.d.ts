@@ -4,13 +4,17 @@ export = CharacterStatus;
  */
 declare class CharacterStatus {
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {Element} element
      */
-    constructor(data: object, enka: EnkaClient, element: Element);
-    /** @type {object} */
-    _data: object;
+    constructor(data: {
+        [x: string]: any;
+    }, enka: EnkaClient, element: Element);
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {StatusProperty} */

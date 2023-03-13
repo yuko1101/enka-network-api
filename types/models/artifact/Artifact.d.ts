@@ -2,7 +2,7 @@ export = Artifact;
 /**
  * @en SubstatsContainer
  * @typedef SubstatsContainer
- * @type {object}
+ * @type {Object<string, any>}
  * @property {Array<StatusProperty>} total
  * @property {Array<ArtifactSplitSubstat>} split
  */
@@ -11,14 +11,18 @@ export = Artifact;
  */
 declare class Artifact {
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
-    constructor(data: object, enka: EnkaClient);
+    constructor(data: {
+        [x: string]: any;
+    }, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {ArtifactData} */
     artifactData: ArtifactData;
     /** @type {number} */
@@ -35,7 +39,5 @@ import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
 import StatusProperty = require("../StatusProperty");
 type SubstatsContainer = {
-    total: Array<StatusProperty>;
-    split: Array<ArtifactSplitSubstat>;
+    [x: string]: any;
 };
-import ArtifactSplitSubstat = require("./ArtifactSplitSubstat");

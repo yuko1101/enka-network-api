@@ -4,14 +4,18 @@ export = CharacterBuild;
  */
 declare class CharacterBuild {
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {string} username
      * @param {string} hash
      */
-    constructor(data: object, enka: EnkaClient, username: string, hash: string);
-    /** @type {object} */
-    _data: object;
+    constructor(data: {
+        [x: string]: any;
+    }, enka: EnkaClient, username: string, hash: string);
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {{username: string, hash: string}} */

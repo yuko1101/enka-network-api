@@ -1,5 +1,5 @@
 /**
- * @param {Array<object>} array
+ * @param {Array<Object<string, any>>} array
  * @param {function(object): string} callback
  */
 module.exports.separateWithValue = (array, callback) => {
@@ -13,8 +13,8 @@ module.exports.separateWithValue = (array, callback) => {
 };
 
 /**
- * @param {object} obj
- * @param {object} newKeys
+ * @param {Object<string, any>} obj
+ * @param {Object<string, any>} newKeys
  */
 module.exports.renameKeys = (obj, newKeys) => {
     const keyValues = Object.keys(obj).map(key => {

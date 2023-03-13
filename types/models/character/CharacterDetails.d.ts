@@ -2,14 +2,14 @@ export = CharacterDetails;
 /**
  * @en Birthday
  * @typedef Birthday
- * @type {object}
+ * @type {Object<string, any>}
  * @property {number} month
  * @property {number} day
  */
 /**
  * @en CharacterVoices
  * @typedef CharacterVoices
- * @type {object}
+ * @type {Object<string, any>}
  * @property {TextAssets} chinese
  * @property {TextAssets} japanese
  * @property {TextAssets} english
@@ -27,8 +27,10 @@ declare class CharacterDetails {
     constructor(id: number, enka: EnkaClient, characterId?: number | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {number} */
     id: number;
     /**
@@ -59,14 +61,10 @@ declare namespace CharacterDetails {
 }
 import EnkaClient = require("../../client/EnkaClient");
 type Birthday = {
-    month: number;
-    day: number;
+    [x: string]: any;
 };
 import TextAssets = require("../assets/TextAssets");
 type CharacterVoices = {
-    chinese: TextAssets;
-    japanese: TextAssets;
-    english: TextAssets;
-    korean: TextAssets;
+    [x: string]: any;
 };
 import { LanguageCode } from "../../client/CachedAssetsManager";

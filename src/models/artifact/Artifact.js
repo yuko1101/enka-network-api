@@ -7,7 +7,7 @@ const StatusProperty = require("../StatusProperty");
 /**
  * @en SubstatsContainer
  * @typedef SubstatsContainer
- * @type {object}
+ * @type {Object<string, any>}
  * @property {Array<StatusProperty>} total
  * @property {Array<ArtifactSplitSubstat>} split
  */
@@ -18,7 +18,7 @@ const StatusProperty = require("../StatusProperty");
 class Artifact {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
     constructor(data, enka) {
@@ -26,7 +26,7 @@ class Artifact {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
 

@@ -22,7 +22,7 @@ class Constellation {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(c => c.talentId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);

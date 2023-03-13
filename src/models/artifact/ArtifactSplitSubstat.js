@@ -14,13 +14,13 @@ class ArtifactSplitSubstat extends StatusProperty {
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         const data = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(a => a.id === id);
         if (!data) throw new AssetsNotFoundError("Artifact Substat", id);
 
         super(data.propType, data.propValue, enka);
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
     }
 }

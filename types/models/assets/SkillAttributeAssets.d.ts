@@ -2,7 +2,7 @@ export = SkillAttributeAssets;
 /**
  * @en SkillAttributeData
  * @typedef SkillAttributeData
- * @type {object}
+ * @type {Object<string, any>}
  * @property {string} name
  * @property {string} valueText
  * @property {Array<number>} usedNumbers
@@ -38,7 +38,5 @@ declare namespace SkillAttributeAssets {
 import TextAssets = require("./TextAssets");
 import { LanguageCode } from "../../client/CachedAssetsManager";
 type SkillAttributeData = {
-    name: string;
-    valueText: string;
-    usedNumbers: Array<number>;
+    [x: string]: any;
 };

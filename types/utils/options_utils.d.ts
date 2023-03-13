@@ -1,2 +1,8 @@
-export function bindOptions(defaultOptions: object, options: object): object;
+export function bindOptions(defaultOptions: {
+    [x: string]: any;
+}, options: {
+    [x: string]: any;
+}): {
+    [x: string]: any;
+};
 export function generateUuid(): string;

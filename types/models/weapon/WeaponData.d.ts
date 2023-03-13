@@ -6,15 +6,19 @@ declare class WeaponData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: object | undefined);
+    constructor(id: number, enka: EnkaClient, data?: {
+        [x: string]: any;
+    } | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */
     id: number;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */
@@ -27,8 +31,10 @@ declare class WeaponData {
     stars: number;
     /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
     weaponType: "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
-    /** @type {object} */
-    _weaponTypeData: object;
+    /** @type {Object<string, any>} */
+    _weaponTypeData: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     weaponTypeName: TextAssets;
     /** @type {Array<WeaponRefinement>} */

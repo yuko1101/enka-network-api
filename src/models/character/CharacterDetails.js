@@ -8,7 +8,7 @@ const TextAssets = require("../assets/TextAssets");
 /**
  * @en Birthday
  * @typedef Birthday
- * @type {object}
+ * @type {Object<string, any>}
  * @property {number} month
  * @property {number} day
  */
@@ -16,7 +16,7 @@ const TextAssets = require("../assets/TextAssets");
 /**
  * @en CharacterVoices
  * @typedef CharacterVoices
- * @type {object}
+ * @type {Object<string, any>}
  * @property {TextAssets} chinese
  * @property {TextAssets} japanese
  * @property {TextAssets} english
@@ -38,7 +38,7 @@ class CharacterDetails {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.fetterId === id) || f.avatarId === characterId);
         if (!this._data) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
 

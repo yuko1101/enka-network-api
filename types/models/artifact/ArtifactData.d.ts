@@ -6,23 +6,29 @@ declare class ArtifactData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [setData]
+     * @param {Object<string, any>} [setData]
      */
-    constructor(id: number, enka: EnkaClient, setData?: object | undefined);
+    constructor(id: number, enka: EnkaClient, setData?: {
+        [x: string]: any;
+    } | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */
     id: number;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */
     description: TextAssets;
     /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
     equipType: "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
-    /** @type {object} */
-    _equipTypeData: object;
+    /** @type {Object<string, any>} */
+    _equipTypeData: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     equipTypeName: TextAssets;
     /** @type {ImageAssets} */

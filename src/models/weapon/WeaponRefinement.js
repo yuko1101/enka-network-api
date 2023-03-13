@@ -9,11 +9,11 @@ const StatusProperty = require("../StatusProperty");
 class WeaponRefinement {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
     constructor(data, enka) {
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
         /** @type {EnkaClient} */

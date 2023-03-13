@@ -2,7 +2,7 @@ export = EnkaClient;
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
- * @type {object}
+ * @type {Object<string, any>}
  * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
@@ -17,7 +17,9 @@ declare class EnkaClient {
     /**
      * @param {EnkaClientOptions} [options]
      */
-    constructor(options?: EnkaClientOptions | undefined);
+    constructor(options?: {
+        [x: string]: any;
+    } | undefined);
     /** @type {EnkaClientOptions} */
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
@@ -102,15 +104,7 @@ declare namespace EnkaClient {
     export { EnkaClientOptions };
 }
 type EnkaClientOptions = {
-    enkaUrl?: string | undefined;
-    userAgent?: string | undefined;
-    /**
-     * http request timeout in milliseconds
-     */
-    timeout?: bigint | undefined;
-    defaultLanguage?: CachedAssetsManager.LanguageCode | undefined;
-    cacheDirectory?: string | undefined;
-    showFetchCacheLog?: boolean | undefined;
+    [x: string]: any;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");

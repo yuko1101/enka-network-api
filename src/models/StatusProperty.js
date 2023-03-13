@@ -21,7 +21,7 @@ class StatusProperty {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
         if (!this._propData) throw new AssetsNotFoundError("Fight Prop", id);
 

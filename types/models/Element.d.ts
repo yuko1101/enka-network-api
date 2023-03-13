@@ -12,8 +12,10 @@ declare class Element {
     id: string;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
 }

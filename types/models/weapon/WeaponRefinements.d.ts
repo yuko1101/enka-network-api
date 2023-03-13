@@ -12,8 +12,10 @@ declare class WeaponRefinements {
     id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {Array<object>} */
-    _data: Array<object>;
+    /** @type {Array<Object<string, any>>} */
+    _data: Array<{
+        [x: string]: any;
+    }>;
     /** @type {Array<WeaponRefinement>} */
     refinements: Array<WeaponRefinement>;
 }

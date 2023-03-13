@@ -6,17 +6,23 @@ declare class ArtifactSet {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data]
+     * @param {Object<string, any>} [data]
      */
-    constructor(id: number, enka: EnkaClient, data?: object | undefined);
+    constructor(id: number, enka: EnkaClient, data?: {
+        [x: string]: any;
+    } | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */
     id: number;
-    /** @type {object} */
-    _data: object;
-    /** @type {Array<object>} */
-    _setBonusData: Array<object>;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
+    /** @type {Array<Object<string, any>>} */
+    _setBonusData: Array<{
+        [x: string]: any;
+    }>;
     /** @type {Array<ArtifactSetBonus>} */
     setBonus: Array<ArtifactSetBonus>;
     /** @type {ImageAssets} */

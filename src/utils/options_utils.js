@@ -1,7 +1,7 @@
 /**
- * @param {object} defaultOptions
- * @param {object} options
- * @returns {object}
+ * @param {Object<string, any>} defaultOptions
+ * @param {Object<string, any>} options
+ * @returns {Object<string, any>}
  */
 module.exports.bindOptions = (defaultOptions, options) => {
     if (!options) return defaultOptions;
@@ -68,7 +68,7 @@ function getNullPath(object, path = []) {
 /**
  * Warning: This function will not work with circular object.
  * @private
- * @param {object} object
+ * @param {Object<string, any>} object
  * @returns {Array<{path: Array<string>, value: any}>}
  */
 function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
@@ -92,7 +92,7 @@ function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
 }
 
 /**
- * @param {object} object
+ * @param {Object<string, any>} object
  * @param {Array<string>} path
  * @returns {*}
  */
@@ -107,7 +107,7 @@ function getPath(object, path) {
 }
 
 /**
- * @param {object} object
+ * @param {Object<string, any>} object
  * @param {Array<string>} path
  * @returns {boolean}
  */
@@ -123,7 +123,7 @@ function hasPath(object, path) {
 }
 
 /**
- * @param {object} object
+ * @param {Object<string, any>} object
  * @param {Array<string>} path
  * @param {*} value
  */

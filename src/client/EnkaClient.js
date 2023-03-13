@@ -25,7 +25,7 @@ const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${usern
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
- * @type {object}
+ * @type {Object<string, any>}
  * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds

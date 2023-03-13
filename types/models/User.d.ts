@@ -4,15 +4,19 @@ export = User;
  */
 declare class User {
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: object, enka: EnkaClient, uid?: string | number | undefined);
+    constructor(data: {
+        [x: string]: any;
+    }, enka: EnkaClient, uid?: string | number | undefined);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {number} */
     uid: number;
     /** @type {string | null} */

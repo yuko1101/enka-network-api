@@ -34,7 +34,7 @@ class CharacterData {
         this.enka = enka;
 
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Character", id);
@@ -93,7 +93,7 @@ class CharacterData {
 
         const keysManager = enka.cachedAssetsManager.getObjectKeysManager();
 
-        /** @type {Array<object>} */
+        /** @type {Array<Object<string, any>>} */
         this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[keysManager.costumeCharacterIdKey] === id); // Previous key of "jsonName"
 
         /** @type {Array<Costume>} */
@@ -103,7 +103,7 @@ class CharacterData {
         /** @type {number} */
         this.skillDepotId = candSkillDepotId || this._data.skillDepotId;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);
 
         if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);

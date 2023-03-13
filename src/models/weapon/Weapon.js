@@ -11,7 +11,7 @@ const WeaponRefinement = require("./WeaponRefinement");
 class Weapon {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
     constructor(data, enka) {
@@ -19,7 +19,7 @@ class Weapon {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
 

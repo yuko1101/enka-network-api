@@ -10,7 +10,7 @@ const User = require("./User");
 class DetailedUser extends User {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */

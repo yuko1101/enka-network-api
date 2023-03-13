@@ -24,7 +24,7 @@ const ElementalBurst = require("./talents/ElementalBurst");
 class Character {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
     constructor(data, enka) {
@@ -32,7 +32,7 @@ class Character {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
         /** @type {CharacterData} */

@@ -9,7 +9,7 @@ const StatusProperty = require("../StatusProperty");
 class ArtifactSetBonus {
     /**
      * @param {number} needCount
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
     constructor(needCount, data, enka) {

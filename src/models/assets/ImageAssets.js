@@ -1,7 +1,7 @@
 const imageBaseUrl = "https://enka.network/ui";
 const imageBaseUrlMihoyo = "https://upload-os-bbs.mihoyo.com/game_record/genshin";
 
-/** @type {object} */
+/** @type {Object<string, any>} */
 const imageTypes = {
     "character_side_icon": [/^UI_AvatarIcon_Side_(.+)$/],
     "character_icon": [/^UI_AvatarIcon_(.+)$/],

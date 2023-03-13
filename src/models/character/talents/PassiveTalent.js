@@ -22,7 +22,7 @@ class PassiveTalent {
         this.enka = enka;
 
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.proudSkillId === id);
 
         if (!this._data) throw new AssetsNotFoundError("Talent", id);

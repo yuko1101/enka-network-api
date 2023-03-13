@@ -12,7 +12,7 @@ class Costume {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id, enka, data = null) {
 
@@ -24,7 +24,7 @@ class Costume {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === id);
 
         if (!this._data) throw new AssetsNotFoundError("Costume", id);

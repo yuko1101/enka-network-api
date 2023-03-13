@@ -15,7 +15,7 @@ class WeaponData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id, enka, data = null) {
 
@@ -26,7 +26,7 @@ class WeaponData {
         this.id = id;
 
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(w => w.id === id);
         if (!this._data) throw new AssetsNotFoundError("Weapon", id);
 
@@ -48,7 +48,7 @@ class WeaponData {
         /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
         this.weaponType = this._data.weaponType;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.weaponType);
         if (!this._weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
 

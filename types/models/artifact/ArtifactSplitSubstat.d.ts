@@ -9,8 +9,10 @@ declare class ArtifactSplitSubstat extends StatusProperty {
      * @param {EnkaClient} enka
      */
     constructor(id: number, enka: EnkaClient);
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
 }
 import StatusProperty = require("../StatusProperty");
 import EnkaClient = require("../../client/EnkaClient");

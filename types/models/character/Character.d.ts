@@ -4,14 +4,18 @@ export = Character;
  */
 declare class Character {
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
-    constructor(data: object, enka: EnkaClient);
+    constructor(data: {
+        [x: string]: any;
+    }, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {CharacterData} */
     characterData: CharacterData;
     /** @type {Costume} */

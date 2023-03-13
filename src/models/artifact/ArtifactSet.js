@@ -13,7 +13,7 @@ class ArtifactSet {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data]
+     * @param {Object<string, any>} [data]
      */
     constructor(id, enka, data = null) {
 
@@ -23,12 +23,12 @@ class ArtifactSet {
         /** @type {number} */
         this.id = data?.setId ?? id;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").find(s => s.setId === id);
 
         if (!this._data) throw new AssetsNotFoundError("ArtifactSet", id);
 
-        /** @type {Array<object>} */
+        /** @type {Array<Object<string, any>>} */
         this._setBonusData = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(bonus => bonus.id === this._data.EquipAffixId);
 
         if (this._setBonusData.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${this._data.EquipAffixId}`);

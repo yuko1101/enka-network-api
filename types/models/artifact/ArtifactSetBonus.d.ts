@@ -5,10 +5,12 @@ export = ArtifactSetBonus;
 declare class ArtifactSetBonus {
     /**
      * @param {number} needCount
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      */
-    constructor(needCount: number, data: object, enka: EnkaClient);
+    constructor(needCount: number, data: {
+        [x: string]: any;
+    }, enka: EnkaClient);
     /** @type {EnkaClient} */
     enka: EnkaClient;
     /** @type {number} */

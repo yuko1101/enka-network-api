@@ -13,7 +13,7 @@ class ArtifactData {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [setData]
+     * @param {Object<string, any>} [setData]
      */
     constructor(id, enka, setData = null) {
 
@@ -24,7 +24,7 @@ class ArtifactData {
         this.id = id;
 
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(a => a.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Artifact", id);
@@ -38,7 +38,7 @@ class ArtifactData {
         /** @type {"EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS" } Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
         this.equipType = this._data.equipType;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._equipTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.equipType);
         if (!this._equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
 

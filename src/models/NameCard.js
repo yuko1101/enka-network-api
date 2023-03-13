@@ -12,7 +12,7 @@ class NameCard {
     /**
      * @param {number} id
      * @param {EnkaClient} enka
-     * @param {object} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id, enka, data = null) {
 
@@ -23,7 +23,7 @@ class NameCard {
         this.enka = enka;
 
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("NameCard", id);

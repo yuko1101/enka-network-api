@@ -8,14 +8,14 @@ const { renameKeys } = require("../../utils/object_utils");
 class EnkaUser {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {string} username
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data, enka, username, uid = null) {
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
         /** @type {EnkaClient} */

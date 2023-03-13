@@ -20,7 +20,7 @@ class WeaponRefinements {
         this.enka = enka;
 
 
-        /** @type {Array<object>} */
+        /** @type {Array<Object<string, any>>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === id).sort((a, b) => a.level - b.level);
 
         /** @type {Array<WeaponRefinement>} */

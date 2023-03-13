@@ -20,7 +20,7 @@ class Element {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
         if (!this._data) throw new AssetsNotFoundError("Element", id);
 

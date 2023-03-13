@@ -12,8 +12,10 @@ declare class Constellation {
     id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */

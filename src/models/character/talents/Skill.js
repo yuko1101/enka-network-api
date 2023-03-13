@@ -22,7 +22,7 @@ class Skill {
         /** @type {EnkaClient} */
         this.enka = enka;
 
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === id);
 
         if (!this._data) throw new AssetsNotFoundError("Skill", id);

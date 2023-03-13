@@ -11,12 +11,12 @@ const StatusProperty = require("../StatusProperty");
 class CharacterStatus {
 
     /**
-     * @param {object} data
+     * @param {Object<string, any>} data
      * @param {EnkaClient} enka
      * @param {Element} element
      */
     constructor(data, enka, element) {
-        /** @type {object} */
+        /** @type {Object<string, any>} */
         this._data = data;
 
         /** @type {EnkaClient} */

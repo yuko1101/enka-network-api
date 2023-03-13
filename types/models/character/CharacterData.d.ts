@@ -13,8 +13,10 @@ declare class CharacterData {
     id: number;
     /** @type {EnkaClient} */
     enka: EnkaClient;
-    /** @type {object} */
-    _data: object;
+    /** @type {Object<string, any>} */
+    _data: {
+        [x: string]: any;
+    };
     /** @type {TextAssets} */
     name: TextAssets;
     /** @type {TextAssets} */
@@ -49,14 +51,18 @@ declare class CharacterData {
     rarity: "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
     /** @type {number} */
     stars: number;
-    /** @type {Array<object>} */
-    _costumeData: Array<object>;
+    /** @type {Array<Object<string, any>>} */
+    _costumeData: Array<{
+        [x: string]: any;
+    }>;
     /** @type {Array<Costume>} */
     costumes: Array<Costume>;
     /** @type {number} */
     skillDepotId: number;
-    /** @type {object} */
-    _skillData: object;
+    /** @type {Object<string, any>} */
+    _skillData: {
+        [x: string]: any;
+    };
     /** @type {ElementalBurst | null} */
     elementalBurst: ElementalBurst | null;
     /** @type {Element | null} */
