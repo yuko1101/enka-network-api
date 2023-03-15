@@ -2,8 +2,9 @@ export = EnkaClient;
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
- * @type {Object<string, any>}
+ * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
+ * @property {string} [imageBaseUrl="https://enka.network/ui"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
@@ -17,9 +18,7 @@ declare class EnkaClient {
     /**
      * @param {EnkaClientOptions} [options]
      */
-    constructor(options?: {
-        [x: string]: any;
-    } | undefined);
+    constructor(options?: EnkaClientOptions | undefined);
     /** @type {EnkaClientOptions} */
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
@@ -104,7 +103,16 @@ declare namespace EnkaClient {
     export { EnkaClientOptions };
 }
 type EnkaClientOptions = {
-    [x: string]: any;
+    enkaUrl?: string | undefined;
+    imageBaseUrl?: string | undefined;
+    userAgent?: string | undefined;
+    /**
+     * http request timeout in milliseconds
+     */
+    timeout?: bigint | undefined;
+    defaultLanguage?: CachedAssetsManager.LanguageCode | undefined;
+    cacheDirectory?: string | undefined;
+    showFetchCacheLog?: boolean | undefined;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");

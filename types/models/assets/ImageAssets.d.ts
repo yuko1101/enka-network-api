@@ -5,8 +5,11 @@ export = ImageAssets;
 declare class ImageAssets {
     /**
      * @param {string} name
+     * @param {import("../../client/EnkaClient")} enka
      */
-    constructor(name: string);
+    constructor(name: string, enka: import("../../client/EnkaClient"));
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {string} */
     name: string;
     /** @type {string} */

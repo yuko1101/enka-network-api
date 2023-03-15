@@ -2,7 +2,7 @@ export = Artifact;
 /**
  * @en SubstatsContainer
  * @typedef SubstatsContainer
- * @type {Object<string, any>}
+ * @type {object}
  * @property {Array<StatusProperty>} total
  * @property {Array<ArtifactSplitSubstat>} split
  */
@@ -39,5 +39,7 @@ import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
 import StatusProperty = require("../StatusProperty");
 type SubstatsContainer = {
-    [x: string]: any;
+    total: Array<StatusProperty>;
+    split: Array<ArtifactSplitSubstat>;
 };
+import ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
