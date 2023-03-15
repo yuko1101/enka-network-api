@@ -7,7 +7,7 @@ const StatusProperty = require("../StatusProperty");
 /**
  * @en SubstatsContainer
  * @typedef SubstatsContainer
- * @type {Object<string, any>}
+ * @type {object}
  * @property {Array<StatusProperty>} total
  * @property {Array<ArtifactSplitSubstat>} split
  */

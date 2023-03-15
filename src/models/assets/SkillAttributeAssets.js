@@ -5,7 +5,7 @@ const { LanguageCode } = require("../../client/CachedAssetsManager");
 /**
  * @en SkillAttributeData
  * @typedef SkillAttributeData
- * @type {Object<string, any>}
+ * @type {object}
  * @property {string} name
  * @property {string} valueText
  * @property {Array<number>} usedNumbers

@@ -25,7 +25,7 @@ const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${usern
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
- * @type {Object<string, any>}
+ * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
  * @property {string} [imageBaseUrl="https://enka.network/ui"]
  * @property {string} [userAgent="Mozilla/5.0"]

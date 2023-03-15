@@ -8,7 +8,7 @@ const TextAssets = require("../assets/TextAssets");
 /**
  * @en Birthday
  * @typedef Birthday
- * @type {Object<string, any>}
+ * @type {object}
  * @property {number} month
  * @property {number} day
  */
@@ -16,7 +16,7 @@ const TextAssets = require("../assets/TextAssets");
 /**
  * @en CharacterVoices
  * @typedef CharacterVoices
- * @type {Object<string, any>}
+ * @type {object}
  * @property {TextAssets} chinese
  * @property {TextAssets} japanese
  * @property {TextAssets} english
