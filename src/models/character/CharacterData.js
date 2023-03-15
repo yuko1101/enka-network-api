@@ -59,22 +59,22 @@ class CharacterData {
         this._nameId = this._data.iconName.slice("UI_AvatarIcon_".length);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.iconName);
+        this.icon = new ImageAssets(this._data.iconName, enka);
 
         /** @type {ImageAssets} */
-        this.sideIcon = new ImageAssets(this._data.sideIconName);
+        this.sideIcon = new ImageAssets(this._data.sideIconName, enka);
 
         /** @type {ImageAssets} */
-        this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`);
+        this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
         /**
          * Travelers do not have this.
          * @type {ImageAssets}
          */
-        this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`);
+        this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`, enka);
 
         /** @type {ImageAssets} */
-        this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`);
+        this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
         // TODO: better find
         const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.materialType === "MATERIAL_NAMECARD" && m.picPath[0] && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(m.picPath[0]));

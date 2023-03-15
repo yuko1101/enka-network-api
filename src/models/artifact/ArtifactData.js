@@ -46,7 +46,7 @@ class ArtifactData {
         this.equipTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon);
+        this.icon = new ImageAssets(this._data.icon, enka);
 
         /** @type {number} */
         this.stars = this._data.rankLevel;

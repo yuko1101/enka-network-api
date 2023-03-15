@@ -38,7 +38,7 @@ class ArtifactSet {
         this.setBonus = this._data.setNeedNum.map((n, i) => new ArtifactSetBonus(n, this._setBonusData[i], enka));
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.setIcon);
+        this.icon = new ImageAssets(this._data.setIcon, enka);
 
         /** @type {TextAssets} */
         this.name = new TextAssets(this._setBonusData[0].nameTextMapHash, enka);

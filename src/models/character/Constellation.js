@@ -34,7 +34,7 @@ class Constellation {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon);
+        this.icon = new ImageAssets(this._data.icon, enka);
 
         /** @type {Array<StatusProperty>} */
         this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));

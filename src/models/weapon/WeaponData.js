@@ -37,10 +37,10 @@ class WeaponData {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon);
+        this.icon = new ImageAssets(this._data.icon, enka);
 
         /** @type {ImageAssets} */
-        this.awakenIcon = new ImageAssets(this._data.awakenIcon);
+        this.awakenIcon = new ImageAssets(this._data.awakenIcon, enka);
 
         /** @type {number} */
         this.stars = this._data.rankLevel;

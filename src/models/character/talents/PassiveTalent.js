@@ -35,7 +35,7 @@ class PassiveTalent {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon);
+        this.icon = new ImageAssets(this._data.icon, enka);
 
         /**
          * Whether the talent is hidden in the list of talents on the in-game character screen.

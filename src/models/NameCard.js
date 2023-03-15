@@ -35,10 +35,10 @@ class NameCard {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon);
+        this.icon = new ImageAssets(this._data.icon, enka);
 
         /** @type {Array<ImageAssets>} */
-        this.pictures = this._data.picPath.map(name => new ImageAssets(name));
+        this.pictures = this._data.picPath.map(name => new ImageAssets(name, enka));
 
     }
 }

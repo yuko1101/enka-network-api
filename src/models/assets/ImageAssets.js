@@ -1,4 +1,3 @@
-const imageBaseUrl = "https://enka.network/ui";
 const imageBaseUrlMihoyo = "https://upload-os-bbs.mihoyo.com/game_record/genshin";
 
 /** @type {Object<string, any>} */
@@ -16,13 +15,17 @@ class ImageAssets {
 
     /**
      * @param {string} name
+     * @param {import("../../client/EnkaClient")} enka
      */
-    constructor(name) {
+    constructor(name, enka) {
+        /** @type {import("../../client/EnkaClient")} */
+        this.enka = enka;
+
         /** @type {string} */
         this.name = name;
 
         /** @type {string} */
-        this.url = name === "" ? "" : `${imageBaseUrl}/${name}.png`;
+        this.url = name === "" ? "" : `${enka.options.imageBaseUrl}/${name}.png`;
 
         /** @type {string} */
         this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name)));

@@ -27,6 +27,7 @@ const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${usern
  * @typedef EnkaClientOptions
  * @type {Object<string, any>}
  * @property {string} [enkaUrl="https://enka.network"]
+ * @property {string} [imageBaseUrl="https://enka.network/ui"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
@@ -46,6 +47,7 @@ class EnkaClient {
         /** @type {EnkaClientOptions} */
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
+            "imageBaseUrl": "https://enka.network/ui",
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",

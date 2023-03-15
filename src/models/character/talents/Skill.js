@@ -34,7 +34,7 @@ class Skill {
         this.description = new TextAssets(this._data.descTextMapHash, enka);
 
         /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.skillIcon);
+        this.icon = new ImageAssets(this._data.skillIcon, enka);
     }
 }
 
