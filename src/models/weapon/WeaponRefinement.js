@@ -20,7 +20,7 @@ class WeaponRefinement {
         this.enka = enka;
 
         /** @type {number} */
-        this.level = data.level;
+        this.level = (data.level ?? 0) + 1;
 
         /** @type {TextAssets} */
         this.name = new TextAssets(data.nameTextMapHash, enka);
