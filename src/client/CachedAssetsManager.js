@@ -30,6 +30,7 @@ const contents = [
     "AvatarSkillDepotExcelConfigData", // Skill Depot
     "AvatarSkillExcelConfigData", // Skills
     "AvatarTalentExcelConfigData", // Constellations
+    "AvatarPromoteExcelConfigData", // Character Ascensions
     "ReliquaryExcelConfigData", // Artifacts
     "ReliquarySetExcelConfigData", // Artifact Sets
     "WeaponExcelConfigData", // Weapons
