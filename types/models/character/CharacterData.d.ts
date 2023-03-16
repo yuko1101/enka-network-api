@@ -108,7 +108,7 @@ declare class CharacterData {
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
-import NameCard = require("../NameCard");
+import NameCard = require("../material/NameCard");
 import Costume = require("./Costume");
 import ElementalBurst = require("./talents/ElementalBurst");
 import Element = require("../Element");

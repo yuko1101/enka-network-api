@@ -57,5 +57,5 @@ declare class User {
 import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");
 import Costume = require("./character/Costume");
-import NameCard = require("./NameCard");
+import NameCard = require("./material/NameCard");
 import EnkaProfile = require("./enka/EnkaProfile");

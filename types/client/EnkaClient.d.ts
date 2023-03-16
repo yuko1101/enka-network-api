@@ -85,6 +85,15 @@ declare class EnkaClient {
      */
     getCostumeById(id: number | string): Costume;
     /**
+     * @returns {Material[]}
+     */
+    getAllMaterials(): Material[];
+    /**
+     * @param {number | string} id
+     * @returns {Material}
+     */
+    getMaterialById(id: number | string): Material;
+    /**
      * @returns {NameCard[]}
      */
     getAllNameCards(): NameCard[];
@@ -123,5 +132,6 @@ import CharacterBuild = require("../models/enka/CharacterBuild");
 import CharacterData = require("../models/character/CharacterData");
 import WeaponData = require("../models/weapon/WeaponData");
 import Costume = require("../models/character/Costume");
-import NameCard = require("../models/NameCard");
+import Material = require("../models/material/Material");
+import NameCard = require("../models/material/NameCard");
 import ArtifactData = require("../models/artifact/ArtifactData");

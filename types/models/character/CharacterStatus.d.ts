@@ -92,8 +92,15 @@ declare class CharacterStatus {
      * Including physical damage bonus.
      * If there are more than two highest ones, this will be null.
      * @type {StatusProperty | null}
+     * @deprecated Use CharacterStatus#highestDamageBonus instead.
      */
     maxElementDamage: StatusProperty | null;
+    /**
+     * Including physical damage bonus, and returns list of highest damage bonus.
+     * Returns null if highest damage bonus is 0 or less.
+     * @type {Array<StatusProperty> | null}
+     */
+    highestDamageBonus: Array<StatusProperty> | null;
     /** @type {number} */
     pyroEnergyCost: number;
     /** @type {number} */
