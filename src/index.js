@@ -23,6 +23,7 @@ const SkillLevel = require("./models/character/talents/SkillLevel");
 const UniqueSkill = require("./models/character/talents/UniqueSkill");
 const UpgradableSkill = require("./models/character/talents/UpgradableSkill");
 const Character = require("./models/character/Character");
+const CharacterAscension = require("./models/character/CharacterAscension");
 const CharacterData = require("./models/character/CharacterData");
 const CharacterDetails = require("./models/character/CharacterDetails");
 const CharacterStatus = require("./models/character/CharacterStatus");
@@ -35,6 +36,7 @@ const EnkaProfile = require("./models/enka/EnkaProfile");
 const EnkaUser = require("./models/enka/EnkaUser");
 const Material = require("./models/material/Material");
 const NameCard = require("./models/material/NameCard");
+const UpgradeCost = require("./models/material/UpgradeCost");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
@@ -67,6 +69,7 @@ module.exports = {
     UniqueSkill,
     UpgradableSkill,
     Character,
+    CharacterAscension,
     CharacterData,
     CharacterDetails,
     CharacterStatus,
@@ -78,6 +81,7 @@ module.exports = {
     EnkaUser,
     Material,
     NameCard,
+    UpgradeCost,
     Weapon,
     WeaponData,
     WeaponRefinement,

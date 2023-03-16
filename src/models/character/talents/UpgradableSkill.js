@@ -2,7 +2,7 @@
 const EnkaClient = require("../../../client/EnkaClient");
 const SkillAttributeAssets = require("../../assets/SkillAttributeAssets");
 const TextAssets = require("../../assets/TextAssets");
-const Material = require("../../material/Material");
+const UpgradeCost = require("../../material/UpgradeCost");
 const Skill = require("./Skill");
 
 /**
@@ -44,25 +44,17 @@ class UpgradableSkill extends Skill {
     }
 
     /**
-     * @param {number} level the base level you want to upgrade to. (Do not add extra level.)
-     * @returns {Array<{material: Material, count: number}>}
+     * @param {number} level the base level you want to upgrade to. (Do not add extra levels.)
+     * @returns {UpgradeCost | null}
      */
     getUpgradeCost(level) {
         const proudSkillGroupId = this._data.proudSkillGroupId;
-        if (!proudSkillGroupId) return [];
+        if (!proudSkillGroupId) return null;
 
         const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
-        if (!leveledSkillData) return [];
+        if (!leveledSkillData) return null;
 
-        if (!leveledSkillData.costItems) return [];
-
-        return leveledSkillData.costItems.map(cost => {
-            if (!cost.id) return null;
-            return {
-                material: Material.getMaterialById(cost.id),
-                count: cost.count,
-            };
-        }).filter(cost => cost !== null);
+        return new UpgradeCost(leveledSkillData.coinCost ?? 0, leveledSkillData.costItems ?? []);
     }
 }
 

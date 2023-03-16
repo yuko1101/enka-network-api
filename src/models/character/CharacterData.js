@@ -14,6 +14,7 @@ const ElementalSkill = require("./talents/ElementalSkill");
 const NormalAttack = require("./talents/NormalAttack");
 const NameCard = require("../material/NameCard");
 const CharacterDetails = require("./CharacterDetails");
+const CharacterAscension = require("./CharacterAscension");
 
 /**
  * @en CharacterData
@@ -194,6 +195,15 @@ class CharacterData {
             default:
                 return this.name;
         }
+    }
+
+
+    /**
+     * @param {number} ascension
+     * @returns {CharacterAscension}
+     */
+    getAscensionData(ascension) {
+        return new CharacterAscension(this._data.avatarPromoteId, ascension, this.enka);
     }
 }
 
