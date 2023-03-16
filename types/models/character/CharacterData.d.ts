@@ -104,6 +104,11 @@ declare class CharacterData {
      * @returns {TextAssets}
      */
     getOriginalName(): TextAssets;
+    /**
+     * @param {number} ascension
+     * @returns {CharacterAscension}
+     */
+    getAscensionData(ascension: number): CharacterAscension;
 }
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
@@ -118,3 +123,4 @@ import NormalAttack = require("./talents/NormalAttack");
 import PassiveTalent = require("./talents/PassiveTalent");
 import Constellation = require("./Constellation");
 import CharacterDetails = require("./CharacterDetails");
+import CharacterAscension = require("./CharacterAscension");
