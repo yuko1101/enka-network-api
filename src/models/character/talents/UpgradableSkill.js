@@ -44,7 +44,7 @@ class UpgradableSkill extends Skill {
     }
 
     /**
-     * @param {number} level the level you want to upgrade to.
+     * @param {number} level the base level you want to upgrade to. (Do not add extra level.)
      * @returns {Array<{material: Material, count: number}>}
      */
     getUpgradeCost(level) {
@@ -56,12 +56,13 @@ class UpgradableSkill extends Skill {
 
         if (!leveledSkillData.costItems) return [];
 
-        return leveledSkillData.costItems.map(c => {
+        return leveledSkillData.costItems.map(cost => {
+            if (!cost.id) return null;
             return {
-                material: Material.getMaterialById(c.id),
-                count: c.count,
+                material: Material.getMaterialById(cost.id),
+                count: cost.count,
             };
-        });
+        }).filter(cost => cost !== null);
     }
 }
 
