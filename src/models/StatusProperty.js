@@ -10,7 +10,7 @@ const TextAssets = require("./assets/TextAssets");
 class StatusProperty {
 
     /**
-     * @param {string} id
+     * @param {FightProp} id
      * @param {number} value
      * @param {EnkaClient} enka
      */
