@@ -108,8 +108,18 @@ class CharacterStatus {
          * Including physical damage bonus.
          * If there are more than two highest ones, this will be null.
          * @type {StatusProperty | null}
+         * @deprecated Use CharacterStatus#highestDamageBonus instead.
          */
         this.maxElementDamage = sortedDamageBonus[0].value === sortedDamageBonus[1].value ? null : sortedDamageBonus[0];
+
+        const highestDamageBonusList = sortedDamageBonus.filter(d => d.value === sortedDamageBonus[0].value);
+        /**
+         * Including physical damage bonus, and returns list of highest damage bonus.
+         * Returns null if highest damage bonus is 0 or less.
+         * @type {Array<StatusProperty> | null}
+         */
+        this.highestDamageBonus = highestDamageBonusList[0].value > 0 ? highestDamageBonusList : null;
+
 
         /** @type {number} */
         this.pyroEnergyCost = data[70] ?? 0;
