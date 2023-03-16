@@ -9,12 +9,12 @@ const TextAssets = require("./assets/TextAssets");
 class Element {
 
     /**
-     * @param {string} id
+     * @param {ElementType} id
      * @param {EnkaClient} enka
      */
     constructor(id, enka) {
 
-        /** @type {string} */
+        /** @type {ElementType} */
         this.id = id;
 
         /** @type {EnkaClient} */
@@ -30,3 +30,19 @@ class Element {
 }
 
 module.exports = Element;
+
+/**
+ * @en ElementType
+ * @typedef ElementType
+ * @type {"Wind"|"Rock"|"Electric"|"Grass"|"Water"|"Fire"|"Ice"}
+ * @example
+ * |ElementType|In-game Name|
+ * |---|---|
+ * |Wind|Anemo|
+ * |Rock|Geo|
+ * |Electric|Electro|
+ * |Grass|Dendro|
+ * |Water|Hydro|
+ * |Fire|Pyro|
+ * |Ice|Cryo|
+ */
