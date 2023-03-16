@@ -3,6 +3,7 @@ const EnkaClient = require("../../../client/EnkaClient");
 const AssetsNotFoundError = require("../../../errors/AssetsNotFoundError");
 const ImageAssets = require("../../assets/ImageAssets");
 const TextAssets = require("../../assets/TextAssets");
+const StatusProperty = require("../../StatusProperty");
 
 /**
  * @en PassiveTalent
@@ -36,6 +37,9 @@ class PassiveTalent {
 
         /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon, enka);
+
+        /** @type {Array<StatusProperty>} */
+        this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
         /**
          * Whether the talent is hidden in the list of talents on the in-game character screen.
