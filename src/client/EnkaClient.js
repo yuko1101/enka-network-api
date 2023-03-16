@@ -7,7 +7,7 @@ const CharacterData = require("../models/character/CharacterData");
 const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
 const { fetchJSON } = require("../utils/axios_utils");
-const NameCard = require("../models/NameCard");
+const NameCard = require("../models/material/NameCard");
 // eslint-disable-next-line no-unused-vars
 const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
@@ -18,6 +18,7 @@ const DetailedUser = require("../models/DetailedUser");
 const EnkaUser = require("../models/enka/EnkaUser");
 const EnkaProfile = require("../models/enka/EnkaProfile");
 const CharacterBuild = require("../models/enka/CharacterBuild");
+const Material = require("../models/material/Material");
 
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
@@ -238,10 +239,26 @@ class EnkaClient {
     }
 
     /**
+     * @returns {Material[]}
+     */
+    getAllMaterials() {
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(m => Material.getMaterialById(m.id, this, m));
+    }
+
+    /**
+     * @param {number | string} id
+     * @returns {Material}
+     */
+    getMaterialById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
+        return Material.getMaterialById(Number(id), this);
+    }
+
+    /**
      * @returns {NameCard[]}
      */
     getAllNameCards() {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === "MATERIAL_NAMECARD").map(n => new NameCard(n.id, this, n));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === NameCard.MATERIAL_TYPE).map(n => new NameCard(n.id, this, n));
     }
 
     /**

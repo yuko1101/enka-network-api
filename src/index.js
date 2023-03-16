@@ -33,13 +33,14 @@ const CharacterBuild = require("./models/enka/CharacterBuild");
 const EnkaProfile = require("./models/enka/EnkaProfile");
 // EnkaUser must be after EnkaProfile. (EnkaUser -> User -> EnkaProfile -> EnkaUser)
 const EnkaUser = require("./models/enka/EnkaUser");
+const Material = require("./models/material/Material");
+const NameCard = require("./models/material/NameCard");
 const Weapon = require("./models/weapon/Weapon");
 const WeaponData = require("./models/weapon/WeaponData");
 const WeaponRefinement = require("./models/weapon/WeaponRefinement");
 const WeaponRefinements = require("./models/weapon/WeaponRefinements");
 const DetailedUser = require("./models/DetailedUser");
 const Element = require("./models/Element");
-const NameCard = require("./models/NameCard");
 const User = require("./models/User");
 
 module.exports = {
@@ -75,12 +76,13 @@ module.exports = {
     CharacterBuild,
     EnkaProfile,
     EnkaUser,
+    Material,
+    NameCard,
     Weapon,
     WeaponData,
     WeaponRefinement,
     WeaponRefinements,
     DetailedUser,
     Element,
-    NameCard,
     User,
 };

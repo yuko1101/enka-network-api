@@ -3,7 +3,7 @@ const EnkaClient = require("../client/EnkaClient");
 const CharacterData = require("./character/CharacterData");
 const Costume = require("./character/Costume");
 const EnkaProfile = require("./enka/EnkaProfile");
-const NameCard = require("./NameCard");
+const NameCard = require("./material/NameCard");
 
 /**
  * @en User

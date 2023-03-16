@@ -12,7 +12,7 @@ const Costume = require("./Costume");
 const PassiveTalent = require("./talents/PassiveTalent");
 const ElementalSkill = require("./talents/ElementalSkill");
 const NormalAttack = require("./talents/NormalAttack");
-const NameCard = require("../NameCard");
+const NameCard = require("../material/NameCard");
 const CharacterDetails = require("./CharacterDetails");
 
 /**
