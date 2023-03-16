@@ -21,7 +21,7 @@ class UpgradeCost {
         this.items = costItems.map(cost => {
             if (!cost.id) return null;
             return {
-                material: Material.getMaterialById(cost.id),
+                material: Material.getMaterialById(cost.id, enka),
                 count: cost.count,
             };
         }).filter(cost => cost !== null);

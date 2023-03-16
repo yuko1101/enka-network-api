@@ -35,7 +35,7 @@ class CharacterAscension {
         this.requiredPlayerLevel = this._data.requiredPlayerLevel;
 
         /** @type {UpgradeCost} */
-        this.cost = new UpgradeCost(this._data.scoinCost ?? 0, this._data.costItems ?? []);
+        this.cost = new UpgradeCost(this._data.scoinCost ?? 0, this._data.costItems ?? [], enka);
 
         /** @type {Array<StatusProperty>} */
         this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
