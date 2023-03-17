@@ -49,7 +49,7 @@ class StatusProperty {
      */
     toString() {
         const fix = this.isPercent ? 1 : 0;
-        return this.getFormattedValue().toFixed(fix) + (this.isPercent ? "%" : "");
+        return this.getFormattedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
     }
 }
 
