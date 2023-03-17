@@ -45,7 +45,7 @@ class WeaponData {
         /** @type {number} */
         this.stars = this._data.rankLevel;
 
-        /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
+        /** @type {WeaponType} */
         this.weaponType = this._data.weaponType;
 
         /** @type {Object<string, any>} */
@@ -61,3 +61,9 @@ class WeaponData {
 }
 
 module.exports = WeaponData;
+
+/**
+ * @en WeaponType
+ * @typedef WeaponType
+ * @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"}
+ */

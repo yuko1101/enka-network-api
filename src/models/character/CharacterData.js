@@ -50,7 +50,7 @@ class CharacterData {
         /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
         this.bodyType = this._data.bodyType;
 
-        /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
+        /** @type {import("../weapon/WeaponData").WeaponType} */
         this.weaponType = this._data.weaponType;
 
         /** @type {"MALE" | "FEMALE"} */
