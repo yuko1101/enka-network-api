@@ -51,6 +51,16 @@ class StatusProperty {
         const fix = this.isPercent ? 1 : 0;
         return this.getFormattedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
     }
+
+    /**
+     * @param {FightProp} id
+     * @param {EnkaClient} enka
+     * @returns {TextAssets | null}
+     */
+    static getFightPropTextAssets(id, enka) {
+        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
+        return propData ? new TextAssets(propData.textMapContentTextMapHash, enka) : null;
+    }
 }
 
 module.exports = StatusProperty;
