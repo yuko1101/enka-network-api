@@ -97,6 +97,7 @@ declare class CharacterStatus {
     maxElementDamage: StatusProperty | null;
     /**
      * Including physical damage bonus, and returns list of highest damage bonus.
+     * The order of the list is such that elemental matches come first.
      * Returns null if highest damage bonus is 0 or less.
      * @type {Array<StatusProperty> | null}
      */
