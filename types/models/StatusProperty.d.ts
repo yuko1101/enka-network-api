@@ -5,6 +5,12 @@ export = StatusProperty;
 declare class StatusProperty {
     /**
      * @param {FightProp} id
+     * @param {EnkaClient} enka
+     * @returns {TextAssets | null}
+     */
+    static getFightPropTextAssets(id: FightProp, enka: EnkaClient): TextAssets | null;
+    /**
+     * @param {FightProp} id
      * @param {number} value
      * @param {EnkaClient} enka
      */
