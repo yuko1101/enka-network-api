@@ -21,6 +21,8 @@ declare class Weapon {
     /** @type {WeaponRefinement | null} */
     refinement: WeaponRefinement | null;
     /** @type {number} */
+    refinementRank: number;
+    /** @type {number} */
     level: number;
     /** @type {number} */
     ascension: number;

@@ -30,6 +30,9 @@ class Weapon {
         this.refinement = this.weaponData.refinements[data.weapon.affixMap?.[this.weaponData._data.skillAffix[0]] ?? 0] ?? null;
 
         /** @type {number} */
+        this.refinementRank = this.refinement?.level ?? 1;
+
+        /** @type {number} */
         this.level = data.weapon.level;
 
         /** @type {number} */
