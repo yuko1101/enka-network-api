@@ -29,8 +29,8 @@ declare class WeaponData {
     awakenIcon: ImageAssets;
     /** @type {number} */
     stars: number;
-    /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
-    weaponType: "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
+    /** @type {WeaponType} */
+    weaponType: WeaponType;
     /** @type {Object<string, any>} */
     _weaponTypeData: {
         [x: string]: any;
@@ -40,7 +40,11 @@ declare class WeaponData {
     /** @type {Array<WeaponRefinement>} */
     refinements: Array<WeaponRefinement>;
 }
+declare namespace WeaponData {
+    export { WeaponType };
+}
 import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
+type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 import WeaponRefinement = require("./WeaponRefinement");

@@ -23,8 +23,8 @@ declare class CharacterData {
     description: TextAssets;
     /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
     bodyType: "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
-    /** @type {"WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW"} */
-    weaponType: "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
+    /** @type {import("../weapon/WeaponData").WeaponType} */
+    weaponType: import("../weapon/WeaponData").WeaponType;
     /** @type {"MALE" | "FEMALE"} */
     gender: "MALE" | "FEMALE";
     /** @type {string} */
