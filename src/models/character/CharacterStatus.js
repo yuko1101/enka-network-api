@@ -113,8 +113,10 @@ class CharacterStatus {
         this.maxElementDamage = sortedDamageBonus[0].value === sortedDamageBonus[1].value ? null : sortedDamageBonus[0];
 
         const highestDamageBonusList = sortedDamageBonus.filter(d => d.value === sortedDamageBonus[0].value);
+        if (highestDamageBonusList.length > 1) highestDamageBonusList.sort((a, b) => this.matchedElementDamage?.id === a.id ? -1 : this.matchedElementDamage?.id === b.id ? 1 : 0);
         /**
          * Including physical damage bonus, and returns list of highest damage bonus.
+         * The order of the list is such that elemental matches come first.
          * Returns null if highest damage bonus is 0 or less.
          * @type {Array<StatusProperty> | null}
          */
