@@ -177,7 +177,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param {Object<string, any>} options
+     * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
@@ -287,7 +287,7 @@ class CachedAssetsManager {
 
     /**
      * Returns true if there were any updates, false if there were no updates.
-     * @param {Object<string, any>} options
+     * @param {object} options
      * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @param {function(): Promise<*>} [options.onUpdateStart]
@@ -322,7 +322,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param {Object<string, any>} [options]
+     * @param {object} [options]
      * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/gamedata}) instead of downloading cache.zip
      * @param {boolean} [options.instant=true]
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
@@ -391,7 +391,7 @@ class CachedAssetsManager {
 
     /**
      * @param {LanguageCode} lang
-     * @return {Object<string, any>}
+     * @return {Object<string, string>}
      */
     getLanguageData(lang) {
         if (!Object.keys(langDataMemory).includes(lang)) {
@@ -436,8 +436,8 @@ class CachedAssetsManager {
 
     /**
      * Remove all unused TextHashMaps
-     * @param {Object<string, any>} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
-     * @param {Object<string, any>} langsData {en: [Object object], jp: [Object object], ...}
+     * @param {Object<string, Object<string, any>>} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
+     * @param {Object<LanguageCode, Object<string, string>>} langsData {en: [Object object], jp: [Object object], ...}
      * @param {boolean} [showLog=true]
      */
     removeUnusedTextData(data, langsData, showLog = true) {
@@ -519,7 +519,7 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param {Object<string, any>} options
+     * @param {object} options
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
