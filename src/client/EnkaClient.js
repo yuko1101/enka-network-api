@@ -8,8 +8,6 @@ const WeaponData = require("../models/weapon/WeaponData");
 const Costume = require("../models/character/Costume");
 const { fetchJSON } = require("../utils/axios_utils");
 const NameCard = require("../models/material/NameCard");
-// eslint-disable-next-line no-unused-vars
-const { LanguageCode } = require("./CachedAssetsManager");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
 const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
@@ -32,7 +30,7 @@ const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${usern
  * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
- * @property {LanguageCode} [defaultLanguage="en"]
+ * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
  */

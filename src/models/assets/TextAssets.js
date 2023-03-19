@@ -1,8 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
-// eslint-disable-next-line no-unused-vars
-const { LanguageCode } = require("../../client/CachedAssetsManager");
 
 /**
  * @en TextAssets
@@ -11,17 +7,17 @@ class TextAssets {
 
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(id, enka) {
         /** @type {number} */
         this.id = id;
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
     }
 
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string}
      */
     get(lang) {
@@ -33,7 +29,7 @@ class TextAssets {
 
     /**
      * Returns null instead of throwing AssetsNotFoundError.
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string | null}
      */
     getNullable(lang) {

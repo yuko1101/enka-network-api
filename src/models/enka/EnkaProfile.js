@@ -1,8 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
-// eslint-disable-next-line no-unused-vars
-const EnkaUser = require("./EnkaUser");
-
 /**
  * @en EnkaProfile
  */
@@ -10,14 +5,14 @@ class EnkaProfile {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data, enka) {
 
         /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {string} */
@@ -43,7 +38,7 @@ class EnkaProfile {
     }
 
     /**
-     * @returns {Promise<Array<EnkaUser>>}
+     * @returns {Promise<Array<import("./EnkaUser")>>}
      */
     async fetchAllEnkaUsers() {
         return await this.enka.fetchAllEnkaUsers(this.username);

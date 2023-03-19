@@ -1,11 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-const CachedAssetsManager = require("./CachedAssetsManager");
-
 /**
  * @en ObjectKeysManager
  */
 class ObjectKeysManager {
-    /** @param {CachedAssetsManager} cachedAssetsManager */
+    /** @param {import("./CachedAssetsManager")} cachedAssetsManager */
     constructor(cachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
         const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea");

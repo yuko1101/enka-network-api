@@ -9,7 +9,7 @@
     },
     "rules": {
         "arrow-spacing": [
-            "warn",
+            "error",
             {
                 "before": true,
                 "after": true
@@ -89,7 +89,7 @@
         "no-trailing-spaces": [
             "error"
         ],
-        "no-unused-vars": "warn",
+        "no-unused-vars": "error",
         "no-var": "error",
         "object-curly-spacing": [
             "error",

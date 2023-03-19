@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const Character = require("../character/Character");
 
 /**
@@ -9,7 +7,7 @@ class CharacterBuild {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {string} username
      * @param {string} hash
      */
@@ -18,7 +16,7 @@ class CharacterBuild {
         /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {{username: string, hash: string}} */

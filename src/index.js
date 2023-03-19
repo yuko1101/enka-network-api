@@ -1,7 +1,6 @@
 // Avoid circular dependency causes errors.
-// EnkaClient must be first.
-const EnkaClient = require("./client/EnkaClient");
 const CachedAssetsManager = require("./client/CachedAssetsManager");
+const EnkaClient = require("./client/EnkaClient");
 const ObjectKeysManager = require("./client/ObjectKeysManager");
 const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const EnkaNetworkError = require("./errors/EnkaNetworkError");
@@ -28,12 +27,10 @@ const CharacterAscension = require("./models/character/CharacterAscension");
 const CharacterData = require("./models/character/CharacterData");
 const CharacterDetails = require("./models/character/CharacterDetails");
 const CharacterStatus = require("./models/character/CharacterStatus");
-const StatusProperty = require("./models/StatusProperty");
 const Constellation = require("./models/character/Constellation");
 const Costume = require("./models/character/Costume");
 const CharacterBuild = require("./models/enka/CharacterBuild");
 const EnkaProfile = require("./models/enka/EnkaProfile");
-// EnkaUser must be after EnkaProfile. (EnkaUser -> User -> EnkaProfile -> EnkaUser)
 const EnkaUser = require("./models/enka/EnkaUser");
 const Material = require("./models/material/Material");
 const NameCard = require("./models/material/NameCard");
@@ -44,6 +41,7 @@ const WeaponRefinement = require("./models/weapon/WeaponRefinement");
 const WeaponRefinements = require("./models/weapon/WeaponRefinements");
 const DetailedUser = require("./models/DetailedUser");
 const Element = require("./models/Element");
+const StatusProperty = require("./models/StatusProperty");
 const User = require("./models/User");
 
 module.exports = {

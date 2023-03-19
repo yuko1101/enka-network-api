@@ -1,7 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
-// eslint-disable-next-line no-unused-vars
-const { LanguageCode } = require("../../client/CachedAssetsManager");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const TextAssets = require("../assets/TextAssets");
 
@@ -29,14 +25,14 @@ const TextAssets = require("../assets/TextAssets");
 class CharacterDetails {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {number} [characterId]
      * @param {boolean} [isArchon]
      */
     constructor(id, enka, characterId = null, isArchon = false) {
         if (!id && !characterId) throw new Error("An id or character id must be provided.");
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */
@@ -77,7 +73,7 @@ class CharacterDetails {
     }
 
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {TextAssets}
      */
     getCvByLanguage(lang) {

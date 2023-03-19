@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const TextAssets = require("../assets/TextAssets");
 const StatusProperty = require("../StatusProperty");
 
@@ -10,13 +8,13 @@ class WeaponRefinement {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data, enka) {
         /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {number} */

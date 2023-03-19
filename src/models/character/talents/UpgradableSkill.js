@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../../client/EnkaClient");
 const SkillAttributeAssets = require("../../assets/SkillAttributeAssets");
 const TextAssets = require("../../assets/TextAssets");
 const UpgradeCost = require("../../material/UpgradeCost");
@@ -12,7 +10,7 @@ const Skill = require("./Skill");
 class UpgradableSkill extends Skill {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../../client/EnkaClient")} enka
      */
     constructor(id, enka) {
         super(id, enka);

@@ -1,10 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
-// eslint-disable-next-line no-unused-vars
-const WeaponRefinement = require("./WeaponRefinement");
 const WeaponRefinements = require("./WeaponRefinements");
 
 /**
@@ -14,12 +10,12 @@ class WeaponData {
 
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id, enka, data = null) {
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {number} */
@@ -55,7 +51,7 @@ class WeaponData {
         /** @type {TextAssets} */
         this.weaponTypeName = new TextAssets(this._weaponTypeData.textMapContentTextMapHash, enka);
 
-        /** @type {Array<WeaponRefinement>} */
+        /** @type {Array<import("./WeaponRefinement")>} */
         this.refinements = this._data.skillAffix[0] !== 0 ? new WeaponRefinements(this._data.skillAffix[0], enka).refinements : [];
     }
 }

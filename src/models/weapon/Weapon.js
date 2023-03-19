@@ -1,9 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const StatusProperty = require("../StatusProperty");
 const WeaponData = require("./WeaponData");
-// eslint-disable-next-line no-unused-vars
-const WeaponRefinement = require("./WeaponRefinement");
 
 /**
  * @en Weapon
@@ -12,11 +8,11 @@ class Weapon {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data, enka) {
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */
@@ -26,7 +22,7 @@ class Weapon {
         /** @type {WeaponData} */
         this.weaponData = new WeaponData(data.itemId, enka);
 
-        /** @type {WeaponRefinement | null} */
+        /** @type {import("./WeaponRefinement") | null} */
         this.refinement = this.weaponData.refinements[data.weapon.affixMap?.[this.weaponData._data.skillAffix[0]] ?? 0] ?? null;
 
         /** @type {number} */

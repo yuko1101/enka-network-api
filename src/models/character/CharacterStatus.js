@@ -1,8 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const { fightProps } = require("../../utils/constants");
-// eslint-disable-next-line no-unused-vars
-const Element = require("../Element");
 const StatusProperty = require("../StatusProperty");
 
 /**
@@ -12,14 +8,14 @@ class CharacterStatus {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
-     * @param {Element} element
+     * @param {import("../../client/EnkaClient")} enka
+     * @param {import("../Element")} element
      */
     constructor(data, enka, element) {
         /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
 

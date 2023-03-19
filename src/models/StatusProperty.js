@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../client/EnkaClient");
 const AssetsNotFoundError = require("../errors/AssetsNotFoundError");
 const { percent } = require("../utils/constants");
 const TextAssets = require("./assets/TextAssets");
@@ -12,13 +10,13 @@ class StatusProperty {
     /**
      * @param {FightProp} id
      * @param {number} value
-     * @param {EnkaClient} enka
+     * @param {import("../client/EnkaClient")} enka
      */
     constructor(id, value, enka, multiplied = false) {
         /** @type {FightProp} */
         this.id = id;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */
@@ -54,7 +52,7 @@ class StatusProperty {
 
     /**
      * @param {FightProp} id
-     * @param {EnkaClient} enka
+     * @param {import("../client/EnkaClient")} enka
      * @returns {TextAssets | null}
      */
     static getFightPropTextAssets(id, enka) {

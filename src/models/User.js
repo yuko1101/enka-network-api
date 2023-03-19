@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../client/EnkaClient");
 const CharacterData = require("./character/CharacterData");
 const Costume = require("./character/Costume");
 const EnkaProfile = require("./enka/EnkaProfile");
@@ -12,11 +10,11 @@ class User {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../client/EnkaClient")} enka
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data, enka, uid = null) {
-        /** @type {EnkaClient} */
+        /** @type {import("../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */

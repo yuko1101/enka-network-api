@@ -1,14 +1,11 @@
-// eslint-disable-next-line no-unused-vars
-const { Axios, AxiosResponse } = require("axios");
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../client/EnkaClient");
+const { Axios } = require("axios");
 
 const axios = new Axios({});
 
 /**
  * @param {string} url
- * @param {EnkaClient} enka
- * @returns {Promise<AxiosResponse>}
+ * @param {import("../client/EnkaClient")} enka
+ * @returns {Promise<import("axios").AxiosResponse>}
  */
 module.exports.fetchJSON = async (url, enka, enableTimeout = false) => {
     const options = { headers: { "User-Agent": enka.options.userAgent } };

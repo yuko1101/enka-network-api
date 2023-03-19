@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const ArtifactData = require("./ArtifactData");
 const ArtifactSplitSubstat = require("./ArtifactSplitSubstat");
 const StatusProperty = require("../StatusProperty");
@@ -19,11 +17,11 @@ class Artifact {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data, enka) {
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */

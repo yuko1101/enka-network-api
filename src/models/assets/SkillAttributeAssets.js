@@ -1,6 +1,4 @@
 const TextAssets = require("./TextAssets");
-// eslint-disable-next-line no-unused-vars
-const { LanguageCode } = require("../../client/CachedAssetsManager");
 
 /**
  * @en SkillAttributeData
@@ -29,7 +27,7 @@ class SkillAttributeAssets extends TextAssets {
     }
 
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData}
      */
     getAttributeData(lang) {
@@ -61,7 +59,7 @@ class SkillAttributeAssets extends TextAssets {
 
     /**
      * Returns null instead of throwing AssetsNotFoundError.
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData | null}
      */
     getNullableAttributeData(lang) {

@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../../client/EnkaClient");
 const Element = require("../../Element");
 const UniqueSkill = require("./UniqueSkill");
 
@@ -11,7 +9,7 @@ class ElementalBurst extends UniqueSkill {
 
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../../client/EnkaClient")} enka
      */
     constructor(id, enka) {
         super(id, enka);

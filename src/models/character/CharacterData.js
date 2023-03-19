@@ -1,9 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
-// eslint-disable-next-line no-unused-vars
-const Element = require("../Element");
 const Skill = require("./talents/Skill");
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const Constellation = require("./Constellation");
@@ -23,7 +19,7 @@ class CharacterData {
 
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {number} [candSkillDepotIds]
      */
     constructor(id, enka, candSkillDepotId = undefined) {
@@ -31,7 +27,7 @@ class CharacterData {
         /** @type {number} */
         this.id = id;
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
 
@@ -116,7 +112,7 @@ class CharacterData {
         /** @type {ElementalBurst | null} */
         this.elementalBurst = hasElement ? new ElementalBurst(this._skillData.energySkill, enka) : null;
 
-        /** @type {Element | null} */
+        /** @type {import("../Element") | null} */
         this.element = hasElement ? this.elementalBurst.costElemType : null;
 
         const _skills = this._skillData.skills.map((skillId, index) => {

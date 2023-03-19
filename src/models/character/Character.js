@@ -1,17 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../../client/EnkaClient");
 const Artifact = require("../artifact/Artifact");
 const CharacterData = require("./CharacterData");
 const Weapon = require("../weapon/Weapon");
 const CharacterStatus = require("./CharacterStatus");
-// eslint-disable-next-line no-unused-vars
-const Constellation = require("./Constellation");
-// eslint-disable-next-line no-unused-vars
-const Skill = require("./talents/Skill");
-// eslint-disable-next-line no-unused-vars
-const PassiveTalent = require("./talents/PassiveTalent");
-// eslint-disable-next-line no-unused-vars
-const Costume = require("./Costume");
 const SkillLevel = require("./talents/SkillLevel");
 const UpgradableSkill = require("./talents/UpgradableSkill");
 const NormalAttack = require("./talents/NormalAttack");
@@ -25,11 +15,11 @@ class Character {
 
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data, enka) {
 
-        /** @type {EnkaClient} */
+        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
         /** @type {Object<string, any>} */
@@ -38,7 +28,7 @@ class Character {
         /** @type {CharacterData} */
         this.characterData = new CharacterData(data.avatarId, enka, data.skillDepotId);
 
-        /** @type {Costume} */
+        /** @type {import("./Costume")} */
         this.costume = data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault);
 
         /** @type {Array<Artifact>} */
@@ -71,10 +61,10 @@ class Character {
          */
         this.friendship = data.fetterInfo?.expLevel ?? 1;
 
-        /** @type {Array<Constellation>} */
+        /** @type {Array<import("./Constellation")>} */
         this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
 
-        /** @type {Array<{skill: Skill, level: SkillLevel}>} */
+        /** @type {Array<{skill: import("./talents/Skill"), level: SkillLevel}>} */
         this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
             const skill = this.characterData.skills.find(s => s.id.toString() === key);
             if (!skill || !(skill instanceof UpgradableSkill)) return null;
@@ -91,7 +81,7 @@ class Character {
             return getScore(a.skill) - getScore(b.skill);
         });
 
-        /** @type {Array<PassiveTalent>} */
+        /** @type {Array<import("./talents/PassiveTalent")>} */
         this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
 
     }

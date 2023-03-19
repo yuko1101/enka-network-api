@@ -1,10 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-const EnkaClient = require("../client/EnkaClient");
 const CharacterData = require("../models/character/CharacterData");
 
 /**
  * @param {number} id
- * @param {EnkaClient} enka
+ * @param {import("../client/EnkaClient")} enka
  * @returns {Array<CharacterData>}
  */
 module.exports.getCharactersById = (id, enka) => {
@@ -19,7 +17,7 @@ module.exports.getCharactersById = (id, enka) => {
 
 /**
  * @param {number} skillDepotId
- * @param {EnkaClient} enka
+ * @param {import("../client/EnkaClient")} enka
  * @returns {boolean}
  */
 module.exports.hasEnergySkill = (skillDepotId, enka) => {
@@ -29,7 +27,7 @@ module.exports.hasEnergySkill = (skillDepotId, enka) => {
 
 /**
  * @param {number} characterId
- * @param {EnkaClient} enka
+ * @param {import("../client/EnkaClient")} enka
  * @returns {boolean}
  */
 module.exports.isReleased = (characterId, enka) => {
