@@ -4,7 +4,7 @@ export = EnkaClient;
  * @typedef EnkaClientOptions
  * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
- * @property {string} [imageBaseUrl="https://enka.network/ui"]
+ * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {LanguageCode} [defaultLanguage="en"]
