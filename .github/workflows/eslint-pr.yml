@@ -13,4 +13,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # Change reporter.
-          eslint_flags: ".--config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore"
+          eslint_flags: ". --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore"
