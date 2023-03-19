@@ -19,6 +19,7 @@ const EnkaUser = require("../models/enka/EnkaUser");
 const EnkaProfile = require("../models/enka/EnkaProfile");
 const CharacterBuild = require("../models/enka/CharacterBuild");
 const Material = require("../models/material/Material");
+const InvalidUidFormatError = require("../errors/InvalidUidFormatError");
 
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
@@ -63,6 +64,7 @@ class EnkaClient {
     /**
      * @param {number | string} uid
      * @param {boolean} collapse Whether to fetch rough user information (Very fast)
+     * @throws {EnkaNetworkError}
      * @returns {Promise<User | DetailedUser>}
      */
     async fetchUser(uid, collapse = false) {
@@ -75,15 +77,15 @@ class EnkaClient {
         if (response.status !== 200) {
             switch (response.status) {
                 case 400:
-                    throw new Error(`Invalid UID format. (${uid} provided.)`);
+                    throw new InvalidUidFormatError(`Invalid UID format. (${uid} provided.)`, response.status, response.statusText);
                 case 424:
-                    throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.");
+                    throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", response.status, response.statusText);
                 case 429:
-                    throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.");
+                    throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.", response.status, response.statusText);
                 case 404:
-                    throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`);
+                    throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`, response.status, response.statusText);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
         const data = response.data;
@@ -103,9 +105,9 @@ class EnkaClient {
         if (response.status !== 200) {
             switch (response.status) {
                 case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`);
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`, response.status, response.statusText);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
         const data = response.data;
@@ -125,9 +127,9 @@ class EnkaClient {
         if (response.status !== 200) {
             switch (response.status) {
                 case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`);
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`, response.status, response.statusText);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
         const data = response.data;
@@ -148,9 +150,9 @@ class EnkaClient {
         if (response.status !== 200) {
             switch (response.status) {
                 case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`);
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
         const data = response.data;
@@ -171,9 +173,9 @@ class EnkaClient {
         if (response.status !== 200) {
             switch (response.status) {
                 case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`);
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
                 default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`);
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
         const data = response.data;

@@ -4,5 +4,14 @@ export = EnkaNetworkError;
  * @extends {Error}
  */
 declare class EnkaNetworkError extends Error {
-    constructor(message: any);
+    /**
+     * @param {string} message
+     * @param {number} statusCode
+     * @param {string} statusMessage
+     */
+    constructor(message: string, statusCode: number, statusMessage: string);
+    /** @type {number} */
+    statusCode: number;
+    /** @type {string} */
+    statusMessage: string;
 }

@@ -5,6 +5,7 @@ const CachedAssetsManager = require("./client/CachedAssetsManager");
 const ObjectKeysManager = require("./client/ObjectKeysManager");
 const AssetsNotFoundError = require("./errors/AssetsNotFoundError");
 const EnkaNetworkError = require("./errors/EnkaNetworkError");
+const InvalidUidFormatError = require("./errors/InvalidUidFormatError");
 const UserNotFoundError = require("./errors/UserNotFoundError");
 const Artifact = require("./models/artifact/Artifact");
 const ArtifactData = require("./models/artifact/ArtifactData");
@@ -51,6 +52,7 @@ module.exports = {
     ObjectKeysManager,
     AssetsNotFoundError,
     EnkaNetworkError,
+    InvalidUidFormatError,
     UserNotFoundError,
     Artifact,
     ArtifactData,

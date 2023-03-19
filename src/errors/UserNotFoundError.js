@@ -6,8 +6,13 @@ const EnkaNetworkError = require("./EnkaNetworkError");
  */
 class UserNotFoundError extends EnkaNetworkError {
 
-    constructor(message) {
-        super(message);
+    /**
+     * @param {string} message
+     * @param {number} statusCode
+     * @param {string} statusMessage
+     */
+    constructor(message, statusCode, statusMessage) {
+        super(message, statusCode, statusMessage);
         this.name = "UserNotFoundError";
     }
 }
