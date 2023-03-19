@@ -35,7 +35,6 @@ jobs:
           --config .eslintrc.json
           --ext .js,.jsx,.cjs,.mjs,.ts,.tsx
           --ignore-path .eslintignore
-          --quiet
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
         continue-on-error: true
