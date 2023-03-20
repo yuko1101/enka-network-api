@@ -99,9 +99,9 @@ declare class CachedAssetsManager {
     getJSONDataPath(name: string): string;
     /**
      * @param {string} name without extensions (.json)
-     * @returns {object | any[]}
+     * @returns {object | Array<any>}
      */
-    getGenshinCacheData(name: string): object | any[];
+    getGenshinCacheData(name: string): object | Array<any>;
     /**
      * @param {LanguageCode} lang
      * @return {Object<string, string>}

@@ -18,6 +18,7 @@ const EnkaProfile = require("../models/enka/EnkaProfile");
 const CharacterBuild = require("../models/enka/CharacterBuild");
 const Material = require("../models/material/Material");
 const InvalidUidFormatError = require("../errors/InvalidUidFormatError");
+const ArtifactSet = require("../models/artifact/ArtifactSet");
 
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
@@ -183,7 +184,7 @@ class EnkaClient {
 
     /**
      * @param {boolean} [playableOnly=true]
-     * @returns {CharacterData[]}
+     * @returns {Array<CharacterData>}
      */
     getAllCharacters(playableOnly = true) {
         return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").map(c => characterUtils.getCharactersById(c.id, this)).map(chars => chars.filter(c => !playableOnly || (playableOnly && c.isPlayable))).reduce((a, b) => [...a, ...b]);
@@ -201,7 +202,7 @@ class EnkaClient {
 
     /**
      * @param {boolean} [excludeInvalidWeapons]
-     * @returns {WeaponData[]}
+     * @returns {Array<WeaponData>}
      */
     getAllWeapons(excludeInvalidWeapons = true) {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
@@ -223,7 +224,7 @@ class EnkaClient {
 
     /**
      * @param {boolean} [includeDefaults] Whether to include default costumes
-     * @returns {Costume[]}
+     * @returns {Array<Costume>}
      */
     getAllCostumes(includeDefaults = false) {
         return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(null, this, c));
@@ -239,7 +240,7 @@ class EnkaClient {
     }
 
     /**
-     * @returns {Material[]}
+     * @returns {Array<Material>}
      */
     getAllMaterials() {
         return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(m => Material.getMaterialById(m.id, this, m));
@@ -255,7 +256,7 @@ class EnkaClient {
     }
 
     /**
-     * @returns {NameCard[]}
+     * @returns {Array<NameCard>}
      */
     getAllNameCards() {
         return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === NameCard.MATERIAL_TYPE).map(n => new NameCard(n.id, this, n));
@@ -300,6 +301,23 @@ class EnkaClient {
     getArtifactById(id) {
         if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new ArtifactData(Number(id), this);
+    }
+
+    /**
+     * @returns {Array<ArtifactSet>}
+     */
+    getAllArtifactSets() {
+        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(s => s.DisableFilter !== 1);
+        return sets.map(s => new ArtifactSet(s.setId, this, s));
+    }
+
+    /**
+     * @param {number | string} id
+     * @returns {ArtifactSet}
+     */
+    getArtifactSetById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
+        return new ArtifactSet(Number(id), this);
     }
 }
 

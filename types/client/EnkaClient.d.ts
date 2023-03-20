@@ -56,9 +56,9 @@ declare class EnkaClient {
     }>;
     /**
      * @param {boolean} [playableOnly=true]
-     * @returns {CharacterData[]}
+     * @returns {Array<CharacterData>}
      */
-    getAllCharacters(playableOnly?: boolean | undefined): CharacterData[];
+    getAllCharacters(playableOnly?: boolean | undefined): Array<CharacterData>;
     /**
      * @param {number | string} id characterId
      * @param {number | string} [skillDepotId] Mostly for Travelers.
@@ -67,9 +67,9 @@ declare class EnkaClient {
     getCharacterById(id: number | string, skillDepotId?: string | number | undefined): CharacterData;
     /**
      * @param {boolean} [excludeInvalidWeapons]
-     * @returns {WeaponData[]}
+     * @returns {Array<WeaponData>}
      */
-    getAllWeapons(excludeInvalidWeapons?: boolean | undefined): WeaponData[];
+    getAllWeapons(excludeInvalidWeapons?: boolean | undefined): Array<WeaponData>;
     /**
      * @param {number | string} id
      * @returns {WeaponData}
@@ -77,27 +77,27 @@ declare class EnkaClient {
     getWeaponById(id: number | string): WeaponData;
     /**
      * @param {boolean} [includeDefaults] Whether to include default costumes
-     * @returns {Costume[]}
+     * @returns {Array<Costume>}
      */
-    getAllCostumes(includeDefaults?: boolean | undefined): Costume[];
+    getAllCostumes(includeDefaults?: boolean | undefined): Array<Costume>;
     /**
      * @param {number | string} id
      * @returns {Costume}
      */
     getCostumeById(id: number | string): Costume;
     /**
-     * @returns {Material[]}
+     * @returns {Array<Material>}
      */
-    getAllMaterials(): Material[];
+    getAllMaterials(): Array<Material>;
     /**
      * @param {number | string} id
      * @returns {Material}
      */
     getMaterialById(id: number | string): Material;
     /**
-     * @returns {NameCard[]}
+     * @returns {Array<NameCard>}
      */
-    getAllNameCards(): NameCard[];
+    getAllNameCards(): Array<NameCard>;
     /**
      * @param {number | string} id
      * @returns {NameCard}
@@ -113,6 +113,15 @@ declare class EnkaClient {
      * @returns {ArtifactData}
      */
     getArtifactById(id: number | string): ArtifactData;
+    /**
+     * @returns {Array<ArtifactSet>}
+     */
+    getAllArtifactSets(): Array<ArtifactSet>;
+    /**
+     * @param {number | string} id
+     * @returns {ArtifactSet}
+     */
+    getArtifactSetById(id: number | string): ArtifactSet;
 }
 declare namespace EnkaClient {
     export { EnkaClientOptions };
@@ -141,3 +150,4 @@ import Costume = require("../models/character/Costume");
 import Material = require("../models/material/Material");
 import NameCard = require("../models/material/NameCard");
 import ArtifactData = require("../models/artifact/ArtifactData");
+import ArtifactSet = require("../models/artifact/ArtifactSet");
