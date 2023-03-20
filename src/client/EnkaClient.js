@@ -292,6 +292,15 @@ class EnkaClient {
 
         return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1].id, this));
     }
+
+    /**
+     * @param {number | string} id
+     * @returns {ArtifactData}
+     */
+    getArtifactById(id) {
+        if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
+        return new ArtifactData(Number(id), this);
+    }
 }
 
 module.exports = EnkaClient;
