@@ -5,24 +5,22 @@ export = TextAssets;
 declare class TextAssets {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
-    constructor(id: number, enka: EnkaClient);
+    constructor(id: number, enka: import("../../client/EnkaClient"));
     /** @type {number} */
     id: number;
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string}
      */
-    get(lang?: LanguageCode | undefined): string;
+    get(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): string;
     /**
      * Returns null instead of throwing AssetsNotFoundError.
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {string | null}
      */
-    getNullable(lang?: LanguageCode | undefined): string | null;
+    getNullable(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): string | null;
 }
-import EnkaClient = require("../../client/EnkaClient");
-import { LanguageCode } from "../../client/CachedAssetsManager";

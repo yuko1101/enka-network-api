@@ -1,3 +1,1 @@
-export function fetchJSON(url: string, enka: EnkaClient, enableTimeout?: boolean): Promise<AxiosResponse>;
-import EnkaClient = require("../client/EnkaClient");
-import { AxiosResponse } from "axios";
+export function fetchJSON(url: string, enka: import("../client/EnkaClient"), enableTimeout?: boolean): Promise<import("axios").AxiosResponse>;

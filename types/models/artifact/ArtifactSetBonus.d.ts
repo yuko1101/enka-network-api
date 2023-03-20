@@ -6,13 +6,13 @@ declare class ArtifactSetBonus {
     /**
      * @param {number} needCount
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(needCount: number, data: {
         [x: string]: any;
-    }, enka: EnkaClient);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    }, enka: import("../../client/EnkaClient"));
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {number} */
     id: number;
     /** @type {number} */
@@ -24,6 +24,5 @@ declare class ArtifactSetBonus {
     /** @type {Array<number>} */
     paramList: Array<number>;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import StatusProperty = require("../StatusProperty");

@@ -21,22 +21,21 @@ declare class SkillAttributeAssets extends TextAssets {
     /** @type {Array<number>} */
     _paramList: Array<number>;
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData}
      */
-    getAttributeData(lang?: LanguageCode | undefined): SkillAttributeData;
+    getAttributeData(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): SkillAttributeData;
     /**
      * Returns null instead of throwing AssetsNotFoundError.
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData | null}
      */
-    getNullableAttributeData(lang?: LanguageCode | undefined): SkillAttributeData | null;
+    getNullableAttributeData(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): SkillAttributeData | null;
 }
 declare namespace SkillAttributeAssets {
     export { SkillAttributeData };
 }
 import TextAssets = require("./TextAssets");
-import { LanguageCode } from "../../client/CachedAssetsManager";
 type SkillAttributeData = {
     name: string;
     valueText: string;

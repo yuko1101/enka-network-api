@@ -3,8 +3,8 @@ export = ObjectKeysManager;
  * @en ObjectKeysManager
  */
 declare class ObjectKeysManager {
-    /** @param {CachedAssetsManager} cachedAssetsManager */
-    constructor(cachedAssetsManager: CachedAssetsManager);
+    /** @param {import("./CachedAssetsManager")} cachedAssetsManager */
+    constructor(cachedAssetsManager: import("./CachedAssetsManager"));
     /** @type {string} */
     costumeIdKey: string;
     /** @type {string} */
@@ -14,4 +14,3 @@ declare class ObjectKeysManager {
     /** @type {string} */
     talentIsHiddenKey: string;
 }
-import CachedAssetsManager = require("./CachedAssetsManager");

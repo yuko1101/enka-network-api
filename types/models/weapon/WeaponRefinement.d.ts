@@ -5,17 +5,17 @@ export = WeaponRefinement;
 declare class WeaponRefinement {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient);
+    }, enka: import("../../client/EnkaClient"));
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {number} */
     level: number;
     /** @type {TextAssets} */
@@ -27,6 +27,5 @@ declare class WeaponRefinement {
     /** @type {Array<number>} */
     paramList: Array<number>;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import StatusProperty = require("../StatusProperty");

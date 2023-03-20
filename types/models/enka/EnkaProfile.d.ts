@@ -5,17 +5,17 @@ export = EnkaProfile;
 declare class EnkaProfile {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient);
+    }, enka: import("../../client/EnkaClient"));
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {string} */
     username: string;
     /** @type {string} */
@@ -31,9 +31,9 @@ declare class EnkaProfile {
     /** @type {string} */
     url: string;
     /**
-     * @returns {Promise<Array<EnkaUser>>}
+     * @returns {Promise<Array<import("./EnkaUser")>>}
      */
-    fetchAllEnkaUsers(): Promise<Array<EnkaUser>>;
+    fetchAllEnkaUsers(): Promise<Array<import("./EnkaUser")>>;
     /**
      * @param {string} hash EnkaUser hash
      * @returns {Promise<Object<string, Array<import("./CharacterBuild")>>>}
@@ -42,5 +42,3 @@ declare class EnkaProfile {
         [x: string]: Array<import("./CharacterBuild")>;
     }>;
 }
-import EnkaClient = require("../../client/EnkaClient");
-import EnkaUser = require("./EnkaUser");

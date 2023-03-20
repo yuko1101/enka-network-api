@@ -7,7 +7,7 @@ export = EnkaClient;
  * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
- * @property {LanguageCode} [defaultLanguage="en"]
+ * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
  */
@@ -108,6 +108,11 @@ declare class EnkaClient {
      * @returns {Array<ArtifactData>}
      */
     getAllArtifacts(highestRarityOnly?: boolean | undefined): Array<ArtifactData>;
+    /**
+     * @param {number | string} id
+     * @returns {ArtifactData}
+     */
+    getArtifactById(id: number | string): ArtifactData;
 }
 declare namespace EnkaClient {
     export { EnkaClientOptions };

@@ -6,13 +6,12 @@ export = ArtifactSplitSubstat;
 declare class ArtifactSplitSubstat extends StatusProperty {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
-    constructor(id: number, enka: EnkaClient);
+    constructor(id: number, enka: import("../../client/EnkaClient"));
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
 }
 import StatusProperty = require("../StatusProperty");
-import EnkaClient = require("../../client/EnkaClient");

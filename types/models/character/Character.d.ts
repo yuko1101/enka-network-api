@@ -5,21 +5,21 @@ export = Character;
 declare class Character {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    }, enka: import("../../client/EnkaClient"));
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
     /** @type {CharacterData} */
     characterData: CharacterData;
-    /** @type {Costume} */
-    costume: Costume;
+    /** @type {import("./Costume")} */
+    costume: import("./Costume");
     /** @type {Array<Artifact>} */
     artifacts: Array<Artifact>;
     /** @type {Weapon} */
@@ -41,23 +41,18 @@ declare class Character {
      *  @type {number}
      */
     friendship: number;
-    /** @type {Array<Constellation>} */
-    unlockedConstellations: Array<Constellation>;
-    /** @type {Array<{skill: Skill, level: SkillLevel}>} */
+    /** @type {Array<import("./Constellation")>} */
+    unlockedConstellations: Array<import("./Constellation")>;
+    /** @type {Array<{skill: import("./talents/Skill"), level: SkillLevel}>} */
     skillLevels: {
-        skill: Skill;
+        skill: import("./talents/Skill");
         level: SkillLevel;
     }[];
-    /** @type {Array<PassiveTalent>} */
-    unlockedPassiveTalents: Array<PassiveTalent>;
+    /** @type {Array<import("./talents/PassiveTalent")>} */
+    unlockedPassiveTalents: Array<import("./talents/PassiveTalent")>;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import CharacterData = require("./CharacterData");
-import Costume = require("./Costume");
 import Artifact = require("../artifact/Artifact");
 import Weapon = require("../weapon/Weapon");
 import CharacterStatus = require("./CharacterStatus");
-import Constellation = require("./Constellation");
-import Skill = require("./talents/Skill");
 import SkillLevel = require("./talents/SkillLevel");
-import PassiveTalent = require("./talents/PassiveTalent");

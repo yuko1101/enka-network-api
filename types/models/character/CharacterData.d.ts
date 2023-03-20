@@ -5,14 +5,14 @@ export = CharacterData;
 declare class CharacterData {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {number} [candSkillDepotIds]
      */
-    constructor(id: number, enka: EnkaClient, candSkillDepotId?: undefined);
+    constructor(id: number, enka: import("../../client/EnkaClient"), candSkillDepotId?: undefined);
     /** @type {number} */
     id: number;
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -65,8 +65,8 @@ declare class CharacterData {
     };
     /** @type {ElementalBurst | null} */
     elementalBurst: ElementalBurst | null;
-    /** @type {Element | null} */
-    element: Element | null;
+    /** @type {import("../Element") | null} */
+    element: import("../Element") | null;
     /** @type {Array<Skill>} */
     skills: Array<Skill>;
     /**
@@ -110,13 +110,11 @@ declare class CharacterData {
      */
     getAscensionData(ascension: number): CharacterAscension;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
 import NameCard = require("../material/NameCard");
 import Costume = require("./Costume");
 import ElementalBurst = require("./talents/ElementalBurst");
-import Element = require("../Element");
 import Skill = require("./talents/Skill");
 import ElementalSkill = require("./talents/ElementalSkill");
 import NormalAttack = require("./talents/NormalAttack");

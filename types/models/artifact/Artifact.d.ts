@@ -12,13 +12,13 @@ export = Artifact;
 declare class Artifact {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    }, enka: import("../../client/EnkaClient"));
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -35,7 +35,6 @@ declare class Artifact {
 declare namespace Artifact {
     export { SubstatsContainer };
 }
-import EnkaClient = require("../../client/EnkaClient");
 import ArtifactData = require("./ArtifactData");
 import StatusProperty = require("../StatusProperty");
 type SubstatsContainer = {

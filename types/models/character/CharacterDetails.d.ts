@@ -21,13 +21,13 @@ export = CharacterDetails;
 declare class CharacterDetails {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {number} [characterId]
      * @param {boolean} [isArchon]
      */
-    constructor(id: number, enka: EnkaClient, characterId?: number | undefined, isArchon?: boolean | undefined);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    constructor(id: number, enka: import("../../client/EnkaClient"), characterId?: number | undefined, isArchon?: boolean | undefined);
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -52,15 +52,14 @@ declare class CharacterDetails {
     /** @type {CharacterVoices} */
     cv: CharacterVoices;
     /**
-     * @param {LanguageCode} [lang]
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {TextAssets}
      */
-    getCvByLanguage(lang?: LanguageCode | undefined): TextAssets;
+    getCvByLanguage(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): TextAssets;
 }
 declare namespace CharacterDetails {
     export { Birthday, CharacterVoices };
 }
-import EnkaClient = require("../../client/EnkaClient");
 type Birthday = {
     month: number;
     day: number;
@@ -72,4 +71,3 @@ type CharacterVoices = {
     english: TextAssets;
     korean: TextAssets;
 };
-import { LanguageCode } from "../../client/CachedAssetsManager";

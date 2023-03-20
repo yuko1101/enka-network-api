@@ -5,13 +5,13 @@ export = Constellation;
 declare class Constellation {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      */
-    constructor(id: number, enka: EnkaClient);
+    constructor(id: number, enka: import("../../client/EnkaClient"));
     /** @type {number} */
     id: number;
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -27,7 +27,6 @@ declare class Constellation {
     /** @type {Array<number>} */
     paramList: Array<number>;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
 import StatusProperty = require("../StatusProperty");

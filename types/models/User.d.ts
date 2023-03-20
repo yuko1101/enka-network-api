@@ -5,14 +5,14 @@ export = User;
 declare class User {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../client/EnkaClient")} enka
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient, uid?: string | number | undefined);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    }, enka: import("../client/EnkaClient"), uid?: string | number | undefined);
+    /** @type {import("../client/EnkaClient")} */
+    enka: import("../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -54,7 +54,6 @@ declare class User {
     /** @type {string} */
     url: string;
 }
-import EnkaClient = require("../client/EnkaClient");
 import CharacterData = require("./character/CharacterData");
 import Costume = require("./character/Costume");
 import NameCard = require("./material/NameCard");

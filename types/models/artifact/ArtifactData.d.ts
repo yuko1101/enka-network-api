@@ -5,14 +5,14 @@ export = ArtifactData;
 declare class ArtifactData {
     /**
      * @param {number} id
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {Object<string, any>} [setData]
      */
-    constructor(id: number, enka: EnkaClient, setData?: {
+    constructor(id: number, enka: import("../../client/EnkaClient"), setData?: {
         [x: string]: any;
     } | undefined);
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {number} */
     id: number;
     /** @type {Object<string, any>} */
@@ -38,7 +38,6 @@ declare class ArtifactData {
     /** @type {ArtifactSet} */
     set: ArtifactSet;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import TextAssets = require("../assets/TextAssets");
 import ImageAssets = require("../assets/ImageAssets");
 import ArtifactSet = require("./ArtifactSet");

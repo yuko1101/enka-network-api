@@ -5,18 +5,18 @@ export = CharacterStatus;
 declare class CharacterStatus {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
-     * @param {Element} element
+     * @param {import("../../client/EnkaClient")} enka
+     * @param {import("../Element")} element
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient, element: Element);
+    }, enka: import("../../client/EnkaClient"), element: import("../Element"));
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {StatusProperty} */
     healthBase: StatusProperty;
     /** @type {StatusProperty} */
@@ -158,6 +158,4 @@ declare class CharacterStatus {
      */
     private getStatusProperty;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import StatusProperty = require("../StatusProperty");
-import Element = require("../Element");

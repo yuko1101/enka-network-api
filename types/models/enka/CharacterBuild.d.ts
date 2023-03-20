@@ -5,19 +5,19 @@ export = CharacterBuild;
 declare class CharacterBuild {
     /**
      * @param {Object<string, any>} data
-     * @param {EnkaClient} enka
+     * @param {import("../../client/EnkaClient")} enka
      * @param {string} username
      * @param {string} hash
      */
     constructor(data: {
         [x: string]: any;
-    }, enka: EnkaClient, username: string, hash: string);
+    }, enka: import("../../client/EnkaClient"), username: string, hash: string);
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../../client/EnkaClient")} */
+    enka: import("../../client/EnkaClient");
     /** @type {{username: string, hash: string}} */
     enkaUserInfo: {
         username: string;
@@ -38,5 +38,4 @@ declare class CharacterBuild {
     /** @type {string} */
     url: string;
 }
-import EnkaClient = require("../../client/EnkaClient");
 import Character = require("../character/Character");

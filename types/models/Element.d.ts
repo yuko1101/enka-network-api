@@ -5,13 +5,13 @@ export = Element;
 declare class Element {
     /**
      * @param {ElementType} id
-     * @param {EnkaClient} enka
+     * @param {import("../client/EnkaClient")} enka
      */
-    constructor(id: ElementType, enka: EnkaClient);
+    constructor(id: ElementType, enka: import("../client/EnkaClient"));
     /** @type {ElementType} */
     id: ElementType;
-    /** @type {EnkaClient} */
-    enka: EnkaClient;
+    /** @type {import("../client/EnkaClient")} */
+    enka: import("../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
@@ -23,5 +23,4 @@ declare namespace Element {
     export { ElementType };
 }
 type ElementType = "Wind" | "Rock" | "Electric" | "Grass" | "Water" | "Fire" | "Ice";
-import EnkaClient = require("../client/EnkaClient");
 import TextAssets = require("./assets/TextAssets");
