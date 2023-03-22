@@ -10,6 +10,7 @@ export = EnkaClient;
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
+ * @property {boolean} [storeUserCache=true]
  */
 /**
  * @en EnkaClient
@@ -23,6 +24,8 @@ declare class EnkaClient {
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;
+    /** @private {Array<*>} */
+    private _tasks;
     /**
      * @param {number | string} uid
      * @param {boolean} collapse Whether to fetch rough user information (Very fast)
@@ -122,6 +125,11 @@ declare class EnkaClient {
      * @returns {ArtifactSet}
      */
     getArtifactSetById(id: number | string): ArtifactSet;
+    /**
+     * Clear all running tasks in the client.
+     * @returns {void}
+     */
+    close(): void;
 }
 declare namespace EnkaClient {
     export { EnkaClientOptions };
@@ -137,6 +145,7 @@ type EnkaClientOptions = {
     defaultLanguage?: CachedAssetsManager.LanguageCode | undefined;
     cacheDirectory?: string | undefined;
     showFetchCacheLog?: boolean | undefined;
+    storeUserCache?: boolean | undefined;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");

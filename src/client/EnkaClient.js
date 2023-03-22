@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const UserNotFoundError = require("../errors/UserNotFoundError");
-const { bindOptions } = require("../utils/options_utils");
+const { bindOptions, generateUuid } = require("../utils/options_utils");
 const characterUtils = require("../utils/character_utils");
 const CachedAssetsManager = require("./CachedAssetsManager");
 const CharacterData = require("../models/character/CharacterData");
@@ -23,6 +23,8 @@ const ArtifactSet = require("../models/artifact/ArtifactSet");
 const getUserUrl = (enkaUrl, uid) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${username}`;
 
+const userCacheMap = new Map();
+
 /**
  * @en EnkaClientOptions
  * @typedef EnkaClientOptions
@@ -34,6 +36,7 @@ const getEnkaProfileUrl = (enkaUrl, username) => `${enkaUrl}/api/profile/${usern
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
+ * @property {boolean} [storeUserCache=true]
  */
 
 /**
@@ -54,10 +57,14 @@ class EnkaClient {
             "defaultLanguage": "en",
             "cacheDirectory": null,
             "showFetchCacheLog": true,
+            "storeUserCache": true,
         }, options);
 
         /** @type {CachedAssetsManager} */
         this.cachedAssetsManager = new CachedAssetsManager(this);
+
+        /** @private {Array<*>} */
+        this._tasks = [];
     }
 
     /**
@@ -67,27 +74,53 @@ class EnkaClient {
      * @returns {Promise<User | DetailedUser>}
      */
     async fetchUser(uid, collapse = false) {
-        if (typeof uid !== "number" && typeof uid !== "string") throw new Error("Parameter `uid` must be a number or a string.");
+        if (isNaN(uid)) throw new Error("Parameter `uid` must be a number or a string number.");
 
-        const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
+        const cacheKey = `${uid}${collapse ? "-info" : ""}`;
+        const cachedUserData = userCacheMap.get(uid.toString()) ?? (collapse ? userCacheMap.get(cacheKey) : null);
 
-        const response = await fetchJSON(url, this, true);
+        let data;
+        if (!cachedUserData || !this.options.storeUserCache) {
+            const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
 
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 400:
-                    throw new InvalidUidFormatError(`Invalid UID format. (${uid} provided.)`, response.status, response.statusText);
-                case 424:
-                    throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", response.status, response.statusText);
-                case 429:
-                    throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.", response.status, response.statusText);
-                case 404:
-                    throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
+            const response = await fetchJSON(url, this, true);
+
+            if (response.status !== 200) {
+                switch (response.status) {
+                    case 400:
+                        throw new InvalidUidFormatError(`Invalid UID format. (${uid} provided.)`, response.status, response.statusText);
+                    case 424:
+                        throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", response.status, response.statusText);
+                    case 429:
+                        throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.", response.status, response.statusText);
+                    case 404:
+                        throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`, response.status, response.statusText);
+                    default:
+                        throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
+                }
             }
+            data = { ...response.data };
+
+            if (this.options.storeUserCache) {
+                data["_lib"] = { cache_id: generateUuid(), created_at: Date.now(), expires_at: Date.now() + data.ttl * 1000, original_ttl: data.ttl };
+
+                if (!collapse) userCacheMap.delete(`${uid}-info`);
+                userCacheMap.set(cacheKey, data);
+                const task = setTimeout(() => {
+                    const dataToDelete = userCacheMap.get(cacheKey);
+                    if (!dataToDelete) return;
+                    if (dataToDelete._lib.cache_id === data._lib.cache_id) {
+                        userCacheMap.delete(cacheKey);
+                    }
+                    this._tasks.splice(this._tasks.indexOf(task), 1);
+                }, data.ttl * 1000);
+                this._tasks.push(task);
+            }
+        } else {
+            data = { ...cachedUserData };
+            if (collapse) delete data["avatarInfoList"];
+            data.ttl = Math.ceil((data._lib.expires_at - Date.now()) / 1000);
         }
-        const data = response.data;
 
         return collapse ? new User(data, this, uid) : new DetailedUser(data, this, uid);
     }
@@ -318,6 +351,14 @@ class EnkaClient {
     getArtifactSetById(id) {
         if (isNaN(id)) throw new Error("Parameter `id` must be a number or a string number.");
         return new ArtifactSet(Number(id), this);
+    }
+
+    /**
+     * Clear all running tasks in the client.
+     * @returns {void}
+     */
+    close() {
+        this._tasks.forEach(task => clearTimeout(task));
     }
 }
 
