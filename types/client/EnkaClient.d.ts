@@ -24,7 +24,10 @@ declare class EnkaClient {
     options: EnkaClientOptions;
     /** @type {CachedAssetsManager} */
     cachedAssetsManager: CachedAssetsManager;
-    /** @private {Array<*>} */
+    /**
+     * @private
+     * @type {Array<*>}
+     */
     private _tasks;
     /**
      * @param {number | string} uid

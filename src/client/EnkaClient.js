@@ -63,7 +63,10 @@ class EnkaClient {
         /** @type {CachedAssetsManager} */
         this.cachedAssetsManager = new CachedAssetsManager(this);
 
-        /** @private {Array<*>} */
+        /**
+         * @private
+         * @type {Array<*>}
+         */
         this._tasks = [];
     }
 
