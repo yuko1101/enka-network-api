@@ -82,8 +82,10 @@ class EnkaClient {
         const cacheKey = `${uid}${collapse ? "-info" : ""}`;
         const cachedUserData = userCacheMap.get(uid.toString()) ?? (collapse ? userCacheMap.get(cacheKey) : null);
 
+        const useCache = !!(cachedUserData && this.options.storeUserCache);
+
         let data;
-        if (!cachedUserData || !this.options.storeUserCache) {
+        if (!useCache) {
             const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
 
             const response = await fetchJSON(url, this, true);
@@ -125,7 +127,10 @@ class EnkaClient {
             data.ttl = Math.ceil((data._lib.expires_at - Date.now()) / 1000);
         }
 
-        return collapse ? new User(data, this, uid) : new DetailedUser(data, this, uid);
+        console.log("useCache", useCache);
+        const userData = bindOptions(data, { _lib: { is_cache: useCache } });
+
+        return collapse ? new User(userData, this, uid) : new DetailedUser(userData, this, uid);
     }
 
     /**
