@@ -39,6 +39,13 @@ class TextAssets {
             return null;
         }
     }
+
+    /**
+     * @returns {string}
+     */
+    toString() {
+        return this.getNullable() ?? `TextAssets(${this.id})`;
+    }
 }
 
 module.exports = TextAssets;
