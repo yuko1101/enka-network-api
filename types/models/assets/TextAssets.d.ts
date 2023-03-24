@@ -23,4 +23,8 @@ declare class TextAssets {
      * @returns {string | null}
      */
     getNullable(lang?: import("../../client/CachedAssetsManager").LanguageCode | undefined): string | null;
+    /**
+     * @returns {string}
+     */
+    toString(): string;
 }
