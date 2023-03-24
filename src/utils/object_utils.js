@@ -1,8 +1,10 @@
 /**
- * @param {Array<Object<string, any>>} array
- * @param {function(object): string} callback
+ * @template T
+ * @param {Array<T>} array
+ * @param {function(T): string} callback
+ * @returns {{ [s: string]: T[] }}
  */
-module.exports.separateWithValue = (array, callback) => {
+module.exports.separateByValue = (array, callback) => {
     const result = {};
     for (const element of array) {
         const value = callback(element);

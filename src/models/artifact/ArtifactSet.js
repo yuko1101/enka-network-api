@@ -2,6 +2,7 @@ const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
 const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 const ArtifactSetBonus = require("./ArtifactSetBonus");
+const { separateByValue } = require("../../utils/object_utils");
 
 /**
  * @en ArtifactSet
@@ -42,6 +43,26 @@ class ArtifactSet {
         this.name = new TextAssets(this._setBonusData[0].nameTextMapHash, enka);
 
 
+    }
+
+    /**
+     * @param {Array<import("./Artifact") | import("./ArtifactData") | ArtifactSet>} artifacts
+     * @returns {Array<{set: ArtifactSet, count: number, activeBonus: Array<ArtifactSetBonus>}>}
+     */
+    static getActiveSetBonus(artifacts) {
+        const artifactSets = artifacts.map(a => (a instanceof ArtifactSet) ? a : (a instanceof require("./ArtifactData")) ? a.set : a.artifactData.set);
+
+        const separated = separateByValue(artifactSets, a => a.id.toString());
+
+        const artifactSetCounts = Object.values(separated).map(array => { return { count: array.length, set: array[0] }; });
+
+        return artifactSetCounts.map(obj => {
+            return {
+                set: obj.set,
+                count: obj.count,
+                activeBonus: obj.set.setBonus.filter(bonus => bonus.needCount <= obj.count),
+            };
+        }).sort((a, b) => b.count - a.count);
     }
 }
 

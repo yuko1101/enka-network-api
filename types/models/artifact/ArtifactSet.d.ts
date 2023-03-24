@@ -4,6 +4,15 @@ export = ArtifactSet;
  */
 declare class ArtifactSet {
     /**
+     * @param {Array<import("./Artifact") | import("./ArtifactData") | ArtifactSet>} artifacts
+     * @returns {Array<{set: ArtifactSet, count: number, activeBonus: Array<ArtifactSetBonus>}>}
+     */
+    static getActiveSetBonus(artifacts: Array<import("./Artifact") | import("./ArtifactData") | ArtifactSet>): Array<{
+        set: ArtifactSet;
+        count: number;
+        activeBonus: Array<ArtifactSetBonus>;
+    }>;
+    /**
      * @param {number} id
      * @param {import("../../client/EnkaClient")} enka
      * @param {Object<string, any>} [data]

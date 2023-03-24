@@ -11,7 +11,7 @@ const NameCard = require("../models/material/NameCard");
 const EnkaNetworkError = require("../errors/EnkaNetworkError");
 const ArtifactData = require("../models/artifact/ArtifactData");
 const { artifactRarityRangeMap } = require("../utils/constants");
-const { separateWithValue } = require("../utils/object_utils");
+const { separateByValue } = require("../utils/object_utils");
 const DetailedUser = require("../models/DetailedUser");
 const EnkaUser = require("../models/enka/EnkaUser");
 const EnkaProfile = require("../models/enka/EnkaProfile");
@@ -330,7 +330,7 @@ class EnkaClient {
             return (min <= stars && stars <= max);
         });
 
-        const chunked = separateWithValue(validRarityArtifacts, (a) => `${a.setId}-${a.equipType}-${a.rankLevel}`);
+        const chunked = separateByValue(validRarityArtifacts, (a) => `${a.setId}-${a.equipType}-${a.rankLevel}`);
 
         return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1].id, this));
     }
