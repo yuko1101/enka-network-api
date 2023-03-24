@@ -127,7 +127,7 @@ class EnkaClient {
             data.ttl = Math.ceil((data._lib.expires_at - Date.now()) / 1000);
         }
 
-        console.log("useCache", useCache);
+        // console.log("useCache", useCache);
         const userData = bindOptions(data, { _lib: { is_cache: useCache } });
 
         return collapse ? new User(userData, this, uid) : new DetailedUser(userData, this, uid);
