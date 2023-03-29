@@ -41,19 +41,19 @@ class Character {
         this.status = new CharacterStatus(data.fightPropMap, enka, this.characterData.element);
 
         /** @type {number} */
-        this.level = Number(data.propMap[4001]?.ival ?? 0);
+        this.level = Number(data.propMap[4001]?.val ?? 0);
 
         /** @type {number} */
-        this.xp = Number(data.propMap[1001]?.ival ?? 0);
+        this.xp = Number(data.propMap[1001]?.val ?? 0);
 
         /** @type {number} */
-        this.ascension = Number(data.propMap[1002]?.ival ?? 0);
+        this.ascension = Number(data.propMap[1002]?.val ?? 0);
 
         /** @type {number} */
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         /** @type {number} */
-        this.stamina = Number(data.propMap[10010]?.ival ?? 10000) / 100;
+        this.stamina = Number(data.propMap[10010]?.val ?? 10000) / 100;
 
         /**
          * Traveler's friendship is always 1.
