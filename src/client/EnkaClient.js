@@ -30,7 +30,7 @@ const userCacheMap = new Map();
  * @typedef EnkaClientOptions
  * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
- * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
+ * @property {string} [imageBaseUrl="https://cdn.shogunate.tools/assets/genshin"]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
@@ -51,7 +51,7 @@ class EnkaClient {
         /** @type {EnkaClientOptions} */
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
-            "imageBaseUrl": "https://api.ambr.top/assets/UI",
+            "imageBaseUrl": "https://cdn.shogunate.tools/assets/genshin",
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",
