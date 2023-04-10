@@ -27,8 +27,8 @@ class ImageAssets {
         /** @type {string} */
         this.url = name === "" ? "" : `${enka.options.imageBaseUrl}/${name}.png`;
 
-        /** @type {string} */
-        this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name)));
+        /** @type {string | null} */
+        this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name))) ?? null;
 
         // if (!this.imageType) console.log(name);
 

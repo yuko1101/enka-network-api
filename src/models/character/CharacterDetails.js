@@ -1,4 +1,5 @@
 const AssetsNotFoundError = require("../../errors/AssetsNotFoundError");
+const ImageAssets = require("../assets/ImageAssets");
 const TextAssets = require("../assets/TextAssets");
 
 /**
@@ -24,7 +25,7 @@ const TextAssets = require("../assets/TextAssets");
  */
 class CharacterDetails {
     /**
-     * @param {number} id
+     * @param {number | null} id
      * @param {import("../../client/EnkaClient")} enka
      * @param {number} [characterId]
      * @param {boolean} [isArchon]
@@ -38,6 +39,9 @@ class CharacterDetails {
         /** @type {Object<string, any>} */
         this._data = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.fetterId === id) || f.avatarId === characterId);
         if (!this._data) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
+
+        /** @type {string} */
+        this._nameId = require("../../utils/character_utils").getNameIdByCharacterId(this._data.avatarId, enka);
 
         /** @type {number} */
         this.id = id ?? this._data.fetterId;
@@ -56,6 +60,9 @@ class CharacterDetails {
 
         /** @type {TextAssets} */
         this.constellation = new TextAssets(isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash, enka);
+
+        /** @type {ImageAssets} */
+        this.constellationIcon = new ImageAssets(`Eff_UI_Talent_${this._nameId}`, enka);
 
         /** @type {TextAssets} */
         this.title = new TextAssets(this._data.avatarTitleTextMapHash, enka);

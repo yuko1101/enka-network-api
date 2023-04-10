@@ -34,3 +34,13 @@ module.exports.isReleased = (characterId, enka) => {
     const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === characterId);
     return releaseData || enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").map(t => t.avatarId).includes(characterId);
 };
+
+/**
+ * @param {number} characterId
+ * @param {import("../client/EnkaClient")} enka
+ * @returns {string}
+ */
+module.exports.getNameIdByCharacterId = (characterId, enka) => {
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === characterId);
+    return data.iconName.slice("UI_AvatarIcon_".length);
+};
