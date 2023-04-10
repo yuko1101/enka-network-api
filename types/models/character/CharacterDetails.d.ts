@@ -20,18 +20,20 @@ export = CharacterDetails;
  */
 declare class CharacterDetails {
     /**
-     * @param {number} id
+     * @param {number | null} id
      * @param {import("../../client/EnkaClient")} enka
      * @param {number} [characterId]
      * @param {boolean} [isArchon]
      */
-    constructor(id: number, enka: import("../../client/EnkaClient"), characterId?: number | undefined, isArchon?: boolean | undefined);
+    constructor(id: number | null, enka: import("../../client/EnkaClient"), characterId?: number | undefined, isArchon?: boolean | undefined);
     /** @type {import("../../client/EnkaClient")} */
     enka: import("../../client/EnkaClient");
     /** @type {Object<string, any>} */
     _data: {
         [x: string]: any;
     };
+    /** @type {string} */
+    _nameId: string;
     /** @type {number} */
     id: number;
     /**
@@ -45,6 +47,8 @@ declare class CharacterDetails {
     vision: TextAssets;
     /** @type {TextAssets} */
     constellation: TextAssets;
+    /** @type {ImageAssets} */
+    constellationIcon: ImageAssets;
     /** @type {TextAssets} */
     title: TextAssets;
     /** @type {TextAssets} */
@@ -65,6 +69,7 @@ type Birthday = {
     day: number;
 };
 import TextAssets = require("../assets/TextAssets");
+import ImageAssets = require("../assets/ImageAssets");
 type CharacterVoices = {
     chinese: TextAssets;
     japanese: TextAssets;
