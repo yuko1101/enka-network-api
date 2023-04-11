@@ -55,6 +55,7 @@ class EnkaClient {
             "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
             "imageBaseUrlByPrefix": {
                 "UI_Costume_": "https://enka.network/ui",
+                "Eff_UI_Talent_": "https://res.cloudinary.com/genshin/image/upload/sprites",
             },
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
