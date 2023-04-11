@@ -4,7 +4,8 @@ export = EnkaClient;
  * @typedef EnkaClientOptions
  * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
- * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
+ * @property {string} [defaultImageBaseUrl="https://api.ambr.top/assets/UI"]
+ * @property {Object<string, string>} [imageBaseUrlByPrefix]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
@@ -139,7 +140,10 @@ declare namespace EnkaClient {
 }
 type EnkaClientOptions = {
     enkaUrl?: string | undefined;
-    imageBaseUrl?: string | undefined;
+    defaultImageBaseUrl?: string | undefined;
+    imageBaseUrlByPrefix?: {
+        [x: string]: string;
+    } | undefined;
     userAgent?: string | undefined;
     /**
      * http request timeout in milliseconds

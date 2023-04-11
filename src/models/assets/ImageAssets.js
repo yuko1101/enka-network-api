@@ -25,7 +25,10 @@ class ImageAssets {
         this.name = name;
 
         /** @type {string} */
-        this.url = name === "" ? "" : `${enka.options.imageBaseUrl}/${name}.png`;
+        this.imageBaseUrl = Object.entries(enka.options.imageBaseUrlByPrefix).find(entry => name.startsWith(entry[0]))?.[1] ?? enka.options.defaultImageBaseUrl;
+
+        /** @type {string} */
+        this.url = name === "" ? "" : `${this.imageBaseUrl}/${name}.png`;
 
         /** @type {string | null} */
         this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name))) ?? null;

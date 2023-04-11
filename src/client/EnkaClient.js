@@ -30,7 +30,8 @@ const userCacheMap = new Map();
  * @typedef EnkaClientOptions
  * @type {object}
  * @property {string} [enkaUrl="https://enka.network"]
- * @property {string} [imageBaseUrl="https://api.ambr.top/assets/UI"]
+ * @property {string} [defaultImageBaseUrl="https://api.ambr.top/assets/UI"]
+ * @property {Object<string, string>} [imageBaseUrlByPrefix]
  * @property {string} [userAgent="Mozilla/5.0"]
  * @property {bigint} [timeout=3000] http request timeout in milliseconds
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
@@ -51,7 +52,10 @@ class EnkaClient {
         /** @type {EnkaClientOptions} */
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
-            "imageBaseUrl": "https://api.ambr.top/assets/UI",
+            "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
+            "imageBaseUrlByPrefix": {
+                "UI_Costume_": "https://enka.network/ui",
+            },
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
             "defaultLanguage": "en",

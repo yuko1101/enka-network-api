@@ -13,6 +13,8 @@ declare class ImageAssets {
     /** @type {string} */
     name: string;
     /** @type {string} */
+    imageBaseUrl: string;
+    /** @type {string} */
     url: string;
     /** @type {string | null} */
     imageType: string | null;
