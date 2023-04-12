@@ -109,6 +109,7 @@ class EnkaClient {
                         throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
                 }
             }
+            // TODO: use structuredClone
             data = { ...response.data };
 
             if (this.options.storeUserCache) {
@@ -127,6 +128,7 @@ class EnkaClient {
                 this._tasks.push(task);
             }
         } else {
+            // TODO: use structuredClone
             data = { ...cachedUserData };
             if (collapse) delete data["avatarInfoList"];
             data.ttl = Math.ceil((data._lib.expires_at - Date.now()) / 1000);

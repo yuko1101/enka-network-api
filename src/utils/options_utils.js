@@ -6,6 +6,7 @@
 module.exports.bindOptions = (defaultOptions, options) => {
     if (!options) return defaultOptions;
     if (!defaultOptions) return options;
+    // TODO: use structuredClone
     const result = { ...defaultOptions };
 
     const nullPath = getNullPath(defaultOptions);
