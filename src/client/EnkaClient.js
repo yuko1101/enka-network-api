@@ -85,7 +85,7 @@ class EnkaClient {
         if (isNaN(uid)) throw new Error("Parameter `uid` must be a number or a string number.");
 
         const cacheKey = `${uid}${collapse ? "-info" : ""}`;
-        const cachedUserData = userCacheMap.get(uid.toString()) ?? (collapse ? userCacheMap.get(cacheKey) : null);
+        const cachedUserData = (collapse ? userCacheMap.get(cacheKey) : null) ?? userCacheMap.get(uid.toString());
 
         const useCache = !!(cachedUserData && this.options.storeUserCache);
 
