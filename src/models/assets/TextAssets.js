@@ -133,9 +133,7 @@ class FormattedText {
             .replace(/<color=([^>]+)>/g, "<span style=\"color:$1\">")
             .replace(/<\/color>/g, "</span>")
 
-            .split(/\r\n|\n|\\n|\r/)
-            .map(line => line !== "" ? `<p>${line}</p>` : "<br>")
-            .join("");
+            .replace(/\r\n|\n|\\n|\r/gm, "<br>");
 
         return new FormattedText(replaced, this.formattedWithPlaceholder);
     }
