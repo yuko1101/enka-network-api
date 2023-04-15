@@ -41,11 +41,102 @@ class TextAssets {
     }
 
     /**
+     * Returns whether the text is formatted or not.
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
+     * @returns {boolean}
+     */
+    isFormatted(lang) {
+        const text = this.getNullable(lang);
+        return isTextFormatted(text);
+    }
+
+    /**
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
+     * @returns {FormattedText}
+     */
+    getAsFormattedText(lang) {
+        const text = this.get(lang);
+        return new FormattedText(text.replace(/^#/, ""), text.startsWith("#"));
+    }
+
+    /**
+     * Returns null instead of throwing AssetsNotFoundError.
+     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
+     * @returns {FormattedText | null}
+     */
+    getAsNullableFormattedText(lang) {
+        try {
+            return this.getAsFormattedText(lang);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    /**
      * @returns {string}
      */
     toString() {
-        return this.getNullable() ?? `TextAssets(${this.id})`;
+        return this.getNullable() ?? `Unknown TextAssets(${this.id})`;
     }
 }
 
 module.exports = TextAssets;
+
+function isTextFormatted(text) {
+    return text?.startsWith("#") || /<.+>/.test(text);
+}
+
+function hasTextPlaceholder(text) {
+    return /\{([^#]+)#([^}]+)\}/.test(text);
+}
+
+class FormattedText {
+    /**
+     * @param {string} text
+     * @param {boolean} formattedWithPlaceholder
+     */
+    constructor(text, formattedWithPlaceholder) {
+        /**
+         * @readonly
+         * @type {string}
+         */
+        this.text = text;
+
+        /**
+         * @readonly
+         * @type {boolean}
+         */
+        this.formattedWithPlaceholder = formattedWithPlaceholder;
+    }
+
+    hasPlaceholder() {
+        return this.formattedWithPlaceholder && hasTextPlaceholder(this.text);
+    }
+
+    /**
+     * @param {Object<string, boolean>} placeholderMap
+     * @returns {FormattedText}
+     */
+    replacePlaceholder(placeholderMap) {
+        if (!this.hasPlaceholder()) return new FormattedText(this.text, this.formattedWithPlaceholder);
+
+        const replaced = this.text.replace(/\{([^#]+)#([^}]+)\}/g, (_, $1, $2) => placeholderMap[$1] ? $2 : "");
+        return new FormattedText(replaced, this.formattedWithPlaceholder);
+    }
+
+    /**
+     * Make colors and other formatting work in HTML.
+     * @returns {FormattedText}
+     */
+    replaceHTML() {
+        const replaced = this.text
+            .replace(/<color=([^>]+)>/g, "<span style=\"color:$1\">")
+            .replace(/<\/color>/g, "</span>")
+
+            .split(/\r\n|\n|\\n|\r/)
+            .map(line => line !== "" ? `<p>${line}</p>` : "<br>")
+            .join("");
+
+        return new FormattedText(replaced, this.formattedWithPlaceholder);
+    }
+}

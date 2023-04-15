@@ -11,7 +11,6 @@ const ArtifactData = require("./models/artifact/ArtifactData");
 const ArtifactSet = require("./models/artifact/ArtifactSet");
 const ArtifactSetBonus = require("./models/artifact/ArtifactSetBonus");
 const ArtifactSplitSubstat = require("./models/artifact/ArtifactSplitSubstat");
-const FormattedTextAssets = require("./models/assets/FormattedTextAssets");
 const ImageAssets = require("./models/assets/ImageAssets");
 const SkillAttributeAssets = require("./models/assets/SkillAttributeAssets");
 const TextAssets = require("./models/assets/TextAssets");
@@ -58,7 +57,6 @@ module.exports = {
     ArtifactSet,
     ArtifactSetBonus,
     ArtifactSplitSubstat,
-    FormattedTextAssets,
     ImageAssets,
     SkillAttributeAssets,
     TextAssets,
