@@ -153,3 +153,5 @@ console.log(weapons.map(w => w.name.get("jp")));
 More examples are available in [example](https://github.com/yuko1101/enka-network-api/tree/main/example) folder.
 
 For more information, please check [Documentation](https://enka-network-api.vercel.app/docs/api/EnkaClient).
+
+You can see the changelog [here](https://github.com/yuko1101/enka-network-api/blob/main/CHANGELOG.md).
