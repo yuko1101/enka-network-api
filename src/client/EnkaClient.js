@@ -33,7 +33,7 @@ const userCacheMap = new Map();
  * @property {string} [defaultImageBaseUrl="https://api.ambr.top/assets/UI"]
  * @property {Object<string, string>} [imageBaseUrlByPrefix]
  * @property {string} [userAgent="Mozilla/5.0"]
- * @property {bigint} [timeout=3000] http request timeout in milliseconds
+ * @property {bigint | number} [timeout=3000] http request timeout in milliseconds
  * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
