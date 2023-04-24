@@ -1,3 +1,5 @@
+# 2.6.1
+- Allows EnkaClientOptions#timeout in number type.
 # 2.6.0
 - Supported text formatting in TextAssets.
 - Added imageBaseUrlByPrefix option in EnkaClient.
