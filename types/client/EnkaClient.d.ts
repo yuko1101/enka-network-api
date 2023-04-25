@@ -12,6 +12,9 @@ export = EnkaClient;
  * @property {string} [cacheDirectory]
  * @property {boolean} [showFetchCacheLog=true]
  * @property {boolean} [storeUserCache=true]
+ * @property {(key: string) => Promise<{ [s: string]: any }>} [userCacheGetter]
+ * @property {(key: string, data: { [s: string]: any }) => Promise<void>} [userCacheSetter]
+ * @property {(key: string) => Promise<void>} [userCacheDeleter]
  */
 /**
  * @en EnkaClient
@@ -153,6 +156,13 @@ type EnkaClientOptions = {
     cacheDirectory?: string | undefined;
     showFetchCacheLog?: boolean | undefined;
     storeUserCache?: boolean | undefined;
+    userCacheGetter?: ((key: string) => Promise<{
+        [s: string]: any;
+    }>) | undefined;
+    userCacheSetter?: ((key: string, data: {
+        [s: string]: any;
+    }) => Promise<void>) | undefined;
+    userCacheDeleter?: ((key: string) => Promise<void>) | undefined;
 };
 import CachedAssetsManager = require("./CachedAssetsManager");
 import User = require("../models/User");
