@@ -70,6 +70,7 @@ const manualTextMapWhiteList = [
 
 /**
  * @param {boolean} useRawGenshinData
+ * @param {Date} rawDate
  * @param {Date} date
  */
 const getGitRemoteAPIUrl = (useRawGenshinData, rawDate, date) => useRawGenshinData
