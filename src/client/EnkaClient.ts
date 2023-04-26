@@ -64,6 +64,8 @@ type EnkaClientOptions = {
  */
 export default class EnkaClient {
     options: EnkaClientOptions;
+    cachedAssetsManager: CachedAssetsManager;
+    private _tasks: unknown[];
 
     /**
      * @param {EnkaClientOptions} [options]
@@ -91,24 +93,16 @@ export default class EnkaClient {
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
 
-        /** @type {CachedAssetsManager} */
         this.cachedAssetsManager = new CachedAssetsManager(this);
 
-        /**
-         * @private
-         * @type {Array<*>}
-         */
         this._tasks = [];
     }
 
     /**
-     * @param {number | string} uid
-     * @param {boolean} collapse Whether to fetch rough user information (Very fast)
-     * @throws {EnkaNetworkError}
-     * @returns {Promise<User | DetailedUser>}
+     * @param collapse Whether to fetch rough user information (Very fast)
      */
-    async fetchUser(uid: number | string, collapse: boolean = false): Promise<User | DetailedUser> {
-        if (isNaN(uid)) throw new Error("Parameter `uid` must be a number or a string number.");
+    async fetchUser(uid: number | string, collapse = false): Promise<User | DetailedUser> {
+        if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
 
         const cacheGetter = this.options.userCacheGetter ?? (async (key) => userCacheMap.get(key));
         const cacheSetter = this.options.userCacheSetter ?? (async (key, data) => { userCacheMap.set(key, data); });
@@ -119,7 +113,7 @@ export default class EnkaClient {
 
         const useCache = !!(cachedUserData && this.options.storeUserCache);
 
-        let data;
+        let data: ;
         if (!useCache) {
             const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
 
