@@ -19,7 +19,7 @@ let objectKeysManager: ObjectKeysManager;
 /**
  * @en LanguageCode
  */
-type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
+export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 
 type GenshinCacheDataList = JsonElement[]
 type GenshinCacheDataMap = { [s: string]: JsonElement }
