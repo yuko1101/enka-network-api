@@ -20,7 +20,7 @@ import Material from "../models/material/Material";
 import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonElement } from "config_file.js";
+import { JsonElement, JsonObject } from "config_file.js";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;
@@ -113,9 +113,9 @@ export default class EnkaClient {
 
         const useCache = !!(cachedUserData && this.options.storeUserCache);
 
-        let data: ;
+        let data: JsonObject;
         if (!useCache) {
-            const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
+            const url = getUserUrl(this.options.enkaUrl!, uid) + (collapse ? "?info" : "");
 
             const response = await fetchJSON(url, this, true);
 

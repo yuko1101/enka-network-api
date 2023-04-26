@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { Axios } from "axios";
 import unzipper from "unzipper";
-import { ConfigFile, JsonElement } from "config_file.js";
+import { ConfigFile, JsonArray, JsonObject, isJsonObject } from "config_file.js";
 import { bindOptions } from "../utils/options_utils";
 import { fetchJSON } from "../utils/axios_utils";
 import { move } from "../utils/file_utils";
@@ -11,19 +11,19 @@ import EnkaClient from "./EnkaClient";
 
 const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
-let dataMemory = {};
-let langDataMemory = {};
+let dataMemory: { [key: string]: JsonArray } = {};
 
-let objectKeysManager: ObjectKeysManager;
+export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
+
+const initialLangDataMemory: LanguageMap = { chs: {}, cht: {}, de: {}, en: {}, es: {}, fr: {}, id: {}, jp: {}, kr: {}, pt: {}, ru: {}, th: {}, vi: {} };
+let langDataMemory: LanguageMap = { ...initialLangDataMemory };
+
+let objectKeysManager: ObjectKeysManager | null;
 
 /**
  * @en LanguageCode
  */
 export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
-
-type GenshinCacheDataList = JsonElement[]
-type GenshinCacheDataMap = { [s: string]: JsonElement }
-type GenshinCacheData = GenshinCacheDataList | GenshinCacheDataMap;
 
 // Thanks @Dimbreath
 const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master";
@@ -83,7 +83,7 @@ export default class CachedAssetsManager {
     public enka: EnkaClient;
     public defaultCacheDirectoryPath: string;
     public cacheDirectoryPath: string;
-    public _cacheUpdater: number | null;
+    public _cacheUpdater: NodeJS.Timer | null;
     public _githubCache: ConfigFile | null;
     public _contentsSrc: string[];
     public _langs: string[];
@@ -187,7 +187,7 @@ export default class CachedAssetsManager {
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
-    async fetchAllContents(options: { useRawGenshinData?: boolean; ghproxy?: boolean; }): Promise<void> {
+    async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean }): Promise<void> {
         options = bindOptions({
             useRawGenshinData: false,
         }, options);
@@ -211,7 +211,7 @@ export default class CachedAssetsManager {
             }
 
             const promises = [];
-            const genshinData: { [s: string]: unknown } = {};
+            const genshinData: { [s: string]: JsonArray } = {};
             for (const content of contents) {
                 const fileName = `${content}.json`;
                 const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
@@ -230,7 +230,7 @@ export default class CachedAssetsManager {
                 console.info("Downloading language files...");
             }
 
-            const langsData: { [s: string]: unknown } = {};
+            const langsData: LanguageMap = { ...initialLangDataMemory };
             const langPromises = [];
             for (const lang of languages) {
                 langPromises.push(
@@ -250,14 +250,14 @@ export default class CachedAssetsManager {
                 console.info("Parsing data... (This may take more than 10 minutes)");
             }
 
-            const clearLangsData = this.removeUnusedTextData(genshinData, langsData);
+            const clearLangsData: LanguageMap = this.removeUnusedTextData(genshinData, langsData);
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Parsing completed");
                 console.info("Saving into files...");
             }
 
-            for (const lang in clearLangsData) {
+            for (const lang of Object.keys(clearLangsData) as LanguageCode[]) {
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
             }
 
@@ -265,7 +265,7 @@ export default class CachedAssetsManager {
                 fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
             }
 
-            await this._githubCache.set("rawLastUpdate", Date.now()).save();
+            await this._githubCache?.set("rawLastUpdate", Date.now()).save();
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info(">> All Completed");
@@ -299,7 +299,7 @@ export default class CachedAssetsManager {
      * @param {function(): Promise<*>} [options.onUpdateEnd]
      * @returns {Promise<boolean>}
      */
-    async updateContents(options: { useRawGenshinData?: boolean; ghproxy?: boolean; onUpdateStart?: () => Promise<*>; onUpdateEnd?: () => Promise<*>; } = {}): Promise<boolean> {
+    async updateContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void> } = {}): Promise<void> {
         options = bindOptions({
             useRawGenshinData: false,
             ghproxy: false,
@@ -309,7 +309,7 @@ export default class CachedAssetsManager {
 
         await this.cacheDirectorySetup();
 
-        const url = getGitRemoteAPIUrl(options.useRawGenshinData, new Date(this._githubCache.getValue("rawLastUpdate") ?? 0), new Date(this._githubCache.getValue("lastUpdate") ?? 0));
+        const url = getGitRemoteAPIUrl(!!options.useRawGenshinData, new Date((this._githubCache?.getValue("rawLastUpdate") ?? 0) as number), new Date((this._githubCache?.getValue("lastUpdate") ?? 0) as number));
 
         const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
@@ -337,7 +337,7 @@ export default class CachedAssetsManager {
      * @param {function(Error): Promise<*>} [options.onError]
      * @returns {void}
      */
-    activateAutoCacheUpdater(options: { useRawGenshinData?: boolean; instant?: boolean; ghproxy?: boolean; timeout?: number; onUpdateStart?: () => Promise<*>; onUpdateEnd?: () => Promise<*>; onError?: (arg0: Error) => Promise<*>; } = {}): void {
+    activateAutoCacheUpdater(options: { useRawGenshinData?: boolean, instant?: boolean, ghproxy?: boolean, timeout?: number, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void>, onError?: (error: Error) => Promise<void> } = {}): void {
         options = bindOptions({
             useRawGenshinData: false,
             instant: true,
@@ -347,14 +347,14 @@ export default class CachedAssetsManager {
             onUpdateEnd: null,
             onError: null,
         }, options);
-        if (options.timeout < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
+        if (options.timeout as number < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
         if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
             try {
                 this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
             } catch (e) {
-                options.onError?.(e);
+                if (e instanceof Error) options.onError?.(e);
             }
         }, options.timeout);
     }
@@ -384,10 +384,9 @@ export default class CachedAssetsManager {
     }
 
     /**
-     * @param {string} name without extensions (.json)
-     * @returns {object | Array<any>}
+     * @param name without extensions (.json)
      */
-    getGenshinCacheData(name: string): GenshinCacheData {
+    getGenshinCacheData(name: string): JsonArray {
         if (!Object.keys(dataMemory).includes(name)) {
             dataMemory[name] = JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8"));
         }
@@ -398,7 +397,7 @@ export default class CachedAssetsManager {
      * @param {LanguageCode} lang
      * @return {Object<string, string>}
      */
-    getLanguageData(lang: LanguageCode): GenshinCacheDataMap {
+    getLanguageData(lang: LanguageCode): JsonObject {
         if (!Object.keys(langDataMemory).includes(lang)) {
             langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
         }
@@ -420,14 +419,14 @@ export default class CachedAssetsManager {
      */
     refreshAllData(reload = false): void {
         const loadedData = reload ? Object.keys(dataMemory) : null;
-        const loadedLangs = reload ? Object.keys(langDataMemory) : null;
+        const loadedLangs = reload ? Object.keys(langDataMemory) as LanguageCode[] : null;
 
         dataMemory = {};
-        langDataMemory = {};
+        langDataMemory = { ...initialLangDataMemory };
 
-        objectKeysManager = undefined;
+        objectKeysManager = null;
 
-        if (reload) {
+        if (reload && loadedData && loadedLangs) {
             for (const name of loadedData) {
                 this.getGenshinCacheData(name);
             }
@@ -441,72 +440,83 @@ export default class CachedAssetsManager {
 
     /**
      * Remove all unused TextHashMaps
-     * @param {Object<string, Object<string, any>>} data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
-     * @param {Object<LanguageCode, Object<string, string>>} langsData {en: [Object object], jp: [Object object], ...}
-     * @param {boolean} [showLog=true]
+     * @param data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
+     * @param langsData {en: [Object object], jp: [Object object], ...}
      */
-    removeUnusedTextData(data: { [s: string]: GenshinCacheDataList }, langsData: { [s: LanguageCode]: GenshinCacheData }, showLog = true) {
-        const required = [];
+    removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): LanguageMap {
+        const required: number[] = [];
 
         required.push(...textMapWhiteList);
 
-        (data["AvatarExcelConfigData"] as GenshinCacheDataList).forEach(c => {
-            required.push(c.nameTextMapHash, c.descTextMapHash);
+        data["AvatarExcelConfigData"].forEach(c => {
+            if (!isJsonObject(c)) return;
+            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
-        (data["FetterInfoExcelConfigData"] as GenshinCacheDataList).forEach(c => {
+        data["FetterInfoExcelConfigData"].forEach(c => {
+            if (!isJsonObject(c)) return;
             required.push(
-                c.avatarNativeTextMapHash,
-                c.avatarVisionBeforTextMapHash,
-                c.avatarConstellationAfterTextMapHash,
-                c.avatarConstellationBeforTextMapHash,
-                c.avatarTitleTextMapHash,
-                c.avatarDetailTextMapHash,
-                c.cvChineseTextMapHash,
-                c.cvJapaneseTextMapHash,
-                c.cvEnglishTextMapHash,
-                c.cvKoreanTextMapHash,
+                c.avatarNativeTextMapHash as number,
+                c.avatarVisionBeforTextMapHash as number,
+                c.avatarConstellationAfterTextMapHash as number,
+                c.avatarConstellationBeforTextMapHash as number,
+                c.avatarTitleTextMapHash as number,
+                c.avatarDetailTextMapHash as number,
+                c.cvChineseTextMapHash as number,
+                c.cvJapaneseTextMapHash as number,
+                c.cvEnglishTextMapHash as number,
+                c.cvKoreanTextMapHash as number,
             );
         });
-        (data["ManualTextMapConfigData"] as GenshinCacheDataList).forEach(m => {
-            const id = m.textMapId;
+        data["ManualTextMapConfigData"].forEach(m => {
+            if (!isJsonObject(m)) return;
+            const id = m.textMapId as string;
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
-            required.push(m.textMapContentTextMapHash);
+            required.push(m.textMapContentTextMapHash as number);
         });
         data["ReliquaryExcelConfigData"].forEach(a => {
-            required.push(a.nameTextMapHash, a.descTextMapHash);
+            if (!isJsonObject(a)) return;
+            required.push(a.nameTextMapHash as number, a.descTextMapHash as number);
         });
         data["EquipAffixExcelConfigData"].forEach(s => {
-            required.push(s.nameTextMapHash, s.descTextMapHash);
+            if (!isJsonObject(s)) return;
+            required.push(s.nameTextMapHash as number, s.descTextMapHash as number);
         });
         data["AvatarTalentExcelConfigData"].forEach(c => {
-            required.push(c.nameTextMapHash, c.descTextMapHash);
+            if (!isJsonObject(c)) return;
+            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
         data["AvatarCostumeExcelConfigData"].forEach(c => {
-            required.push(c.nameTextMapHash, c.descTextMapHash);
+            if (!isJsonObject(c)) return;
+            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
-            required.push(p.nameTextMapHash, p.descTextMapHash, ...(p.paramDescList ?? []));
+            if (!isJsonObject(p)) return;
+            required.push(p.nameTextMapHash as number, p.descTextMapHash as number, ...(p.paramDescList ?? []) as number[]);
         });
         data["AvatarSkillExcelConfigData"].forEach(s => {
-            required.push(s.nameTextMapHash, s.descTextMapHash);
+            if (!isJsonObject(s)) return;
+            required.push(s.nameTextMapHash as number, s.descTextMapHash as number);
         });
         data["WeaponExcelConfigData"].forEach(w => {
-            required.push(w.nameTextMapHash, w.descTextMapHash);
+            if (!isJsonObject(w)) return;
+            required.push(w.nameTextMapHash as number, w.descTextMapHash as number);
         });
         data["EquipAffixExcelConfigData"].forEach(r => {
-            required.push(r.nameTextMapHash, r.descTextMapHash);
+            if (!isJsonObject(r)) return;
+            required.push(r.nameTextMapHash as number, r.descTextMapHash as number);
         });
         data["MaterialExcelConfigData"].forEach(m => {
-            required.push(m.nameTextMapHash, m.descTextMapHash);
+            if (!isJsonObject(m)) return;
+            required.push(m.nameTextMapHash as number, m.descTextMapHash as number);
         });
 
         const requiredStringKeys = required.filter(key => key).map(key => key.toString());
 
         if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`);
 
-        const clearLangsData = {};
+        const clearLangsData: LanguageMap = { ...initialLangDataMemory };
 
-        for (const lang in langsData) {
+        for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
             for (const key in langsData[lang]) {
@@ -528,7 +538,7 @@ export default class CachedAssetsManager {
      * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
      * @returns {Promise<void>}
      */
-    async _downloadCacheZip(options: { ghproxy?: boolean; }): Promise<void> {
+    async _downloadCacheZip(options: { ghproxy?: boolean } = {}): Promise<void> {
         options = bindOptions({
             ghproxy: false,
         }, options);
@@ -543,7 +553,7 @@ export default class CachedAssetsManager {
             throw new Error(`Failed to download genshin data from ${url} with an error: ${e}`);
         });
         if (res.status == 200) {
-            await new Promise(resolve => {
+            await new Promise<void>(resolve => {
                 const cacheParentDirectory = path.resolve(this.cacheDirectoryPath, "..");
                 const zipPath = path.resolve(this.defaultCacheDirectoryPath, "..", "cache-downloaded.zip");
                 res.data.pipe(fs.createWriteStream(zipPath));
