@@ -1,5 +1,5 @@
 import EnkaClient from "../../../client/EnkaClient";
-import Element from "../../Element";
+import Element, { ElementType } from "../../Element";
 import UniqueSkill from "./UniqueSkill";
 
 /**
@@ -7,16 +7,14 @@ import UniqueSkill from "./UniqueSkill";
  * @extends {UniqueSkill}
  */
 export default class ElementalBurst extends UniqueSkill {
-    public costElemType: Element;
-    public costElemVal: number;
+    readonly costElemType: Element;
+    readonly costElemVal: number;
 
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 
-        /** @type {Element} */
-        this.costElemType = new Element(this._data.costElemType, enka);
+        this.costElemType = new Element(this._data.costElemType as ElementType, enka);
 
-        /** @type {number} */
         this.costElemVal = this._data.costElemVal as number;
 
     }

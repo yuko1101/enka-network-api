@@ -19,18 +19,18 @@ export type CharacterVoices = { [lang in VoiceLanguage]: TextAssets };
  * @en CharacterDetails
  */
 export default class CharacterDetails {
-    public enka: EnkaClient;
-    public _data: JsonObject;
-    public _nameId: string;
-    public id: number;
-    public birthday: Birthday | null;
-    public location: TextAssets;
-    public vision: TextAssets;
-    public constellation: TextAssets;
-    public constellationIcon: ImageAssets;
-    public title: TextAssets;
-    public description: TextAssets;
-    public cv: CharacterVoices;
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly _nameId: string;
+    readonly id: number;
+    readonly birthday: Birthday | null;
+    readonly location: TextAssets;
+    readonly vision: TextAssets;
+    readonly constellation: TextAssets;
+    readonly constellationIcon: ImageAssets;
+    readonly title: TextAssets;
+    readonly description: TextAssets;
+    readonly cv: CharacterVoices;
 
     constructor(id: number | null, enka: EnkaClient, characterId?: number, isArchon = false) {
         if (!id && !characterId) throw new Error("An id or character id must be provided.");
@@ -47,29 +47,21 @@ export default class CharacterDetails {
 
         /**
          * If the character is Traveler, this will be null.
-         * @type {Birthday | null}
          */
         this.birthday = (this._data.infoBirthMonth && this._data.infoBirthDay) ? { month: this._data.infoBirthMonth as number, day: this._data.infoBirthDay as number } : null;
 
-        /** @type {TextAssets} */
         this.location = new TextAssets(this._data.avatarNativeTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
         this.vision = new TextAssets(this._data.avatarVisionBeforTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
         this.constellation = new TextAssets((isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash) as number, enka);
 
-        /** @type {ImageAssets} */
         this.constellationIcon = new ImageAssets(`Eff_UI_Talent_${this._nameId}`, enka);
 
-        /** @type {TextAssets} */
         this.title = new TextAssets(this._data.avatarTitleTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
         this.description = new TextAssets(this._data.avatarDetailTextMapHash as number, enka);
 
-        /** @type {CharacterVoices} */
         this.cv = {
             chinese: new TextAssets(this._data.cvChineseTextMapHash as number, enka),
             japanese: new TextAssets(this._data.cvJapaneseTextMapHash as number, enka),

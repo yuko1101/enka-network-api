@@ -5,10 +5,10 @@ import CachedAssetsManager from "./CachedAssetsManager";
  * @en ObjectKeysManager
  */
 export default class ObjectKeysManager {
-    public costumeIdKey: string;
-    public costumeCharacterIdKey: string;
-    public costumeStarKey: string;
-    public talentIsHiddenKey: string;
+    readonly costumeIdKey: string;
+    readonly costumeCharacterIdKey: string;
+    readonly costumeStarKey: string;
+    readonly talentIsHiddenKey: string;
 
     constructor(cachedAssetsManager: CachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");

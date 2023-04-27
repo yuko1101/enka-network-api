@@ -6,8 +6,8 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
  * @en TextAssets
  */
 export default class TextAssets {
-    public id: number;
-    public enka: EnkaClient;
+    readonly id: number;
+    readonly enka: EnkaClient;
 
     constructor(id: number, enka: EnkaClient) {
         this.id = id;
@@ -72,12 +72,9 @@ function hasTextPlaceholder(text: string) {
 }
 
 class FormattedText {
-    text: string;
-    formattedWithPlaceholder: boolean;
-    /**
-     * @param {string} text
-     * @param {boolean} formattedWithPlaceholder
-     */
+    readonly formattedWithPlaceholder: boolean;
+    readonly text: string;
+
     constructor(text: string, formattedWithPlaceholder: boolean) {
         /**
          * @readonly
@@ -96,10 +93,6 @@ class FormattedText {
         return this.formattedWithPlaceholder && hasTextPlaceholder(this.text);
     }
 
-    /**
-     * @param {Object<string, boolean>} placeholderMap
-     * @returns {FormattedText}
-     */
     replacePlaceholder(placeholderMap: { [s: string]: boolean; }): FormattedText {
         if (!this.hasPlaceholder()) return new FormattedText(this.text, this.formattedWithPlaceholder);
 
@@ -109,7 +102,6 @@ class FormattedText {
 
     /**
      * Make colors and other formatting work in HTML.
-     * @returns {FormattedText}
      */
     replaceHTML(): FormattedText {
         const replaced = this.text

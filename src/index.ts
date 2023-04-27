@@ -33,7 +33,7 @@ import CharacterBuild from "./models/enka/CharacterBuild";
 import EnkaProfile from "./models/enka/EnkaProfile";
 import EnkaUser from "./models/enka/EnkaUser";
 import Material from "./models/material/Material";
-import NameCard from "./models/material/NameCard";
+import { NameCard } from "./models/material/Material";
 import UpgradeCost from "./models/material/UpgradeCost";
 import Weapon from "./models/weapon/Weapon";
 import WeaponData from "./models/weapon/WeaponData";

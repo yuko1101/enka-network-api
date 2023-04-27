@@ -80,40 +80,25 @@ const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Dat
  * @en CachedAssetsManager
  */
 export default class CachedAssetsManager {
-    public enka: EnkaClient;
-    public defaultCacheDirectoryPath: string;
-    public cacheDirectoryPath: string;
-    public _cacheUpdater: NodeJS.Timer | null;
-    public _githubCache: ConfigFile | null;
-    public _contentsSrc: string[];
-    public _langs: string[];
-    public _isFetching: boolean;
+    readonly enka: EnkaClient;
+    readonly defaultCacheDirectoryPath: string;
+    readonly _contentsSrc: string[];
+    readonly _langs: string[];
+    cacheDirectoryPath: string;
+    _cacheUpdater: NodeJS.Timer | null;
+    _githubCache: ConfigFile | null;
+    _isFetching: boolean;
 
     constructor(enka: EnkaClient) {
-        /** @type {import("./EnkaClient")} */
         this.enka = enka;
-
-        /** @type {string} */
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
-
-        /** @type {string} */
-        this.cacheDirectoryPath = enka.options.cacheDirectory ?? this.defaultCacheDirectoryPath;
-
-        /** @type {number | null} */
-        this._cacheUpdater = null;
-
-        /** @type {ConfigFile | null} */
-        this._githubCache = null;
-
-        /** @type {Array<string>} */
         this._contentsSrc = contents;
-
-        /** @type {Array<string>} */
         this._langs = languages;
 
-        /** @type {boolean} */
+        this.cacheDirectoryPath = enka.options.cacheDirectory ?? this.defaultCacheDirectoryPath;
+        this._cacheUpdater = null;
+        this._githubCache = null;
         this._isFetching = false;
-
     }
 
     /** @returns {Promise<void>} */

@@ -12,18 +12,18 @@ export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_P
  * @en WeaponData
  */
 export default class WeaponData {
-    public enka: EnkaClient;
-    public id: number;
-    public _data: JsonObject;
-    public name: TextAssets;
-    public description: TextAssets;
-    public icon: ImageAssets;
-    public awakenIcon: ImageAssets;
-    public stars: number;
-    public weaponType: WeaponType;
-    public _weaponTypeData: JsonObject;
-    public weaponTypeName: TextAssets;
-    public refinements: WeaponRefinement[];
+    readonly enka: EnkaClient;
+    readonly id: number;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
+    readonly description: TextAssets;
+    readonly icon: ImageAssets;
+    readonly awakenIcon: ImageAssets;
+    readonly stars: number;
+    readonly weaponType: WeaponType;
+    readonly _weaponTypeData: JsonObject;
+    readonly weaponTypeName: TextAssets;
+    readonly refinements: WeaponRefinement[];
 
     /**
      * @param data If `data` provided, use `data` instead of searching with `id`.

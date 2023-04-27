@@ -6,16 +6,16 @@ import EnkaClient from "../../client/EnkaClient";
  * @en CharacterBuild
  */
 export default class CharacterBuild {
-    public _data: JsonObject;
-    public enka: EnkaClient;
-    public enkaUserInfo: { username: string; hash: string; };
-    public id: number;
-    public name: string;
-    public order: number;
-    public isLive: boolean;
-    public isPublic: boolean;
-    public character: Character;
-    public url: string;
+    readonly _data: JsonObject;
+    readonly enka: EnkaClient;
+    readonly enkaUserInfo: { username: string; hash: string; };
+    readonly id: number;
+    readonly name: string;
+    readonly order: number;
+    readonly isLive: boolean;
+    readonly isPublic: boolean;
+    readonly character: Character;
+    readonly url: string;
 
     constructor(data: JsonObject, enka: EnkaClient, username: string, hash: string) {
 

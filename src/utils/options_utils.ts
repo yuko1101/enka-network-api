@@ -3,7 +3,7 @@
  * @param {Object<string, any>} options
  * @returns {Object<string, any>}
  */
-export function bindOptions(defaultOptions, options) {
+export function bindOptions(defaultOptions: { [s: string]: unknown }, options: { [s: string]: unknown }): { [s: string]: unknown } {
     if (!options) return defaultOptions;
     if (!defaultOptions) return options;
     // TODO: use structuredClone
@@ -23,13 +23,13 @@ export function bindOptions(defaultOptions, options) {
 
                     if (getPath(result, resultPath) === null) {
                         resultPath.pop();
-                        const object = resultPath.reduce((acc, key) => acc[key], result);
+                        const object = resultPath.reduce<{ [s: string]: unknown }>((acc, key) => acc[key] as { [s: string]: unknown }, result);
                         const adjustPath = path.slice(i - 1);
                         const key = adjustPath.pop();
-                        setPath(object, adjustPath, { [key]: value });
+                        setPath(object, adjustPath, { [key as string]: value });
                         break;
                     } else {
-                        const object = resultPath.reduce((acc, key) => acc[key], result);
+                        const object = resultPath.reduce<{ [s: string]: unknown }>((acc, key) => acc[key] as { [s: string]: unknown }, result);
                         setPath(object, path.slice(i), value);
                         break;
                     }
@@ -38,8 +38,8 @@ export function bindOptions(defaultOptions, options) {
             }
         } else {
             const last = path.pop();
-            const object = path.reduce((acc, key) => acc[key], result);
-            object[last] = value;
+            const object = path.reduce<{ [s: string]: unknown }>((acc, key) => acc[key] as { [s: string]: unknown }, result);
+            object[last as string] = value;
         }
 
     }
@@ -52,13 +52,13 @@ export function bindOptions(defaultOptions, options) {
  * @param {*} path
  * @returns {Array<Array<string>>}
  */
-function getNullPath(object, path = []) {
+function getNullPath(object: { [s: string]: unknown }, path: string[] = []): string[][] {
     const result = [];
     for (const key in object) {
         const value = object[key];
         const newPath = [...path, key];
         if (typeof value === "object" && !Array.isArray(value) && value !== null && value !== undefined) {
-            result.push(...getNullPath(value, newPath));
+            result.push(...getNullPath(value as { [s: string]: unknown }, newPath));
         } else if (value === null || value === undefined) {
             result.push(newPath);
         }
@@ -68,11 +68,8 @@ function getNullPath(object, path = []) {
 
 /**
  * Warning: This function will not work with circular object.
- * @private
- * @param {Object<string, any>} object
- * @returns {Array<{path: Array<string>, value: any}>}
  */
-function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
+function getValuesWithPath(object: { [s: string]: unknown }, path: string[] = [], defaultOptionsNullPath: string[][] = []): Array<{ path: string[], value: unknown }> {
     const result = [];
     for (const key in object) {
         const value = object[key];
@@ -84,7 +81,7 @@ function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
             }
         }
         if (typeof value === "object" && !Array.isArray(value) && value !== null && value !== undefined) {
-            result.push(...getValuesWithPath(value, newPath, defaultOptionsNullPath));
+            result.push(...getValuesWithPath(value as { [s: string]: unknown }, newPath, defaultOptionsNullPath));
         } else {
             result.push({ path: newPath, value: value });
         }
@@ -92,57 +89,42 @@ function getValuesWithPath(object, path = [], defaultOptionsNullPath = []) {
     return result;
 }
 
-/**
- * @param {Object<string, any>} object
- * @param {Array<string>} path
- * @returns {*}
- */
-function getPath(object, path) {
+function getPath(object: { [s: string]: unknown }, path: string[]): unknown {
+    const last = path.pop();
     for (const key of path) {
         if (!Object.keys(object).includes(key)) {
             return undefined;
         }
-        object = object[key];
+        object = object[key] as { [s: string]: unknown };
     }
-    return object;
+    return object[last as string];
 }
 
-/**
- * @param {Object<string, any>} object
- * @param {Array<string>} path
- * @returns {boolean}
- */
-function hasPath(object, path) {
+function hasPath(object: { [s: string]: unknown }, path: string[]): boolean {
     for (const key of path) {
         if (typeof object !== "object" || object === null) return false;
         if (!Object.keys(object).includes(key)) {
             return false;
         }
-        object = object[key];
+        object = object[key] as { [s: string]: unknown };
     }
     return true;
 }
 
-/**
- * @param {Object<string, any>} object
- * @param {Array<string>} path
- * @param {*} value
- */
-function setPath(object, path, value) {
+function setPath(object: { [s: string]: unknown }, path: string[], value: unknown) {
     const last = path.pop();
     for (const key of path) {
         if (Object.keys(object).includes(key)) {
-            object = object[key];
+            object = object[key] as { [s: string]: unknown };
         } else {
             object[key] = {};
-            object = object[key];
+            object = object[key] as { [s: string]: unknown };
         }
     }
-    object[last] = value;
+    object[last as string] = value;
 }
 
-/** @returns {string} */
-export function generateUuid() {
+export function generateUuid(): string {
     const chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
     for (let i = 0; i < chars.length; i++) {
         switch (chars[i]) {

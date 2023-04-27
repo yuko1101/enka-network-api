@@ -6,15 +6,10 @@ import EnkaClient from "../../client/EnkaClient";
  * @en UpgradeCost
  */
 export default class UpgradeCost {
-    enka: EnkaClient;
-    coin: number;
-    items: { material: Material, count: number }[];
+    readonly enka: EnkaClient;
+    readonly coin: number;
+    readonly items: { material: Material, count: number }[];
 
-    /**
-     * @param {number} coinCost
-     * @param {Array<Object<string, any>>} costItems
-     * @param {import("../../client/EnkaClient")} enka
-     */
     constructor(coinCost: number, costItems: JsonObject[], enka: EnkaClient) {
         this.enka = enka;
 

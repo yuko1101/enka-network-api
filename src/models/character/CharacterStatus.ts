@@ -8,73 +8,71 @@ import Element from "../Element";
  * @en CharacterStatus
  */
 export default class CharacterStatus {
-    _data: JsonObject;
-    enka: EnkaClient;
-    healthBase: StatusProperty;
-    healthFlat: StatusProperty;
-    healthPercent: StatusProperty;
-    attackBase: StatusProperty;
-    attackFlat: StatusProperty;
-    attackPercent: StatusProperty;
-    defenseBase: StatusProperty;
-    defenseFlat: StatusProperty;
-    defensePercent: StatusProperty;
-    speedBase: StatusProperty;
-    speedPercent: StatusProperty;
-    critRate: StatusProperty;
-    critDamage: StatusProperty;
-    chargeEfficiency: StatusProperty;
-    healAdd: StatusProperty;
-    healedAdd: StatusProperty;
-    elementMastery: StatusProperty;
-    physicalRes: StatusProperty;
-    physicalDamage: StatusProperty;
-    pyroDamage: StatusProperty;
-    electroDamage: StatusProperty;
-    hydroDamage: StatusProperty;
-    dendroDamage: StatusProperty;
-    anemoDamage: StatusProperty;
-    geoDamage: StatusProperty;
-    cryoDamage: StatusProperty;
-    pyroRes: StatusProperty;
-    electroRes: StatusProperty;
-    hydroRes: StatusProperty;
-    dendroRes: StatusProperty;
-    anemoRes: StatusProperty;
-    geoRes: StatusProperty;
-    cryoRes: StatusProperty;
-    matchedElementDamage: StatusProperty | null;
-    highestDamageBonus: StatusProperty[];
-    pyroEnergyCost: number;
-    electroEnergyCost: number;
-    hydroEnergyCost: number;
-    dendroEnergyCost: number;
-    anemoEnergyCost: number;
-    cryoEnergyCost: number;
-    geoEnergyCost: number;
-    energyCost: number;
-    cooldownReduction: StatusProperty;
-    shieldStrength: StatusProperty;
-    currentPyroEnergy: number;
-    currentElectroEnergy: number;
-    currentHydroEnergy: number;
-    currentDendroEnergy: number;
-    currentAnemoEnergy: number;
-    currentCryoEnergy: number;
-    currentGeoEnergy: number;
-    currentEnergy: number;
-    currentHealth: StatusProperty;
-    maxHealth: StatusProperty;
-    attack: StatusProperty;
-    defense: StatusProperty;
-    speed: StatusProperty;
-    statusProperties: StatusProperty[];
+    readonly _data: JsonObject;
+    readonly enka: EnkaClient;
+    readonly healthBase: StatusProperty;
+    readonly healthFlat: StatusProperty;
+    readonly healthPercent: StatusProperty;
+    readonly attackBase: StatusProperty;
+    readonly attackFlat: StatusProperty;
+    readonly attackPercent: StatusProperty;
+    readonly defenseBase: StatusProperty;
+    readonly defenseFlat: StatusProperty;
+    readonly defensePercent: StatusProperty;
+    readonly speedBase: StatusProperty;
+    readonly speedPercent: StatusProperty;
+    readonly critRate: StatusProperty;
+    readonly critDamage: StatusProperty;
+    readonly chargeEfficiency: StatusProperty;
+    readonly healAdd: StatusProperty;
+    readonly healedAdd: StatusProperty;
+    readonly elementMastery: StatusProperty;
+    readonly physicalRes: StatusProperty;
+    readonly physicalDamage: StatusProperty;
+    readonly pyroDamage: StatusProperty;
+    readonly electroDamage: StatusProperty;
+    readonly hydroDamage: StatusProperty;
+    readonly dendroDamage: StatusProperty;
+    readonly anemoDamage: StatusProperty;
+    readonly geoDamage: StatusProperty;
+    readonly cryoDamage: StatusProperty;
+    readonly pyroRes: StatusProperty;
+    readonly electroRes: StatusProperty;
+    readonly hydroRes: StatusProperty;
+    readonly dendroRes: StatusProperty;
+    readonly anemoRes: StatusProperty;
+    readonly geoRes: StatusProperty;
+    readonly cryoRes: StatusProperty;
+    readonly matchedElementDamage: StatusProperty | null;
+    readonly highestDamageBonus: StatusProperty[];
+    readonly pyroEnergyCost: number;
+    readonly electroEnergyCost: number;
+    readonly hydroEnergyCost: number;
+    readonly dendroEnergyCost: number;
+    readonly anemoEnergyCost: number;
+    readonly cryoEnergyCost: number;
+    readonly geoEnergyCost: number;
+    readonly energyCost: number;
+    readonly cooldownReduction: StatusProperty;
+    readonly shieldStrength: StatusProperty;
+    readonly currentPyroEnergy: number;
+    readonly currentElectroEnergy: number;
+    readonly currentHydroEnergy: number;
+    readonly currentDendroEnergy: number;
+    readonly currentAnemoEnergy: number;
+    readonly currentCryoEnergy: number;
+    readonly currentGeoEnergy: number;
+    readonly currentEnergy: number;
+    readonly currentHealth: StatusProperty;
+    readonly maxHealth: StatusProperty;
+    readonly attack: StatusProperty;
+    readonly defense: StatusProperty;
+    readonly speed: StatusProperty;
+    readonly statusProperties: StatusProperty[];
 
     constructor(data: JsonObject, enka: EnkaClient, element: Element) {
-        /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
 
@@ -127,30 +125,21 @@ export default class CharacterStatus {
         const sortedDamageBonus = [this.pyroDamage, this.electroDamage, this.hydroDamage, this.dendroDamage, this.anemoDamage, this.geoDamage, this.cryoDamage, this.physicalDamage].sort((a, b) => b.value - a.value);
 
         const highestDamageBonusList = sortedDamageBonus.filter(d => d.value === sortedDamageBonus[0].value);
-        if (highestDamageBonusList.length > 1) highestDamageBonusList.sort((a, b) => this.matchedElementDamage?.id === a.id ? -1 : this.matchedElementDamage?.id === b.id ? 1 : 0);
+        if (highestDamageBonusList.length > 1) highestDamageBonusList.sort((a, b) => this.matchedElementDamage?.fightProp === a.fightProp ? -1 : this.matchedElementDamage?.fightProp === b.fightProp ? 1 : 0);
         /**
          * Including physical damage bonus, and returns list of highest damage bonus.
          * The order of the list is such that elemental matches come first.
          */
         this.highestDamageBonus = highestDamageBonusList;
 
-
-        /** @type {number} */
         this.pyroEnergyCost = (data[70] ?? 0) as number;
-        /** @type {number} */
         this.electroEnergyCost = (data[71] ?? 0) as number;
-        /** @type {number} */
         this.hydroEnergyCost = (data[72] ?? 0) as number;
-        /** @type {number} */
         this.dendroEnergyCost = (data[73] ?? 0) as number;
-        /** @type {number} */
         this.anemoEnergyCost = (data[74] ?? 0) as number;
-        /** @type {number} */
         this.cryoEnergyCost = (data[75] ?? 0) as number;
-        /** @type {number} */
         this.geoEnergyCost = (data[76] ?? 0) as number;
 
-        /** @type {number} */
         this.energyCost = Math.max(
             this.pyroEnergyCost,
             this.electroEnergyCost,
@@ -161,27 +150,17 @@ export default class CharacterStatus {
             this.geoEnergyCost,
         );
 
-        /** @type {StatusProperty} */
         this.cooldownReduction = this.getStatusProperty(80);
-        /** @type {StatusProperty} */
         this.shieldStrength = this.getStatusProperty(81);
 
-        /** @type {number} */
         this.currentPyroEnergy = (data[1000] ?? 0) as number;
-        /** @type {number} */
         this.currentElectroEnergy = (data[1001] ?? 0) as number;
-        /** @type {number} */
         this.currentHydroEnergy = (data[1002] ?? 0) as number;
-        /** @type {number} */
         this.currentDendroEnergy = (data[1003] ?? 0) as number;
-        /** @type {number} */
         this.currentAnemoEnergy = (data[1004] ?? 0) as number;
-        /** @type {number} */
         this.currentCryoEnergy = (data[1005] ?? 0) as number;
-        /** @type {number} */
         this.currentGeoEnergy = (data[1006] ?? 0) as number;
 
-        /** @type {number} */
         this.currentEnergy = Math.max(
             this.currentPyroEnergy,
             this.currentElectroEnergy,
@@ -192,23 +171,20 @@ export default class CharacterStatus {
             this.currentGeoEnergy,
         );
 
-        /** @type {StatusProperty} */
         this.currentHealth = this.getStatusProperty(1010);
 
-        /** @type {StatusProperty} */
         this.maxHealth = this.getStatusProperty(2000);
-        /** Current Attack @type {StatusProperty} */
+        /** Current Attack */
         this.attack = this.getStatusProperty(2001);
-        /** Current Defense @type {StatusProperty} */
+        /** Current Defense */
         this.defense = this.getStatusProperty(2002);
-        /** Current Speed @type {StatusProperty} */
+        /** Current Speed */
         this.speed = this.getStatusProperty(2003);
 
-        /** @type {Array<StatusProperty>} */
         this.statusProperties = Object.values(this).filter(value => value instanceof StatusProperty);
     }
 
     getStatusProperty(id: number, defaultValue = 0): StatusProperty {
-        return new StatusProperty(fightProps[id], this._data[id] ?? defaultValue, this.enka);
+        return new StatusProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }
 }

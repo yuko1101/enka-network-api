@@ -11,23 +11,18 @@ export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQU
  * @en ArtifactData
  */
 export default class ArtifactData {
-    public enka: EnkaClient;
-    public id: number;
-    public _data: JsonObject;
-    public name: TextAssets;
-    public description: TextAssets;
-    public equipType: EquipType;
-    public _equipTypeData: JsonObject;
-    public equipTypeName: TextAssets;
-    public icon: ImageAssets;
-    public stars: number;
-    public set: ArtifactSet;
+    readonly enka: EnkaClient;
+    readonly id: number;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
+    readonly description: TextAssets;
+    readonly equipType: EquipType;
+    readonly _equipTypeData: JsonObject;
+    readonly equipTypeName: TextAssets;
+    readonly icon: ImageAssets;
+    readonly stars: number;
+    readonly set: ArtifactSet;
 
-    /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {Object<string, any>} [setData]
-     */
     constructor(id: number, enka: EnkaClient, setData?: JsonObject) {
 
         this.enka = enka;
@@ -49,16 +44,12 @@ export default class ArtifactData {
         if (!_equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
         this._equipTypeData = _equipTypeData;
 
-        /** @type {TextAssets} */
         this.equipTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash as number, enka);
 
-        /** @type {ImageAssets} */
         this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        /** @type {number} */
         this.stars = this._data.rankLevel as number;
 
-        /** @type {ArtifactSet} */
         this.set = new ArtifactSet(this._data.setId as number, enka, setData);
 
     }

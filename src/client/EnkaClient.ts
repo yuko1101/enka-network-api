@@ -7,7 +7,7 @@ import CharacterData from "../models/character/CharacterData";
 import WeaponData from "../models/weapon/WeaponData";
 import Costume from "../models/character/Costume";
 import { fetchJSON } from "../utils/axios_utils";
-import NameCard from "../models/material/NameCard";
+import { NameCard } from "../models/material/Material";
 import EnkaNetworkError from "../errors/EnkaNetworkError";
 import ArtifactData from "../models/artifact/ArtifactData";
 import { artifactRarityRangeMap } from "../utils/constants";
@@ -20,7 +20,7 @@ import Material from "../models/material/Material";
 import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonElement, JsonObject } from "config_file.js";
+import { JsonObject } from "config_file.js";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;
@@ -29,33 +29,19 @@ const userCacheMap = new Map();
 
 /**
  * @en EnkaClientOptions
- * @typedef EnkaClientOptions
- * @type {object}
- * @property {string} [enkaUrl="https://enka.network"]
- * @property {string} [defaultImageBaseUrl="https://api.ambr.top/assets/UI"]
- * @property {Object<string, string>} [imageBaseUrlByPrefix]
- * @property {string} [userAgent="Mozilla/5.0"]
- * @property {bigint | number} [timeout=3000] http request timeout in milliseconds
- * @property {import("./CachedAssetsManager").LanguageCode} [defaultLanguage="en"]
- * @property {string} [cacheDirectory]
- * @property {boolean} [showFetchCacheLog=true]
- * @property {boolean} [storeUserCache=true]
- * @property {(key: string) => Promise<{ [s: string]: any }>} [userCacheGetter]
- * @property {(key: string, data: { [s: string]: any }) => Promise<void>} [userCacheSetter]
- * @property {(key: string) => Promise<void>} [userCacheDeleter]
  */
 export type EnkaClientOptions = {
     enkaUrl: string,
     defaultImageBaseUrl: string,
     imageBaseUrlByPrefix: { [prefix: string]: string },
     userAgent: string,
-    timeout: bigint | number,
+    timeout: number,
     defaultLanguage: LanguageCode,
     cacheDirectory: string,
     showFetchCacheLog: boolean,
     storeUserCache: boolean,
-    userCacheGetter: (key: string) => Promise<{ [s: string]: JsonElement }>,
-    userCacheSetter: (key: string, data: { [s: string]: JsonElement }) => Promise<void>,
+    userCacheGetter: (key: string) => Promise<JsonObject>,
+    userCacheSetter: (key: string, data: JsonObject) => Promise<void>,
     userCacheDeleter: (key: string) => Promise<void>,
 };
 
@@ -63,13 +49,10 @@ export type EnkaClientOptions = {
  * @en EnkaClient
  */
 export default class EnkaClient {
-    public options: EnkaClientOptions;
-    public cachedAssetsManager: CachedAssetsManager;
+    readonly options: EnkaClientOptions;
+    readonly cachedAssetsManager: CachedAssetsManager;
     private _tasks: NodeJS.Timeout[];
 
-    /**
-     * @param {EnkaClientOptions} [options]
-     */
     constructor(options: Partial<EnkaClientOptions> = {}) {
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
@@ -87,7 +70,7 @@ export default class EnkaClient {
             "userCacheGetter": null,
             "userCacheSetter": null,
             "userCacheDeleter": null,
-        }, options);
+        }, options) as EnkaClientOptions;
 
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
@@ -158,7 +141,7 @@ export default class EnkaClient {
         }
 
         // console.log("useCache", useCache);
-        const userData = bindOptions(data, { _lib: { is_cache: useCache } });
+        const userData = bindOptions(data, { _lib: { is_cache: useCache } }) as JsonObject;
 
         return collapse ? new User(userData, this, uid) : new DetailedUser(userData, this, uid);
     }
@@ -202,7 +185,7 @@ export default class EnkaClient {
                     throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
             }
         }
-        const data = response.data;
+        const data = response.data as { [hash: string]: JsonObject };
 
         return Object.values(data).map(u => new EnkaUser(u, this, username));
     }
@@ -269,9 +252,9 @@ export default class EnkaClient {
     getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
         if (excludeInvalidWeapons) {
-            return weapons.filter(w => w.weaponPromoteId === w.id).map(w => new WeaponData(w.id, this, w));
+            return weapons.filter(w => w.weaponPromoteId === w.id).map(w => new WeaponData(w.id as number, this, w));
         } else {
-            return weapons.map(w => new WeaponData(w.id, this, w));
+            return weapons.map(w => new WeaponData(w.id as number, this, w));
         }
     }
 
@@ -293,7 +276,7 @@ export default class EnkaClient {
     }
 
     getAllMaterials(): Material[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(m => Material.getMaterialById(m.id, this, m));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(m => Material.getMaterialById(m.id as number, this, m));
     }
 
     getMaterialById(id: number | string): Material {
@@ -302,7 +285,7 @@ export default class EnkaClient {
     }
 
     getAllNameCards(): NameCard[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === NameCard.MATERIAL_TYPE).map(n => new NameCard(n.id, this, n));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === NameCard.MATERIAL_TYPE).map(n => new NameCard(n.id as number, this, n));
     }
 
     getNameCardById(id: number | string): NameCard {

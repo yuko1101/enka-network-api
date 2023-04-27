@@ -9,12 +9,12 @@ import TextAssets from "../../assets/TextAssets";
  * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 export default class Skill {
-    public id: number;
-    public enka: EnkaClient;
-    public _data: JsonObject;
-    public name: TextAssets;
-    public description: TextAssets;
-    public icon: ImageAssets;
+    readonly id: number;
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
+    readonly description: TextAssets;
+    readonly icon: ImageAssets;
 
     constructor(id: number, enka: EnkaClient) {
 

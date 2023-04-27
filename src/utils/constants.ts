@@ -1,3 +1,5 @@
+import { FightProp } from "../models/StatusProperty";
+
 export const fightProps: { [key: string]: FightProp } = {
     1: "FIGHT_PROP_BASE_HP",
     2: "FIGHT_PROP_HP",
@@ -32,22 +34,22 @@ export const fightProps: { [key: string]: FightProp } = {
     54: "FIGHT_PROP_WIND_SUB_HURT",
     55: "FIGHT_PROP_ROCK_SUB_HURT",
     56: "FIGHT_PROP_ICE_SUB_HURT",
-    70: "", // Pyro Energy Cost
-    71: "", // Electro Energy Cost
-    72: "", // Hydro Energy Cost
-    73: "", // Dendro Energy Cost
-    74: "", // Anemo Energy Cost
-    75: "", // Cryo Energy Cost
-    76: "", // Geo Energy Cost
+    // 70: "", // Pyro Energy Cost
+    // 71: "", // Electro Energy Cost
+    // 72: "", // Hydro Energy Cost
+    // 73: "", // Dendro Energy Cost
+    // 74: "", // Anemo Energy Cost
+    // 75: "", // Cryo Energy Cost
+    // 76: "", // Geo Energy Cost
     80: "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
     81: "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
-    1000: "", // Current Pyro Energy
-    1001: "", // Current Electro Energy
-    1002: "", // Current Hydro Energy
-    1003: "", // Current Dendro Energy
-    1004: "", // Current Anemo Energy
-    1005: "", // Current Cryo Energy
-    1006: "", // Current Geo Energy
+    // 1000: "", // Current Pyro Energy
+    // 1001: "", // Current Electro Energy
+    // 1002: "", // Current Hydro Energy
+    // 1003: "", // Current Dendro Energy
+    // 1004: "", // Current Anemo Energy
+    // 1005: "", // Current Cryo Energy
+    // 1006: "", // Current Geo Energy
     1010: "FIGHT_PROP_CUR_HP",
     2000: "FIGHT_PROP_MAX_HP",
     2001: "FIGHT_PROP_CUR_ATTACK",

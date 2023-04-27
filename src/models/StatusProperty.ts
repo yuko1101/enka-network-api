@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../client/EnkaClient";
 import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 import { percent } from "../utils/constants";
 import TextAssets from "./assets/TextAssets";
@@ -6,65 +8,52 @@ import TextAssets from "./assets/TextAssets";
  * @en StatusProperty
  */
 export default class StatusProperty {
+    readonly fightProp: FightProp;
+    readonly enka: EnkaClient;
+    readonly _propData: JsonObject;
+    readonly type: TextAssets;
+    readonly isPercent: boolean;
+    readonly value: number;
 
-    /**
-     * @param {FightProp} id
-     * @param {number} value
-     * @param {import("../client/EnkaClient")} enka
-     */
-    constructor(id, value, enka, multiplied = false) {
-        /** @type {FightProp} */
-        this.id = id;
+    constructor(fightProp: FightProp, value: number, enka: EnkaClient, multiplied = false) {
+        this.fightProp = fightProp;
 
-        /** @type {import("../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
-        if (!this._propData) throw new AssetsNotFoundError("Fight Prop", id);
+        const _propData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === fightProp);
+        if (!_propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
+        this._propData = _propData;
 
-        /** @type {TextAssets} */
-        this.type = new TextAssets(this._propData.textMapContentTextMapHash, enka);
+        this.type = new TextAssets(this._propData.textMapContentTextMapHash as number, enka);
 
-        /** @type {boolean} */
-        this.isPercent = percent.includes(id);
+        this.isPercent = percent.includes(fightProp);
 
-        /** @type {number} */
         this.value = (multiplied && this.isPercent) ? value / 100 : value;
     }
 
     /**
      * Multiply `value` by 100 if it is a percentage.
-     * @returns {number}
      */
-    getFormattedValue() {
+    getFormattedValue(): number {
         return this.value * (this.isPercent ? 100 : 1);
     }
 
     /**
      * Returns simple value string.
-     * @returns {string}
      */
-    toString() {
+    toString(): string {
         const fix = this.isPercent ? 1 : 0;
         return this.getFormattedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
     }
 
-    /**
-     * @param {FightProp} id
-     * @param {import("../client/EnkaClient")} enka
-     * @returns {TextAssets | null}
-     */
-    static getFightPropTextAssets(id, enka) {
+    static getFightPropTextAssets(id: FightProp, enka: EnkaClient): TextAssets | null {
         const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
-        return propData ? new TextAssets(propData.textMapContentTextMapHash, enka) : null;
+        return propData ? new TextAssets(propData.textMapContentTextMapHash as number, enka) : null;
     }
 }
 
 /**
  * @en FightProp
- * @typedef FightProp
- * @type {"FIGHT_PROP_BASE_HP"|"FIGHT_PROP_HP"|"FIGHT_PROP_HP_PERCENT"|"FIGHT_PROP_BASE_ATTACK"|"FIGHT_PROP_ATTACK"|"FIGHT_PROP_ATTACK_PERCENT"|"FIGHT_PROP_BASE_DEFENSE"|"FIGHT_PROP_DEFENSE"|"FIGHT_PROP_DEFENSE_PERCENT"|"FIGHT_PROP_BASE_SPEED"|"FIGHT_PROP_SPEED_PERCENT"|"FIGHT_PROP_CRITICAL"|"FIGHT_PROP_ANTI_CRITICAL"|"FIGHT_PROP_CRITICAL_HURT"|"FIGHT_PROP_ELEMENT_MASTERY"|"FIGHT_PROP_CHARGE_EFFICIENCY"|"FIGHT_PROP_ADD_HURT"|"FIGHT_PROP_SUB_HURT"|"FIGHT_PROP_HEAL_ADD"|"FIGHT_PROP_HEALED_ADD"|"FIGHT_PROP_FIRE_ADD_HURT"|"FIGHT_PROP_FIRE_SUB_HURT"|"FIGHT_PROP_WATER_ADD_HURT"|"FIGHT_PROP_WATER_SUB_HURT"|"FIGHT_PROP_GRASS_ADD_HURT"|"FIGHT_PROP_GRASS_SUB_HURT"|"FIGHT_PROP_ELEC_ADD_HURT"|"FIGHT_PROP_ELEC_SUB_HURT"|"FIGHT_PROP_ICE_ADD_HURT"|"FIGHT_PROP_ICE_SUB_HURT"|"FIGHT_PROP_WIND_ADD_HURT"|"FIGHT_PROP_WIND_SUB_HURT"|"FIGHT_PROP_PHYSICAL_ADD_HURT"|"FIGHT_PROP_PHYSICAL_SUB_HURT"|"FIGHT_PROP_ROCK_ADD_HURT"|"FIGHT_PROP_ROCK_SUB_HURT"|"FIGHT_PROP_MAX_HP"|"FIGHT_PROP_CUR_ATTACK"|"FIGHT_PROP_CUR_DEFENSE"|"FIGHT_PROP_CUR_SPEED"|"FIGHT_PROP_CUR_HP"|"FIGHT_PROP_SKILL_CD_MINUS_RATIO"|"FIGHT_PROP_SHIELD_COST_MINUS_RATIO"}
  * @example
  * |Name|Description|
  * |---|---|
@@ -112,3 +101,46 @@ export default class StatusProperty {
  * |FIGHT_PROP_SKILL_CD_MINUS_RATIO|CD Reduction|
  * |FIGHT_PROP_SHIELD_COST_MINUS_RATIO|Shield Strength|
  */
+export type FightProp = "FIGHT_PROP_BASE_HP"
+    | "FIGHT_PROP_HP"
+    | "FIGHT_PROP_HP_PERCENT"
+    | "FIGHT_PROP_BASE_ATTACK"
+    | "FIGHT_PROP_ATTACK"
+    | "FIGHT_PROP_ATTACK_PERCENT"
+    | "FIGHT_PROP_BASE_DEFENSE"
+    | "FIGHT_PROP_DEFENSE"
+    | "FIGHT_PROP_DEFENSE_PERCENT"
+    | "FIGHT_PROP_BASE_SPEED"
+    | "FIGHT_PROP_SPEED_PERCENT"
+    | "FIGHT_PROP_CRITICAL"
+    | "FIGHT_PROP_ANTI_CRITICAL"
+    | "FIGHT_PROP_CRITICAL_HURT"
+    | "FIGHT_PROP_ELEMENT_MASTERY"
+    | "FIGHT_PROP_CHARGE_EFFICIENCY"
+    | "FIGHT_PROP_ADD_HURT"
+    | "FIGHT_PROP_SUB_HURT"
+    | "FIGHT_PROP_HEAL_ADD"
+    | "FIGHT_PROP_HEALED_ADD"
+    | "FIGHT_PROP_FIRE_ADD_HURT"
+    | "FIGHT_PROP_FIRE_SUB_HURT"
+    | "FIGHT_PROP_WATER_ADD_HURT"
+    | "FIGHT_PROP_WATER_SUB_HURT"
+    | "FIGHT_PROP_GRASS_ADD_HURT"
+    | "FIGHT_PROP_GRASS_SUB_HURT"
+    | "FIGHT_PROP_ELEC_ADD_HURT"
+    | "FIGHT_PROP_ELEC_SUB_HURT"
+    | "FIGHT_PROP_ICE_ADD_HURT"
+    | "FIGHT_PROP_ICE_SUB_HURT"
+    | "FIGHT_PROP_WIND_ADD_HURT"
+    | "FIGHT_PROP_WIND_SUB_HURT"
+    | "FIGHT_PROP_PHYSICAL_ADD_HURT"
+    | "FIGHT_PROP_PHYSICAL_SUB_HURT"
+    | "FIGHT_PROP_ROCK_ADD_HURT"
+    | "FIGHT_PROP_ROCK_SUB_HURT"
+    | "FIGHT_PROP_MAX_HP"
+    | "FIGHT_PROP_CUR_ATTACK"
+    | "FIGHT_PROP_CUR_DEFENSE"
+    | "FIGHT_PROP_CUR_SPEED"
+    | "FIGHT_PROP_CUR_HP"
+    | "FIGHT_PROP_SKILL_CD_MINUS_RATIO"
+    | "FIGHT_PROP_SHIELD_COST_MINUS_RATIO";

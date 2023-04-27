@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build:debug",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$tsc"
+			],
+			"label": "npm: build:debug",
+			"detail": "node -e \"const fs = require('fs'); if (fs.existsSync('./dist')) fs.rmSync('./dist', {recursive: true});\" && npx tsc --sourceMap"
+		}
+	]
+}

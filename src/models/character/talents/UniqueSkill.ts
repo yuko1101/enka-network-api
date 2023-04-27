@@ -7,8 +7,8 @@ import UpgradableSkill from "./UpgradableSkill";
  * @description Elemental Skill and Elemental Burst
  */
 export default class UniqueSkill extends UpgradableSkill {
-    maxCharge: number;
-    cooldown: number;
+    readonly maxCharge: number;
+    readonly cooldown: number;
 
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);

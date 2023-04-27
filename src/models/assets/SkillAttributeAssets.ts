@@ -21,17 +21,14 @@ export type SkillAttributeData = {
  * @extends {TextAssets}
  */
 export default class SkillAttributeAssets extends TextAssets {
-    public _paramList: number[];
+    readonly _paramList: number[];
+
     constructor(id: number, enka: EnkaClient, paramList: number[]) {
         super(id, enka);
 
         this._paramList = paramList;
     }
 
-    /**
-     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
-     * @returns {SkillAttributeData}
-     */
     getAttributeData(lang: LanguageCode): SkillAttributeData {
         const text = this.get(lang);
 
@@ -61,8 +58,6 @@ export default class SkillAttributeAssets extends TextAssets {
 
     /**
      * Returns null instead of throwing AssetsNotFoundError.
-     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
-     * @returns {SkillAttributeData | null}
      */
     getNullableAttributeData(lang: import("../../client/CachedAssetsManager").LanguageCode): SkillAttributeData | null {
         try {

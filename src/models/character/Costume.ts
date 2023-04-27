@@ -9,33 +9,33 @@ import { getNameIdByCharacterId } from "../../utils/character_utils";
  * @en Costume
  */
 export default class Costume {
-    public id: number;
-    public enka: EnkaClient;
-    public _data: JsonObject;
-    public name: TextAssets;
-    public description: TextAssets;
-    public characterId: number;
-    public isDefault: boolean;
-    public _nameId: string;
-    public icon: ImageAssets;
-    public sideIcon: ImageAssets;
-    public splashImage: ImageAssets;
-    public stars: number;
-    public cardIcon: ImageAssets;
+    readonly id: number;
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
+    readonly description: TextAssets;
+    readonly characterId: number;
+    readonly isDefault: boolean;
+    readonly _nameId: string;
+    readonly icon: ImageAssets;
+    readonly sideIcon: ImageAssets;
+    readonly splashImage: ImageAssets;
+    readonly stars: number | null;
+    readonly cardIcon: ImageAssets;
 
     /**
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
+    constructor(id: number | null, enka: EnkaClient, data?: JsonObject) {
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
 
-        this.id = data ? data[keys.costumeIdKey] as number : id;
+        this.id = (data ? data[keys.costumeIdKey] : id) as number;
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === id);
-        if (!_data) throw new AssetsNotFoundError("Costume", id);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === this.id);
+        if (!_data) throw new AssetsNotFoundError("Costume", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
@@ -48,14 +48,14 @@ export default class Costume {
 
         this._nameId = !this.isDefault && this._data.jsonName ? (this._data.jsonName as string).slice((this._data.jsonName as string).lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);
 
-        // TODO: use default character icon if costume is default.
-        this.icon = !this.isDefault ? new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka) : null;
+        this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka);
 
-        this.sideIcon = !this.isDefault ? new ImageAssets(this._data.sideIconName as string, enka) : null;
+        this.sideIcon = new ImageAssets(`UI_AvatarIcon_Side_${this._nameId}`, enka);
 
-        this.splashImage = !this.isDefault ? new ImageAssets(`UI_Costume_${this._nameId}`, enka) : null;
+        this.splashImage = new ImageAssets(!this.isDefault ? `UI_Costume_${this._nameId}` : `UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
-        this.stars = !this.isDefault ? this._data[keys.costumeStarKey] : null;
+        /** This is null if the costume is default */
+        this.stars = !this.isDefault ? this._data[keys.costumeStarKey] as number : null;
 
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }

@@ -1,3 +1,4 @@
+import { JsonObject } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
 import TextAssets from "../../assets/TextAssets";
@@ -35,8 +36,7 @@ export default class UpgradableSkill extends Skill {
     }
 
     /**
-     * @param {number} level the base level you want to upgrade to. (Do not add extra levels.)
-     * @returns {UpgradeCost | null}
+     * @param level the base level you want to upgrade to. (Do not add extra levels.)
      */
     getUpgradeCost(level: number): UpgradeCost | null {
         const proudSkillGroupId = this._data.proudSkillGroupId;
@@ -45,6 +45,6 @@ export default class UpgradableSkill extends Skill {
         const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
         if (!leveledSkillData) return null;
 
-        return new UpgradeCost(leveledSkillData.coinCost ?? 0, leveledSkillData.costItems ?? [], this.enka);
+        return new UpgradeCost((leveledSkillData.coinCost ?? 0) as number, (leveledSkillData.costItems ?? []) as JsonObject[], this.enka);
     }
 }

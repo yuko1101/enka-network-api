@@ -3,20 +3,20 @@ import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
-import StatusProperty from "../StatusProperty";
+import StatusProperty, { FightProp } from "../StatusProperty";
 
 /**
  * @en Constellation
  */
 export default class Constellation {
-    public id: number;
-    public enka: EnkaClient;
-    public _data: JsonObject;
-    public name: TextAssets;
-    public description: TextAssets;
-    public icon: ImageAssets;
-    public addProps: StatusProperty[];
-    public paramList: number[];
+    readonly id: number;
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
+    readonly description: TextAssets;
+    readonly icon: ImageAssets;
+    readonly addProps: StatusProperty[];
+    readonly paramList: number[];
 
     constructor(id: number, enka: EnkaClient) {
 
@@ -34,7 +34,7 @@ export default class Constellation {
 
         this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
+        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType as FightProp, p.value as number, enka));
 
         this.paramList = this._data.paramList as number[];
     }

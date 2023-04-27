@@ -19,22 +19,22 @@ import Element from "../Element";
  * @en Character
  */
 export default class Character {
-    public enka: EnkaClient;
-    public _data: JsonObject;
-    public characterData: CharacterData;
-    public costume: Costume;
-    public artifacts: Artifact[];
-    public weapon: Weapon;
-    public status: CharacterStatus;
-    public level: number;
-    public xp: number;
-    public ascension: number;
-    public maxLevel: number;
-    public stamina: number;
-    public friendship: number;
-    public unlockedConstellations: Constellation[];
-    public skillLevels: { skill: UpgradableSkill; level: SkillLevel; }[];
-    public unlockedPassiveTalents: PassiveTalent[];
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly characterData: CharacterData;
+    readonly costume: Costume;
+    readonly artifacts: Artifact[];
+    readonly weapon: Weapon;
+    readonly status: CharacterStatus;
+    readonly level: number;
+    readonly xp: number;
+    readonly ascension: number;
+    readonly maxLevel: number;
+    readonly stamina: number;
+    readonly friendship: number;
+    readonly unlockedConstellations: Constellation[];
+    readonly skillLevels: { skill: UpgradableSkill; level: SkillLevel; }[];
+    readonly unlockedPassiveTalents: PassiveTalent[];
 
     constructor(data: JsonObject, enka: EnkaClient) {
 
@@ -48,7 +48,7 @@ export default class Character {
 
         this.artifacts = (data.equipList as JsonObject[]).filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
 
-        this.weapon = new Weapon((data.equipList as JsonObject[]).find(item => Object.keys(item).includes("weapon")), enka);
+        this.weapon = new Weapon((data.equipList as JsonObject[]).find(item => Object.keys(item).includes("weapon")) as JsonObject, enka);
 
         this.status = new CharacterStatus(data.fightPropMap as JsonObject, enka, this.characterData.element as Element);
 

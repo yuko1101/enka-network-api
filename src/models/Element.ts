@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../client/EnkaClient";
 import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 import TextAssets from "./assets/TextAssets";
 
@@ -5,33 +7,27 @@ import TextAssets from "./assets/TextAssets";
  * @en Element
  */
 export default class Element {
-    id: string;
+    readonly id: ElementType;
+    readonly enka: EnkaClient;
+    readonly _data: JsonObject;
+    readonly name: TextAssets;
 
-    /**
-     * @param {ElementType} id
-     * @param {import("../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: ElementType, enka: EnkaClient) {
 
-        /** @type {ElementType} */
         this.id = id;
 
-        /** @type {import("../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
-        if (!this._data) throw new AssetsNotFoundError("Element", id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
+        if (!_data) throw new AssetsNotFoundError("Element", id);
+        this._data = _data;
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.textMapContentTextMapHash, enka);
+        this.name = new TextAssets(this._data.textMapContentTextMapHash as number, enka);
     }
 }
 
 /**
  * @en ElementType
- * @typedef ElementType
- * @type {"Wind"|"Rock"|"Electric"|"Grass"|"Water"|"Fire"|"Ice"}
  * @example
  * |ElementType|In-game Name|
  * |---|---|
@@ -43,3 +39,4 @@ export default class Element {
  * |Fire|Pyro|
  * |Ice|Cryo|
  */
+export type ElementType = "Wind" | "Rock" | "Electric" | "Grass" | "Water" | "Fire" | "Ice";

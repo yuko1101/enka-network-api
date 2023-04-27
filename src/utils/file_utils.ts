@@ -1,10 +1,6 @@
 import fs from "fs";
 
-/**
- * @param {string} dirFrom
- * @param {string} dirTo
- */
-export function move(dirFrom, dirTo) {
+export function move(dirFrom: string, dirTo: string) {
     const files = fs.readdirSync(dirFrom);
     for (const file of files) {
         const loadedFile = fs.lstatSync(`${dirFrom}/${file}`);
@@ -18,10 +14,6 @@ export function move(dirFrom, dirTo) {
     }
 }
 
-/**
- * @param {string} fileFrom
- * @param {string} fileTo
- */
-export function moveFile(fileFrom, fileTo) {
+export function moveFile(fileFrom: string, fileTo: string) {
     fs.renameSync(fileFrom, fileTo);
 }

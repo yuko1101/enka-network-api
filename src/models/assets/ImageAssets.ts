@@ -13,18 +13,14 @@ const imageTypes: { [type: string]: RegExp[] } = {
  * @en ImageAssets
  */
 export default class ImageAssets {
-    public enka: EnkaClient;
-    public name: string;
-    public imageBaseUrl: string;
-    public url: string;
-    public imageType: string | null;
-    public mihoyoUrl: string;
-    public isAvailable: boolean;
+    readonly enka: EnkaClient;
+    readonly name: string;
+    readonly imageBaseUrl: string;
+    readonly url: string;
+    readonly imageType: string | null;
+    readonly mihoyoUrl: string;
+    readonly isAvailable: boolean;
 
-    /**
-     * @param {string} name
-     * @param {import("../../client/EnkaClient")} enka
-     */
     constructor(name: string, enka: EnkaClient) {
         this.enka = enka;
 
