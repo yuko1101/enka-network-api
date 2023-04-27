@@ -4,6 +4,7 @@ import EnkaUser from "./EnkaUser";
 import CharacterBuild from "./CharacterBuild";
 
 /**
+ * The structure of the Enka.Network account
  * @en EnkaProfile
  */
 class EnkaProfile {

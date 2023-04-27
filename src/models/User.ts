@@ -11,28 +11,47 @@ export type CharacterPreview = { characterData: CharacterData, level: number, co
  * @en User
  */
 class User {
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly _data: JsonObject;
+    /**  */
     readonly uid: number;
+    /**  */
     readonly nickname: string | null;
+    /**  */
     readonly signature: string | null;
+    /**  */
     readonly profilePictureCharacter: CharacterData | null;
+    /**  */
     readonly charactersPreview: CharacterPreview[];
+    /**  */
     readonly nameCards: NameCard[];
+    /**  */
     readonly level: number;
+    /**  */
     readonly worldLevel: number;
+    /**  */
     readonly profileCard: NameCard;
+    /**  */
     readonly achievements: number;
+    /**  */
     readonly spiralAbyss: {
         floor: number,
         chamber: number,
     } | null;
+    /**  */
     readonly ttl: number;
+    /**  */
     readonly enkaProfile: EnkaProfile | null;
+    /**  */
     readonly enkaUserHash: string | null;
+    /**  */
     readonly url: string;
 
     /**
+     * @param data
+     * @param enka
      * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {

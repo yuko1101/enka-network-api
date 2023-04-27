@@ -26,6 +26,8 @@ class WeaponData {
     readonly refinements: WeaponRefinement[];
 
     /**
+     * @param id
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {

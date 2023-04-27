@@ -25,6 +25,8 @@ class Costume {
     readonly cardIcon: ImageAssets;
 
     /**
+     * @param id
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id: number | null, enka: EnkaClient, data?: JsonObject) {

@@ -49,10 +49,14 @@ export type EnkaClientOptions = {
  * @en EnkaClient
  */
 class EnkaClient {
+    /** The options the client was instantiated with */
     readonly options: EnkaClientOptions;
+    /** The genshin cache data manager of the client */
     readonly cachedAssetsManager: CachedAssetsManager;
+
     private _tasks: NodeJS.Timeout[];
 
+    /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
@@ -81,7 +85,9 @@ class EnkaClient {
     }
 
     /**
+     * @param uid In-game UID of the user.
      * @param collapse Whether to fetch rough user information (Very fast)
+     * @returns Returns DetailedUser if collapse is false, User if collapse is true
      */
     async fetchUser(uid: number | string, collapse = false): Promise<User | DetailedUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
@@ -148,6 +154,7 @@ class EnkaClient {
 
     /**
      * @param username enka.network username, not in-game nickname
+     * @returns Returns the structure of the Enka.Network account
      */
     async fetchEnkaProfile(username: string): Promise<EnkaProfile> {
         const url = getEnkaProfileUrl(this.options.enkaUrl as string, username);
@@ -169,6 +176,7 @@ class EnkaClient {
 
     /**
      * @param username enka.network username, not in-game nickname
+     * @returns Returns the structures of the game accounts added to the Enka.Network account
      */
     async fetchAllEnkaUsers(username: string): Promise<EnkaUser[]> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos`;
@@ -191,6 +199,7 @@ class EnkaClient {
     /**
      * @param username enka.network username, not in-game nickname
      * @param hash EnkaUser hash
+     * @returns Returns the structure of the game account added to the Enka.Network account
      */
     async fetchEnkaUser(username: string, hash: string): Promise<EnkaUser> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}`;

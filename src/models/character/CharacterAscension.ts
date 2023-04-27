@@ -20,6 +20,7 @@ class CharacterAscension {
     /**
      * @param id avatarPromoteId
      * @param ascension promoteLevel
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id: number, ascension: number, enka: EnkaClient, data?: JsonObject) {

@@ -80,11 +80,17 @@ const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Dat
  * @en CachedAssetsManager
  */
 class CachedAssetsManager {
+    /** The client that instantiated this */
     readonly enka: EnkaClient;
+    /** Default path of genshin cache data directory */
     readonly defaultCacheDirectoryPath: string;
+    /** List of the names of the files this library uses */
     readonly _contentsSrc: string[];
+    /** List of supported languages */
     readonly _langs: string[];
+    /** Path of directory where genshin cache data is stored */
     cacheDirectoryPath: string;
+
     _cacheUpdater: NodeJS.Timer | null;
     _githubCache: ConfigFile | null;
     _isFetching: boolean;

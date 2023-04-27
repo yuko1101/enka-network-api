@@ -7,11 +7,13 @@ import CharacterBuild from "./CharacterBuild";
 export type GameServerRegion = "" | "CN" | "B" | "NA" | "EU" | "ASIA" | "TW";
 
 /**
+ * The structure of the game account added to the Enka.Network account.
  * @en EnkaUser
  */
 class EnkaUser {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
+    /** Enka.Network username, not in-game nickname */
     readonly username: string;
     readonly hash: string;
     readonly user: User;
@@ -22,11 +24,15 @@ class EnkaUser {
     readonly verificationCode: string;
     readonly verificationExpires: Date;
     readonly verificationCodeRetries: number;
+    /** https://cdn.discordapp.com/attachments/971472744820650035/1072868537472925767/image.png */
     readonly region: GameServerRegion;
     readonly order: number;
     readonly url: string;
 
     /**
+     * @param data
+     * @param enka
+     * @param username
      * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data: JsonObject, enka: EnkaClient, username: string, uid?: number | string) {
@@ -35,9 +41,6 @@ class EnkaUser {
 
         this.enka = enka;
 
-        /**
-         * enka.network username, not in-game nickname
-        */
         this.username = username;
 
         this.hash = data.hash as string;
@@ -60,9 +63,6 @@ class EnkaUser {
 
         this.verificationCodeRetries = data.verification_code_retries as number;
 
-        /**
-         * https://cdn.discordapp.com/attachments/971472744820650035/1072868537472925767/image.png
-         */
         this.region = data.region as GameServerRegion;
 
         this.order = data.order as number;

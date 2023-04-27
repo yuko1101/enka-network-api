@@ -22,6 +22,8 @@ class Material {
     readonly stars: number;
 
     /**
+     * @param id
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {
@@ -49,6 +51,8 @@ class Material {
     }
 
     /**
+     * @param id
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     static getMaterialById(id: number | string, enka: EnkaClient, data?: JsonObject): Material {
@@ -76,6 +80,8 @@ class NameCard extends Material {
     readonly materialType: "MATERIAL_NAMECARD";
 
     /**
+     * @param id
+     * @param enka
      * @param data If `data` provided, use `data` instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {

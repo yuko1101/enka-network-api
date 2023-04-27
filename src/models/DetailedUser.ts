@@ -12,6 +12,8 @@ class DetailedUser extends User {
     readonly characters: Character[];
 
     /**
+     * @param data
+     * @param enka
      * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
     constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
