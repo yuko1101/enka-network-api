@@ -11,7 +11,7 @@ export default class UserNotFoundError extends EnkaNetworkError {
      * @param {number} statusCode
      * @param {string} statusMessage
      */
-    constructor(message, statusCode, statusMessage) {
+    constructor(message: string, statusCode: number, statusMessage: string) {
         super(message, statusCode, statusMessage);
         this.name = "UserNotFoundError";
     }

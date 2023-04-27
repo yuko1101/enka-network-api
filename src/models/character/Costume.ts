@@ -1,62 +1,62 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
+import { getNameIdByCharacterId } from "../../utils/character_utils";
 
 /**
  * @en Costume
  */
 export default class Costume {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public name: TextAssets;
+    public description: TextAssets;
+    public characterId: number;
+    public isDefault: boolean;
+    public _nameId: string;
+    public icon: ImageAssets;
+    public sideIcon: ImageAssets;
+    public splashImage: ImageAssets;
+    public stars: number;
+    public cardIcon: ImageAssets;
 
     /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param data If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id, enka, data = null) {
+    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
 
-        /** @type {number} */
-        this.id = data ? data[keys.costumeIdKey] : id;
+        this.id = data ? data[keys.costumeIdKey] as number : id;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._data = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === id);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === id);
+        if (!_data) throw new AssetsNotFoundError("Costume", id);
+        this._data = _data;
 
-        if (!this._data) throw new AssetsNotFoundError("Costume", id);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.descTextMapHash, enka);
+        this.characterId = this._data[keys.costumeCharacterIdKey] as number;
 
-        /** @type {number} */
-        this.characterId = this._data[keys.costumeCharacterIdKey]; // Previous key of "jsonName"
-
-        /** @type {boolean} */
         this.isDefault = !!this._data.isDefault;
 
-        if (!this.isDefault) {
-            /** @type {string} */
-            this._nameId = this._data.jsonName?.slice(this._data.jsonName.lastIndexOf("_") + 1);
+        this._nameId = !this.isDefault && this._data.jsonName ? (this._data.jsonName as string).slice((this._data.jsonName as string).lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);
 
-            /** @type {ImageAssets} */
-            this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka);
+        // TODO: use default character icon if costume is default.
+        this.icon = !this.isDefault ? new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka) : null;
 
-            /** @type {ImageAssets} */
-            this.sideIcon = new ImageAssets(this._data.sideIconName, enka);
+        this.sideIcon = !this.isDefault ? new ImageAssets(this._data.sideIconName as string, enka) : null;
 
-            /** @type {ImageAssets} */
-            this.splashImage = new ImageAssets(`UI_Costume_${this._nameId}`, enka);
+        this.splashImage = !this.isDefault ? new ImageAssets(`UI_Costume_${this._nameId}`, enka) : null;
 
-            /** @type {number} */
-            this.stars = this._data[keys.costumeStarKey];
-        }
+        this.stars = !this.isDefault ? this._data[keys.costumeStarKey] : null;
 
-        /** @type {ImageAssets} */
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }
 }

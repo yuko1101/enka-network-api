@@ -1,17 +1,76 @@
+import { JsonObject } from "config_file.js";
 import { fightProps } from "../../utils/constants";
 import StatusProperty from "../StatusProperty";
+import EnkaClient from "../../client/EnkaClient";
+import Element from "../Element";
 
 /**
  * @en CharacterStatus
  */
 export default class CharacterStatus {
+    _data: JsonObject;
+    enka: EnkaClient;
+    healthBase: StatusProperty;
+    healthFlat: StatusProperty;
+    healthPercent: StatusProperty;
+    attackBase: StatusProperty;
+    attackFlat: StatusProperty;
+    attackPercent: StatusProperty;
+    defenseBase: StatusProperty;
+    defenseFlat: StatusProperty;
+    defensePercent: StatusProperty;
+    speedBase: StatusProperty;
+    speedPercent: StatusProperty;
+    critRate: StatusProperty;
+    critDamage: StatusProperty;
+    chargeEfficiency: StatusProperty;
+    healAdd: StatusProperty;
+    healedAdd: StatusProperty;
+    elementMastery: StatusProperty;
+    physicalRes: StatusProperty;
+    physicalDamage: StatusProperty;
+    pyroDamage: StatusProperty;
+    electroDamage: StatusProperty;
+    hydroDamage: StatusProperty;
+    dendroDamage: StatusProperty;
+    anemoDamage: StatusProperty;
+    geoDamage: StatusProperty;
+    cryoDamage: StatusProperty;
+    pyroRes: StatusProperty;
+    electroRes: StatusProperty;
+    hydroRes: StatusProperty;
+    dendroRes: StatusProperty;
+    anemoRes: StatusProperty;
+    geoRes: StatusProperty;
+    cryoRes: StatusProperty;
+    matchedElementDamage: StatusProperty | null;
+    highestDamageBonus: StatusProperty[];
+    pyroEnergyCost: number;
+    electroEnergyCost: number;
+    hydroEnergyCost: number;
+    dendroEnergyCost: number;
+    anemoEnergyCost: number;
+    cryoEnergyCost: number;
+    geoEnergyCost: number;
+    energyCost: number;
+    cooldownReduction: StatusProperty;
+    shieldStrength: StatusProperty;
+    currentPyroEnergy: number;
+    currentElectroEnergy: number;
+    currentHydroEnergy: number;
+    currentDendroEnergy: number;
+    currentAnemoEnergy: number;
+    currentCryoEnergy: number;
+    currentGeoEnergy: number;
+    currentEnergy: number;
+    currentHealth: StatusProperty;
+    maxHealth: StatusProperty;
+    attack: StatusProperty;
+    defense: StatusProperty;
+    speed: StatusProperty;
+    statusProperties: StatusProperty[];
 
-    /**
-     * @param {Object<string, any>} data
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {import("../Element")} element
-     */
-    constructor(data, enka, element) {
+    constructor(data: JsonObject, enka: EnkaClient, element: Element) {
         /** @type {Object<string, any>} */
         this._data = data;
 
@@ -19,76 +78,42 @@ export default class CharacterStatus {
         this.enka = enka;
 
 
-        /** @type {StatusProperty} */
         this.healthBase = this.getStatusProperty(1);
-        /** @type {StatusProperty} */
         this.healthFlat = this.getStatusProperty(2);
-        /** @type {StatusProperty} */
         this.healthPercent = this.getStatusProperty(3);
-        /** @type {StatusProperty} */
         this.attackBase = this.getStatusProperty(4);
-        /** @type {StatusProperty} */
         this.attackFlat = this.getStatusProperty(5);
-        /** @type {StatusProperty} */
         this.attackPercent = this.getStatusProperty(6);
-        /** @type {StatusProperty} */
         this.defenseBase = this.getStatusProperty(7);
-        /** @type {StatusProperty} */
         this.defenseFlat = this.getStatusProperty(8);
-        /** @type {StatusProperty} */
         this.defensePercent = this.getStatusProperty(9);
-        /** @type {StatusProperty} */
         this.speedBase = this.getStatusProperty(10);
-        /** @type {StatusProperty} */
         this.speedPercent = this.getStatusProperty(11);
-        /** @type {StatusProperty} */
         this.critRate = this.getStatusProperty(20);
-        /** @type {StatusProperty} */
         this.critDamage = this.getStatusProperty(22);
-        /** @type {StatusProperty} */
         this.chargeEfficiency = this.getStatusProperty(23);
-        /** @type {StatusProperty} */
         this.healAdd = this.getStatusProperty(26);
-        /** @type {StatusProperty} */
         this.healedAdd = this.getStatusProperty(27);
-        /** @type {StatusProperty} */
         this.elementMastery = this.getStatusProperty(28);
-        /** @type {StatusProperty} */
         this.physicalRes = this.getStatusProperty(29);
-        /** @type {StatusProperty} */
         this.physicalDamage = this.getStatusProperty(30);
-        /** @type {StatusProperty} */
         this.pyroDamage = this.getStatusProperty(40);
-        /** @type {StatusProperty} */
         this.electroDamage = this.getStatusProperty(41);
-        /** @type {StatusProperty} */
         this.hydroDamage = this.getStatusProperty(42);
-        /** @type {StatusProperty} */
         this.dendroDamage = this.getStatusProperty(43);
-        /** @type {StatusProperty} */
         this.anemoDamage = this.getStatusProperty(44);
-        /** @type {StatusProperty} */
         this.geoDamage = this.getStatusProperty(45);
-        /** @type {StatusProperty} */
         this.cryoDamage = this.getStatusProperty(46);
-        /** @type {StatusProperty} */
         this.pyroRes = this.getStatusProperty(50);
-        /** @type {StatusProperty} */
         this.electroRes = this.getStatusProperty(51);
-        /** @type {StatusProperty} */
         this.hydroRes = this.getStatusProperty(52);
-        /** @type {StatusProperty} */
         this.dendroRes = this.getStatusProperty(53);
-        /** @type {StatusProperty} */
         this.anemoRes = this.getStatusProperty(54);
-        /** @type {StatusProperty} */
         this.geoRes = this.getStatusProperty(55);
-        /** @type {StatusProperty} */
         this.cryoRes = this.getStatusProperty(56);
 
         /**
          * Element damage bonus which matches the character's element. (Physical DMG ignored.)
-         * @type {StatusProperty | null}
          */
         this.matchedElementDamage =
             element?.id === "Fire" ? this.pyroDamage :
@@ -100,38 +125,30 @@ export default class CharacterStatus {
                                     element?.id === "Ice" ? this.cryoDamage : null;
 
         const sortedDamageBonus = [this.pyroDamage, this.electroDamage, this.hydroDamage, this.dendroDamage, this.anemoDamage, this.geoDamage, this.cryoDamage, this.physicalDamage].sort((a, b) => b.value - a.value);
-        /**
-         * Including physical damage bonus.
-         * If there are more than two highest ones, this will be null.
-         * @type {StatusProperty | null}
-         * @deprecated Use CharacterStatus#highestDamageBonus instead.
-         */
-        this.maxElementDamage = sortedDamageBonus[0].value === sortedDamageBonus[1].value ? null : sortedDamageBonus[0];
 
         const highestDamageBonusList = sortedDamageBonus.filter(d => d.value === sortedDamageBonus[0].value);
         if (highestDamageBonusList.length > 1) highestDamageBonusList.sort((a, b) => this.matchedElementDamage?.id === a.id ? -1 : this.matchedElementDamage?.id === b.id ? 1 : 0);
         /**
          * Including physical damage bonus, and returns list of highest damage bonus.
          * The order of the list is such that elemental matches come first.
-         * @type {Array<StatusProperty>}
          */
         this.highestDamageBonus = highestDamageBonusList;
 
 
         /** @type {number} */
-        this.pyroEnergyCost = data[70] ?? 0;
+        this.pyroEnergyCost = (data[70] ?? 0) as number;
         /** @type {number} */
-        this.electroEnergyCost = data[71] ?? 0;
+        this.electroEnergyCost = (data[71] ?? 0) as number;
         /** @type {number} */
-        this.hydroEnergyCost = data[72] ?? 0;
+        this.hydroEnergyCost = (data[72] ?? 0) as number;
         /** @type {number} */
-        this.dendroEnergyCost = data[73] ?? 0;
+        this.dendroEnergyCost = (data[73] ?? 0) as number;
         /** @type {number} */
-        this.anemoEnergyCost = data[74] ?? 0;
+        this.anemoEnergyCost = (data[74] ?? 0) as number;
         /** @type {number} */
-        this.cryoEnergyCost = data[75] ?? 0;
+        this.cryoEnergyCost = (data[75] ?? 0) as number;
         /** @type {number} */
-        this.geoEnergyCost = data[76] ?? 0;
+        this.geoEnergyCost = (data[76] ?? 0) as number;
 
         /** @type {number} */
         this.energyCost = Math.max(
@@ -150,19 +167,19 @@ export default class CharacterStatus {
         this.shieldStrength = this.getStatusProperty(81);
 
         /** @type {number} */
-        this.currentPyroEnergy = data[1000] ?? 0;
+        this.currentPyroEnergy = (data[1000] ?? 0) as number;
         /** @type {number} */
-        this.currentElectroEnergy = data[1001] ?? 0;
+        this.currentElectroEnergy = (data[1001] ?? 0) as number;
         /** @type {number} */
-        this.currentHydroEnergy = data[1002] ?? 0;
+        this.currentHydroEnergy = (data[1002] ?? 0) as number;
         /** @type {number} */
-        this.currentDendroEnergy = data[1003] ?? 0;
+        this.currentDendroEnergy = (data[1003] ?? 0) as number;
         /** @type {number} */
-        this.currentAnemoEnergy = data[1004] ?? 0;
+        this.currentAnemoEnergy = (data[1004] ?? 0) as number;
         /** @type {number} */
-        this.currentCryoEnergy = data[1005] ?? 0;
+        this.currentCryoEnergy = (data[1005] ?? 0) as number;
         /** @type {number} */
-        this.currentGeoEnergy = data[1006] ?? 0;
+        this.currentGeoEnergy = (data[1006] ?? 0) as number;
 
         /** @type {number} */
         this.currentEnergy = Math.max(
@@ -190,13 +207,8 @@ export default class CharacterStatus {
         /** @type {Array<StatusProperty>} */
         this.statusProperties = Object.values(this).filter(value => value instanceof StatusProperty);
     }
-    /**
-     * @private
-     * @param {number} id
-     * @param {number} [defaultValue]
-     * @returns {StatusProperty}
-     */
-    getStatusProperty(id, defaultValue = 0) {
+
+    getStatusProperty(id: number, defaultValue = 0): StatusProperty {
         return new StatusProperty(fightProps[id], this._data[id] ?? defaultValue, this.enka);
     }
 }

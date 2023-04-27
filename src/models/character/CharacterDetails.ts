@@ -1,89 +1,84 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
+import { getNameIdByCharacterId } from "../../utils/character_utils";
+import { LanguageCode } from "../../client/CachedAssetsManager";
 
-/**
- * @en Birthday
- * @typedef Birthday
- * @type {object}
- * @property {number} month
- * @property {number} day
- */
+export type Birthday = {
+    month: number,
+    day: number,
+};
 
-/**
- * @en CharacterVoices
- * @typedef CharacterVoices
- * @type {object}
- * @property {TextAssets} chinese
- * @property {TextAssets} japanese
- * @property {TextAssets} english
- * @property {TextAssets} korean
- */
+export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
+
+export type CharacterVoices = { [lang in VoiceLanguage]: TextAssets };
 
 /**
  * @en CharacterDetails
  */
 export default class CharacterDetails {
-    /**
-     * @param {number | null} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {number} [characterId]
-     * @param {boolean} [isArchon]
-     */
-    constructor(id, enka, characterId = null, isArchon = false) {
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public _nameId: string;
+    public id: number;
+    public birthday: Birthday | null;
+    public location: TextAssets;
+    public vision: TextAssets;
+    public constellation: TextAssets;
+    public constellationIcon: ImageAssets;
+    public title: TextAssets;
+    public description: TextAssets;
+    public cv: CharacterVoices;
+
+    constructor(id: number | null, enka: EnkaClient, characterId?: number, isArchon = false) {
         if (!id && !characterId) throw new Error("An id or character id must be provided.");
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.fetterId === id) || f.avatarId === characterId);
-        if (!this._data) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.fetterId === id) || f.avatarId === characterId);
+        if (!_data) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
+        this._data = _data;
 
-        /** @type {string} */
-        this._nameId = require("../../utils/character_utils").getNameIdByCharacterId(this._data.avatarId, enka);
+        this._nameId = getNameIdByCharacterId(this._data.avatarId as number, enka);
 
-        /** @type {number} */
-        this.id = id ?? this._data.fetterId;
+        this.id = id ?? this._data.fetterId as number;
 
         /**
          * If the character is Traveler, this will be null.
          * @type {Birthday | null}
          */
-        this.birthday = (this._data.infoBirthMonth && this._data.infoBirthDay) ? { month: this._data.infoBirthMonth, day: this._data.infoBirthDay } : null;
+        this.birthday = (this._data.infoBirthMonth && this._data.infoBirthDay) ? { month: this._data.infoBirthMonth as number, day: this._data.infoBirthDay as number } : null;
 
         /** @type {TextAssets} */
-        this.location = new TextAssets(this._data.avatarNativeTextMapHash, enka);
+        this.location = new TextAssets(this._data.avatarNativeTextMapHash as number, enka);
 
         /** @type {TextAssets} */
-        this.vision = new TextAssets(this._data.avatarVisionBeforTextMapHash, enka);
+        this.vision = new TextAssets(this._data.avatarVisionBeforTextMapHash as number, enka);
 
         /** @type {TextAssets} */
-        this.constellation = new TextAssets(isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash, enka);
+        this.constellation = new TextAssets((isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash) as number, enka);
 
         /** @type {ImageAssets} */
         this.constellationIcon = new ImageAssets(`Eff_UI_Talent_${this._nameId}`, enka);
 
         /** @type {TextAssets} */
-        this.title = new TextAssets(this._data.avatarTitleTextMapHash, enka);
+        this.title = new TextAssets(this._data.avatarTitleTextMapHash as number, enka);
 
         /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.avatarDetailTextMapHash, enka);
+        this.description = new TextAssets(this._data.avatarDetailTextMapHash as number, enka);
 
         /** @type {CharacterVoices} */
         this.cv = {
-            chinese: new TextAssets(this._data.cvChineseTextMapHash, enka),
-            japanese: new TextAssets(this._data.cvJapaneseTextMapHash, enka),
-            english: new TextAssets(this._data.cvEnglishTextMapHash, enka),
-            korean: new TextAssets(this._data.cvKoreanTextMapHash, enka),
+            chinese: new TextAssets(this._data.cvChineseTextMapHash as number, enka),
+            japanese: new TextAssets(this._data.cvJapaneseTextMapHash as number, enka),
+            english: new TextAssets(this._data.cvEnglishTextMapHash as number, enka),
+            korean: new TextAssets(this._data.cvKoreanTextMapHash as number, enka),
         };
     }
 
-    /**
-     * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
-     * @returns {TextAssets}
-     */
-    getCvByLanguage(lang) {
+    getCvByLanguage(lang: LanguageCode): TextAssets {
         lang ??= this.enka.options.defaultLanguage;
         switch (lang) {
             case "chs":

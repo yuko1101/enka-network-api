@@ -1,13 +1,23 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
+import EnkaUser from "./EnkaUser";
+import CharacterBuild from "./CharacterBuild";
+
 /**
  * @en EnkaProfile
  */
 export default class EnkaProfile {
+    _data: JsonObject;
+    enka: EnkaClient;
+    username: string;
+    bio: string;
+    avatar: string | null;
+    imageUrl: string | null;
+    level: number;
+    signupState: number;
+    url: string;
 
-    /**
-     * @param {Object<string, any>} data
-     * @param {import("../../client/EnkaClient")} enka
-     */
-    constructor(data, enka) {
+    constructor(data: JsonObject, enka: EnkaClient) {
 
         /** @type {Object<string, any>} */
         this._data = data;
@@ -16,39 +26,37 @@ export default class EnkaProfile {
         this.enka = enka;
 
         /** @type {string} */
-        this.username = data.username;
+        this.username = data.username as string;
+
+        const profile = data.profile as JsonObject;
 
         /** @type {string} */
-        this.bio = data.profile.bio;
+        this.bio = profile.bio as string;
 
         /** @type {string | null} */
-        this.avatar = data.profile.avatar;
+        this.avatar = profile.avatar as string | null;
 
         /** @type {string | null} */
-        this.imageUrl = data.profile.image_url ?? null;
+        this.imageUrl = (profile.image_url ?? null) as string | null;
 
         /** @type {number} */
-        this.level = data.profile.level;
+        this.level = profile.level as number;
 
         /** @type {number} */
-        this.signupState = data.profile.signup_state;
+        this.signupState = profile.signup_state as number;
 
         /** @type {string} */
         this.url = `${enka.options.enkaUrl}/u/${this.username}`;
     }
 
-    /**
-     * @returns {Promise<Array<import("./EnkaUser")>>}
-     */
-    async fetchAllEnkaUsers() {
+    async fetchAllEnkaUsers(): Promise<EnkaUser[]> {
         return await this.enka.fetchAllEnkaUsers(this.username);
     }
 
     /**
-     * @param {string} hash EnkaUser hash
-     * @returns {Promise<Object<string, Array<import("./CharacterBuild")>>>}
+     * @param hash EnkaUser hash
      */
-    async fetchEnkaUserBuilds(hash) {
+    async fetchEnkaUserBuilds(hash: string): Promise<{ [s: string]: CharacterBuild[] }> {
         return await this.enka.fetchEnkaUserBuilds(this.username, hash);
     }
 

@@ -1,3 +1,4 @@
+import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
 /**
@@ -5,12 +6,7 @@ import UpgradableSkill from "./UpgradableSkill";
  * @extends {UpgradableSkill}
  */
 export default class NormalAttack extends UpgradableSkill {
-
-    /**
-     * @param {number} id
-     * @param {import("../../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
 }

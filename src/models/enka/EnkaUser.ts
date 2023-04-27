@@ -1,17 +1,35 @@
+import { JsonObject } from "config_file.js";
 import { renameKeys } from "../../utils/object_utils";
+import EnkaClient from "../../client/EnkaClient";
+import User from "../User";
+import CharacterBuild from "./CharacterBuild";
+
+export type GameServerRegion = "" | "CN" | "B" | "NA" | "EU" | "ASIA" | "TW";
 
 /**
  * @en EnkaUser
  */
 export default class EnkaUser {
+    public _data: JsonObject;
+    public enka: EnkaClient;
+    public username: string;
+    public hash: string;
+    public user: User;
+    public uid: number;
+    public isVerified: boolean;
+    public isPublic: boolean;
+    public isUidPublic: boolean;
+    public verificationCode: string;
+    public verificationExpires: Date;
+    public verificationCodeRetries: number;
+    public region: GameServerRegion;
+    public order: number;
+    public url: string;
 
     /**
-     * @param {Object<string, any>} data
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {string} username
-     * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
+     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, enka, username, uid = null) {
+    constructor(data: JsonObject, enka: EnkaClient, username: string, uid?: number | string) {
 
         /** @type {Object<string, any>} */
         this._data = data;
@@ -26,51 +44,45 @@ export default class EnkaUser {
         this.username = username;
 
         /** @type {string} */
-        this.hash = data.hash;
+        this.hash = data.hash as string;
 
-        const User = require("../User");
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
-        /** @type {User} */
         this.user = new User(fixedData, enka, uid);
 
-        /** @type {number | null} */
-        this.uid = data.uid ?? null;
+        // TODO: typescript not null check
+        this.uid = uid ? Number(uid) : data.uid as number;
 
         /** @type {boolean} */
-        this.isVerified = data.verified;
+        this.isVerified = data.verified as boolean;
 
         /** @type {boolean} */
-        this.isPublic = data.public;
+        this.isPublic = data.public as boolean;
 
         /** @type {boolean} */
-        this.isUidPublic = data.uid_public;
+        this.isUidPublic = data.uid_public as boolean;
 
         /** @type {string} */
-        this.verificationCode = data.verification_code;
+        this.verificationCode = data.verification_code as string;
 
         /** @type {Date} */
-        this.verificationExpires = new Date(data.verification_expire);
+        this.verificationExpires = new Date(data.verification_expire as number);
 
         /** @type {number} */
-        this.verificationCodeRetries = data.verification_code_retries;
+        this.verificationCodeRetries = data.verification_code_retries as number;
 
         /**
          * https://cdn.discordapp.com/attachments/971472744820650035/1072868537472925767/image.png
-         * @type {""|"CN"|"B"|"NA"|"EU"|"ASIA"|"TW"}
          */
-        this.region = data.region;
+        this.region = data.region as GameServerRegion;
 
         /** @type {number} */
-        this.order = data.order;
+        this.order = data.order as number;
 
         /** @type {string} */
         this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
     }
 
-    /**
-     * @returns {Promise<Object<string, Array<import("./CharacterBuild")>>>}
-     */
-    async fetchBuilds() {
+    async fetchBuilds(): Promise<{ [s: string]: CharacterBuild[] }> {
         return await this.enka.fetchEnkaUserBuilds(this.username, this.hash);
     }
 }

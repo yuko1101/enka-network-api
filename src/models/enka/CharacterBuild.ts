@@ -1,46 +1,42 @@
+import { JsonObject } from "config_file.js";
 import Character from "../character/Character";
+import EnkaClient from "../../client/EnkaClient";
 
 /**
  * @en CharacterBuild
  */
 export default class CharacterBuild {
+    public _data: JsonObject;
+    public enka: EnkaClient;
+    public enkaUserInfo: { username: string; hash: string; };
+    public id: number;
+    public name: string;
+    public order: number;
+    public isLive: boolean;
+    public isPublic: boolean;
+    public character: Character;
+    public url: string;
 
-    /**
-     * @param {Object<string, any>} data
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {string} username
-     * @param {string} hash
-     */
-    constructor(data, enka, username, hash) {
+    constructor(data: JsonObject, enka: EnkaClient, username: string, hash: string) {
 
-        /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {{username: string, hash: string}} */
         this.enkaUserInfo = { username: username, hash: hash };
 
-        /** @type {number} */
-        this.id = data.id;
+        this.id = data.id as number;
 
-        /** @type {string} */
-        this.name = data.name;
+        this.name = data.name as string;
 
-        /** @type {number} */
-        this.order = data.order;
+        this.order = data.order as number;
 
-        /** @type {boolean} */
-        this.isLive = data.live;
+        this.isLive = data.live as boolean;
 
-        /** @type {boolean} */
-        this.isPublic = data.public;
+        this.isPublic = data.public as boolean;
 
-        /** @type {Character} */
-        this.character = new Character(data.avatar_data, enka);
+        this.character = new Character(data.avatar_data as JsonObject, enka);
 
-        /** @type {string} */
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}`;
     }
 }

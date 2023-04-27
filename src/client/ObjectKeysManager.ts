@@ -1,22 +1,29 @@
+import { JsonObject } from "config_file.js";
+import CachedAssetsManager from "./CachedAssetsManager";
+
 /**
  * @en ObjectKeysManager
  */
 export default class ObjectKeysManager {
-    /** @param {import("./CachedAssetsManager")} cachedAssetsManager */
-    constructor(cachedAssetsManager) {
+    public costumeIdKey: string;
+    public costumeCharacterIdKey: string;
+    public costumeStarKey: string;
+    public talentIsHiddenKey: string;
+
+    constructor(cachedAssetsManager: CachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
-        const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea");
-        const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme");
+        const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea") as JsonObject;
+        const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme") as JsonObject;
 
         /** @type {string} */
-        this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301);
+        this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301) as string;
         /** @type {string} */
-        this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003);
+        this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003) as string;
         /** @type {string} */
-        this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5);
+        this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5) as string;
 
         const talentData = cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData");
-        const raidenCannotCookTalent = talentData.find(talent => talent.proudSkillId === 522301);
+        const raidenCannotCookTalent = talentData.find(talent => talent.proudSkillId === 522301) as JsonObject;
 
         const candidatesForTalentIsHiddenKey = Object.keys(raidenCannotCookTalent).filter(key => raidenCannotCookTalent[key] === true);
         if (candidatesForTalentIsHiddenKey.length > 1) {

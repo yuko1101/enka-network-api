@@ -5,6 +5,7 @@ import TextAssets from "./assets/TextAssets";
  * @en Element
  */
 export default class Element {
+    id: string;
 
     /**
      * @param {ElementType} id

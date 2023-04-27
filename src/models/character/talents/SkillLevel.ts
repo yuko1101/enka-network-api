@@ -2,18 +2,17 @@
  * @en SkillLevel
  */
 export default class SkillLevel {
+    public base: number;
+    public extra: number;
+    public value: number;
 
     /**
      * @param {number} base
      * @param {number} extra
      */
-    constructor(base, extra) {
-        /** @type {number} */
+    constructor(base: number, extra: number) {
         this.base = base;
-        /** @type {number} */
         this.extra = extra;
-
-        /** @type {number} */
         this.value = base + extra;
     }
 }

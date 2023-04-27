@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../../client/EnkaClient";
 import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
 import ImageAssets from "../../assets/ImageAssets";
 import TextAssets from "../../assets/TextAssets";
@@ -7,31 +9,27 @@ import TextAssets from "../../assets/TextAssets";
  * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 export default class Skill {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public name: TextAssets;
+    public description: TextAssets;
+    public icon: ImageAssets;
 
-    /**
-     * @param {number} id
-     * @param {import("../../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
 
-        /** @type {number} */
         this.id = id;
 
-        /** @type {import("../../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === id);
+        if (!_data) throw new AssetsNotFoundError("Skill", id);
+        this._data = _data;
 
-        if (!this._data) throw new AssetsNotFoundError("Skill", id);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.descTextMapHash, enka);
-
-        /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.skillIcon, enka);
+        this.icon = new ImageAssets(this._data.skillIcon as string, enka);
     }
 }

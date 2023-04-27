@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../client/EnkaClient";
 import Character from "./character/Character";
 import User from "./User";
 
@@ -12,7 +14,7 @@ export default class DetailedUser extends User {
      * @param {import("../client/EnkaClient")} enka
      * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, enka, uid = null) {
+    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
         super(data, enka, uid);
 
         /** @type {boolean} */

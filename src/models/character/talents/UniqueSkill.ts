@@ -1,3 +1,4 @@
+import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
 /**
@@ -6,19 +7,17 @@ import UpgradableSkill from "./UpgradableSkill";
  * @description Elemental Skill and Elemental Burst
  */
 export default class UniqueSkill extends UpgradableSkill {
+    maxCharge: number;
+    cooldown: number;
 
-    /**
-     * @param {number} id
-     * @param {import("../../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 
         /** @type {number} */
-        this.maxCharge = this._data.maxChargeNum ?? 0;
+        this.maxCharge = (this._data.maxChargeNum ?? 1) as number;
 
         /** @type {number} */
-        this.cooldown = this._data.cdTime;
+        this.cooldown = this._data.cdTime as number;
 
     }
 }

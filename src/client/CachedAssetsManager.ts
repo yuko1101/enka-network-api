@@ -11,7 +11,7 @@ import EnkaClient from "./EnkaClient";
 
 const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
-let dataMemory: { [key: string]: JsonArray } = {};
+let dataMemory: { [key: string]: JsonObject[] } = {};
 
 export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
 
@@ -386,7 +386,7 @@ export default class CachedAssetsManager {
     /**
      * @param name without extensions (.json)
      */
-    getGenshinCacheData(name: string): JsonArray {
+    getGenshinCacheData(name: string): JsonObject[] {
         if (!Object.keys(dataMemory).includes(name)) {
             dataMemory[name] = JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8"));
         }
@@ -397,7 +397,7 @@ export default class CachedAssetsManager {
      * @param {LanguageCode} lang
      * @return {Object<string, string>}
      */
-    getLanguageData(lang: LanguageCode): JsonObject {
+    getLanguageData(lang: LanguageCode): { [key: string]: string } {
         if (!Object.keys(langDataMemory).includes(lang)) {
             langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
         }

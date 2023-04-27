@@ -1,3 +1,9 @@
+# 3.0.0
+**This version includes Breaking Changes**
+- Rewrote the package in Typescript.
+- Changed UniqueSkill#maxCharge default value to 1.
+- `costume` in User#charactersPreview will be its default costume if there is no special costume.
+- Both User#abyssFloor and User#abyssChamber are now in User#spiralAbyss.
 # 2.6.1
 - Allows EnkaClientOptions#timeout in number type.
 # 2.6.0

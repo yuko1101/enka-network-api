@@ -1,27 +1,25 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
 import WeaponRefinement from "./WeaponRefinement";
 
 /**
  * @en WeaponRefinements
  */
 export default class WeaponRefinements {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject[];
+    public refinements: WeaponRefinement[];
 
-    /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
 
-        /** @type {number} */
         this.id = id;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
 
-        /** @type {Array<Object<string, any>>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === id).sort((a, b) => a.level - b.level);
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === id).sort((a, b) => (a.level as number) - (b.level as number));
 
-        /** @type {Array<WeaponRefinement>} */
         this.refinements = this._data.map(r => new WeaponRefinement(r, enka));
 
     }

@@ -11,66 +11,86 @@ import NormalAttack from "./talents/NormalAttack";
 import NameCard from "../material/NameCard";
 import CharacterDetails from "./CharacterDetails";
 import CharacterAscension from "./CharacterAscension";
+import EnkaClient from "../../client/EnkaClient";
+import { JsonObject } from "config_file.js";
+import Element from "../Element";
+
+export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
+export type Rarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
+export type Gender = "MALE" | "FEMALE";
 
 /**
  * @en CharacterData
  */
 export default class CharacterData {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public name: TextAssets;
+    public description: TextAssets;
+    public bodyType: BodyType;
+    public weaponType: WeaponType;
+    public gender: Gender;
+    public _nameId: string;
+    public icon: ImageAssets;
+    public sideIcon: ImageAssets;
+    public splashImage: ImageAssets;
+    public gachaSlice: ImageAssets;
+    public cardIcon: ImageAssets;
+    public nameCard: NameCard | null;
+    public rarity: Rarity;
+    public stars: number;
+    public _costumeData: JsonObject[];
+    public costumes: Costume[];
+    public skillDepotId: number;
+    public _skillData: JsonObject;
+    public elementalBurst: ElementalBurst | null;
+    public element: Element | null;
+    public skills: Skill[];
+    public elementalSkill: ElementalSkill | null;
+    public normalAttack: NormalAttack;
+    public passiveTalents: PassiveTalent[];
+    public constellations: Constellation[];
+    public _releaseData: JsonObject | null;
+    public releasedAt: Date | null;
+    public isPlayable: boolean;
+    public isArchon: boolean;
+    public details: CharacterDetails | null;
 
-    /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {number} [candSkillDepotIds]
-     */
-    constructor(id, enka, candSkillDepotId = undefined) {
+    constructor(id: number, enka: EnkaClient, candSkillDepotId?: number) {
 
-        /** @type {number} */
         this.id = id;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
+        if (!_data) throw new AssetsNotFoundError("Character", id);
+        this._data = _data;
 
-        if (!this._data) throw new AssetsNotFoundError("Character", id);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+        this.bodyType = this._data.bodyType as BodyType;
 
-        /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.descTextMapHash, enka);
+        this.weaponType = this._data.weaponType as WeaponType;
 
-        /** @type {"BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI"} */
-        this.bodyType = this._data.bodyType;
-
-        /** @type {import("../weapon/WeaponData").WeaponType} */
-        this.weaponType = this._data.weaponType;
-
-        /** @type {"MALE" | "FEMALE"} */
         this.gender = this.bodyType === "BODY_MALE" || this.bodyType === "BODY_BOY" ? "MALE" : "FEMALE";
 
-        /** @type {string} */
-        this._nameId = this._data.iconName.slice("UI_AvatarIcon_".length);
+        this._nameId = (this._data.iconName as string).slice("UI_AvatarIcon_".length);
 
-        /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.iconName, enka);
+        this.icon = new ImageAssets(this._data.iconName as string, enka);
 
-        /** @type {ImageAssets} */
-        this.sideIcon = new ImageAssets(this._data.sideIconName, enka);
+        this.sideIcon = new ImageAssets(this._data.sideIconName as string, enka);
 
-        /** @type {ImageAssets} */
         this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
         /**
          * Travelers do not have this.
-         * @type {ImageAssets}
          */
         this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`, enka);
 
-        /** @type {ImageAssets} */
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
         // TODO: better find
@@ -78,90 +98,72 @@ export default class CharacterData {
 
         /**
          * If the character is Traveler, this will be null.
-         * @type {NameCard | null}
          */
         this.nameCard = nameCardData ? new NameCard(nameCardData.id, enka, nameCardData) : null;
 
-        /** @type {"QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP"} */
-        this.rarity = this._data.qualityType;
+        this.rarity = this._data.qualityType as Rarity;
 
-        /** @type {number} */
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
         const keysManager = enka.cachedAssetsManager.getObjectKeysManager();
 
-        /** @type {Array<Object<string, any>>} */
         this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[keysManager.costumeCharacterIdKey] === id); // Previous key of "jsonName"
 
-        /** @type {Array<Costume>} */
         this.costumes = this._costumeData.map(c => new Costume(null, enka, c));
 
 
-        /** @type {number} */
-        this.skillDepotId = candSkillDepotId || this._data.skillDepotId;
+        this.skillDepotId = candSkillDepotId || this._data.skillDepotId as number;
 
-        /** @type {Object<string, any>} */
-        this._skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);
-
-        if (!this._skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
+        const _skillData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);
+        if (!_skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
+        this._skillData = _skillData;
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
         // `elementalBurst` and `element` cannot be retrieved.
         const hasElement = this._skillData.energySkill;
 
-        /** @type {ElementalBurst | null} */
-        this.elementalBurst = hasElement ? new ElementalBurst(this._skillData.energySkill, enka) : null;
+        this.elementalBurst = hasElement ? new ElementalBurst(this._skillData.energySkill as number, enka) : null;
 
-        /** @type {import("../Element") | null} */
-        this.element = hasElement ? this.elementalBurst.costElemType : null;
+        this.element = this.elementalBurst?.costElemType ?? null;
 
-        const _skills = this._skillData.skills.map((skillId, index) => {
+        const _skills = (this._skillData.skills as number[]).map((skillId, index) => {
             if (!skillId) return null;
             if (index === 0) return new NormalAttack(skillId, enka);
             if (index === 1) return new ElementalSkill(skillId, enka);
             return new Skill(skillId, enka);
-        }).filter(s => s !== null);
+        }).filter(s => s !== null).map(s => s as NonNullable<typeof s>);
         if (this.elementalBurst) _skills.push(this.elementalBurst);
 
-        /** @type {Array<Skill>} */
         this.skills = _skills;
 
         /**
          * Can be null if the character doesn't have element such as traveler without elements
-         * @type {ElementalSkill | null}
          */
-        this.elementalSkill = _skills.find(s => s instanceof ElementalSkill) ?? null;
+        this.elementalSkill = _skills.find(s => s instanceof ElementalSkill) as ElementalSkill ?? null;
 
-        /** @type {NormalAttack} */
-        this.normalAttack = _skills.find(s => s instanceof NormalAttack);
-
-
-        /** @type {Array<PassiveTalent>} */
-        this.passiveTalents = this._skillData.inherentProudSkillOpens.filter(p => Object.keys(p).includes("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
+        this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
 
 
-        /** @type {Array<Constellation>} */
-        this.constellations = this._skillData.talents.filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
+        this.passiveTalents = (this._skillData.inherentProudSkillOpens as JsonObject[]).filter(p => Object.keys(p).includes("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId as number * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
 
 
-        /** @type {object | null} */
+        this.constellations = (this._skillData.talents as number[]).filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
+
+
         this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id) ?? null;
 
         /**
          * This is undefined if the character is not (being) released character, like Travelers and test avatars.
-         * @type {Date | null}
          */
         this.releasedAt = this._releaseData ? new Date(`${this._releaseData.beginTime}+8:00`) : null;
 
         /**
          * Whether the character is playable.
-         * @type {boolean}
          */
         this.isPlayable = this._data.useType === "AVATAR_FORMAL";
 
         const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").map(a => a.avatarId);
 
-        /** @type {boolean} */
         this.isArchon = archonsIds.includes(this.id);
 
         let details;
@@ -172,7 +174,6 @@ export default class CharacterData {
         }
         /**
          * Information in the profile menu in in-game character screen.
-         * @type {CharacterDetails | null}
          */
         this.details = details;
 
@@ -180,9 +181,8 @@ export default class CharacterData {
 
     /**
      * Get character's original name (Travelers -> Aether, Lumine)
-     * @returns {TextAssets}
      */
-    getOriginalName() {
+    getOriginalName(): TextAssets {
         switch (this.id) {
             case 10000005:
                 return new TextAssets(2329553598, this.enka);
@@ -193,12 +193,7 @@ export default class CharacterData {
         }
     }
 
-
-    /**
-     * @param {number} ascension
-     * @returns {CharacterAscension}
-     */
-    getAscensionData(ascension) {
+    getAscensionData(ascension: number): CharacterAscension {
         return new CharacterAscension(this._data.avatarPromoteId, ascension, this.enka);
     }
 }

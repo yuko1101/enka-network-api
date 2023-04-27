@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
@@ -7,37 +9,33 @@ import StatusProperty from "../StatusProperty";
  * @en Constellation
  */
 export default class Constellation {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public name: TextAssets;
+    public description: TextAssets;
+    public icon: ImageAssets;
+    public addProps: StatusProperty[];
+    public paramList: number[];
 
-    /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
 
-        /** @type {number} */
         this.id = id;
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(c => c.talentId === id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(c => c.talentId === id);
+        if (!_data) throw new AssetsNotFoundError("Talent", id);
+        this._data = _data;
 
-        if (!this._data) throw new AssetsNotFoundError("Talent", id);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.nameTextMapHash, enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.descTextMapHash, enka);
+        this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon, enka);
+        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
-        /** @type {Array<StatusProperty>} */
-        this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
-
-        /** @type {Array<number>} */
-        this.paramList = this._data.paramList;
+        this.paramList = this._data.paramList as number[];
     }
 }

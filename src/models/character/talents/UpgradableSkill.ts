@@ -1,3 +1,4 @@
+import EnkaClient from "../../../client/EnkaClient";
 import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
 import TextAssets from "../../assets/TextAssets";
 import UpgradeCost from "../../material/UpgradeCost";
@@ -8,19 +9,11 @@ import Skill from "./Skill";
  * @extends {Skill}
  */
 export default class UpgradableSkill extends Skill {
-    /**
-     * @param {number} id
-     * @param {import("../../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
 
-    /**
-     * @param {number} level
-     * @returns {Array<SkillAttributeAssets>}
-     */
-    getSkillAttributes(level) {
+    getSkillAttributes(level: number): SkillAttributeAssets[] {
         const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return [];
 
@@ -29,7 +22,7 @@ export default class UpgradableSkill extends Skill {
 
         if (!leveledSkillData.paramDescList) return [];
 
-        return leveledSkillData.paramDescList.map(id => {
+        return (leveledSkillData.paramDescList as number[]).map(id => {
             // TODO: better filter
             try {
                 new TextAssets(id, this.enka).get("en");
@@ -37,15 +30,15 @@ export default class UpgradableSkill extends Skill {
                 return null;
             }
 
-            return new SkillAttributeAssets(id, this.enka, leveledSkillData.paramList);
-        }).filter(attr => attr !== null);
+            return new SkillAttributeAssets(id, this.enka, leveledSkillData.paramList as number[]);
+        }).filter(attr => attr !== null).map(attr => attr as NonNullable<typeof attr>);
     }
 
     /**
      * @param {number} level the base level you want to upgrade to. (Do not add extra levels.)
      * @returns {UpgradeCost | null}
      */
-    getUpgradeCost(level) {
+    getUpgradeCost(level: number): UpgradeCost | null {
         const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return null;
 

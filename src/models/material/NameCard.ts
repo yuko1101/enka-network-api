@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
 import Material from "./Material";
 
 /**
@@ -5,19 +7,15 @@ import Material from "./Material";
  * @extends {Material}
  */
 export default class NameCard extends Material {
+    public materialType: "MATERIAL_NAMECARD";
 
     /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {Object<string, any>} [data] If `data` provided, use `data` instead of searching with `id`.
+     * @param data If `data` provided, use `data` instead of searching with `id`.
      */
-    constructor(id, enka, data = null) {
+    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
         super(id, enka, data);
-
-        /** @type {"MATERIAL_NAMECARD"} */
-        this.materialType;
+        this.materialType = "MATERIAL_NAMECARD";
     }
 
-    /** @type {"MATERIAL_NAMECARD"} */
     static MATERIAL_TYPE = "MATERIAL_NAMECARD";
 }

@@ -1,4 +1,4 @@
-export const fightProps = {
+export const fightProps: { [key: string]: FightProp } = {
     1: "FIGHT_PROP_BASE_HP",
     2: "FIGHT_PROP_HP",
     3: "FIGHT_PROP_HP_PERCENT",
@@ -90,7 +90,7 @@ export const percent = [
 ];
 
 // rarity map for artifact sets
-export const artifactRarityRangeMap = {
+export const artifactRarityRangeMap: { [id: string]: number[] } = {
     "10001": [3, 4], // Resolution of Sojourner
     "10002": [3, 4], // Brave Heart
     "10003": [3, 4], // Defender's Will

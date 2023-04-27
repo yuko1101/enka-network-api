@@ -1,3 +1,5 @@
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../../client/EnkaClient";
 import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
 import ImageAssets from "../../assets/ImageAssets";
 import TextAssets from "../../assets/TextAssets";
@@ -7,44 +9,37 @@ import StatusProperty from "../../StatusProperty";
  * @en PassiveTalent
  */
 export default class PassiveTalent {
+    public id: number;
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public name: TextAssets;
+    public description: TextAssets;
+    public icon: ImageAssets;
+    public addProps: StatusProperty[];
+    public isHidden: boolean;
+    constructor(id: number, enka: EnkaClient) {
 
-    /**
-    * @param {number} id
-    * @param {import("../../../client/EnkaClient")} enka
-    */
-    constructor(id, enka) {
-
-        /** @type {number} */
         this.id = id;
 
-        /** @type {import("../../../client/EnkaClient")} */
         this.enka = enka;
 
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.proudSkillId === id);
+        if (!_data) throw new AssetsNotFoundError("Talent", id);
+        this._data = _data;
 
-        /** @type {Object<string, any>} */
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.proudSkillId === id);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        if (!this._data) throw new AssetsNotFoundError("Talent", id);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
+        this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        /** @type {TextAssets} */
-        this.name = new TextAssets(this._data.nameTextMapHash, enka);
-
-        /** @type {TextAssets} */
-        this.description = new TextAssets(this._data.descTextMapHash, enka);
-
-        /** @type {ImageAssets} */
-        this.icon = new ImageAssets(this._data.icon, enka);
-
-        /** @type {Array<StatusProperty>} */
-        this.addProps = this._data.addProps.filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
+        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType, p.value, enka));
 
         /**
          * Whether the talent is hidden in the list of talents on the in-game character screen.
          * e.g. Raiden Shogun's talent of not being able to cook. (Talent ID: 522301)
-         * @type {boolean}
          */
-        this.isHidden = this._data[enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey] ?? false;
+        this.isHidden = !!this._data[enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey];
 
     }
 }

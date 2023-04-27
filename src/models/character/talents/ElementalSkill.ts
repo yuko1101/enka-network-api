@@ -1,3 +1,4 @@
+import EnkaClient from "../../../client/EnkaClient";
 import UniqueSkill from "./UniqueSkill";
 
 /**
@@ -5,12 +6,7 @@ import UniqueSkill from "./UniqueSkill";
  * @extends {UniqueSkill}
  */
 export default class ElementalSkill extends UniqueSkill {
-
-    /**
-     * @param {number} id
-     * @param {import("../../../client/EnkaClient")} enka
-     */
-    constructor(id, enka) {
+    constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
 }

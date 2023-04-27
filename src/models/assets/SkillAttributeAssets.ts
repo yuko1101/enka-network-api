@@ -1,3 +1,5 @@
+import { LanguageCode } from "../../client/CachedAssetsManager";
+import EnkaClient from "../../client/EnkaClient";
 import TextAssets from "./TextAssets";
 
 /**
@@ -8,21 +10,21 @@ import TextAssets from "./TextAssets";
  * @property {string} valueText
  * @property {Array<number>} usedNumbers
  */
+export type SkillAttributeData = {
+    name: string,
+    valueText: string,
+    usedNumbers: number[],
+};
 
 /**
  * @en SkillAttributeAssets
  * @extends {TextAssets}
  */
 export default class SkillAttributeAssets extends TextAssets {
-    /**
-     * @param {number} id
-     * @param {import("../../client/EnkaClient")} enka
-     * @param {Array<number>} paramList
-     */
-    constructor(id, enka, paramList) {
+    public _paramList: number[];
+    constructor(id: number, enka: EnkaClient, paramList: number[]) {
         super(id, enka);
 
-        /** @type {Array<number>} */
         this._paramList = paramList;
     }
 
@@ -30,10 +32,10 @@ export default class SkillAttributeAssets extends TextAssets {
      * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData}
      */
-    getAttributeData(lang) {
+    getAttributeData(lang: LanguageCode): SkillAttributeData {
         const text = this.get(lang);
 
-        const usedNumbers = [];
+        const usedNumbers: number[] = [];
 
         const replaced = text.replace(/\{([^}]+):([^}]+)\}/g, (match, key, format) => {
             const index = Number(key.slice("param".length)) - 1;
@@ -62,7 +64,7 @@ export default class SkillAttributeAssets extends TextAssets {
      * @param {import("../../client/CachedAssetsManager").LanguageCode} [lang]
      * @returns {SkillAttributeData | null}
      */
-    getNullableAttributeData(lang) {
+    getNullableAttributeData(lang: import("../../client/CachedAssetsManager").LanguageCode): SkillAttributeData | null {
         try {
             return this.getAttributeData(lang);
         } catch (e) {

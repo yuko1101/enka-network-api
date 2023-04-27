@@ -1,19 +1,43 @@
+import { JsonObject } from "config_file.js";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import EnkaProfile from "./enka/EnkaProfile";
 import NameCard from "./material/NameCard";
+import EnkaClient from "../client/EnkaClient";
+
+export type CharacterPreview = { characterData: CharacterData, level: number, costume: Costume };
 
 /**
  * @en User
  */
 export default class User {
+    enka: EnkaClient;
+    _data: JsonObject;
+    uid: number;
+    nickname: string | null;
+    signature: string | null;
+    profilePictureCharacter: CharacterData | null;
+    charactersPreview: CharacterPreview[];
+    nameCards: NameCard[];
+    level: number;
+    worldLevel: number;
+    profileCard: NameCard;
+    achievements: number;
+    spiralAbyss: {
+        floor: number,
+        chamber: number,
+    } | null;
+    ttl: number;
+    enkaProfile: EnkaProfile | null;
+    enkaUserHash: string | null;
+    url: string;
 
     /**
      * @param {Object<string, any>} data
      * @param {import("../client/EnkaClient")} enka
-     * @param {number | string} [uid] For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
+     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data, enka, uid = null) {
+    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
         /** @type {import("../client/EnkaClient")} */
         this.enka = enka;
 
@@ -25,53 +49,53 @@ export default class User {
         /** @type {number} */
         this.uid = isNaN(Number(data.uid)) && uid ? Number(uid) : Number(data.uid);
 
-        /** @type {string | null} */
-        this.nickname = data.playerInfo.nickname ?? null;
+        const playerInfo = data.playerInfo as JsonObject | undefined;
 
         /** @type {string | null} */
-        this.signature = data.playerInfo.signature ?? null;
+        this.nickname = (playerInfo?.nickname ?? null) as string | null;
 
+        /** @type {string | null} */
+        this.signature = (playerInfo?.signature ?? null) as string | null;
+
+        const profilePicture = playerInfo?.profilePicture as JsonObject | undefined;
         /** @type {CharacterData | null} */
-        this.profilePictureCharacter = data.playerInfo.profilePicture.avatarId ? new CharacterData(data.playerInfo.profilePicture.avatarId, enka) : null;
+        this.profilePictureCharacter = profilePicture?.avatarId ? new CharacterData(profilePicture.avatarId as number, enka) : null;
 
         /** @type {Array<{characterData: CharacterData, level: number, costume: Costume | null}>} */
-        this.charactersPreview = data.playerInfo.showAvatarInfoList ? data.playerInfo.showAvatarInfoList.map(obj => {
-            const copyObj = {
-                ...obj,
+        this.charactersPreview = playerInfo?.showAvatarInfoList ? (playerInfo.showAvatarInfoList as JsonObject[]).map(obj => {
+            const characterData = new CharacterData(obj.avatarId as number, enka);
+
+            const costume = obj["costumeId"] ? new Costume(obj["costumeId"] as number, enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
+
+            const preview: CharacterPreview = {
+                characterData,
+                level: obj.level as number,
+                costume,
             };
-            const character = new CharacterData(copyObj.avatarId, enka);
-            copyObj["characterData"] = character;
-            delete copyObj["avatarId"];
 
-            if (copyObj["costumeId"]) {
-                const costume = new Costume(copyObj["costumeId"], enka);
-                copyObj["costume"] = costume;
-                delete copyObj["costumeId"];
-            }
-
-            return copyObj;
+            return preview;
         }) : [];
 
         /** @type {Array<NameCard>} */
-        this.nameCards = data.playerInfo.showNameCardIdList ? data.playerInfo.showNameCardIdList.map(id => new NameCard(id, enka)) : [];
+        this.nameCards = playerInfo.showNameCardIdList ? playerInfo.showNameCardIdList.map(id => new NameCard(id, enka)) : [];
 
         /** @type {number} */
-        this.level = data.playerInfo.level;
+        this.level = playerInfo.level;
 
         /** @type {number} */
-        this.worldLevel = data.playerInfo.worldLevel ?? 0;
+        this.worldLevel = playerInfo.worldLevel ?? 0;
 
         /** @type {NameCard} */
-        this.profileCard = new NameCard(data.playerInfo.nameCardId, enka);
+        this.profileCard = new NameCard(playerInfo.nameCardId, enka);
 
         /** @type {number} */
-        this.achievements = data.playerInfo.finishAchievementNum ?? 0;
+        this.achievements = playerInfo.finishAchievementNum ?? 0;
 
         /** @type {number | null} */
-        this.abyssFloor = data.playerInfo.towerFloorIndex ?? null;
+        this.abyssFloor = playerInfo.towerFloorIndex ?? null;
 
         /** @type {number | null} */
-        this.abyssChamber = data.playerInfo.towerLevelIndex ?? null;
+        this.abyssChamber = playerInfo.towerLevelIndex ?? null;
 
         /** @type {number} */
         this.ttl = data.ttl;

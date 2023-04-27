@@ -7,82 +7,87 @@ import UpgradableSkill from "./talents/UpgradableSkill";
 import NormalAttack from "./talents/NormalAttack";
 import ElementalSkill from "./talents/ElementalSkill";
 import ElementalBurst from "./talents/ElementalBurst";
+import { JsonObject } from "config_file.js";
+import EnkaClient from "../../client/EnkaClient";
+import Costume from "./Costume";
+import Constellation from "./Constellation";
+import PassiveTalent from "./talents/PassiveTalent";
+import Skill from "./talents/Skill";
+import Element from "../Element";
 
 /**
  * @en Character
  */
 export default class Character {
+    public enka: EnkaClient;
+    public _data: JsonObject;
+    public characterData: CharacterData;
+    public costume: Costume;
+    public artifacts: Artifact[];
+    public weapon: Weapon;
+    public status: CharacterStatus;
+    public level: number;
+    public xp: number;
+    public ascension: number;
+    public maxLevel: number;
+    public stamina: number;
+    public friendship: number;
+    public unlockedConstellations: Constellation[];
+    public skillLevels: { skill: UpgradableSkill; level: SkillLevel; }[];
+    public unlockedPassiveTalents: PassiveTalent[];
 
-    /**
-     * @param {Object<string, any>} data
-     * @param {import("../../client/EnkaClient")} enka
-     */
-    constructor(data, enka) {
+    constructor(data: JsonObject, enka: EnkaClient) {
 
-        /** @type {import("../../client/EnkaClient")} */
         this.enka = enka;
 
-        /** @type {Object<string, any>} */
         this._data = data;
 
-        /** @type {CharacterData} */
-        this.characterData = new CharacterData(data.avatarId, enka, data.skillDepotId);
+        this.characterData = new CharacterData(data.avatarId as number, enka, data.skillDepotId as number | undefined);
 
-        /** @type {import("./Costume")} */
-        this.costume = data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault);
+        this.costume = (data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 
-        /** @type {Array<Artifact>} */
-        this.artifacts = data.equipList.filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
+        this.artifacts = (data.equipList as JsonObject[]).filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
 
-        /** @type {Weapon} */
-        this.weapon = new Weapon(data.equipList.find(item => Object.keys(item).includes("weapon")), enka);
+        this.weapon = new Weapon((data.equipList as JsonObject[]).find(item => Object.keys(item).includes("weapon")), enka);
 
-        /** @type {CharacterStatus} */
-        this.status = new CharacterStatus(data.fightPropMap, enka, this.characterData.element);
+        this.status = new CharacterStatus(data.fightPropMap as JsonObject, enka, this.characterData.element as Element);
 
-        /** @type {number} */
-        this.level = Number(data.propMap[4001]?.val ?? 0);
+        const propMap = data.propMap as { [key: string]: JsonObject };
 
-        /** @type {number} */
-        this.xp = Number(data.propMap[1001]?.val ?? 0);
+        this.level = Number(propMap[4001]?.val ?? 0);
 
-        /** @type {number} */
-        this.ascension = Number(data.propMap[1002]?.val ?? 0);
+        this.xp = Number(propMap[1001]?.val ?? 0);
 
-        /** @type {number} */
+        this.ascension = Number(propMap[1002]?.val ?? 0);
+
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
-        /** @type {number} */
-        this.stamina = Number(data.propMap[10010]?.val ?? 10000) / 100;
+        this.stamina = Number(propMap[10010]?.val ?? 10000) / 100;
 
         /**
          * Traveler's friendship is always 1.
-         *  @type {number}
          */
-        this.friendship = data.fetterInfo?.expLevel ?? 1;
+        this.friendship = ((data.fetterInfo as JsonObject | undefined)?.expLevel ?? 1) as number;
 
-        /** @type {Array<import("./Constellation")>} */
-        this.unlockedConstellations = this.characterData.constellations.filter(c => (data.talentIdList ?? []).includes(c.id));
+        this.unlockedConstellations = this.characterData.constellations.filter(c => ((data.talentIdList ?? []) as number[]).includes(c.id));
 
-        /** @type {Array<{skill: import("./talents/Skill"), level: SkillLevel}>} */
-        this.skillLevels = Object.entries(data.skillLevelMap).map(([key, value]) => {
+        this.skillLevels = Object.entries(data.skillLevelMap as { [key: string]: number }).map(([key, value]) => {
             const skill = this.characterData.skills.find(s => s.id.toString() === key);
             if (!skill || !(skill instanceof UpgradableSkill)) return null;
 
             const base = value;
-            const extra = data.proudSkillExtraLevelMap?.[skill._data.proudSkillGroupId] ?? 0;
+            const extra = ((data.proudSkillExtraLevelMap as JsonObject)?.[skill._data.proudSkillGroupId as number] ?? 0) as number;
 
             return {
                 skill,
                 level: new SkillLevel(base, extra),
             };
-        }).filter(s => s !== null).sort((a, b) => {
-            const getScore = (skill) => (skill instanceof NormalAttack) ? 0 : (skill instanceof ElementalSkill) ? 1 : (skill instanceof ElementalBurst) ? 2 : 3;
+        }).filter(s => s !== null).map(s => s as NonNullable<typeof s>).sort((a, b) => {
+            const getScore = (skill: Skill) => (skill instanceof NormalAttack) ? 0 : (skill instanceof ElementalSkill) ? 1 : (skill instanceof ElementalBurst) ? 2 : 3;
             return getScore(a.skill) - getScore(b.skill);
         });
 
-        /** @type {Array<import("./talents/PassiveTalent")>} */
-        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (data.inherentProudSkillList ?? []).includes(p.id));
+        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => ((data.inherentProudSkillList ?? []) as number[]).includes(p.id));
 
     }
 }
