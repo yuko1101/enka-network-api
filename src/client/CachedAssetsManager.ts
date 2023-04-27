@@ -101,7 +101,6 @@ export default class CachedAssetsManager {
         this._isFetching = false;
     }
 
-    /** @returns {Promise<void>} */
     async cacheDirectorySetup(): Promise<void> {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
@@ -134,11 +133,6 @@ export default class CachedAssetsManager {
         }
     }
 
-
-    /**
-     * @param {LanguageCode} lang
-     * @param {boolean} [store=true]
-     */
     async fetchLanguageData(lang: LanguageCode, store = true) {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
@@ -149,8 +143,7 @@ export default class CachedAssetsManager {
 
     /**
      * Whether the game data update is available or not.
-     * @param {boolean} [useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
-     * @returns {Promise<boolean>}
+     * @param useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
      */
     async checkForUpdates(useRawGenshinData = false): Promise<boolean> {
         await this.cacheDirectorySetup();
@@ -167,10 +160,8 @@ export default class CachedAssetsManager {
     }
 
     /**
-     * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
-     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
-     * @returns {Promise<void>}
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.ghproxy Whether to use ghproxy.com
      */
     async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean }): Promise<void> {
         options = bindOptions({
@@ -261,9 +252,6 @@ export default class CachedAssetsManager {
 
     }
 
-    /**
-     * @returns {boolean}
-     */
     hasAllContents(): boolean {
         for (const lang of languages) {
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`))) return false;
@@ -277,12 +265,8 @@ export default class CachedAssetsManager {
 
     /**
      * Returns true if there were any updates, false if there were no updates.
-     * @param {object} options
-     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
-     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
-     * @param {function(): Promise<*>} [options.onUpdateStart]
-     * @param {function(): Promise<*>} [options.onUpdateEnd]
-     * @returns {Promise<boolean>}
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.ghproxy Whether to use ghproxy.com
      */
     async updateContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void> } = {}): Promise<void> {
         options = bindOptions({
@@ -312,15 +296,9 @@ export default class CachedAssetsManager {
     }
 
     /**
-     * @param {object} [options]
-     * @param {boolean} [options.useRawGenshinData=false] Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
-     * @param {boolean} [options.instant=true]
-     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
-     * @param {number} [options.timeout] in milliseconds
-     * @param {function(): Promise<*>} [options.onUpdateStart]
-     * @param {function(): Promise<*>} [options.onUpdateEnd]
-     * @param {function(Error): Promise<*>} [options.onError]
-     * @returns {void}
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.ghproxy Whether to use ghproxy.com
+     * @param options.timeout in milliseconds
      */
     activateAutoCacheUpdater(options: { useRawGenshinData?: boolean, instant?: boolean, ghproxy?: boolean, timeout?: number, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void>, onError?: (error: Error) => Promise<void> } = {}): void {
         options = bindOptions({
@@ -344,7 +322,6 @@ export default class CachedAssetsManager {
         }, options.timeout);
     }
 
-    /** @returns {void} */
     deactivateAutoCacheUpdater(): void {
         if (this._cacheUpdater !== null) {
             clearInterval(this._cacheUpdater);
@@ -352,17 +329,12 @@ export default class CachedAssetsManager {
         }
     }
 
-    /**
-     * @param {LanguageCode} lang
-     * @returns {string}
-     */
     getLanguageDataPath(lang: LanguageCode): string {
         return path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`);
     }
 
     /**
-     * @param {string} name without extensions (.json)
-     * @returns {string}
+     * @param name without extensions (.json)
      */
     getJSONDataPath(name: string): string {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
@@ -378,18 +350,13 @@ export default class CachedAssetsManager {
         return dataMemory[name];
     }
 
-    /**
-     * @param {LanguageCode} lang
-     * @return {Object<string, string>}
-     */
     getLanguageData(lang: LanguageCode): { [key: string]: string } {
-        if (!Object.keys(langDataMemory).includes(lang)) {
+        if (Object.keys(langDataMemory[lang]).length === 0) {
             langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
         }
         return langDataMemory[lang];
     }
 
-    /** @returns {ObjectKeysManager} */
     getObjectKeysManager(): ObjectKeysManager {
         if (!objectKeysManager) objectKeysManager = new ObjectKeysManager(this);
         return objectKeysManager;
@@ -399,8 +366,6 @@ export default class CachedAssetsManager {
      * Clean memory of cache data.
      * Then reload data that was loaded before the clean if `reload` is true.
      * If `reload` is false, load each file as needed.
-     * @param {boolean} reload
-     * @return {void}
      */
     refreshAllData(reload = false): void {
         const loadedData = reload ? Object.keys(dataMemory) : null;
@@ -519,9 +484,7 @@ export default class CachedAssetsManager {
     }
 
     /**
-     * @param {object} options
-     * @param {boolean} [options.ghproxy=false] Whether to use ghproxy.com
-     * @returns {Promise<void>}
+     * @param options.ghproxy Whether to use ghproxy.com
      */
     async _downloadCacheZip(options: { ghproxy?: boolean } = {}): Promise<void> {
         options = bindOptions({
