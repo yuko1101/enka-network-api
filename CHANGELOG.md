@@ -4,6 +4,7 @@
 - Changed UniqueSkill#maxCharge default value to 1.
 - `costume` in User#charactersPreview will be its default costume if there is no special costume.
 - Both User#abyssFloor and User#abyssChamber are now in User#spiralAbyss.
+- Added getter, setter, and deleter options in EnkaClientOptions for storing user caches.
 # 2.6.1
 - Allows EnkaClientOptions#timeout in number type.
 # 2.6.0
