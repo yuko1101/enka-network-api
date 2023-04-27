@@ -18,7 +18,7 @@ export type CharacterVoices = { [lang in VoiceLanguage]: TextAssets };
 /**
  * @en CharacterDetails
  */
-export default class CharacterDetails {
+class CharacterDetails {
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
     readonly _nameId: string;
@@ -85,3 +85,5 @@ export default class CharacterDetails {
         }
     }
 }
+
+export default CharacterDetails;

@@ -5,7 +5,7 @@ import EnkaClient from "../../client/EnkaClient";
 /**
  * @en CharacterBuild
  */
-export default class CharacterBuild {
+class CharacterBuild {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
     readonly enkaUserInfo: { username: string; hash: string; };
@@ -40,3 +40,5 @@ export default class CharacterBuild {
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}`;
     }
 }
+
+export default CharacterBuild;

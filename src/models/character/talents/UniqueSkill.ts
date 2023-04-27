@@ -6,7 +6,7 @@ import UpgradableSkill from "./UpgradableSkill";
  * @extends {UpgradableSkill}
  * @description Elemental Skill and Elemental Burst
  */
-export default class UniqueSkill extends UpgradableSkill {
+class UniqueSkill extends UpgradableSkill {
     readonly maxCharge: number;
     readonly cooldown: number;
 
@@ -19,3 +19,5 @@ export default class UniqueSkill extends UpgradableSkill {
 
     }
 }
+
+export default UniqueSkill;

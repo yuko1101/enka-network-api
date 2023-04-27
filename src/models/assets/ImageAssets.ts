@@ -12,7 +12,7 @@ const imageTypes: { [type: string]: RegExp[] } = {
 /**
  * @en ImageAssets
  */
-export default class ImageAssets {
+class ImageAssets {
     readonly enka: EnkaClient;
     readonly name: string;
     readonly imageBaseUrl: string;
@@ -37,3 +37,5 @@ export default class ImageAssets {
         this.isAvailable = this.name !== null && this.name !== undefined && this.name !== "";
     }
 }
+
+export default ImageAssets;

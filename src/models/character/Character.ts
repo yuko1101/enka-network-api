@@ -18,7 +18,7 @@ import Element from "../Element";
 /**
  * @en Character
  */
-export default class Character {
+class Character {
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
     readonly characterData: CharacterData;
@@ -91,3 +91,5 @@ export default class Character {
 
     }
 }
+
+export default Character;

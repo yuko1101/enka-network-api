@@ -15,7 +15,7 @@ export type SubstatsContainer = {
 /**
  * @en Artifact
  */
-export default class Artifact {
+class Artifact {
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
     readonly artifactData: ArtifactData;
@@ -45,3 +45,5 @@ export default class Artifact {
 
     }
 }
+
+export default Artifact;

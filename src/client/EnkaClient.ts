@@ -48,7 +48,7 @@ export type EnkaClientOptions = {
 /**
  * @en EnkaClient
  */
-export default class EnkaClient {
+class EnkaClient {
     readonly options: EnkaClientOptions;
     readonly cachedAssetsManager: CachedAssetsManager;
     private _tasks: NodeJS.Timeout[];
@@ -330,3 +330,5 @@ export default class EnkaClient {
         this._tasks.forEach(task => clearTimeout(task));
     }
 }
+
+export default EnkaClient;

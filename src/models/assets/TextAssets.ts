@@ -5,7 +5,7 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 /**
  * @en TextAssets
  */
-export default class TextAssets {
+class TextAssets {
     readonly id: number;
     readonly enka: EnkaClient;
 
@@ -61,6 +61,8 @@ export default class TextAssets {
         return this.getNullable() ?? `Unknown TextAssets(${this.id})`;
     }
 }
+
+export default TextAssets;
 
 function isTextFormatted(text: string | null) {
     if (text === null) return false;

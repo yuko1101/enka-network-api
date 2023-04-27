@@ -7,7 +7,7 @@ import StatusProperty, { FightProp } from "../StatusProperty";
  * @en ArtifactSplitSubstat
  * @extends {StatusProperty}
  */
-export default class ArtifactSplitSubstat extends StatusProperty {
+class ArtifactSplitSubstat extends StatusProperty {
     readonly _data: JsonObject;
 
     constructor(id: number, enka: EnkaClient) {
@@ -19,3 +19,5 @@ export default class ArtifactSplitSubstat extends StatusProperty {
         this._data = data;
     }
 }
+
+export default ArtifactSplitSubstat;

@@ -10,7 +10,7 @@ export type CharacterPreview = { characterData: CharacterData, level: number, co
 /**
  * @en User
  */
-export default class User {
+class User {
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
     readonly uid: number;
@@ -88,3 +88,5 @@ export default class User {
         this.url = `${enka.options.enkaUrl}/u/${this.uid}`;
     }
 }
+
+export default User;

@@ -9,7 +9,7 @@ export type GameServerRegion = "" | "CN" | "B" | "NA" | "EU" | "ASIA" | "TW";
 /**
  * @en EnkaUser
  */
-export default class EnkaUser {
+class EnkaUser {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
     readonly username: string;
@@ -74,3 +74,5 @@ export default class EnkaUser {
         return await this.enka.fetchEnkaUserBuilds(this.username, this.hash);
     }
 }
+
+export default EnkaUser;

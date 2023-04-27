@@ -6,7 +6,7 @@ import CharacterBuild from "./CharacterBuild";
 /**
  * @en EnkaProfile
  */
-export default class EnkaProfile {
+class EnkaProfile {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
     readonly username: string;
@@ -52,3 +52,5 @@ export default class EnkaProfile {
     }
 
 }
+
+export default EnkaProfile;

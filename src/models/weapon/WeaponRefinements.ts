@@ -5,7 +5,7 @@ import WeaponRefinement from "./WeaponRefinement";
 /**
  * @en WeaponRefinements
  */
-export default class WeaponRefinements {
+class WeaponRefinements {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject[];
@@ -24,3 +24,5 @@ export default class WeaponRefinements {
 
     }
 }
+
+export default WeaponRefinements;

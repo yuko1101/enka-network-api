@@ -2,7 +2,7 @@
  * @en AssetsNotFoundError
  * @extends {Error}
  */
-export default class AssetsNotFoundError extends Error {
+class AssetsNotFoundError extends Error {
     readonly category: string;
     readonly id: string | number;
 
@@ -13,3 +13,5 @@ export default class AssetsNotFoundError extends Error {
         this.id = id;
     }
 }
+
+export default AssetsNotFoundError;

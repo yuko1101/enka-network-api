@@ -7,7 +7,7 @@ import Element from "../Element";
 /**
  * @en CharacterStatus
  */
-export default class CharacterStatus {
+class CharacterStatus {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
     readonly healthBase: StatusProperty;
@@ -188,3 +188,5 @@ export default class CharacterStatus {
         return new StatusProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }
 }
+
+export default CharacterStatus;

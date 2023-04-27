@@ -8,7 +8,7 @@ import { getNameIdByCharacterId } from "../../utils/character_utils";
 /**
  * @en Costume
  */
-export default class Costume {
+class Costume {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -20,6 +20,7 @@ export default class Costume {
     readonly icon: ImageAssets;
     readonly sideIcon: ImageAssets;
     readonly splashImage: ImageAssets;
+    /** This is null if the costume is default */
     readonly stars: number | null;
     readonly cardIcon: ImageAssets;
 
@@ -54,9 +55,10 @@ export default class Costume {
 
         this.splashImage = new ImageAssets(!this.isDefault ? `UI_Costume_${this._nameId}` : `UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
-        /** This is null if the costume is default */
         this.stars = !this.isDefault ? this._data[keys.costumeStarKey] as number : null;
 
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }
 }
+
+export default Costume;

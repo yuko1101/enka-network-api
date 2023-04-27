@@ -79,7 +79,7 @@ const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Dat
 /**
  * @en CachedAssetsManager
  */
-export default class CachedAssetsManager {
+class CachedAssetsManager {
     readonly enka: EnkaClient;
     readonly defaultCacheDirectoryPath: string;
     readonly _contentsSrc: string[];
@@ -520,3 +520,5 @@ export default class CachedAssetsManager {
         }
     }
 }
+
+export default CachedAssetsManager;

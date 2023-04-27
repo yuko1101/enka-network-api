@@ -6,7 +6,7 @@ import EnkaClient from "../../client/EnkaClient";
 /**
  * @en WeaponRefinement
  */
-export default class WeaponRefinement {
+class WeaponRefinement {
     readonly _data: JsonObject;
     readonly enka: EnkaClient;
     readonly level: number;
@@ -31,3 +31,5 @@ export default class WeaponRefinement {
         this.paramList = data.paramList as number[];
     }
 }
+
+export default WeaponRefinement;

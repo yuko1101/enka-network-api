@@ -8,7 +8,7 @@ import StatusProperty, { FightProp } from "../../StatusProperty";
 /**
  * @en PassiveTalent
  */
-export default class PassiveTalent {
+class PassiveTalent {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -44,3 +44,5 @@ export default class PassiveTalent {
 
     }
 }
+
+export default PassiveTalent;

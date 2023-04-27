@@ -7,7 +7,7 @@ import User from "./User";
  * @en DetailedUser
  * @extends {User}
  */
-export default class DetailedUser extends User {
+class DetailedUser extends User {
     readonly showCharacterDetails: boolean;
     readonly characters: Character[];
 
@@ -23,3 +23,5 @@ export default class DetailedUser extends User {
 
     }
 }
+
+export default DetailedUser;

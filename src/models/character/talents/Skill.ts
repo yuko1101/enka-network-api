@@ -8,7 +8,7 @@ import TextAssets from "../../assets/TextAssets";
  * @en Skill
  * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
-export default class Skill {
+class Skill {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -33,3 +33,5 @@ export default class Skill {
         this.icon = new ImageAssets(this._data.skillIcon as string, enka);
     }
 }
+
+export default Skill;

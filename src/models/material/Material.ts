@@ -9,7 +9,7 @@ export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 /**
  * @en Material
  */
-export default class Material {
+class Material {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -66,11 +66,13 @@ export default class Material {
     }
 }
 
+export default Material;
+
 /**
  * @en NameCard
  * @extends {Material}
  */
-export class NameCard extends Material {
+class NameCard extends Material {
     readonly materialType: "MATERIAL_NAMECARD";
 
     /**
@@ -83,3 +85,5 @@ export class NameCard extends Material {
 
     static readonly MATERIAL_TYPE = "MATERIAL_NAMECARD";
 }
+
+export { NameCard };

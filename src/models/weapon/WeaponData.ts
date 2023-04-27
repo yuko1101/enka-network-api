@@ -11,7 +11,7 @@ export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_P
 /**
  * @en WeaponData
  */
-export default class WeaponData {
+class WeaponData {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly _data: JsonObject;
@@ -59,3 +59,5 @@ export default class WeaponData {
         this.refinements = (this._data.skillAffix as number[])[0] !== 0 ? new WeaponRefinements((this._data.skillAffix as number[])[0], enka).refinements : [];
     }
 }
+
+export default WeaponData;

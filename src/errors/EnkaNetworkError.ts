@@ -2,7 +2,7 @@
  * @en EnkaNetworkError
  * @extends {Error}
  */
-export default class EnkaNetworkError extends Error {
+class EnkaNetworkError extends Error {
     readonly statusCode: number;
     readonly statusMessage: string;
 
@@ -16,3 +16,5 @@ export default class EnkaNetworkError extends Error {
         this.statusMessage = statusMessage;
     }
 }
+
+export default EnkaNetworkError;

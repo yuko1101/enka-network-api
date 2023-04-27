@@ -8,7 +8,7 @@ import StatusProperty, { FightProp } from "../StatusProperty";
 /**
  * @en Constellation
  */
-export default class Constellation {
+class Constellation {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -39,3 +39,5 @@ export default class Constellation {
         this.paramList = this._data.paramList as number[];
     }
 }
+
+export default Constellation;

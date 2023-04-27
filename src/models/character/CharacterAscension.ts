@@ -7,7 +7,7 @@ import StatusProperty, { FightProp } from "../StatusProperty";
 /**
  * @en CharacterAscension
  */
-export default class CharacterAscension {
+class CharacterAscension {
     readonly id: number;
     readonly ascension: number;
     readonly enka: EnkaClient;
@@ -42,3 +42,5 @@ export default class CharacterAscension {
         this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType as FightProp, p.value as number, enka));
     }
 }
+
+export default CharacterAscension;

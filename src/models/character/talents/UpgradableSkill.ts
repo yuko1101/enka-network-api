@@ -9,7 +9,7 @@ import Skill from "./Skill";
  * @en CombatSkill
  * @extends {Skill}
  */
-export default class UpgradableSkill extends Skill {
+class UpgradableSkill extends Skill {
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
@@ -48,3 +48,5 @@ export default class UpgradableSkill extends Skill {
         return new UpgradeCost((leveledSkillData.coinCost ?? 0) as number, (leveledSkillData.costItems ?? []) as JsonObject[], this.enka);
     }
 }
+
+export default UpgradableSkill;

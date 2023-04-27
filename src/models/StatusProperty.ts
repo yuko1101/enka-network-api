@@ -7,7 +7,7 @@ import TextAssets from "./assets/TextAssets";
 /**
  * @en StatusProperty
  */
-export default class StatusProperty {
+class StatusProperty {
     readonly fightProp: FightProp;
     readonly enka: EnkaClient;
     readonly _propData: JsonObject;
@@ -51,6 +51,8 @@ export default class StatusProperty {
         return propData ? new TextAssets(propData.textMapContentTextMapHash as number, enka) : null;
     }
 }
+
+export default StatusProperty;
 
 /**
  * @en FightProp

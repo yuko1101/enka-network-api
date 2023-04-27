@@ -1,7 +1,7 @@
 /**
  * @en SkillLevel
  */
-export default class SkillLevel {
+class SkillLevel {
     readonly base: number;
     readonly extra: number;
     readonly value: number;
@@ -12,3 +12,5 @@ export default class SkillLevel {
         this.value = base + extra;
     }
 }
+
+export default SkillLevel;

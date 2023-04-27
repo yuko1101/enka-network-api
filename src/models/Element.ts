@@ -6,7 +6,7 @@ import TextAssets from "./assets/TextAssets";
 /**
  * @en Element
  */
-export default class Element {
+class Element {
     readonly id: ElementType;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -25,6 +25,8 @@ export default class Element {
         this.name = new TextAssets(this._data.textMapContentTextMapHash as number, enka);
     }
 }
+
+export default Element;
 
 /**
  * @en ElementType

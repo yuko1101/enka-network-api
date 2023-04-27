@@ -6,7 +6,7 @@ import EnkaClient from "../../client/EnkaClient";
 /**
  * @en ArtifactSetBonus
  */
-export default class ArtifactSetBonus {
+class ArtifactSetBonus {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly needCount: number;
@@ -28,3 +28,5 @@ export default class ArtifactSetBonus {
         this.paramList = data.paramList as number[];
     }
 }
+
+export default ArtifactSetBonus;

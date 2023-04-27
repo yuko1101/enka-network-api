@@ -5,8 +5,10 @@ import UniqueSkill from "./UniqueSkill";
  * @en ElementalSkill
  * @extends {UniqueSkill}
  */
-export default class ElementalSkill extends UniqueSkill {
+class ElementalSkill extends UniqueSkill {
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
 }
+
+export default ElementalSkill;

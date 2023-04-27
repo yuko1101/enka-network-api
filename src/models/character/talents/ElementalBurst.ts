@@ -6,7 +6,7 @@ import UniqueSkill from "./UniqueSkill";
  * @en ElementalBurst
  * @extends {UniqueSkill}
  */
-export default class ElementalBurst extends UniqueSkill {
+class ElementalBurst extends UniqueSkill {
     readonly costElemType: Element;
     readonly costElemVal: number;
 
@@ -19,3 +19,5 @@ export default class ElementalBurst extends UniqueSkill {
 
     }
 }
+
+export default ElementalBurst;

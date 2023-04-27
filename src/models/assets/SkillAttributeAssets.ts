@@ -15,7 +15,7 @@ export type SkillAttributeData = {
  * @en SkillAttributeAssets
  * @extends {TextAssets}
  */
-export default class SkillAttributeAssets extends TextAssets {
+class SkillAttributeAssets extends TextAssets {
     readonly _paramList: number[];
 
     constructor(id: number, enka: EnkaClient, paramList: number[]) {
@@ -62,3 +62,5 @@ export default class SkillAttributeAssets extends TextAssets {
         }
     }
 }
+
+export default SkillAttributeAssets;

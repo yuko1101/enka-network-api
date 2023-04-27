@@ -23,7 +23,7 @@ export type Gender = "MALE" | "FEMALE";
 /**
  * @en CharacterData
  */
-export default class CharacterData {
+class CharacterData {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly _data: JsonObject;
@@ -197,3 +197,5 @@ export default class CharacterData {
         return new CharacterAscension(this._data.avatarPromoteId as number, ascension, this.enka);
     }
 }
+
+export default CharacterData;

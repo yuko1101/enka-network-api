@@ -11,7 +11,7 @@ import ArtifactData from "./ArtifactData";
 /**
  * @en ArtifactSet
  */
-export default class ArtifactSet {
+class ArtifactSet {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly _data: JsonObject;
@@ -58,3 +58,5 @@ export default class ArtifactSet {
         }).sort((a, b) => b.count - a.count);
     }
 }
+
+export default ArtifactSet;

@@ -10,7 +10,7 @@ export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQU
 /**
  * @en ArtifactData
  */
-export default class ArtifactData {
+class ArtifactData {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly _data: JsonObject;
@@ -54,3 +54,5 @@ export default class ArtifactData {
 
     }
 }
+
+export default ArtifactData;

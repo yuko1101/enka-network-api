@@ -5,7 +5,7 @@ import EnkaClient from "../../client/EnkaClient";
 /**
  * @en UpgradeCost
  */
-export default class UpgradeCost {
+class UpgradeCost {
     readonly enka: EnkaClient;
     readonly coin: number;
     readonly items: { material: Material, count: number }[];
@@ -25,3 +25,5 @@ export default class UpgradeCost {
 
     }
 }
+
+export default UpgradeCost;

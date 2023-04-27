@@ -4,7 +4,7 @@ import CachedAssetsManager from "./CachedAssetsManager";
 /**
  * @en ObjectKeysManager
  */
-export default class ObjectKeysManager {
+class ObjectKeysManager {
     readonly costumeIdKey: string;
     readonly costumeCharacterIdKey: string;
     readonly costumeStarKey: string;
@@ -31,3 +31,5 @@ export default class ObjectKeysManager {
 
     }
 }
+
+export default ObjectKeysManager;
