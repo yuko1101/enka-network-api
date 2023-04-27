@@ -32,7 +32,7 @@
         "comma-dangle": "off",
         "@typescript-eslint/comma-dangle": [
             "error",
-            "only-multiline"
+            "always-multiline"
         ],
         "comma-spacing": "error",
         "comma-style": "error",
