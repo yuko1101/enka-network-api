@@ -15,11 +15,8 @@ export default class ObjectKeysManager {
         const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea") as JsonObject;
         const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme") as JsonObject;
 
-        /** @type {string} */
         this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301) as string;
-        /** @type {string} */
         this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003) as string;
-        /** @type {string} */
         this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5) as string;
 
         const talentData = cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData");
@@ -30,7 +27,6 @@ export default class ObjectKeysManager {
             console.warn(`[ObjectKeysManager] Detected ${candidatesForTalentIsHiddenKey.length} keys for talentIsHiddenKey`);
         }
 
-        /** @type {string} */
         this.talentIsHiddenKey = candidatesForTalentIsHiddenKey[0];
 
     }

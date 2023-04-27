@@ -4,11 +4,6 @@ import TextAssets from "./TextAssets";
 
 /**
  * @en SkillAttributeData
- * @typedef SkillAttributeData
- * @type {object}
- * @property {string} name
- * @property {string} valueText
- * @property {Array<number>} usedNumbers
  */
 export type SkillAttributeData = {
     name: string,

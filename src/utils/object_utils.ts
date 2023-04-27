@@ -1,6 +1,6 @@
 import { JsonObject } from "config_file.js";
 
-export function separateByValue<T>(array: Array<T>, callback: (element: T) => string): { [s: string]: T[] } {
+export function separateByValue<T>(array: T[], callback: (element: T) => string): { [s: string]: T[] } {
     const result: { [s: string]: T[] } = {};
     for (const element of array) {
         const value = callback(element);

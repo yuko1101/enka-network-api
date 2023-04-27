@@ -147,8 +147,7 @@ export default class EnkaClient {
     }
 
     /**
-     * @param {string} username enka.network username, not in-game nickname
-     * @returns {Promise<EnkaProfile>}
+     * @param username enka.network username, not in-game nickname
      */
     async fetchEnkaProfile(username: string): Promise<EnkaProfile> {
         const url = getEnkaProfileUrl(this.options.enkaUrl as string, username);
@@ -169,10 +168,9 @@ export default class EnkaClient {
     }
 
     /**
-     * @param {string} username enka.network username, not in-game nickname
-     * @returns {Promise<Array<EnkaUser>>}
+     * @param username enka.network username, not in-game nickname
      */
-    async fetchAllEnkaUsers(username: string): Promise<Array<EnkaUser>> {
+    async fetchAllEnkaUsers(username: string): Promise<EnkaUser[]> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos`;
 
         const response = await fetchJSON(url, this, true);
@@ -191,9 +189,8 @@ export default class EnkaClient {
     }
 
     /**
-     * @param {string} username enka.network username, not in-game nickname
-     * @param {string} hash EnkaUser hash
-     * @returns {Promise<EnkaUser>}
+     * @param username enka.network username, not in-game nickname
+     * @param hash EnkaUser hash
      */
     async fetchEnkaUser(username: string, hash: string): Promise<EnkaUser> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}`;
@@ -214,11 +211,10 @@ export default class EnkaClient {
     }
 
     /**
-     * @param {string} username enka.network username, not in-game nickname
-     * @param {string} hash EnkaUser hash
-     * @returns {Promise<Object<string, Array<CharacterBuild>>>}
+     * @param username enka.network username, not in-game nickname
+     * @param hash EnkaUser hash
      */
-    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [s: string]: Array<CharacterBuild>; }> {
+    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [s: string]: CharacterBuild[] }> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds`;
 
         const response = await fetchJSON(url, this, true);

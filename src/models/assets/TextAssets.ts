@@ -76,16 +76,8 @@ class FormattedText {
     readonly text: string;
 
     constructor(text: string, formattedWithPlaceholder: boolean) {
-        /**
-         * @readonly
-         * @type {string}
-         */
         this.text = text;
 
-        /**
-         * @readonly
-         * @type {boolean}
-         */
         this.formattedWithPlaceholder = formattedWithPlaceholder;
     }
 

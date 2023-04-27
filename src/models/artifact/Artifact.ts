@@ -6,10 +6,6 @@ import EnkaClient from "../../client/EnkaClient";
 
 /**
  * @en SubstatsContainer
- * @typedef SubstatsContainer
- * @type {object}
- * @property {Array<StatusProperty>} total
- * @property {Array<ArtifactSplitSubstat>} split
  */
 export type SubstatsContainer = {
     total: StatusProperty[],

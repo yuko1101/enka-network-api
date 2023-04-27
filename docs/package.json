@@ -13,7 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "dev": "docusaurus start",
-    "docs-gen": "node ../scripts/replaceTypeImport.js && jsdoc-to-mdx -c jsdoc2mdx.json && node -e \"const fs = require('fs'); const data = fs.readFileSync('../README.md'); fs.writeFileSync('./docs/intro.md', data);\""
+    "docs-gen": "jsdoc-to-mdx -c jsdoc2mdx.json && node -e \"const fs = require('fs'); const data = fs.readFileSync('../README.md'); fs.writeFileSync('./docs/intro.md', data);\""
   },
   "dependencies": {
     "@docusaurus/core": "^2.3.1",

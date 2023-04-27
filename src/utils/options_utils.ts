@@ -1,8 +1,3 @@
-/**
- * @param {Object<string, any>} defaultOptions
- * @param {Object<string, any>} options
- * @returns {Object<string, any>}
- */
 export function bindOptions(defaultOptions: { [s: string]: unknown }, options: { [s: string]: unknown }): { [s: string]: unknown } {
     if (!options) return defaultOptions;
     if (!defaultOptions) return options;
@@ -48,9 +43,6 @@ export function bindOptions(defaultOptions: { [s: string]: unknown }, options: {
 
 /**
  * Get the path where the value is null, or undefined.
- * @param {*} object
- * @param {*} path
- * @returns {Array<Array<string>>}
  */
 function getNullPath(object: { [s: string]: unknown }, path: string[] = []): string[][] {
     const result = [];
@@ -69,7 +61,7 @@ function getNullPath(object: { [s: string]: unknown }, path: string[] = []): str
 /**
  * Warning: This function will not work with circular object.
  */
-function getValuesWithPath(object: { [s: string]: unknown }, path: string[] = [], defaultOptionsNullPath: string[][] = []): Array<{ path: string[], value: unknown }> {
+function getValuesWithPath(object: { [s: string]: unknown }, path: string[] = [], defaultOptionsNullPath: string[][] = []): { path: string[], value: unknown }[] {
     const result = [];
     for (const key in object) {
         const value = object[key];
