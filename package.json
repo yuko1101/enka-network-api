@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {
-    "example": "example"
+    "example": "example",
+    "lib": "src"
   },
   "scripts": {
     "install": "node scripts/install.js",
