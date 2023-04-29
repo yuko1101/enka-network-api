@@ -3,6 +3,11 @@ import EnkaClient from "../client/EnkaClient";
 
 const axios = new Axios({});
 
+/**
+ * @param url
+ * @param enka
+ * @param enableTimeout
+ */
 export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = false): Promise<AxiosResponse> {
     const options: AxiosRequestConfig = { headers: { "User-Agent": enka.options.userAgent } };
     if (enableTimeout) options.timeout = enka.options.timeout;

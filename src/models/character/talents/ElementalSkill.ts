@@ -6,6 +6,10 @@ import UniqueSkill from "./UniqueSkill";
  * @extends {UniqueSkill}
  */
 class ElementalSkill extends UniqueSkill {
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }

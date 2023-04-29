@@ -8,17 +8,31 @@ import WeaponRefinement from "./WeaponRefinement";
  * @en Weapon
  */
 class Weapon {
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly weaponData: WeaponData;
+    /**  */
     readonly refinement: WeaponRefinement | null;
+    /**  */
     readonly refinementRank: number;
+    /**  */
     readonly level: number;
+    /**  */
     readonly ascension: number;
+    /**  */
     readonly maxLevel: number;
+    /**  */
     readonly isAwaken: boolean;
+    /**  */
     readonly weaponStats: StatusProperty[];
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;

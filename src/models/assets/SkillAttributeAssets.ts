@@ -4,12 +4,13 @@ import TextAssets from "./TextAssets";
 
 /**
  * @en SkillAttributeData
+ * @typedef
  */
-export type SkillAttributeData = {
-    name: string,
-    valueText: string,
-    usedNumbers: number[],
-};
+export interface SkillAttributeData {
+    name: string;
+    valueText: string;
+    usedNumbers: number[];
+}
 
 /**
  * @en SkillAttributeAssets
@@ -18,12 +19,21 @@ export type SkillAttributeData = {
 class SkillAttributeAssets extends TextAssets {
     readonly _paramList: number[];
 
+    /**
+     * @param id
+     * @param enka
+     * @param paramList
+     */
     constructor(id: number, enka: EnkaClient, paramList: number[]) {
         super(id, enka);
 
         this._paramList = paramList;
     }
 
+    /**
+     * @param lang
+     * @throws AssetsNotFoundError
+     */
     getAttributeData(lang: LanguageCode): SkillAttributeData {
         const text = this.get(lang);
 
@@ -52,9 +62,10 @@ class SkillAttributeAssets extends TextAssets {
     }
 
     /**
-     * Returns null instead of throwing AssetsNotFoundError.
+     * @param lang
+     * @returns null instead of throwing AssetsNotFoundError.
      */
-    getNullableAttributeData(lang: import("../../client/CachedAssetsManager").LanguageCode): SkillAttributeData | null {
+    getNullableAttributeData(lang: LanguageCode): SkillAttributeData | null {
         try {
             return this.getAttributeData(lang);
         } catch (e) {

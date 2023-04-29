@@ -6,15 +6,25 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
  * @en TextAssets
  */
 class TextAssets {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
 
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         this.id = id;
 
         this.enka = enka;
     }
 
+    /**
+     * @param lang
+     * @throws {AssetsNotFoundError}
+     */
     get(lang?: LanguageCode): string {
         lang ??= this.enka.options.defaultLanguage;
         const text = this.enka.cachedAssetsManager.getLanguageData(lang)[this.id];
@@ -23,7 +33,7 @@ class TextAssets {
     }
 
     /**
-     * Returns null instead of throwing AssetsNotFoundError.
+     * @returns null instead of throwing AssetsNotFoundError.
      */
     getNullable(lang?: LanguageCode): string | null {
         try {
@@ -34,7 +44,7 @@ class TextAssets {
     }
 
     /**
-     * Returns whether the text is formatted or not.
+     * @returns whether the text is formatted or not.
      */
     isFormatted(lang?: LanguageCode): boolean {
         const text = this.getNullable(lang);
@@ -47,7 +57,7 @@ class TextAssets {
     }
 
     /**
-     * Returns null instead of throwing AssetsNotFoundError.
+     * @returns null instead of throwing AssetsNotFoundError.
      */
     getAsNullableFormattedText(lang?: LanguageCode): FormattedText | null {
         try {

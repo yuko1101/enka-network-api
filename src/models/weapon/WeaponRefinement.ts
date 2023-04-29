@@ -7,14 +7,25 @@ import EnkaClient from "../../client/EnkaClient";
  * @en WeaponRefinement
  */
 class WeaponRefinement {
-    readonly _data: JsonObject;
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly level: number;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly addProps: StatusProperty[];
+    /**  */
     readonly paramList: number[];
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
 

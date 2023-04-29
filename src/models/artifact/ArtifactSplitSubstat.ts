@@ -10,6 +10,10 @@ import StatusProperty, { FightProp } from "../StatusProperty";
 class ArtifactSplitSubstat extends StatusProperty {
     readonly _data: JsonObject;
 
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         const data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(a => a.id === id);
         if (!data) throw new AssetsNotFoundError("Artifact Substat", id);

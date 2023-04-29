@@ -8,7 +8,9 @@ import User from "./User";
  * @extends {User}
  */
 class DetailedUser extends User {
+    /**  */
     readonly showCharacterDetails: boolean;
+    /**  */
     readonly characters: Character[];
 
     /**

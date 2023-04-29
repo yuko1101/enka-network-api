@@ -1,5 +1,6 @@
 import { FightProp } from "../models/StatusProperty";
 
+/** @constant */
 export const fightProps: { [key: string]: FightProp } = {
     1: "FIGHT_PROP_BASE_HP",
     2: "FIGHT_PROP_HP",
@@ -57,6 +58,7 @@ export const fightProps: { [key: string]: FightProp } = {
     2003: "FIGHT_PROP_CUR_SPEED",
 };
 
+/** @constant */
 export const percent = [
     "FIGHT_PROP_HP_PERCENT",
     "FIGHT_PROP_ATTACK_PERCENT",
@@ -91,7 +93,10 @@ export const percent = [
     "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
 ];
 
-// rarity map for artifact sets
+/**
+ * Rarity map for artifact sets
+ * @constant
+ */
 export const artifactRarityRangeMap: { [id: string]: number[] } = {
     "10001": [3, 4], // Resolution of Sojourner
     "10002": [3, 4], // Brave Heart

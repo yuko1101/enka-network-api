@@ -4,27 +4,38 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 
+/** @typedef */
 export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 
 /**
  * @en Material
  */
 class Material {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly pictures: ImageAssets[];
+    /**  */
     readonly itemType: ItemType;
+    /**  */
     readonly materialType: string | null;
+    /**  */
     readonly stars: number;
+
+    readonly _data: JsonObject;
 
     /**
      * @param id
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this provided, use this instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {
         this.id = id;
@@ -53,7 +64,7 @@ class Material {
     /**
      * @param id
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this provided, use this instead of searching with `id`.
      */
     static getMaterialById(id: number | string, enka: EnkaClient, data?: JsonObject): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
@@ -77,18 +88,20 @@ export default Material;
  * @extends {Material}
  */
 class NameCard extends Material {
-    readonly materialType: "MATERIAL_NAMECARD";
+    /**  */
+    override readonly materialType: "MATERIAL_NAMECARD";
 
     /**
      * @param id
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this provided, use this instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {
         super(id, enka, data);
         this.materialType = "MATERIAL_NAMECARD";
     }
 
+    /**  */
     static readonly MATERIAL_TYPE = "MATERIAL_NAMECARD";
 }
 

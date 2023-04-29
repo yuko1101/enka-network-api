@@ -5,11 +5,18 @@ import CachedAssetsManager from "./CachedAssetsManager";
  * @en ObjectKeysManager
  */
 class ObjectKeysManager {
+    /** Map key name where the value is costume id in AvatarCostumeExcelConfigData.json */
     readonly costumeIdKey: string;
+    /** Map key name where the value is character id in AvatarCostumeExcelConfigData.json */
     readonly costumeCharacterIdKey: string;
+    /** Map key name where the value is stars of the costume in AvatarCostumeExcelConfigData.json */
     readonly costumeStarKey: string;
+    /** Map key name where the value is whether the talent is hidden in ProudSkillExcelConfigData.json */
     readonly talentIsHiddenKey: string;
 
+    /**
+     * @param cachedAssetsManager
+     */
     constructor(cachedAssetsManager: CachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
         const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea") as JsonObject;

@@ -5,7 +5,12 @@ import EnkaProfile from "./enka/EnkaProfile";
 import { NameCard } from "./material/Material";
 import EnkaClient from "../client/EnkaClient";
 
-export type CharacterPreview = { characterData: CharacterData, level: number, costume: Costume };
+/** @typedef */
+export interface CharacterPreview {
+    characterData: CharacterData;
+    level: number;
+    costume: Costume;
+}
 
 /**
  * @en User
@@ -13,8 +18,6 @@ export type CharacterPreview = { characterData: CharacterData, level: number, co
 class User {
     /**  */
     readonly enka: EnkaClient;
-    /**  */
-    readonly _data: JsonObject;
     /**  */
     readonly uid: number;
     /**  */
@@ -49,11 +52,13 @@ class User {
     /**  */
     readonly url: string;
 
+    readonly _data: JsonObject;
+
     /**
      * @param data
      * @param enka
-     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
-     */
+     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet)
+    */
     constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
         this.enka = enka;
 

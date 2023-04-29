@@ -16,48 +16,85 @@ import { JsonObject } from "config_file.js";
 import Element from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
 
+/** @typedef */
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
+/** @typedef */
 export type Rarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
+/** @typedef */
 export type Gender = "MALE" | "FEMALE";
 
 /**
  * @en CharacterData
  */
 class CharacterData {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly bodyType: BodyType;
+    /**  */
     readonly weaponType: WeaponType;
+    /**  */
     readonly gender: Gender;
-    readonly _nameId: string;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly sideIcon: ImageAssets;
+    /**  */
     readonly splashImage: ImageAssets;
+    /** This is not available for Travelers */
     readonly gachaSlice: ImageAssets;
+    /**  */
     readonly cardIcon: ImageAssets;
+    /** This will be null if the character is Traveler */
     readonly nameCard: NameCard | null;
+    /**  */
     readonly rarity: Rarity;
+    /**  */
     readonly stars: number;
-    readonly _costumeData: JsonObject[];
+    /**  */
     readonly costumes: Costume[];
+    /**  */
     readonly skillDepotId: number;
-    readonly _skillData: JsonObject;
+    /**  */
     readonly elementalBurst: ElementalBurst | null;
+    /**  */
     readonly element: Element | null;
+    /**  */
     readonly skills: Skill[];
+    /** Can be null if the character doesn't have element such as traveler without elements */
     readonly elementalSkill: ElementalSkill | null;
+    /**  */
     readonly normalAttack: NormalAttack;
+    /**  */
     readonly passiveTalents: PassiveTalent[];
+    /**  */
     readonly constellations: Constellation[];
-    readonly _releaseData: JsonObject | null;
+    /** This will be null if the character is not (being) released character, like Travelers and test avatars */
     readonly releasedAt: Date | null;
+    /** Whether the character is playable or not */
     readonly isPlayable: boolean;
+    /**  */
     readonly isArchon: boolean;
+    /** Information in the profile menu in in-game character screen */
     readonly details: CharacterDetails | null;
 
+    readonly _data: JsonObject;
+    readonly _nameId: string;
+    readonly _skillData: JsonObject;
+    readonly _costumeData: JsonObject[];
+    readonly _releaseData: JsonObject | null;
+
+    /**
+     * @param id
+     * @param enka
+     * @param candSkillDepotId
+     */
     constructor(id: number, enka: EnkaClient, candSkillDepotId?: number) {
 
         this.id = id;
@@ -86,9 +123,6 @@ class CharacterData {
 
         this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
-        /**
-         * Travelers do not have this.
-         */
         this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`, enka);
 
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
@@ -96,9 +130,6 @@ class CharacterData {
         // TODO: better find
         const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.materialType === "MATERIAL_NAMECARD" && (m.picPath as string[])[0] && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test((m.picPath as string[])[0]));
 
-        /**
-         * If the character is Traveler, this will be null.
-         */
         this.nameCard = nameCardData ? new NameCard(nameCardData.id as number, enka, nameCardData) : null;
 
         this.rarity = this._data.qualityType as Rarity;
@@ -136,9 +167,6 @@ class CharacterData {
 
         this.skills = _skills;
 
-        /**
-         * Can be null if the character doesn't have element such as traveler without elements
-         */
         this.elementalSkill = _skills.find(s => s instanceof ElementalSkill) as ElementalSkill ?? null;
 
         this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
@@ -152,14 +180,8 @@ class CharacterData {
 
         this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id) ?? null;
 
-        /**
-         * This is undefined if the character is not (being) released character, like Travelers and test avatars.
-         */
         this.releasedAt = this._releaseData ? new Date(`${this._releaseData.beginTime}+8:00`) : null;
 
-        /**
-         * Whether the character is playable.
-         */
         this.isPlayable = this._data.useType === "AVATAR_FORMAL";
 
         const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").map(a => a.avatarId);
@@ -172,15 +194,12 @@ class CharacterData {
         } catch (e) {
             details = null;
         }
-        /**
-         * Information in the profile menu in in-game character screen.
-         */
         this.details = details;
 
     }
 
     /**
-     * Get character's original name (Travelers -> Aether, Lumine)
+     * @returns character's original name (Travelers -> Aether, Lumine)
      */
     getOriginalName(): TextAssets {
         switch (this.id) {
@@ -193,6 +212,9 @@ class CharacterData {
         }
     }
 
+    /**
+     * @param ascension ascension level (0-6)
+     */
     getAscensionData(ascension: number): CharacterAscension {
         return new CharacterAscension(this._data.avatarPromoteId as number, ascension, this.enka);
     }

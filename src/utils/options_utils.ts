@@ -1,3 +1,7 @@
+/**
+ * @param defaultOptions
+ * @param options
+ */
 export function bindOptions(defaultOptions: { [s: string]: unknown }, options: { [s: string]: unknown }): { [s: string]: unknown } {
     if (!options) return defaultOptions;
     if (!defaultOptions) return options;
@@ -116,6 +120,7 @@ function setPath(object: { [s: string]: unknown }, path: string[], value: unknow
     object[last as string] = value;
 }
 
+/** Generates random uuid v4 */
 export function generateUuid(): string {
     const chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
     for (let i = 0; i < chars.length; i++) {

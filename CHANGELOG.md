@@ -5,6 +5,7 @@
 - `costume` in User#charactersPreview will be its default costume if there is no special costume.
 - Use default character icon in Costume if the costume is default.
 - Renamed StatusProperty#id to StatusProperty#fightProp.
+- Renamed StatusProperty#type to StatusProperty#fightPropName.
 - Removed bigint type from EnkaClientOptions#timeout.
 - Both User#abyssFloor and User#abyssChamber are now in User#spiralAbyss.
 - Added getter, setter, and deleter options in EnkaClientOptions for storing user caches.

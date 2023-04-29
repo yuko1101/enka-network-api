@@ -5,17 +5,27 @@ import ImageAssets from "../../assets/ImageAssets";
 import TextAssets from "../../assets/TextAssets";
 
 /**
+ * Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  * @en Skill
- * @description Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
 class Skill {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly icon: ImageAssets;
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
 
         this.id = id;

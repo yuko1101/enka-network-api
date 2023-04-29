@@ -6,11 +6,19 @@ import WeaponRefinement from "./WeaponRefinement";
  * @en WeaponRefinements
  */
 class WeaponRefinements {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject[];
+    /**  */
     readonly refinements: WeaponRefinement[];
 
+    readonly _data: JsonObject[];
+
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
 
         this.id = id;

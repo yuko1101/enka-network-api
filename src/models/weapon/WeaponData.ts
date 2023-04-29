@@ -6,29 +6,41 @@ import TextAssets from "../assets/TextAssets";
 import WeaponRefinements from "./WeaponRefinements";
 import WeaponRefinement from "./WeaponRefinement";
 
+/** @typedef */
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 
 /**
  * @en WeaponData
  */
 class WeaponData {
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly id: number;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly awakenIcon: ImageAssets;
+    /**  */
     readonly stars: number;
+    /**  */
     readonly weaponType: WeaponType;
-    readonly _weaponTypeData: JsonObject;
+    /**  */
     readonly weaponTypeName: TextAssets;
+    /**  */
     readonly refinements: WeaponRefinement[];
+
+    readonly _data: JsonObject;
+    readonly _weaponTypeData: JsonObject;
 
     /**
      * @param id
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this is provided, use this instead of searching with `id`.
      */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {
 

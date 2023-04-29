@@ -3,20 +3,37 @@ import Character from "../character/Character";
 import EnkaClient from "../../client/EnkaClient";
 
 /**
+ * A present character build or a saved character build in Enka.Network account
  * @en CharacterBuild
  */
 class CharacterBuild {
-    readonly _data: JsonObject;
+    /**  */
     readonly enka: EnkaClient;
-    readonly enkaUserInfo: { username: string; hash: string; };
+    /**  */
+    readonly enkaUserInfo: { username: string, hash: string; };
+    /**  */
     readonly id: number;
+    /**  */
     readonly name: string;
+    /**  */
     readonly order: number;
+    /**  */
     readonly isLive: boolean;
+    /**  */
     readonly isPublic: boolean;
+    /**  */
     readonly character: Character;
+    /**  */
     readonly url: string;
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     * @param username
+     * @param hash
+     */
     constructor(data: JsonObject, enka: EnkaClient, username: string, hash: string) {
 
         this._data = data;

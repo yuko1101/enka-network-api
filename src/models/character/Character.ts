@@ -19,23 +19,43 @@ import Element from "../Element";
  * @en Character
  */
 class Character {
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly characterData: CharacterData;
+    /**  */
     readonly costume: Costume;
+    /**  */
     readonly artifacts: Artifact[];
+    /**  */
     readonly weapon: Weapon;
+    /**  */
     readonly status: CharacterStatus;
+    /**  */
     readonly level: number;
+    /**  */
     readonly xp: number;
+    /**  */
     readonly ascension: number;
+    /**  */
     readonly maxLevel: number;
+    /**  */
     readonly stamina: number;
+    /** Traveler's friendship is always 1 */
     readonly friendship: number;
+    /**  */
     readonly unlockedConstellations: Constellation[];
-    readonly skillLevels: { skill: UpgradableSkill; level: SkillLevel; }[];
+    /**  */
+    readonly skillLevels: { skill: UpgradableSkill, level: SkillLevel }[];
+    /**  */
     readonly unlockedPassiveTalents: PassiveTalent[];
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;
@@ -64,9 +84,6 @@ class Character {
 
         this.stamina = Number(propMap[10010]?.val ?? 10000) / 100;
 
-        /**
-         * Traveler's friendship is always 1.
-         */
         this.friendship = ((data.fetterInfo as JsonObject | undefined)?.expLevel ?? 1) as number;
 
         this.unlockedConstellations = this.characterData.constellations.filter(c => ((data.talentIdList ?? []) as number[]).includes(c.id));

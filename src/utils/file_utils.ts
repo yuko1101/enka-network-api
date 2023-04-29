@@ -1,5 +1,9 @@
 import fs from "fs";
 
+/**
+ * @param dirFrom
+ * @param dirTo
+ */
 export function move(dirFrom: string, dirTo: string) {
     const files = fs.readdirSync(dirFrom);
     for (const file of files) {
@@ -14,6 +18,10 @@ export function move(dirFrom: string, dirTo: string) {
     }
 }
 
+/**
+ * @param fileFrom
+ * @param fileTo
+ */
 export function moveFile(fileFrom: string, fileTo: string) {
     fs.renameSync(fileFrom, fileTo);
 }

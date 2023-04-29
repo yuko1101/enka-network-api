@@ -8,13 +8,25 @@ import TextAssets from "./assets/TextAssets";
  * @en StatusProperty
  */
 class StatusProperty {
+    /**  */
     readonly fightProp: FightProp;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _propData: JsonObject;
-    readonly type: TextAssets;
+    /**  */
+    readonly fightPropName: TextAssets;
+    /**  */
     readonly isPercent: boolean;
+    /**  */
     readonly value: number;
 
+    readonly _propData: JsonObject;
+
+    /**
+     * @param fightProp
+     * @param value
+     * @param enka
+     * @param multiplied
+     */
     constructor(fightProp: FightProp, value: number, enka: EnkaClient, multiplied = false) {
         this.fightProp = fightProp;
 
@@ -24,7 +36,7 @@ class StatusProperty {
         if (!_propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
         this._propData = _propData;
 
-        this.type = new TextAssets(this._propData.textMapContentTextMapHash as number, enka);
+        this.fightPropName = new TextAssets(this._propData.textMapContentTextMapHash as number, enka);
 
         this.isPercent = percent.includes(fightProp);
 
@@ -32,22 +44,26 @@ class StatusProperty {
     }
 
     /**
-     * Multiply `value` by 100 if it is a percentage.
+     * Multiplies [value](#value) by 100 if it is a percentage
      */
     getFormattedValue(): number {
         return this.value * (this.isPercent ? 100 : 1);
     }
 
     /**
-     * Returns simple value string.
+     * @returns simple value string
      */
     toString(): string {
         const fix = this.isPercent ? 1 : 0;
         return this.getFormattedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
     }
 
-    static getFightPropTextAssets(id: FightProp, enka: EnkaClient): TextAssets | null {
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
+    /**
+     * @param fightProp
+     * @param enka
+     */
+    static getFightPropTextAssets(fightProp: FightProp, enka: EnkaClient): TextAssets | null {
+        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === fightProp);
         return propData ? new TextAssets(propData.textMapContentTextMapHash as number, enka) : null;
     }
 }
@@ -56,6 +72,7 @@ export default StatusProperty;
 
 /**
  * @en FightProp
+ * @typedef
  * @example
  * |Name|Description|
  * |---|---|

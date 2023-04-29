@@ -6,23 +6,34 @@ import EnkaClient from "../../client/EnkaClient";
 
 /**
  * @en SubstatsContainer
+ * @typedef
  */
-export type SubstatsContainer = {
-    total: StatusProperty[],
-    split: ArtifactSplitSubstat[]
-};
+export interface SubstatsContainer {
+    total: StatusProperty[];
+    split: ArtifactSplitSubstat[];
+}
 
 /**
  * @en Artifact
  */
 class Artifact {
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly artifactData: ArtifactData;
+    /**  */
     readonly level: number;
+    /**  */
     readonly mainstat: StatusProperty;
+    /**  */
     readonly substats: SubstatsContainer;
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;

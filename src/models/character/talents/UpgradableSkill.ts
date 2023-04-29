@@ -10,10 +10,17 @@ import Skill from "./Skill";
  * @extends {Skill}
  */
 class UpgradableSkill extends Skill {
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
     }
 
+    /**
+     * @param level
+     */
     getSkillAttributes(level: number): SkillAttributeAssets[] {
         const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return [];

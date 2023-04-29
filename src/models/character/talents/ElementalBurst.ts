@@ -7,9 +7,15 @@ import UniqueSkill from "./UniqueSkill";
  * @extends {UniqueSkill}
  */
 class ElementalBurst extends UniqueSkill {
+    /**  */
     readonly costElemType: Element;
+    /**  */
     readonly costElemVal: number;
 
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 

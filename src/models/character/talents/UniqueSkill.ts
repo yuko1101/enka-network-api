@@ -2,14 +2,20 @@ import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
 /**
+ * Elemental Skill and Elemental Burst
  * @en UniqueSkill
  * @extends {UpgradableSkill}
- * @description Elemental Skill and Elemental Burst
  */
 class UniqueSkill extends UpgradableSkill {
+    /**  */
     readonly maxCharge: number;
+    /**  */
     readonly cooldown: number;
 
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 

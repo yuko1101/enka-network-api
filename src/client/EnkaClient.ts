@@ -29,21 +29,22 @@ const userCacheMap = new Map();
 
 /**
  * @en EnkaClientOptions
+ * @typedef
  */
-export type EnkaClientOptions = {
-    enkaUrl: string,
-    defaultImageBaseUrl: string,
-    imageBaseUrlByPrefix: { [prefix: string]: string },
-    userAgent: string,
-    timeout: number,
-    defaultLanguage: LanguageCode,
-    cacheDirectory: string,
-    showFetchCacheLog: boolean,
-    storeUserCache: boolean,
-    userCacheGetter: (key: string) => Promise<JsonObject>,
-    userCacheSetter: (key: string, data: JsonObject) => Promise<void>,
-    userCacheDeleter: (key: string) => Promise<void>,
-};
+export interface EnkaClientOptions {
+    enkaUrl: string;
+    defaultImageBaseUrl: string;
+    imageBaseUrlByPrefix: { [prefix: string]: string };
+    userAgent: string;
+    timeout: number;
+    defaultLanguage: LanguageCode;
+    cacheDirectory: string;
+    showFetchCacheLog: boolean;
+    storeUserCache: boolean;
+    userCacheGetter: (key: string) => Promise<JsonObject>;
+    userCacheSetter: (key: string, data: JsonObject) => Promise<void>;
+    userCacheDeleter: (key: string) => Promise<void>;
+}
 
 /**
  * @en EnkaClient
@@ -74,7 +75,7 @@ class EnkaClient {
             "userCacheGetter": null,
             "userCacheSetter": null,
             "userCacheDeleter": null,
-        }, options) as EnkaClientOptions;
+        }, options) as unknown as EnkaClientOptions;
 
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
@@ -85,9 +86,9 @@ class EnkaClient {
     }
 
     /**
-     * @param uid In-game UID of the user.
+     * @param uid In-game UID of the user
      * @param collapse Whether to fetch rough user information (Very fast)
-     * @returns Returns DetailedUser if collapse is false, User if collapse is true
+     * @returns DetailedUser if collapse is false, User if collapse is true
      */
     async fetchUser(uid: number | string, collapse = false): Promise<User | DetailedUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
@@ -154,8 +155,8 @@ class EnkaClient {
 
     /**
      * @param username enka.network username, not in-game nickname
-     * @returns Returns the structure of the Enka.Network account
-     */
+     * @returns the Enka.Network account
+    */
     async fetchEnkaProfile(username: string): Promise<EnkaProfile> {
         const url = getEnkaProfileUrl(this.options.enkaUrl as string, username);
 
@@ -176,7 +177,7 @@ class EnkaClient {
 
     /**
      * @param username enka.network username, not in-game nickname
-     * @returns Returns the structures of the game accounts added to the Enka.Network account
+     * @returns the all game accounts added to the Enka.Network account
      */
     async fetchAllEnkaUsers(username: string): Promise<EnkaUser[]> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos`;
@@ -199,7 +200,7 @@ class EnkaClient {
     /**
      * @param username enka.network username, not in-game nickname
      * @param hash EnkaUser hash
-     * @returns Returns the structure of the game account added to the Enka.Network account
+     * @returns the game account added to the Enka.Network account
      */
     async fetchEnkaUser(username: string, hash: string): Promise<EnkaUser> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}`;
@@ -222,8 +223,9 @@ class EnkaClient {
     /**
      * @param username enka.network username, not in-game nickname
      * @param hash EnkaUser hash
+     * @returns the character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [s: string]: CharacterBuild[] }> {
+    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [characterId: string]: CharacterBuild[] }> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds`;
 
         const response = await fetchJSON(url, this, true);
@@ -241,19 +243,27 @@ class EnkaClient {
         return Object.fromEntries(Object.entries(data).map(([charId, builds]) => [charId, (builds as JsonObject[]).map(b => new CharacterBuild(b, this, username, hash))]));
     }
 
+    /**
+     * @param playableOnly Whether to omit test avatars and other non-playable characters
+     * @returns all character data
+     */
     getAllCharacters(playableOnly = true): CharacterData[] {
         return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").map(c => characterUtils.getCharactersById(c.id as number, this)).map(chars => chars.filter(c => !playableOnly || (playableOnly && c.isPlayable))).reduce((a, b) => [...a, ...b]);
     }
 
     /**
-     * @param id characterId
-     * @param skillDepotId Mostly for Travelers.
+     * @param id The id of the character
+     * @param skillDepotId Specifies one or zero elements for Traveler
      */
     getCharacterById(id: number | string, skillDepotId: number | string): CharacterData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new CharacterData(Number(id), this, Number(skillDepotId));
     }
 
+    /**
+     * @param excludeInvalidWeapons
+     * @returns all weapon data
+     */
     getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
         if (excludeInvalidWeapons) {
@@ -263,6 +273,9 @@ class EnkaClient {
         }
     }
 
+    /**
+     * @param id The id of the weapon
+     */
     getWeaponById(id: number | string): WeaponData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new WeaponData(Number(id), this);
@@ -270,34 +283,54 @@ class EnkaClient {
 
     /**
      * @param includeDefaults Whether to include default costumes
+     * @returns all costume data
      */
     getAllCostumes(includeDefaults = false): Costume[] {
         return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => !includeDefaults || (includeDefaults && c.isDefault)).map(c => new Costume(null, this, c));
     }
 
+    /**
+     * @param id The id of the costume
+     */
     getCostumeById(id: number | string): Costume {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new Costume(Number(id), this);
     }
 
+    /**
+     * @returns all material data
+     */
     getAllMaterials(): Material[] {
         return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(m => Material.getMaterialById(m.id as number, this, m));
     }
 
+    /**
+     * @param id The id of the material
+     */
     getMaterialById(id: number | string): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return Material.getMaterialById(Number(id), this);
     }
 
+    /**
+     * @returns all name card data
+     */
     getAllNameCards(): NameCard[] {
         return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(m => m.materialType === NameCard.MATERIAL_TYPE).map(n => new NameCard(n.id as number, this, n));
     }
 
+    /**
+     * @param id The id of the name card
+     */
     getNameCardById(id: number | string): NameCard {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new NameCard(Number(id), this);
     }
 
+    /**
+     * @param highestRarityOnly Whether to return only the rarest of artifacts of the same type
+     * @returns all artifact data
+     */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
         const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(s => s.DisableFilter === 1).map(s => s.setId);
 
@@ -317,16 +350,25 @@ class EnkaClient {
         return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1].id as number, this));
     }
 
+    /**
+     * @param id The id of the artifact
+     */
     getArtifactById(id: number | string): ArtifactData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new ArtifactData(Number(id), this);
     }
 
+    /**
+     * @returns all artifact set data
+     */
     getAllArtifactSets(): ArtifactSet[] {
         const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(s => s.DisableFilter !== 1);
         return sets.map(s => new ArtifactSet(s.setId as number, this, s));
     }
 
+    /**
+     * @param id The id of artifact set
+     */
     getArtifactSetById(id: number | string): ArtifactSet {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         return new ArtifactSet(Number(id), this);

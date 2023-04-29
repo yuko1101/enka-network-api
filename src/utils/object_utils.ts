@@ -1,5 +1,9 @@
 import { JsonObject } from "config_file.js";
 
+/**
+ * @param array
+ * @param callback
+ */
 export function separateByValue<T>(array: T[], callback: (element: T) => string): { [s: string]: T[] } {
     const result: { [s: string]: T[] } = {};
     for (const element of array) {
@@ -10,6 +14,10 @@ export function separateByValue<T>(array: T[], callback: (element: T) => string)
     return result;
 }
 
+/**
+ * @param obj
+ * @param newKeys
+ */
 export function renameKeys(obj: JsonObject, newKeys: { [from: string]: string }) {
     const keyValues = Object.keys(obj).map(key => {
         const newKey = newKeys[key] || key;

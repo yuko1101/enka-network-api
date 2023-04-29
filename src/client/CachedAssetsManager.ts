@@ -13,15 +13,18 @@ const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "
 
 let dataMemory: { [key: string]: JsonObject[] } = {};
 
-export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
 
 const initialLangDataMemory: LanguageMap = { chs: {}, cht: {}, de: {}, en: {}, es: {}, fr: {}, id: {}, jp: {}, kr: {}, pt: {}, ru: {}, th: {}, vi: {} };
 let langDataMemory: LanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
 
+/** @typedef */
+export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
+
 /**
  * @en LanguageCode
+ * @typedef
  */
 export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 
@@ -95,6 +98,9 @@ class CachedAssetsManager {
     _githubCache: ConfigFile | null;
     _isFetching: boolean;
 
+    /**
+     * @param enka
+    */
     constructor(enka: EnkaClient) {
         this.enka = enka;
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
@@ -107,6 +113,7 @@ class CachedAssetsManager {
         this._isFetching = false;
     }
 
+    /** Create the necessary folders and files, and if the directory [cacheDirectoryPath](#cacheDirectoryPath) did not exist, move the cache files from the default path. */
     async cacheDirectorySetup(): Promise<void> {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
@@ -139,6 +146,7 @@ class CachedAssetsManager {
         }
     }
 
+    /** Obtains a text map for a specific language, and if `store` is true, stores the data as a json file. */
     async fetchLanguageData(lang: LanguageCode, store = true) {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
@@ -148,8 +156,8 @@ class CachedAssetsManager {
     }
 
     /**
-     * Whether the game data update is available or not.
      * @param useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @returns Whether the game data update is available or not.
      */
     async checkForUpdates(useRawGenshinData = false): Promise<boolean> {
         await this.cacheDirectorySetup();
@@ -258,6 +266,9 @@ class CachedAssetsManager {
 
     }
 
+    /**
+     * @returns whether all genshin cache data files exist.
+     */
     hasAllContents(): boolean {
         for (const lang of languages) {
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`))) return false;
@@ -270,9 +281,9 @@ class CachedAssetsManager {
     }
 
     /**
-     * Returns true if there were any updates, false if there were no updates.
      * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
+     * @returns true if there were any updates, false if there were no updates.
      */
     async updateContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void> } = {}): Promise<void> {
         options = bindOptions({
@@ -328,6 +339,9 @@ class CachedAssetsManager {
         }, options.timeout);
     }
 
+    /**
+     * Disables the updater activated by [activateAutoCacheUpdater](#activateAutoCacheUpdater)
+     */
     deactivateAutoCacheUpdater(): void {
         if (this._cacheUpdater !== null) {
             clearInterval(this._cacheUpdater);
@@ -335,12 +349,17 @@ class CachedAssetsManager {
         }
     }
 
+    /**
+     * @param lang
+     * @returns text map file path for a specific language
+     */
     getLanguageDataPath(lang: LanguageCode): string {
         return path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`);
     }
 
     /**
      * @param name without extensions (.json)
+     * @returns excel bin file path
      */
     getJSONDataPath(name: string): string {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
@@ -356,6 +375,10 @@ class CachedAssetsManager {
         return dataMemory[name];
     }
 
+    /**
+     * @param lang
+     * @returns text map for a specific language
+     */
     getLanguageData(lang: LanguageCode): { [key: string]: string } {
         if (Object.keys(langDataMemory[lang]).length === 0) {
             langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
@@ -363,6 +386,9 @@ class CachedAssetsManager {
         return langDataMemory[lang];
     }
 
+    /**
+     * @returns ObjectKeysManager of this
+     */
     getObjectKeysManager(): ObjectKeysManager {
         if (!objectKeysManager) objectKeysManager = new ObjectKeysManager(this);
         return objectKeysManager;
@@ -395,9 +421,9 @@ class CachedAssetsManager {
 
 
     /**
-     * Remove all unused TextHashMaps
-     * @param data {AvatarExcelConfigData: [Object object], ManualTextMapConfigData: [Object object], ...}
-     * @param langsData {en: [Object object], jp: [Object object], ...}
+     * Remove all unused text map entries
+     * @param data
+     * @param langsData
      */
     removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): LanguageMap {
         const required: number[] = [];
@@ -490,6 +516,7 @@ class CachedAssetsManager {
     }
 
     /**
+     * Download the zip file, which contains genshin cache data, from {@link https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip}
      * @param options.ghproxy Whether to use ghproxy.com
      */
     async _downloadCacheZip(options: { ghproxy?: boolean } = {}): Promise<void> {

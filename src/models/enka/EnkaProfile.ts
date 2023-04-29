@@ -4,20 +4,33 @@ import EnkaUser from "./EnkaUser";
 import CharacterBuild from "./CharacterBuild";
 
 /**
- * The structure of the Enka.Network account
+ * The Enka.Network account
  * @en EnkaProfile
  */
 class EnkaProfile {
-    readonly _data: JsonObject;
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly username: string;
+    /**  */
     readonly bio: string;
+    /**  */
     readonly avatar: string | null;
+    /**  */
     readonly imageUrl: string | null;
+    /**  */
     readonly level: number;
+    /**  */
     readonly signupState: number;
+    /**  */
     readonly url: string;
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this._data = data;
@@ -41,14 +54,18 @@ class EnkaProfile {
         this.url = `${enka.options.enkaUrl}/u/${this.username}`;
     }
 
+    /**
+     * @returns the all game accounts added to the Enka.Network account
+     */
     async fetchAllEnkaUsers(): Promise<EnkaUser[]> {
         return await this.enka.fetchAllEnkaUsers(this.username);
     }
 
     /**
      * @param hash EnkaUser hash
+     * @returns the character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaUserBuilds(hash: string): Promise<{ [s: string]: CharacterBuild[] }> {
+    async fetchEnkaUserBuilds(hash: string): Promise<{ [characterId: string]: CharacterBuild[] }> {
         return await this.enka.fetchEnkaUserBuilds(this.username, hash);
     }
 

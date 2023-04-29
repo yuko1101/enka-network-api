@@ -5,24 +5,50 @@ import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import ArtifactSet from "./ArtifactSet";
 
+/**
+ * @typedef
+ * @example
+ * |EquipType|In-game Name|
+ * |---|---|
+ * |EQUIP_BRACER|Flower of Life|
+ * |EQUIP_NECKLACE|Plume of Death|
+ * |EQUIP_SHOES|Sands of Eon|
+ * |EQUIP_RING|Goblet of Eonothem|
+ * |EQUIP_DRESS|Circlet of Logos|
+ */
 export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
 
 /**
  * @en ArtifactData
  */
 class ArtifactData {
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly id: number;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly equipType: EquipType;
-    readonly _equipTypeData: JsonObject;
+    /**  */
     readonly equipTypeName: TextAssets;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly stars: number;
+    /**  */
     readonly set: ArtifactSet;
 
+    readonly _data: JsonObject;
+    readonly _equipTypeData: JsonObject;
+
+    /**
+     * @param id
+     * @param enka
+     * @param setData
+     */
     constructor(id: number, enka: EnkaClient, setData?: JsonObject) {
 
         this.enka = enka;
@@ -37,7 +63,6 @@ class ArtifactData {
 
         this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        /** Flower of Life, Plume of Death, Sands of Eon, Goblet of Eonothem, Circlet of Logos */
         this.equipType = this._data.equipType as EquipType;
 
         const _equipTypeData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.equipType);

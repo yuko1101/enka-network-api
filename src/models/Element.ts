@@ -7,11 +7,19 @@ import TextAssets from "./assets/TextAssets";
  * @en Element
  */
 class Element {
+    /**  */
     readonly id: ElementType;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: ElementType, enka: EnkaClient) {
 
         this.id = id;
@@ -30,6 +38,7 @@ export default Element;
 
 /**
  * @en ElementType
+ * @typedef
  * @example
  * |ElementType|In-game Name|
  * |---|---|

@@ -6,32 +6,52 @@ import TextAssets from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { LanguageCode } from "../../client/CachedAssetsManager";
 
-export type Birthday = {
-    month: number,
-    day: number,
-};
+/** @typedef */
+export interface Birthday {
+    month: number;
+    day: number;
+}
 
+/** @typedef */
 export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
 
+/** @typedef */
 export type CharacterVoices = { [lang in VoiceLanguage]: TextAssets };
 
 /**
  * @en CharacterDetails
  */
 class CharacterDetails {
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
-    readonly _nameId: string;
+    /**  */
     readonly id: number;
+    /** If the character is Traveler, this will be null */
     readonly birthday: Birthday | null;
+    /**  */
     readonly location: TextAssets;
+    /**  */
     readonly vision: TextAssets;
+    /**  */
     readonly constellation: TextAssets;
+    /**  */
     readonly constellationIcon: ImageAssets;
+    /**  */
     readonly title: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly cv: CharacterVoices;
 
+    readonly _data: JsonObject;
+    readonly _nameId: string;
+
+    /**
+     * @param id
+     * @param enka
+     * @param characterId
+     * @param isArchon
+     */
     constructor(id: number | null, enka: EnkaClient, characterId?: number, isArchon = false) {
         if (!id && !characterId) throw new Error("An id or character id must be provided.");
 
@@ -45,9 +65,6 @@ class CharacterDetails {
 
         this.id = id ?? this._data.fetterId as number;
 
-        /**
-         * If the character is Traveler, this will be null.
-         */
         this.birthday = (this._data.infoBirthMonth && this._data.infoBirthDay) ? { month: this._data.infoBirthMonth as number, day: this._data.infoBirthDay as number } : null;
 
         this.location = new TextAssets(this._data.avatarNativeTextMapHash as number, enka);
@@ -70,6 +87,9 @@ class CharacterDetails {
         };
     }
 
+    /**
+     * @param lang
+     */
     getCvByLanguage(lang: LanguageCode): TextAssets {
         lang ??= this.enka.options.defaultLanguage;
         switch (lang) {

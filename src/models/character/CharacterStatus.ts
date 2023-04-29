@@ -8,68 +8,139 @@ import Element from "../Element";
  * @en CharacterStatus
  */
 class CharacterStatus {
-    readonly _data: JsonObject;
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly healthBase: StatusProperty;
+    /**  */
     readonly healthFlat: StatusProperty;
+    /**  */
     readonly healthPercent: StatusProperty;
+    /**  */
     readonly attackBase: StatusProperty;
+    /**  */
     readonly attackFlat: StatusProperty;
+    /**  */
     readonly attackPercent: StatusProperty;
+    /**  */
     readonly defenseBase: StatusProperty;
+    /**  */
     readonly defenseFlat: StatusProperty;
+    /**  */
     readonly defensePercent: StatusProperty;
+    /**  */
     readonly speedBase: StatusProperty;
+    /**  */
     readonly speedPercent: StatusProperty;
+    /**  */
     readonly critRate: StatusProperty;
+    /**  */
     readonly critDamage: StatusProperty;
+    /**  */
     readonly chargeEfficiency: StatusProperty;
+    /**  */
     readonly healAdd: StatusProperty;
+    /**  */
     readonly healedAdd: StatusProperty;
+    /**  */
     readonly elementMastery: StatusProperty;
+    /**  */
     readonly physicalRes: StatusProperty;
+    /**  */
     readonly physicalDamage: StatusProperty;
+    /**  */
     readonly pyroDamage: StatusProperty;
+    /**  */
     readonly electroDamage: StatusProperty;
+    /**  */
     readonly hydroDamage: StatusProperty;
+    /**  */
     readonly dendroDamage: StatusProperty;
+    /**  */
     readonly anemoDamage: StatusProperty;
+    /**  */
     readonly geoDamage: StatusProperty;
+    /**  */
     readonly cryoDamage: StatusProperty;
+    /**  */
     readonly pyroRes: StatusProperty;
+    /**  */
     readonly electroRes: StatusProperty;
+    /**  */
     readonly hydroRes: StatusProperty;
+    /**  */
     readonly dendroRes: StatusProperty;
+    /**  */
     readonly anemoRes: StatusProperty;
+    /**  */
     readonly geoRes: StatusProperty;
+    /**  */
     readonly cryoRes: StatusProperty;
+    /**
+     * Element damage bonus which matches the character's element (Physical DMG ignored)
+     */
     readonly matchedElementDamage: StatusProperty | null;
+    /**
+     * Including physical damage bonus, and returns list of highest damage bonus.
+     * The order of the list is such that elemental matches come first.
+     */
     readonly highestDamageBonus: StatusProperty[];
+    /**  */
     readonly pyroEnergyCost: number;
+    /**  */
     readonly electroEnergyCost: number;
+    /**  */
     readonly hydroEnergyCost: number;
+    /**  */
     readonly dendroEnergyCost: number;
+    /**  */
     readonly anemoEnergyCost: number;
+    /**  */
     readonly cryoEnergyCost: number;
+    /**  */
     readonly geoEnergyCost: number;
+    /**  */
     readonly energyCost: number;
+    /**  */
     readonly cooldownReduction: StatusProperty;
+    /**  */
     readonly shieldStrength: StatusProperty;
+    /**  */
     readonly currentPyroEnergy: number;
+    /**  */
     readonly currentElectroEnergy: number;
+    /**  */
     readonly currentHydroEnergy: number;
+    /**  */
     readonly currentDendroEnergy: number;
+    /**  */
     readonly currentAnemoEnergy: number;
+    /**  */
     readonly currentCryoEnergy: number;
+    /**  */
     readonly currentGeoEnergy: number;
+    /**  */
     readonly currentEnergy: number;
+    /**  */
     readonly currentHealth: StatusProperty;
+    /**  */
     readonly maxHealth: StatusProperty;
+    /** The current attack of the character */
     readonly attack: StatusProperty;
+    /** The current defense of the character */
     readonly defense: StatusProperty;
+    /** The current speed of the character */
     readonly speed: StatusProperty;
+    /**  */
     readonly statusProperties: StatusProperty[];
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param data
+     * @param enka
+     * @param element
+     */
     constructor(data: JsonObject, enka: EnkaClient, element: Element) {
         this._data = data;
 
@@ -110,9 +181,6 @@ class CharacterStatus {
         this.geoRes = this.getStatusProperty(55);
         this.cryoRes = this.getStatusProperty(56);
 
-        /**
-         * Element damage bonus which matches the character's element. (Physical DMG ignored.)
-         */
         this.matchedElementDamage =
             element?.id === "Fire" ? this.pyroDamage :
                 element?.id === "Electric" ? this.electroDamage :
@@ -126,10 +194,6 @@ class CharacterStatus {
 
         const highestDamageBonusList = sortedDamageBonus.filter(d => d.value === sortedDamageBonus[0].value);
         if (highestDamageBonusList.length > 1) highestDamageBonusList.sort((a, b) => this.matchedElementDamage?.fightProp === a.fightProp ? -1 : this.matchedElementDamage?.fightProp === b.fightProp ? 1 : 0);
-        /**
-         * Including physical damage bonus, and returns list of highest damage bonus.
-         * The order of the list is such that elemental matches come first.
-         */
         this.highestDamageBonus = highestDamageBonusList;
 
         this.pyroEnergyCost = (data[70] ?? 0) as number;
@@ -174,16 +238,18 @@ class CharacterStatus {
         this.currentHealth = this.getStatusProperty(1010);
 
         this.maxHealth = this.getStatusProperty(2000);
-        /** Current Attack */
+
         this.attack = this.getStatusProperty(2001);
-        /** Current Defense */
         this.defense = this.getStatusProperty(2002);
-        /** Current Speed */
         this.speed = this.getStatusProperty(2003);
 
         this.statusProperties = Object.values(this).filter(value => value instanceof StatusProperty);
     }
 
+    /**
+     * @param id
+     * @param defaultValue
+     */
     getStatusProperty(id: number, defaultValue = 0): StatusProperty {
         return new StatusProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }

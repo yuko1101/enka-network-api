@@ -9,25 +9,36 @@ import { getNameIdByCharacterId } from "../../utils/character_utils";
  * @en Costume
  */
 class Costume {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly characterId: number;
+    /**  */
     readonly isDefault: boolean;
-    readonly _nameId: string;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly sideIcon: ImageAssets;
+    /**  */
     readonly splashImage: ImageAssets;
     /** This is null if the costume is default */
     readonly stars: number | null;
+    /**  */
     readonly cardIcon: ImageAssets;
+
+    readonly _data: JsonObject;
+    readonly _nameId: string;
 
     /**
      * @param id
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this is provided, use this instead of searching with `id`.
      */
     constructor(id: number | null, enka: EnkaClient, data?: JsonObject) {
 

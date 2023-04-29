@@ -9,15 +9,27 @@ import StatusProperty, { FightProp } from "../StatusProperty";
  * @en Constellation
  */
 class Constellation {
+    /**  */
     readonly id: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly name: TextAssets;
+    /**  */
     readonly description: TextAssets;
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly addProps: StatusProperty[];
+    /**  */
     readonly paramList: number[];
 
+    readonly _data: JsonObject;
+
+    /**
+     * @param id
+     * @param enka
+     */
     constructor(id: number, enka: EnkaClient) {
 
         this.id = id;

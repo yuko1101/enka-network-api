@@ -8,20 +8,28 @@ import StatusProperty, { FightProp } from "../StatusProperty";
  * @en CharacterAscension
  */
 class CharacterAscension {
+    /**  */
     readonly id: number;
+    /**  */
     readonly ascension: number;
+    /**  */
     readonly enka: EnkaClient;
-    readonly _data: JsonObject;
+    /**  */
     readonly unlockMaxLevel: number;
+    /**  */
     readonly requiredPlayerLevel: number;
+    /**  */
     readonly cost: UpgradeCost;
+    /**  */
     readonly addProps: StatusProperty[];
+
+    readonly _data: JsonObject;
 
     /**
      * @param id avatarPromoteId
      * @param ascension promoteLevel
      * @param enka
-     * @param data If `data` provided, use `data` instead of searching with `id`.
+     * @param data If this is provided, use this instead of searching with `id`.
      */
     constructor(id: number, ascension: number, enka: EnkaClient, data?: JsonObject) {
         this.id = id;

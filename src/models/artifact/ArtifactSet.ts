@@ -12,14 +12,25 @@ import ArtifactData from "./ArtifactData";
  * @en ArtifactSet
  */
 class ArtifactSet {
+    /**  */
     readonly enka: EnkaClient;
+    /**  */
     readonly id: number;
-    readonly _data: JsonObject;
-    readonly _setBonusData: JsonObject[];
+    /**  */
     readonly setBonus: ArtifactSetBonus[];
+    /**  */
     readonly icon: ImageAssets;
+    /**  */
     readonly name: TextAssets;
 
+    readonly _data: JsonObject;
+    readonly _setBonusData: JsonObject[];
+
+    /**
+     * @param id
+     * @param enka
+     * @param data
+     */
     constructor(id: number, enka: EnkaClient, data?: JsonObject) {
 
         this.enka = enka;
@@ -42,6 +53,9 @@ class ArtifactSet {
         this.name = new TextAssets(this._setBonusData[0].nameTextMapHash as number, enka);
     }
 
+    /**
+     * @param artifacts
+     */
     static getActiveSetBonus(artifacts: (Artifact | ArtifactData | ArtifactSet)[]): { set: ArtifactSet, count: number, activeBonus: ArtifactSetBonus[] }[] {
         const artifactSets = artifacts.map(a => (a instanceof ArtifactSet) ? a : (a instanceof ArtifactData) ? a.set : a.artifactData.set);
 
