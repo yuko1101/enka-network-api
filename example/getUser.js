@@ -22,7 +22,7 @@ async function run() {
             const value = stats.value * (stats.isPercent ? 100 : 1); // or just use stats.getFormattedValue()
             const fixed = stats.isPercent ? 1 : 0; // To what decimal place
             const suffix = stats.isPercent ? "%" : "";
-            return `- ${stats.type.get()}: ${value.toFixed(fixed)}${suffix}`;
+            return `- ${stats.fightPropName.get()}: ${value.toFixed(fixed)}${suffix}`;
         });
 
         console.log(`
@@ -31,6 +31,7 @@ async function run() {
         `.trim().split("\n").map(line => line.trim()).join("\n"));
     }
 
+    enka.close();
 }
 /* Example output
 Hu Tao - Lv.90/90
