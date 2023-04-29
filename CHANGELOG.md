@@ -1,3 +1,5 @@
+# 3.0.1
+- Fixed performance issue with text maps.
 # 3.0.0
 **This version includes Breaking Changes**
 - Rewrote the package in Typescript.

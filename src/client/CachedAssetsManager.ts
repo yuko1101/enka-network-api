@@ -14,11 +14,13 @@ const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "
 let dataMemory: { [key: string]: JsonObject[] } = {};
 
 
-const initialLangDataMemory: LanguageMap = { chs: {}, cht: {}, de: {}, en: {}, es: {}, fr: {}, id: {}, jp: {}, kr: {}, pt: {}, ru: {}, th: {}, vi: {} };
-let langDataMemory: LanguageMap = { ...initialLangDataMemory };
+const initialLangDataMemory: NullableLanguageMap = { chs: null, cht: null, de: null, en: null, es: null, fr: null, id: null, jp: null, kr: null, pt: null, ru: null, th: null, vi: null };
+let langDataMemory: NullableLanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
 
+/** @typedef */
+export type NullableLanguageMap = { [key in LanguageCode]: { [key: string]: string } | null };
 /** @typedef */
 export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
 
@@ -220,7 +222,7 @@ class CachedAssetsManager {
                 console.info("Downloading language files...");
             }
 
-            const langsData: LanguageMap = { ...initialLangDataMemory };
+            const langsData: NullableLanguageMap = { ...initialLangDataMemory };
             const langPromises = [];
             for (const lang of languages) {
                 langPromises.push(
@@ -240,7 +242,7 @@ class CachedAssetsManager {
                 console.info("Parsing data... (This may take more than 10 minutes)");
             }
 
-            const clearLangsData: LanguageMap = this.removeUnusedTextData(genshinData, langsData);
+            const clearLangsData: NullableLanguageMap = this.removeUnusedTextData(genshinData, langsData as LanguageMap);
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Parsing completed");
@@ -380,10 +382,8 @@ class CachedAssetsManager {
      * @returns text map for a specific language
      */
     getLanguageData(lang: LanguageCode): { [key: string]: string } {
-        if (Object.keys(langDataMemory[lang]).length === 0) {
-            langDataMemory[lang] = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
-        }
-        return langDataMemory[lang];
+        langDataMemory[lang] ??= JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
+        return langDataMemory[lang] ?? {};
     }
 
     /**
@@ -496,14 +496,14 @@ class CachedAssetsManager {
 
         if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`);
 
-        const clearLangsData: LanguageMap = { ...initialLangDataMemory };
+        const clearLangsData: NullableLanguageMap = { ...initialLangDataMemory };
 
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
             for (const key in langsData[lang]) {
                 if (requiredStringKeys.includes(key)) {
-                    clearLangsData[lang][key] = langsData[lang][key];
+                    (clearLangsData[lang] as JsonObject)[key] = langsData[lang][key];
                 }
             }
             // console.log(Object.keys(langData).length + " keys in " + lang);
@@ -512,7 +512,7 @@ class CachedAssetsManager {
 
         if (showLog) console.info("Removing unused keys completed.");
 
-        return clearLangsData;
+        return clearLangsData as LanguageMap;
     }
 
     /**
