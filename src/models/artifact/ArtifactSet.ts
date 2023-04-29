@@ -2,9 +2,8 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import ArtifactSetBonus from "./ArtifactSetBonus";
-import { separateByValue } from "../../utils/object_utils";
 import EnkaClient from "../../client/EnkaClient";
-import { JsonObject } from "config_file.js";
+import { JsonObject, separateByValue } from "config_file.js";
 import Artifact from "./Artifact";
 import ArtifactData from "./ArtifactData";
 

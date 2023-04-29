@@ -1,6 +1,5 @@
 import User from "../models/User";
 import UserNotFoundError from "../errors/UserNotFoundError";
-import { bindOptions, generateUuid } from "../utils/options_utils";
 import * as characterUtils from "../utils/character_utils";
 import CachedAssetsManager from "./CachedAssetsManager";
 import CharacterData from "../models/character/CharacterData";
@@ -11,7 +10,6 @@ import { NameCard } from "../models/material/Material";
 import EnkaNetworkError from "../errors/EnkaNetworkError";
 import ArtifactData from "../models/artifact/ArtifactData";
 import { artifactRarityRangeMap } from "../utils/constants";
-import { separateByValue } from "../utils/object_utils";
 import DetailedUser from "../models/DetailedUser";
 import EnkaUser from "../models/enka/EnkaUser";
 import EnkaProfile from "../models/enka/EnkaProfile";
@@ -20,7 +18,7 @@ import Material from "../models/material/Material";
 import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonObject } from "config_file.js";
+import { JsonObject, bindOptions, generateUuid, separateByValue } from "config_file.js";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;

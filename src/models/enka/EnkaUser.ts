@@ -1,5 +1,4 @@
-import { JsonObject } from "config_file.js";
-import { renameKeys } from "../../utils/object_utils";
+import { JsonObject, renameKeys } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import User from "../User";
 import CharacterBuild from "./CharacterBuild";

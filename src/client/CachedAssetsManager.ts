@@ -2,10 +2,8 @@ import fs from "fs";
 import path from "path";
 import { Axios } from "axios";
 import unzipper from "unzipper";
-import { ConfigFile, JsonArray, JsonObject, isJsonObject } from "config_file.js";
-import { bindOptions } from "../utils/options_utils";
+import { ConfigFile, JsonArray, JsonObject, isJsonObject, bindOptions, move } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
-import { move } from "../utils/file_utils";
 import ObjectKeysManager from "./ObjectKeysManager";
 import EnkaClient from "./EnkaClient";
 
