@@ -19,7 +19,7 @@ import { WeaponType } from "../weapon/WeaponData";
 /** @typedef */
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
 /** @typedef */
-export type Rarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
+export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
 /** @typedef */
 export type Gender = "MALE" | "FEMALE";
 
@@ -54,7 +54,7 @@ class CharacterData {
     /** This will be null if the character is Traveler */
     readonly nameCard: NameCard | null;
     /**  */
-    readonly rarity: Rarity;
+    readonly rarity: CharacterRarity;
     /**  */
     readonly stars: number;
     /**  */
@@ -132,7 +132,7 @@ class CharacterData {
 
         this.nameCard = nameCardData ? new NameCard(nameCardData.id as number, enka, nameCardData) : null;
 
-        this.rarity = this._data.qualityType as Rarity;
+        this.rarity = this._data.qualityType as CharacterRarity;
 
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 

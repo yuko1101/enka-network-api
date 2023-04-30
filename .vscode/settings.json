@@ -18,6 +18,7 @@
         "pyro",
         "Substat",
         "Substats",
+        "typedefs",
         "unzipper",
         "yuko"
     ]

@@ -1,3 +1,6 @@
+# 3.0.3
+- Renamed typedef Rarity to CharacterRarity.
+- Export more objects. (Such as typedefs, functions and constants.)
 # 3.0.2
 - Fixed some images did not exist.
 - Use regex instead of prefix to determine the image base url.

@@ -44,6 +44,7 @@ import Element from "./models/Element";
 import StatusProperty from "./models/StatusProperty";
 import User from "./models/User";
 
+// classes
 export {
     EnkaClient,
     CachedAssetsManager,
@@ -90,3 +91,24 @@ export {
     Element,
     User,
 };
+
+// typedefs
+export { LanguageCode, LanguageMap, NullableLanguageMap } from "./client/CachedAssetsManager";
+export { EnkaClientOptions } from "./client/EnkaClient";
+export { SubstatsContainer } from "./models/artifact/Artifact";
+export { EquipType } from "./models/artifact/ArtifactData";
+export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
+export { Birthday, CharacterVoices, VoiceLanguage } from "./models/character/CharacterDetails";
+export { GameServerRegion } from "./models/enka/EnkaUser";
+export { ItemType } from "./models/material/Material";
+export { WeaponType } from "./models/weapon/WeaponData";
+export { ElementType } from "./models/Element";
+export { FightProp } from "./models/StatusProperty";
+export { CharacterPreview } from "./models/User";
+
+// functions
+export { fetchJSON } from "./utils/axios_utils";
+export { getCharactersById, getNameIdByCharacterId, hasEnergySkill, isReleased } from "./utils/character_utils";
+
+// constants
+export { artifactRarityRangeMap, fightProps, percent } from "./utils/constants";
