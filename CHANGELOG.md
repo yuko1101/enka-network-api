@@ -1,3 +1,5 @@
+# 3.0.3
+- Export all (including typedefs) from all files.
 # 3.0.2
 - Fixed some images did not exist.
 - Use regex instead of prefix to determine the image base url.
