@@ -1,3 +1,6 @@
+# 3.0.2
+- Fixed some images did not exist.
+- Use regex instead of prefix to determine the image base url.
 # 3.0.1
 - Fixed performance issue with text maps.
 # 3.0.0
