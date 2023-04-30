@@ -32,7 +32,7 @@ const userCacheMap = new Map();
 export interface EnkaClientOptions {
     enkaUrl: string;
     defaultImageBaseUrl: string;
-    imageBaseUrlByPrefix: { [prefix: string]: string };
+    imageBaseUrlByRegex: { [url: string]: RegExp[] };
     userAgent: string;
     timeout: number;
     defaultLanguage: LanguageCode;
@@ -60,9 +60,9 @@ class EnkaClient {
         this.options = bindOptions({
             "enkaUrl": "https://enka.network",
             "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
-            "imageBaseUrlByPrefix": {
-                "UI_Costume_": "https://enka.network/ui",
-                "Eff_UI_Talent_": "https://res.cloudinary.com/genshin/image/upload/sprites",
+            "imageBaseUrlByRegex": {
+                "https://enka.network/ui": [/^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side)_/, /^UI_AvatarIcon_(.+)_Card$/, /^UI_EquipIcon_(.+)_Awaken$/],
+                "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
             },
             "userAgent": "Mozilla/5.0",
             "timeout": 3000,
