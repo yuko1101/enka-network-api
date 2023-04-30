@@ -55,8 +55,8 @@ class ArtifactData {
 
         this.id = id;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(a => a.id === id);
-        if (!_data) throw new AssetsNotFoundError("Artifact", id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(a => a.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Artifact", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);

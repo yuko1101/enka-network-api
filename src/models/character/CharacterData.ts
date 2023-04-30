@@ -101,8 +101,8 @@ class CharacterData {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id);
-        if (!_data) throw new AssetsNotFoundError("Character", id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Character", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
@@ -138,7 +138,7 @@ class CharacterData {
 
         const keysManager = enka.cachedAssetsManager.getObjectKeysManager();
 
-        this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[keysManager.costumeCharacterIdKey] === id); // Previous key of "jsonName"
+        this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[keysManager.costumeCharacterIdKey] === this.id); // Previous key of "jsonName"
 
         this.costumes = this._costumeData.map(c => new Costume(null, enka, c));
 
@@ -178,7 +178,7 @@ class CharacterData {
         this.constellations = (this._skillData.talents as number[]).filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
 
 
-        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === id) ?? null;
+        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === this.id) ?? null;
 
         this.releasedAt = this._releaseData ? new Date(`${this._releaseData.beginTime}+8:00`) : null;
 

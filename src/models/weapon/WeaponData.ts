@@ -48,8 +48,8 @@ class WeaponData {
 
         this.id = id;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(w => w.id === id);
-        if (!_data) throw new AssetsNotFoundError("Weapon", id);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(w => w.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Weapon", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);

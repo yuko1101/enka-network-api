@@ -32,8 +32,8 @@ class Skill {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === id);
-        if (!_data) throw new AssetsNotFoundError("Skill", id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Skill", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);

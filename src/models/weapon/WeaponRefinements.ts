@@ -26,7 +26,7 @@ class WeaponRefinements {
         this.enka = enka;
 
 
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === id).sort((a, b) => (a.level as number) - (b.level as number));
+        this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === this.id).sort((a, b) => (a.level as number) - (b.level as number));
 
         this.refinements = this._data.map(r => new WeaponRefinement(r, enka));
 

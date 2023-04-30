@@ -200,7 +200,7 @@ class CachedAssetsManager {
                 console.info("Downloading structure data files...");
             }
 
-            const promises = [];
+            const promises: Promise<void>[] = [];
             const genshinData: { [s: string]: JsonArray } = {};
             for (const content of contents) {
                 const fileName = `${content}.json`;
@@ -221,7 +221,7 @@ class CachedAssetsManager {
             }
 
             const langsData: NullableLanguageMap = { ...initialLangDataMemory };
-            const langPromises = [];
+            const langPromises: Promise<void>[] = [];
             for (const lang of languages) {
                 langPromises.push(
                     (async () => {

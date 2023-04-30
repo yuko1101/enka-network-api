@@ -26,8 +26,8 @@ class Element {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === id);
-        if (!_data) throw new AssetsNotFoundError("Element", id);
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.id);
+        if (!_data) throw new AssetsNotFoundError("Element", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.textMapContentTextMapHash as number, enka);

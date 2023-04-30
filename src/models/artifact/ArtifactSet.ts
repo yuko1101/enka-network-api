@@ -36,14 +36,14 @@ class ArtifactSet {
 
         this.id = (data?.setId ?? id) as number;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").find(s => s.setId === id);
-        if (!_data) throw new AssetsNotFoundError("ArtifactSet", id);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").find(s => s.setId === this.id);
+        if (!_data) throw new AssetsNotFoundError("ArtifactSet", this.id);
         this._data = _data;
 
         this._setBonusData = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(bonus => bonus.id === this._data.EquipAffixId);
 
         if (this._setBonusData.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${this._data.EquipAffixId}`);
-        if (this._setBonusData.length !== (this._data.setNeedNum as number[]).length) throw new Error(`Missing some set bonus for this artifact set (ID: ${id})`);
+        if (this._setBonusData.length !== (this._data.setNeedNum as number[]).length) throw new Error(`Missing some set bonus for this artifact set (ID: ${this.id})`);
 
         this.setBonus = (this._data.setNeedNum as number[]).map((n, i) => new ArtifactSetBonus(n, this._setBonusData[i], enka));
 

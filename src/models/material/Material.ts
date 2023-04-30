@@ -42,8 +42,8 @@ class Material {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === id);
-        if (!_data) throw new AssetsNotFoundError("Material", id);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Material", this.id);
         this._data = _data;
 
         this.name = new TextAssets(this._data.nameTextMapHash as number, enka);

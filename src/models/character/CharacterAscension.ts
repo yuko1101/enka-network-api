@@ -38,8 +38,8 @@ class CharacterAscension {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").find(a => a.avatarPromoteId === id && (a.promoteLevel ?? 0) === ascension);
-        if (!_data) throw new AssetsNotFoundError("CharacterAscension", `${id}-${ascension}`);
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").find(a => a.avatarPromoteId === this.id && (a.promoteLevel ?? 0) === ascension);
+        if (!_data) throw new AssetsNotFoundError("CharacterAscension", `${this.id}-${ascension}`);
         this._data = _data;
 
         this.unlockMaxLevel = this._data.unlockMaxLevel as number;

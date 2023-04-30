@@ -36,12 +36,12 @@ export interface EnkaClientOptions {
     userAgent: string;
     timeout: number;
     defaultLanguage: LanguageCode;
-    cacheDirectory: string;
+    cacheDirectory: string | null;
     showFetchCacheLog: boolean;
     storeUserCache: boolean;
-    userCacheGetter: (key: string) => Promise<JsonObject>;
-    userCacheSetter: (key: string, data: JsonObject) => Promise<void>;
-    userCacheDeleter: (key: string) => Promise<void>;
+    userCacheGetter: ((key: string) => Promise<JsonObject>) | null;
+    userCacheSetter: ((key: string, data: JsonObject) => Promise<void>) | null;
+    userCacheDeleter: ((key: string) => Promise<void>) | null;
 }
 
 /**
