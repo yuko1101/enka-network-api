@@ -7,7 +7,7 @@ import UpgradableSkill from "./talents/UpgradableSkill";
 import NormalAttack from "./talents/NormalAttack";
 import ElementalSkill from "./talents/ElementalSkill";
 import ElementalBurst from "./talents/ElementalBurst";
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import Costume from "./Costume";
 import Constellation from "./Constellation";
@@ -62,6 +62,8 @@ class Character {
 
         this._data = data;
 
+        const json = new JsonManager(this._data, true);
+
         this.characterData = new CharacterData(data.avatarId as number, enka, data.skillDepotId as number | undefined);
 
         this.costume = (data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
@@ -84,7 +86,7 @@ class Character {
 
         this.stamina = Number(propMap[10010]?.val ?? 10000) / 100;
 
-        this.friendship = ((data.fetterInfo as JsonObject | undefined)?.expLevel ?? 1) as number;
+        this.friendship = json.get("fetterInfo").getAs<number | undefined>("expLevel") ?? 1;
 
         this.unlockedConstellations = this.characterData.constellations.filter(c => ((data.talentIdList ?? []) as number[]).includes(c.id));
 
@@ -93,7 +95,7 @@ class Character {
             if (!skill || !(skill instanceof UpgradableSkill)) return null;
 
             const base = value;
-            const extra = ((data.proudSkillExtraLevelMap as JsonObject)?.[skill._data.proudSkillGroupId as number] ?? 0) as number;
+            const extra = json.get("proudSkillExtraLevelMap").getAs<number | undefined>((skill._data.proudSkillGroupId as number).toString()) ?? 0;
 
             return {
                 skill,
