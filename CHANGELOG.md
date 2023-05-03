@@ -1,3 +1,5 @@
+# 3.0.4
+- Made skillDepotId optional on EnkaClient#getCharacterById (#33)
 # 3.0.3
 - Renamed typedef Rarity to CharacterRarity.
 - Export more objects. (Such as typedefs, functions and constants.)
