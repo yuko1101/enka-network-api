@@ -257,9 +257,9 @@ class EnkaClient {
      * @param id The id of the character
      * @param skillDepotId Specifies one or zero elements for Traveler
      */
-    getCharacterById(id: number | string, skillDepotId: number | string): CharacterData {
+    getCharacterById(id: number | string, skillDepotId?: number | string): CharacterData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new CharacterData(Number(id), this, Number(skillDepotId));
+        return new CharacterData(Number(id), this, skillDepotId ? Number(skillDepotId) : undefined);
     }
 
     /**
