@@ -504,14 +504,15 @@ class CachedAssetsManager {
 
         const clearLangsData: NullableLanguageMap = { ...initialLangDataMemory };
 
+        const keyCount = requiredStringKeys.length;
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
-            const keyCount = requiredStringKeys.length;
             for (let i = 0; i < keyCount; i++) {
                 const key = requiredStringKeys[i];
-                if (langsData[lang][key]) {
-                    (clearLangsData[lang] as JsonObject)[key] = langsData[lang][key];
+                const text = langsData[lang][key];
+                if (text) {
+                    (clearLangsData[lang] as JsonObject)[key] = text;
                 } else {
                     // console.warn(`Required key ${key} was not found in language ${lang}.`);
                 }
