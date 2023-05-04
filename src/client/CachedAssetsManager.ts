@@ -426,15 +426,23 @@ class CachedAssetsManager {
     removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): LanguageMap {
         const required: number[] = [];
 
-        required.push(...textMapWhiteList);
+        function push(...keys: number[]) {
+            const len = keys.length;
+            for (let i = 0; i < len; i++) {
+                const key = keys[i];
+                if (!required.includes(key)) required.push(key);
+            }
+        }
+
+        push(...textMapWhiteList);
 
         data["AvatarExcelConfigData"].forEach(c => {
             if (!isJsonObject(c)) return;
-            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
+            push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
         data["FetterInfoExcelConfigData"].forEach(c => {
             if (!isJsonObject(c)) return;
-            required.push(
+            push(
                 c.avatarNativeTextMapHash as number,
                 c.avatarVisionBeforTextMapHash as number,
                 c.avatarConstellationAfterTextMapHash as number,
@@ -451,43 +459,43 @@ class CachedAssetsManager {
             if (!isJsonObject(m)) return;
             const id = m.textMapId as string;
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
-            required.push(m.textMapContentTextMapHash as number);
+            push(m.textMapContentTextMapHash as number);
         });
         data["ReliquaryExcelConfigData"].forEach(a => {
             if (!isJsonObject(a)) return;
-            required.push(a.nameTextMapHash as number, a.descTextMapHash as number);
+            push(a.nameTextMapHash as number, a.descTextMapHash as number);
         });
         data["EquipAffixExcelConfigData"].forEach(s => {
             if (!isJsonObject(s)) return;
-            required.push(s.nameTextMapHash as number, s.descTextMapHash as number);
+            push(s.nameTextMapHash as number, s.descTextMapHash as number);
         });
         data["AvatarTalentExcelConfigData"].forEach(c => {
             if (!isJsonObject(c)) return;
-            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
+            push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
         data["AvatarCostumeExcelConfigData"].forEach(c => {
             if (!isJsonObject(c)) return;
-            required.push(c.nameTextMapHash as number, c.descTextMapHash as number);
+            push(c.nameTextMapHash as number, c.descTextMapHash as number);
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
             if (!isJsonObject(p)) return;
-            required.push(p.nameTextMapHash as number, p.descTextMapHash as number, ...(p.paramDescList ?? []) as number[]);
+            push(p.nameTextMapHash as number, p.descTextMapHash as number, ...(p.paramDescList ?? []) as number[]);
         });
         data["AvatarSkillExcelConfigData"].forEach(s => {
             if (!isJsonObject(s)) return;
-            required.push(s.nameTextMapHash as number, s.descTextMapHash as number);
+            push(s.nameTextMapHash as number, s.descTextMapHash as number);
         });
         data["WeaponExcelConfigData"].forEach(w => {
             if (!isJsonObject(w)) return;
-            required.push(w.nameTextMapHash as number, w.descTextMapHash as number);
+            push(w.nameTextMapHash as number, w.descTextMapHash as number);
         });
         data["EquipAffixExcelConfigData"].forEach(r => {
             if (!isJsonObject(r)) return;
-            required.push(r.nameTextMapHash as number, r.descTextMapHash as number);
+            push(r.nameTextMapHash as number, r.descTextMapHash as number);
         });
         data["MaterialExcelConfigData"].forEach(m => {
             if (!isJsonObject(m)) return;
-            required.push(m.nameTextMapHash as number, m.descTextMapHash as number);
+            push(m.nameTextMapHash as number, m.descTextMapHash as number);
         });
 
         const requiredStringKeys = required.filter(key => key).map(key => key.toString());
@@ -499,9 +507,11 @@ class CachedAssetsManager {
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
-            for (const key in langsData[lang]) {
-                if (requiredStringKeys.includes(key)) {
+            for (const key in requiredStringKeys) {
+                if (langsData[lang][key]) {
                     (clearLangsData[lang] as JsonObject)[key] = langsData[lang][key];
+                } else {
+                    console.warn(`Required key ${key} was not found in language ${lang}.`);
                 }
             }
             // console.log(Object.keys(langData).length + " keys in " + lang);
