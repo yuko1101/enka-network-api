@@ -237,7 +237,7 @@ class CachedAssetsManager {
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Downloaded all language files");
-                console.info("Parsing data... (This may take more than 10 minutes)");
+                console.info("Parsing data...");
             }
 
             const clearLangsData: NullableLanguageMap = this.removeUnusedTextData(genshinData, langsData as LanguageMap);
@@ -507,11 +507,13 @@ class CachedAssetsManager {
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
-            for (const key in requiredStringKeys) {
+            const keyCount = requiredStringKeys.length;
+            for (let i = 0; i < keyCount; i++) {
+                const key = requiredStringKeys[i];
                 if (langsData[lang][key]) {
                     (clearLangsData[lang] as JsonObject)[key] = langsData[lang][key];
                 } else {
-                    console.warn(`Required key ${key} was not found in language ${lang}.`);
+                    // console.warn(`Required key ${key} was not found in language ${lang}.`);
                 }
             }
             // console.log(Object.keys(langData).length + " keys in " + lang);
