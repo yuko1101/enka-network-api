@@ -1,3 +1,5 @@
+# 3.0.5
+- Added CachedAssetsManager#_validateCache for cache validation.
 # 3.0.4
 - Made skillDepotId optional on EnkaClient#getCharacterById ([#33](https://github.com/yuko1101/enka-network-api/pull/33))
 # 3.0.3
