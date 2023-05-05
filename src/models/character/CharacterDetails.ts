@@ -36,7 +36,7 @@ class CharacterDetails {
     readonly constellation: TextAssets;
     /**  */
     readonly constellationIcon: ImageAssets;
-    /**  */
+    /** Travelers do not have this */
     readonly title: TextAssets;
     /**  */
     readonly description: TextAssets;

@@ -6,6 +6,7 @@ import { ConfigFile, JsonArray, JsonObject, isJsonObject, bindOptions, move } fr
 import { fetchJSON } from "../utils/axios_utils";
 import ObjectKeysManager from "./ObjectKeysManager";
 import EnkaClient from "./EnkaClient";
+import { validateCache } from "../utils/cache_utils";
 
 const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
@@ -562,6 +563,14 @@ class CachedAssetsManager {
         } else {
             throw new Error(`Failed to download genshin data from ${url} with status ${res.status} - ${res.statusText}`);
         }
+    }
+
+    /**
+     * @param showLog
+     * @returns whether the cache is valid or not
+     */
+    _validateCache(showLog = true): boolean {
+        return validateCache(this.enka, showLog);
     }
 }
 
