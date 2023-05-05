@@ -108,6 +108,7 @@ export { CharacterPreview } from "./models/User";
 
 // functions
 export { fetchJSON } from "./utils/axios_utils";
+export { validateCache } from "./utils/cache_utils";
 export { getCharactersById, getNameIdByCharacterId, hasEnergySkill, isReleased } from "./utils/character_utils";
 
 // constants
