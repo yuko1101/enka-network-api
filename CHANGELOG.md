@@ -2,6 +2,8 @@
 **This version includes Breaking Changes**
 - Removed `playableOnly` param from EnkaClient#getAllCharacters.
 - Removed CharacterData#isPlayable.
+# 3.0.5
+**This version includes small Breaking Changes**
 - Made EnkaUser#uid, EnkaUser#verificationCode, EnkaUser#verificationExpires, and EnkaUser#verificationCodeRetries nullable.
 - Made Material#stars nullable.
 - Added CachedAssetsManager#_validateCache for cache validation.
