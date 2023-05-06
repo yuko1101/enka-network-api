@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import Material from "./Material";
 import EnkaClient from "../../client/EnkaClient";
 
@@ -23,11 +23,13 @@ class UpgradeCost {
 
         this.coin = coinCost;
 
-        this.items = costItems.map(cost => {
-            if (!cost.id) return null;
+        const itemsJson = new JsonManager(costItems, true, true);
+
+        this.items = itemsJson.map(cost => {
+            if (!cost.has("id")) return null;
             return {
-                material: Material.getMaterialById(cost.id as number, enka),
-                count: cost.count as number,
+                material: Material.getMaterialById(cost.getAsNumber("id"), enka),
+                count: cost.getAsNumber("count"),
             };
         }).filter(cost => cost !== null).map(cost => cost as NonNullable<typeof cost>);
 

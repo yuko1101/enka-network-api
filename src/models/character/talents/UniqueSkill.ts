@@ -1,3 +1,4 @@
+import { JsonManager } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
@@ -19,9 +20,11 @@ class UniqueSkill extends UpgradableSkill {
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 
-        this.maxCharge = (this._data.maxChargeNum ?? 1) as number;
+        const json = new JsonManager(this._data, true, true);
 
-        this.cooldown = this._data.cdTime as number;
+        this.maxCharge = json.has("maxChargeNum") ? json.getAsNumber("maxChargeNum") : 1;
+
+        this.cooldown = json.getAsNumber("cdTime");
 
     }
 }

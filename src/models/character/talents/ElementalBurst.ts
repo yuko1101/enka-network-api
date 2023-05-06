@@ -1,3 +1,4 @@
+import { JsonManager } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import Element, { ElementType } from "../../Element";
 import UniqueSkill from "./UniqueSkill";
@@ -19,9 +20,11 @@ class ElementalBurst extends UniqueSkill {
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 
-        this.costElemType = new Element(this._data.costElemType as ElementType, enka);
+        const json = new JsonManager(this._data, true, true);
 
-        this.costElemVal = this._data.costElemVal as number;
+        this.costElemType = new Element(json.getAsString("costElemType") as ElementType, enka);
+
+        this.costElemVal = json.getAsNumber("costElemVal");
 
     }
 }

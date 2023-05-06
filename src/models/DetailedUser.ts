@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import Character from "./character/Character";
 import User from "./User";
@@ -16,14 +16,15 @@ class DetailedUser extends User {
     /**
      * @param data
      * @param enka
-     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
-        super(data, enka, uid);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
 
-        this.showCharacterDetails = !!data.avatarInfoList;
+        const json = new JsonManager(data, true, true);
 
-        this.characters = (data.avatarInfoList as JsonObject[] | undefined)?.map(a => new Character(a, enka)) ?? [];
+        this.showCharacterDetails = json.has("avatarInfoList");
+
+        this.characters = json.has("avatarInfoList") ? json.get("avatarInfoList").map(p => new Character(p.getAsJsonObject(), enka)) : [];
 
     }
 }

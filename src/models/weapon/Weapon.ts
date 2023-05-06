@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import StatusProperty, { FightProp } from "../StatusProperty";
 import WeaponData from "./WeaponData";
@@ -39,26 +39,26 @@ class Weapon {
 
         this._data = data;
 
+        const json = new JsonManager(this._data, true, true);
 
-        this.weaponData = new WeaponData(data.itemId as number, enka);
+        this.weaponData = new WeaponData(json.getAsNumber("itemId"), enka);
+        const weaponDataJson = new JsonManager(this.weaponData._data, true, true);
 
-        const weapon = data.weapon as JsonObject;
+        const weapon = json.get("weapon");
 
-        this.refinement = this.weaponData.refinements[((weapon.affixMap as JsonObject | undefined)?.[(this.weaponData._data.skillAffix as number[])[0]] ?? 0) as number] ?? null;
+        this.refinementRank = (weapon.get("affixMap", `${weaponDataJson.get("skillAffix", 0).getAsNumber()}`).getAsNumber() ?? 0) + 1;
 
-        this.refinementRank = this.refinement?.level ?? 1;
+        this.refinement = this.weaponData.refinements[this.refinementRank - 1] ?? null;
 
-        this.level = weapon.level as number;
+        this.level = weapon.getAsNumber("level") as number;
 
-        this.ascension = (weapon.promoteLevel ?? 0) as number;
+        this.ascension = weapon.has("promoteLevel") ? weapon.getAsNumber("promoteLevel") : 0;
 
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
         this.isAwaken = this.ascension >= 2;
 
-        const flat = data.flat as JsonObject;
-
-        this.weaponStats = (flat.weaponStats as JsonObject[]).map(obj => new StatusProperty(obj.appendPropId as FightProp, obj.statValue as number, enka, true));
+        this.weaponStats = json.get("flat", "weaponStats").map(p => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true));
 
     }
 }

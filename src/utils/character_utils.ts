@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import CharacterData from "../models/character/CharacterData";
 
@@ -7,11 +7,11 @@ import CharacterData from "../models/character/CharacterData";
  * @param enka
  */
 export function getCharactersById(id: number, enka: EnkaClient): CharacterData[] {
-    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === id) as JsonObject;
-    if (data.candSkillDepotIds && (data.candSkillDepotIds as number[]).length > 0) {
-        return (data.candSkillDepotIds as number[]).filter(skillDepotId => hasEnergySkill(skillDepotId, enka)).map(skillDepotId => new CharacterData(id, enka, skillDepotId));
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(p => p.getAsNumber("id") === id) as JsonManager;
+    if (data.has("candSkillDepotIds") && (data.get("candSkillDepotIds").map(p => p.getAsNumber())).length > 0) {
+        return data.get("candSkillDepotIds").filter(skillDepotId => hasEnergySkill(skillDepotId.getAsNumber(), enka)).map(skillDepotId => new CharacterData(id, enka, skillDepotId.getAsNumber()));
     } else {
-        if (!hasEnergySkill(data.skillDepotId as number, enka)) return [];
+        if (!hasEnergySkill(data.getAsNumber("skillDepotId"), enka)) return [];
         return [new CharacterData(id, enka)];
     }
 }
@@ -21,8 +21,8 @@ export function getCharactersById(id: number, enka: EnkaClient): CharacterData[]
  * @param enka
  */
 export function hasEnergySkill(skillDepotId: number, enka: EnkaClient): boolean {
-    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === skillDepotId) as JsonObject;
-    return !!data.energySkill;
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(p => p.getAsNumber("id") === skillDepotId) as JsonManager;
+    return data.has("energySkill");
 }
 
 /**
@@ -30,8 +30,8 @@ export function hasEnergySkill(skillDepotId: number, enka: EnkaClient): boolean 
  * @param enka
  */
 export function isReleased(characterId: number, enka: EnkaClient): boolean {
-    const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === characterId) as JsonObject;
-    return !!releaseData || enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").map(t => t.avatarId).includes(characterId);
+    const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(p => p.getAsNumber("avatarId") === characterId);
+    return releaseData !== undefined || enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").map(p => p.getAsNumber("avatarId")).includes(characterId);
 }
 
 /**
@@ -39,6 +39,6 @@ export function isReleased(characterId: number, enka: EnkaClient): boolean {
  * @param enka
  */
 export function getNameIdByCharacterId(characterId: number, enka: EnkaClient): string {
-    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === characterId) as JsonObject;
-    return (data.iconName as string).slice("UI_AvatarIcon_".length);
+    const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(p => p.getAsNumber("id") === characterId) as JsonManager;
+    return data.getAsString("iconName").slice("UI_AvatarIcon_".length);
 }

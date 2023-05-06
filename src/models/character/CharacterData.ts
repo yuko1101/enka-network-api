@@ -12,7 +12,7 @@ import { NameCard } from "../material/Material";
 import CharacterDetails from "./CharacterDetails";
 import CharacterAscension from "./CharacterAscension";
 import EnkaClient from "../../client/EnkaClient";
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import Element from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
 
@@ -77,8 +77,6 @@ class CharacterData {
     readonly constellations: Constellation[];
     /** This will be null if the character is not (being) released character, like Travelers and test avatars */
     readonly releasedAt: Date | null;
-    /** Whether the character is playable or not */
-    readonly isPlayable: boolean;
     /**  */
     readonly isArchon: boolean;
     /** Information in the profile menu in in-game character screen */
@@ -101,25 +99,25 @@ class CharacterData {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(c => c.id === this.id);
-        if (!_data) throw new AssetsNotFoundError("Character", this.id);
-        this._data = _data;
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").find(p => p.getAsNumber("id") === this.id);
+        if (!json) throw new AssetsNotFoundError("Character", this.id);
+        this._data = json.getAsJsonObject();
 
-        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.bodyType = this._data.bodyType as BodyType;
+        this.bodyType = json.getAsString("bodyType") as BodyType;
 
-        this.weaponType = this._data.weaponType as WeaponType;
+        this.weaponType = json.getAsString("weaponType") as WeaponType;
 
         this.gender = this.bodyType === "BODY_MALE" || this.bodyType === "BODY_BOY" ? "MALE" : "FEMALE";
 
-        this._nameId = (this._data.iconName as string).slice("UI_AvatarIcon_".length);
+        this._nameId = json.getAsString("iconName").slice("UI_AvatarIcon_".length);
 
-        this.icon = new ImageAssets(this._data.iconName as string, enka);
+        this.icon = new ImageAssets(json.getAsString("iconName"), enka);
 
-        this.sideIcon = new ImageAssets(this._data.sideIconName as string, enka);
+        this.sideIcon = new ImageAssets(json.getAsString("sideIconName"), enka);
 
         this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
@@ -128,36 +126,36 @@ class CharacterData {
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
         // TODO: better find
-        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.materialType === "MATERIAL_NAMECARD" && (m.picPath as string[])[0] && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test((m.picPath as string[])[0]));
+        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(p => p.has("materialType") && p.getAsString("materialType") === "MATERIAL_NAMECARD" && p.get("picPath").has(0) && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(p.get("picPath", 0).getAsString()));
+        this.nameCard = nameCardData ? new NameCard(nameCardData.getAsNumber("id"), enka, nameCardData) : null;
 
-        this.nameCard = nameCardData ? new NameCard(nameCardData.id as number, enka, nameCardData) : null;
-
-        this.rarity = this._data.qualityType as CharacterRarity;
+        this.rarity = json.getAsString("qualityType") as CharacterRarity;
 
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
         const keysManager = enka.cachedAssetsManager.getObjectKeysManager();
 
-        this._costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(c => c[keysManager.costumeCharacterIdKey] === this.id); // Previous key of "jsonName"
+        const costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(p => p.getAsNumber(keysManager.costumeCharacterIdKey) === this.id); // Previous key of "jsonName"
+        this._costumeData = costumeData.map(p => p.getAsJsonObject());
 
-        this.costumes = this._costumeData.map(c => new Costume(null, enka, c));
+        this.costumes = costumeData.map(p => new Costume(null, enka, p));
 
 
-        this.skillDepotId = candSkillDepotId || this._data.skillDepotId as number;
+        this.skillDepotId = candSkillDepotId || json.getAsNumber("skillDepotId");
 
-        const _skillData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(s => s.id === this.skillDepotId);
-        if (!_skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
-        this._skillData = _skillData;
+        const skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").find(p => p.getAsNumber("id") === this.skillDepotId);
+        if (!skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
+        this._skillData = skillData.getAsJsonObject();
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
-        // `elementalBurst` and `element` cannot be retrieved.
-        const hasElement = this._skillData.energySkill;
+        // `elementalBurst`, `elementalSkill`, and `element` cannot be retrieved.
+        const hasElement = skillData.has("energySkill");
 
-        this.elementalBurst = hasElement ? new ElementalBurst(this._skillData.energySkill as number, enka) : null;
+        this.elementalBurst = hasElement ? new ElementalBurst(skillData.getAsNumber("energySkill"), enka) : null;
 
         this.element = this.elementalBurst?.costElemType ?? null;
 
-        const _skills = (this._skillData.skills as number[]).map((skillId, index) => {
+        const _skills = skillData.get("skills").map(p => p.getAsNumber()).map((skillId, index) => {
             if (!skillId) return null;
             if (index === 0) return new NormalAttack(skillId, enka);
             if (index === 1) return new ElementalSkill(skillId, enka);
@@ -172,19 +170,18 @@ class CharacterData {
         this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
 
 
-        this.passiveTalents = (this._skillData.inherentProudSkillOpens as JsonObject[]).filter(p => Object.keys(p).includes("proudSkillGroupId")).map(p => new PassiveTalent(p.proudSkillGroupId as number * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
+        this.passiveTalents = skillData.get("inherentProudSkillOpens").filter(p => p.has("proudSkillGroupId")).map(p => new PassiveTalent(p.getAsNumber("proudSkillGroupId") * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
 
 
-        this.constellations = (this._skillData.talents as number[]).filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
+        this.constellations = skillData.get("talents").map(p => p.getAsNumber()).filter(cId => cId !== 0).map(cId => new Constellation(cId, enka));
 
 
-        this._releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(r => r.avatarId === this.id) ?? null;
+        const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").find(p => p.getAsNumber("avatarId") === this.id) ?? null;
+        this._releaseData = releaseData?.getAsJsonObject() ?? null;
 
-        this.releasedAt = this._releaseData ? new Date(`${this._releaseData.beginTime}+8:00`) : null;
+        this.releasedAt = releaseData ? new Date(`${releaseData.getAsString("beginTime")}+8:00`) : null;
 
-        this.isPlayable = this._data.useType === "AVATAR_FORMAL";
-
-        const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").map(a => a.avatarId);
+        const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").map(p => p.getAsNumber("avatarId"));
 
         this.isArchon = archonsIds.includes(this.id);
 
@@ -216,7 +213,7 @@ class CharacterData {
      * @param ascension ascension level (0-6)
      */
     getAscensionData(ascension: number): CharacterAscension {
-        return new CharacterAscension(this._data.avatarPromoteId as number, ascension, this.enka);
+        return new CharacterAscension(new JsonManager(this._data).getAsNumber("avatarPromoteId"), ascension, this.enka);
     }
 }
 

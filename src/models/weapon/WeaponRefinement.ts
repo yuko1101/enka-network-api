@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import TextAssets from "../assets/TextAssets";
 import StatusProperty, { FightProp } from "../StatusProperty";
 import EnkaClient from "../../client/EnkaClient";
@@ -31,15 +31,17 @@ class WeaponRefinement {
 
         this.enka = enka;
 
-        this.level = (data.level ?? 0) as number + 1;
+        const json = new JsonManager(this._data, true, true);
 
-        this.name = new TextAssets(data.nameTextMapHash as number, enka);
+        this.level = (json.has("level") ? json.getAsNumber("level") : 0) + 1;
 
-        this.description = new TextAssets(data.descTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.addProps = (data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType as FightProp, p.value as number, enka));
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.paramList = data.paramList as number[];
+        this.addProps = json.get("addProps").filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+
+        this.paramList = json.get("paramList").map(p => p.getAsNumber());
     }
 }
 

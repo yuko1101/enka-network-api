@@ -40,17 +40,20 @@ class Artifact {
 
         this._data = data;
 
-        const json = new JsonManager(this._data, true);
+        const json = new JsonManager(this._data, true, true);
 
-        this.artifactData = new ArtifactData(json.getAs<number>("itemId"), enka);
+        const flat = json.get("flat").detach();
+        const reliquary = json.get("reliquary").detach();
 
-        this.level = json.get("reliquary").getAs<number>("level");
+        this.artifactData = new ArtifactData(json.getAsNumber("itemId"), enka);
 
-        this.mainstat = new StatusProperty(json.get("flat", "reliquaryMainstat").getAs<FightProp>("mainPropId"), json.get("flat", "reliquaryMainstat").getAs<number>("statValue"), enka, true);
+        this.level = reliquary.getAsNumber("level");
+
+        this.mainstat = new StatusProperty(flat.get("reliquaryMainstat").getAsString("mainPropId") as FightProp, flat.get("reliquaryMainstat").getAsNumber("statValue"), enka, true);
 
         this.substats = {
-            total: json.get("flat").getAs<JsonObject[] | undefined>("reliquarySubstats")?.map(obj => new StatusProperty(obj.appendPropId as FightProp, obj.statValue as number, enka, true)) ?? [],
-            split: json.get("reliquary").getAs<number[] | undefined>("appendPropIdList")?.map(id => new ArtifactSplitSubstat(id, enka)) ?? [],
+            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").map(p => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
+            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.map(id => new ArtifactSplitSubstat(id.getAsNumber(), enka)) : [],
         };
 
     }

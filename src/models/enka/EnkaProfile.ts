@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import EnkaUser from "./EnkaUser";
 import CharacterBuild from "./CharacterBuild";
@@ -37,19 +37,21 @@ class EnkaProfile {
 
         this.enka = enka;
 
-        this.username = data.username as string;
+        const json = new JsonManager(this._data, true, true);
 
-        const profile = data.profile as JsonObject;
+        this.username = json.getAsString("username");
 
-        this.bio = profile.bio as string;
+        const profile = json.get("profile");
 
-        this.avatar = profile.avatar as string | null;
+        this.bio = profile.getAsString("bio");
 
-        this.imageUrl = (profile.image_url ?? null) as string | null;
+        this.avatar = profile.getAsNullableString("avatar");
 
-        this.level = profile.level as number;
+        this.imageUrl = profile.has("image_url") ? profile.getAsString("image_url") : null;
 
-        this.signupState = profile.signup_state as number;
+        this.level = profile.getAsNumber("level");
+
+        this.signupState = profile.getAsNumber("signup_state");
 
         this.url = `${enka.options.enkaUrl}/u/${this.username}`;
     }
