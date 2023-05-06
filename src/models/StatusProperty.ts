@@ -32,11 +32,11 @@ class StatusProperty {
 
         this.enka = enka;
 
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === fightProp);
-        if (!propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
-        this._propData = propData.getAsJsonObject();
+        const _propData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === fightProp);
+        if (!_propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
+        this._propData = _propData;
 
-        this.fightPropName = new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka);
+        this.fightPropName = new TextAssets(this._propData.textMapContentTextMapHash as number, enka);
 
         this.isPercent = percent.includes(fightProp);
 
@@ -63,8 +63,8 @@ class StatusProperty {
      * @param enka
      */
     static getFightPropTextAssets(fightProp: FightProp, enka: EnkaClient): TextAssets | null {
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === fightProp);
-        return propData ? new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka) : null;
+        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === fightProp);
+        return propData ? new TextAssets(propData.textMapContentTextMapHash as number, enka) : null;
     }
 }
 

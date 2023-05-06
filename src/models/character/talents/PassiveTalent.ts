@@ -38,19 +38,19 @@ class PassiveTalent {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.getAsNumber("proudSkillId") === this.id)?.detach();
-        if (!json) throw new AssetsNotFoundError("Talent", this.id);
-        this._data = json.getAsJsonObject();
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.proudSkillId === this.id);
+        if (!_data) throw new AssetsNotFoundError("Talent", this.id);
+        this._data = _data;
 
-        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        this.icon = new ImageAssets(json.getAsString("icon"), enka);
+        this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        this.addProps = json.get("addProps").detach().filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType as FightProp, p.value as number, enka));
 
-        this.isHidden = json.has(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) ? json.getAsBoolean(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) : false;
+        this.isHidden = !!this._data[enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey];
     }
 }
 

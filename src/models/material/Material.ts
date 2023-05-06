@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -28,7 +28,7 @@ class Material {
     /**  */
     readonly materialType: string | null;
     /**  */
-    readonly stars: number | null;
+    readonly stars: number;
 
     readonly _data: JsonObject;
 
@@ -37,28 +37,28 @@ class Material {
      * @param enka
      * @param data If this provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
         this.id = id;
 
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(p => p.getAsNumber("id") === this.id);
-        if (!json) throw new AssetsNotFoundError("Material", this.id);
-        this._data = json.getAsJsonObject();
+        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Material", this.id);
+        this._data = _data;
 
-        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        this.icon = new ImageAssets(json.getAsString("icon"), enka);
+        this.icon = new ImageAssets(this._data.icon as string, enka);
 
-        this.pictures = json.get("picPath").map(name => new ImageAssets(name.getAsString(), enka));
+        this.pictures = (this._data.picPath as string[]).map(name => new ImageAssets(name, enka));
 
-        this.itemType = json.getAsString("itemType") as ItemType;
+        this.itemType = this._data.itemType as ItemType;
 
-        this.materialType = json.has("materialType") ? json.getAsString("materialType") : null;
+        this.materialType = (this._data.materialType ?? null) as string | null;
 
-        this.stars = json.has("rankLevel") ? json.getAsNumber("rankLevel") : null;
+        this.stars = this._data.rankLevel as number;
     }
 
     /**
@@ -66,13 +66,13 @@ class Material {
      * @param enka
      * @param data If this provided, use this instead of searching with `id`.
      */
-    static getMaterialById(id: number | string, enka: EnkaClient, data?: JsonManager): Material {
+    static getMaterialById(id: number | string, enka: EnkaClient, data?: JsonObject): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         id = Number(id);
-        const materialData = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(p => p.getAsNumber("id") === id);
+        const materialData = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").find(m => m.id === id);
         if (!materialData) throw new AssetsNotFoundError("Material", id);
 
-        switch (materialData.has("materialType") ? materialData.getAsString("materialType") : null) {
+        switch (materialData.materialType) {
             case NameCard.MATERIAL_TYPE:
                 return new NameCard(id, enka, materialData);
             default:
@@ -96,7 +96,7 @@ class NameCard extends Material {
      * @param enka
      * @param data If this provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
         super(id, enka, data);
         this.materialType = "MATERIAL_NAMECARD";
     }

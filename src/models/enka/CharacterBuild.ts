@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonObject } from "config_file.js";
 import Character from "../character/Character";
 import EnkaClient from "../../client/EnkaClient";
 
@@ -42,19 +42,17 @@ class CharacterBuild {
 
         this.enkaUserInfo = { username: username, hash: hash };
 
-        const json = new JsonManager(this._data, true, true);
+        this.id = data.id as number;
 
-        this.id = json.getAsNumber("id");
+        this.name = data.name as string;
 
-        this.name = json.getAsString("name");
+        this.order = data.order as number;
 
-        this.order = json.getAsNumber("order");
+        this.isLive = data.live as boolean;
 
-        this.isLive = json.getAsBoolean("live");
+        this.isPublic = data.public as boolean;
 
-        this.isPublic = json.getAsBoolean("public");
-
-        this.character = new Character(json.getAsJsonObject("avatar_data"), enka);
+        this.character = new Character(data.avatar_data as JsonObject, enka);
 
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}`;
     }

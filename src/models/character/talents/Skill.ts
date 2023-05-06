@@ -32,15 +32,15 @@ class Skill {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(p => p.getAsNumber("id") === this.id)?.detach();
-        if (!json) throw new AssetsNotFoundError("Skill", this.id);
-        this._data = json.getAsJsonObject();
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(s => s.id === this.id);
+        if (!_data) throw new AssetsNotFoundError("Skill", this.id);
+        this._data = _data;
 
-        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
+        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
 
-        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
+        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
 
-        this.icon = new ImageAssets(json.getAsString("skillIcon"), enka);
+        this.icon = new ImageAssets(this._data.skillIcon as string, enka);
     }
 }
 

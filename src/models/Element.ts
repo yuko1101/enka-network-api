@@ -26,11 +26,11 @@ class Element {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.id);
-        if (!json) throw new AssetsNotFoundError("Element", this.id);
-        this._data = json.getAsJsonObject();
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.id);
+        if (!_data) throw new AssetsNotFoundError("Element", this.id);
+        this._data = _data;
 
-        this.name = new TextAssets(json.getAsNumber("textMapContentTextMapHash"), enka);
+        this.name = new TextAssets(this._data.textMapContentTextMapHash as number, enka);
     }
 }
 

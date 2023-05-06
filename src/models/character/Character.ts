@@ -62,44 +62,40 @@ class Character {
 
         this._data = data;
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonManager(this._data, true);
 
-        this.characterData = new CharacterData(json.getAsNumber("avatarId"), enka, json.has("skillDepotId") ? json.getAsNumber("skillDepotId") : undefined);
+        this.characterData = new CharacterData(data.avatarId as number, enka, data.skillDepotId as number | undefined);
 
-        this.costume = (json.has("costumeId") ? this.characterData.costumes.find(c => c.id === json.getAsNumber("costumeId")) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
+        this.costume = (data.costumeId ? this.characterData.costumes.find(c => c.id === data.costumeId) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 
-        this.artifacts = json.get("equipList").detach().filter(item => item.has("reliquary")).map(artifact => new Artifact(artifact.getAsJsonObject(), enka));
+        this.artifacts = (data.equipList as JsonObject[]).filter(item => Object.keys(item).includes("reliquary")).map(artifact => new Artifact(artifact, enka));
 
-        this.weapon = new Weapon(json.get("equipList").detach().find(item => item.has("weapon"))?.getAsJsonObject() as JsonObject, enka);
+        this.weapon = new Weapon((data.equipList as JsonObject[]).find(item => Object.keys(item).includes("weapon")) as JsonObject, enka);
 
-        this.status = new CharacterStatus(json.getAsJsonObject("fightPropMap"), enka, this.characterData.element as Element);
+        this.status = new CharacterStatus(data.fightPropMap as JsonObject, enka, this.characterData.element as Element);
 
-        const propMap = json.get("propMap").detach();
+        const propMap = data.propMap as { [key: string]: JsonObject };
 
-        this.level = Number(propMap.has("4001", "val") ? propMap.get("4001", "val").getAsString() : 0);
+        this.level = Number(propMap[4001]?.val ?? 0);
 
-        this.xp = Number(propMap.has("1001", "val") ? propMap.get("1001", "val").getAsString() : 0);
+        this.xp = Number(propMap[1001]?.val ?? 0);
 
-        this.ascension = Number(propMap.has("1002", "val") ? propMap.get("1002", "val").getAsString() : 0);
+        this.ascension = Number(propMap[1002]?.val ?? 0);
 
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
-        this.stamina = Number(propMap.has("10010", "val") ? propMap.get("10010", "val").getAsString() : 10000) / 100;
+        this.stamina = Number(propMap[10010]?.val ?? 10000) / 100;
 
-        const fetterInfo = json.get("fetterInfo");
-        this.friendship = fetterInfo.has("expLevel") ? fetterInfo.getAsNumber("expLevel") : 1;
+        this.friendship = json.get("fetterInfo").getAs<number | undefined>("expLevel") ?? 1;
 
-        this.unlockedConstellations = this.characterData.constellations.filter(c => (json.has("talentIdList") ? json.get("talentIdList").map(p => p.getAsNumber()) : []).includes(c.id));
+        this.unlockedConstellations = this.characterData.constellations.filter(c => ((data.talentIdList ?? []) as number[]).includes(c.id));
 
-        this.skillLevels = json.get("skillLevelMap").map(p => [p.route.slice(-1)[0], p.getAsNumber()] as [string, number]).map(([key, value]) => {
+        this.skillLevels = Object.entries(data.skillLevelMap as { [key: string]: number }).map(([key, value]) => {
             const skill = this.characterData.skills.find(s => s.id.toString() === key);
             if (!skill || !(skill instanceof UpgradableSkill)) return null;
 
             const base = value;
-
-            const proudSkillExtraLevelMap = json.get("proudSkillExtraLevelMap");
-            const proudSkillGroupId: string = new JsonManager(skill._data, true, true).getAsNumber("proudSkillGroupId").toString();
-            const extra = proudSkillExtraLevelMap.has(proudSkillGroupId) ? proudSkillExtraLevelMap.getAsNumber(proudSkillGroupId) : 0;
+            const extra = json.get("proudSkillExtraLevelMap").getAs<number | undefined>((skill._data.proudSkillGroupId as number).toString()) ?? 0;
 
             return {
                 skill,
@@ -110,7 +106,7 @@ class Character {
             return getScore(a.skill) - getScore(b.skill);
         });
 
-        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (json.has("inherentProudSkillList") ? json.get("inherentProudSkillList").map(e => e.getAsNumber()) : []).includes(p.id));
+        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => ((data.inherentProudSkillList ?? []) as number[]).includes(p.id));
 
     }
 }

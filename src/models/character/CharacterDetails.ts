@@ -57,33 +57,33 @@ class CharacterDetails {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.getAsNumber("fetterId") === id) || f.getAsNumber("avatarId") === characterId);
-        if (!json) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
-        this._data = json.getAsJsonObject();
+        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.fetterId === id) || f.avatarId === characterId);
+        if (!_data) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
+        this._data = _data;
 
-        this._nameId = getNameIdByCharacterId(json.getAsNumber("avatarId"), enka);
+        this._nameId = getNameIdByCharacterId(this._data.avatarId as number, enka);
 
-        this.id = id ?? json.getAsNumber("fetterId");
+        this.id = id ?? this._data.fetterId as number;
 
-        this.birthday = (json.has("infoBirthMonth") && json.has("infoBirthDay")) ? { month: json.getAsNumber("infoBirthMonth"), day: json.getAsNumber("infoBirthDay") } : null;
+        this.birthday = (this._data.infoBirthMonth && this._data.infoBirthDay) ? { month: this._data.infoBirthMonth as number, day: this._data.infoBirthDay as number } : null;
 
-        this.location = new TextAssets(json.getAsNumber("avatarNativeTextMapHash"), enka);
+        this.location = new TextAssets(this._data.avatarNativeTextMapHash as number, enka);
 
-        this.vision = new TextAssets(json.getAsNumber("avatarVisionBeforTextMapHash"), enka);
+        this.vision = new TextAssets(this._data.avatarVisionBeforTextMapHash as number, enka);
 
-        this.constellation = new TextAssets(isArchon ? json.getAsNumber("avatarConstellationAfterTextMapHash") : json.getAsNumber("avatarConstellationBeforTextMapHash"), enka);
+        this.constellation = new TextAssets((isArchon ? this._data.avatarConstellationAfterTextMapHash : this._data.avatarConstellationBeforTextMapHash) as number, enka);
 
         this.constellationIcon = new ImageAssets(`Eff_UI_Talent_${this._nameId}`, enka);
 
-        this.title = new TextAssets(json.getAsNumber("avatarTitleTextMapHash"), enka);
+        this.title = new TextAssets(this._data.avatarTitleTextMapHash as number, enka);
 
-        this.description = new TextAssets(json.getAsNumber("avatarDetailTextMapHash"), enka);
+        this.description = new TextAssets(this._data.avatarDetailTextMapHash as number, enka);
 
         this.cv = {
-            chinese: new TextAssets(json.getAsNumber("cvChineseTextMapHash"), enka),
-            japanese: new TextAssets(json.getAsNumber("cvJapaneseTextMapHash"), enka),
-            english: new TextAssets(json.getAsNumber("cvEnglishTextMapHash"), enka),
-            korean: new TextAssets(json.getAsNumber("cvKoreanTextMapHash"), enka),
+            chinese: new TextAssets(this._data.cvChineseTextMapHash as number, enka),
+            japanese: new TextAssets(this._data.cvJapaneseTextMapHash as number, enka),
+            english: new TextAssets(this._data.cvEnglishTextMapHash as number, enka),
+            korean: new TextAssets(this._data.cvKoreanTextMapHash as number, enka),
         };
     }
 

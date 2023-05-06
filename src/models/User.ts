@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonObject } from "config_file.js";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import EnkaProfile from "./enka/EnkaProfile";
@@ -43,7 +43,7 @@ class User {
         floor: number,
         chamber: number,
     } | null;
-    /** This will be -1 if this User is from EnkaUser */
+    /**  */
     readonly ttl: number;
     /**  */
     readonly enkaProfile: EnkaProfile | null;
@@ -57,58 +57,57 @@ class User {
     /**
      * @param data
      * @param enka
+     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet)
     */
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
         this.enka = enka;
 
         this._data = data;
 
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
-        const json = new JsonManager(this._data, true, true);
+        this.uid = isNaN(Number(data.uid)) && uid ? Number(uid) : Number(data.uid);
 
-        this.uid = Number(json.getAs<number | string>("uid"));
+        const playerInfo = data.playerInfo as JsonObject;
 
-        const playerInfo = json.get("playerInfo");
+        this.nickname = (playerInfo.nickname ?? null) as string | null;
 
-        this.nickname = playerInfo.has("nickname") ? playerInfo.getAsString("nickname") : null;
+        this.signature = (playerInfo.signature ?? null) as string | null;
 
-        this.signature = playerInfo.has("signature") ? playerInfo.getAsString("signature") : null;
+        const profilePicture = playerInfo.profilePicture as JsonObject | undefined;
+        this.profilePictureCharacter = profilePicture?.avatarId ? new CharacterData(profilePicture.avatarId as number, enka) : null;
 
-        const profilePicture = playerInfo.get("profilePicture");
-        this.profilePictureCharacter = profilePicture.has("avatarId") ? new CharacterData(profilePicture.getAsNumber("avatarId"), enka) : null;
+        this.charactersPreview = playerInfo.showAvatarInfoList ? (playerInfo.showAvatarInfoList as JsonObject[]).map(obj => {
+            const characterData = new CharacterData(obj.avatarId as number, enka);
 
-        this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").map(p => {
-            const characterData = new CharacterData(p.getAsNumber("avatarId"), enka);
-
-            const costume = p.has("costumeId") ? new Costume(p.getAsNumber("costumeId"), enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
+            const costume = obj["costumeId"] ? new Costume(obj["costumeId"] as number, enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
 
             const preview: CharacterPreview = {
                 characterData,
-                level: p.getAsNumber("level"),
+                level: obj.level as number,
                 costume,
             };
 
             return preview;
         }) : [];
 
-        this.nameCards = playerInfo.has("showNameCardIdList") ? playerInfo.get("showNameCardIdList").map(id => new NameCard(id.getAsNumber(), enka)) : [];
+        this.nameCards = playerInfo.showNameCardIdList ? (playerInfo.showNameCardIdList as number[]).map(id => new NameCard(id, enka)) : [];
 
-        this.level = playerInfo.getAsNumber("level");
+        this.level = playerInfo.level as number;
 
-        this.worldLevel = playerInfo.has("worldLevel") ? playerInfo.getAsNumber("worldLevel") : 0;
+        this.worldLevel = (playerInfo.worldLevel ?? 0) as number;
 
-        this.profileCard = new NameCard(playerInfo.getAsNumber("nameCardId"), enka);
+        this.profileCard = new NameCard(playerInfo.nameCardId as number, enka);
 
-        this.achievements = playerInfo.has("finishAchievementNum") ? playerInfo.getAsNumber("finishAchievementNum") : 0;
+        this.achievements = (playerInfo.finishAchievementNum ?? 0) as number;
 
-        this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? { floor: playerInfo.getAsNumber("towerFloorIndex"), chamber: playerInfo.getAsNumber("towerLevelIndex") } : null;
+        this.spiralAbyss = playerInfo.towerFloorIndex && playerInfo.towerLevelIndex ? { floor: playerInfo.towerFloorIndex as number, chamber: playerInfo.towerLevelIndex as number } : null;
 
-        this.ttl = json.has("ttl") ? json.getAsNumber("ttl") : -1;
+        this.ttl = data.ttl as number;
 
-        this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner"), enka) : null;
+        this.enkaProfile = data.owner ? new EnkaProfile(data.owner as JsonObject, enka) : null;
 
-        this.enkaUserHash = json.has("owner") ? json.get("owner").getAsString("hash") : null;
+        this.enkaUserHash = ((data.owner as JsonObject | undefined)?.hash ?? null) as string | null;
 
         this.url = `${enka.options.enkaUrl}/u/${this.uid}`;
     }

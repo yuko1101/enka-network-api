@@ -1,4 +1,4 @@
-import { PathResolver } from "config_file.js";
+import { JsonObject } from "config_file.js";
 import CachedAssetsManager from "./CachedAssetsManager";
 
 /**
@@ -19,25 +19,23 @@ class ObjectKeysManager {
      */
     constructor(cachedAssetsManager: CachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
-        const jeanCostume = costumeData.find(p => p.getAsString("jsonName") === "Avatar_Lady_Sword_QinCostumeSea") as PathResolver;
-        const dilucCostume = costumeData.find(p => p.getAsString("jsonName") === "Avatar_Male_Claymore_DilucCostumeFlamme") as PathResolver;
+        const jeanCostume = costumeData.find(c => c.jsonName === "Avatar_Lady_Sword_QinCostumeSea") as JsonObject;
+        const dilucCostume = costumeData.find(c => c.jsonName === "Avatar_Male_Claymore_DilucCostumeFlamme") as JsonObject;
 
-        this.costumeIdKey = jeanCostume.find(p => p.getValue() === 200301)?.route.slice(-1)[0] as string;
-        this.costumeCharacterIdKey = jeanCostume.find(p => p.getValue() === 10000003)?.route.slice(-1)[0] as string;
-        this.costumeStarKey = jeanCostume.find(p => p.getValue() === 4 && dilucCostume.getValue(p?.route.slice(-1)[0] as string) === 5)?.route.slice(-1)[0] as string;
+        this.costumeIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 200301) as string;
+        this.costumeCharacterIdKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 10000003) as string;
+        this.costumeStarKey = Object.keys(jeanCostume).find(key => jeanCostume[key] === 4 && dilucCostume[key] === 5) as string;
 
         const talentData = cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData");
-        const raidenCannotCookTalent = talentData.find(p => p.getValue("proudSkillId") === 522301) as PathResolver;
+        const raidenCannotCookTalent = talentData.find(talent => talent.proudSkillId === 522301) as JsonObject;
 
-        const candidatesForTalentIsHiddenKey = raidenCannotCookTalent.filter(p => p.getValue() === true);
+        const candidatesForTalentIsHiddenKey = Object.keys(raidenCannotCookTalent).filter(key => raidenCannotCookTalent[key] === true);
         if (candidatesForTalentIsHiddenKey.length > 1) {
             console.warn(`[ObjectKeysManager] Detected ${candidatesForTalentIsHiddenKey.length} keys for talentIsHiddenKey`);
         }
 
-        this.talentIsHiddenKey = candidatesForTalentIsHiddenKey[0]?.route.slice(-1)[0] as string;
+        this.talentIsHiddenKey = candidatesForTalentIsHiddenKey[0];
 
-        const invalidKeys = Object.entries(this).filter(entry => entry[1] === undefined).map(entry => entry[0]);
-        if (invalidKeys.length > 0) throw new Error(`Invalid keys detected: ${invalidKeys.join(", ")}`);
     }
 }
 

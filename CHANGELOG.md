@@ -1,11 +1,5 @@
-# 3.1.0
-**This version includes Breaking Changes**
-- Removed `playableOnly` param from EnkaClient#getAllCharacters.
-- Removed CharacterData#isPlayable.
-- Made EnkaUser#uid, EnkaUser#verificationCode, EnkaUser#verificationExpires, and EnkaUser#verificationCodeRetries nullable.
-- Made Material#stars nullable.
+# 3.0.5
 - Added CachedAssetsManager#_validateCache for cache validation.
-- Safer type assertions.
 # 3.0.4
 - Made skillDepotId optional on EnkaClient#getCharacterById ([#33](https://github.com/yuko1101/enka-network-api/pull/33))
 # 3.0.3

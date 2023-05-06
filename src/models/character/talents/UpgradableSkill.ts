@@ -1,4 +1,4 @@
-import { JsonManager } from "config_file.js";
+import { JsonObject } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
 import TextAssets from "../../assets/TextAssets";
@@ -22,17 +22,15 @@ class UpgradableSkill extends Skill {
      * @param level
      */
     getSkillAttributes(level: number): SkillAttributeAssets[] {
-        const proudSkillGroupId = new JsonManager(this._data, true, true).getAsNumber("proudSkillGroupId");
+        const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return [];
 
-        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.detach();
+        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
         if (!leveledSkillData) return [];
 
-        const paramDescList = leveledSkillData.has("paramDescList") ? leveledSkillData.get("paramDescList").detach().map(p => p.getAsNumber()) : undefined;
+        if (!leveledSkillData.paramDescList) return [];
 
-        if (!paramDescList) return [];
-
-        return paramDescList.map(id => {
+        return (leveledSkillData.paramDescList as number[]).map(id => {
             // TODO: better filter
             try {
                 new TextAssets(id, this.enka).get("en");
@@ -40,7 +38,7 @@ class UpgradableSkill extends Skill {
                 return null;
             }
 
-            return new SkillAttributeAssets(id, this.enka, leveledSkillData.has("paramList") ? leveledSkillData.get("paramList").detach().map(p => p.getAsNumber()) : []);
+            return new SkillAttributeAssets(id, this.enka, leveledSkillData.paramList as number[]);
         }).filter(attr => attr !== null).map(attr => attr as NonNullable<typeof attr>);
     }
 
@@ -48,13 +46,13 @@ class UpgradableSkill extends Skill {
      * @param level the base level you want to upgrade to. (Do not add extra levels.)
      */
     getUpgradeCost(level: number): UpgradeCost | null {
-        const proudSkillGroupId = new JsonManager(this._data, true, true).getAsNumber("proudSkillGroupId");
+        const proudSkillGroupId = this._data.proudSkillGroupId;
         if (!proudSkillGroupId) return null;
 
-        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.detach();
+        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(s => s.proudSkillGroupId === proudSkillGroupId && s.level === level);
         if (!leveledSkillData) return null;
 
-        return new UpgradeCost(leveledSkillData.has("coinCost") ? leveledSkillData.getAsNumber("coinCost") : 0, leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").detach().map(p => p.getAsJsonObject()) : [], this.enka);
+        return new UpgradeCost((leveledSkillData.coinCost ?? 0) as number, (leveledSkillData.costItems ?? []) as JsonObject[], this.enka);
     }
 }
 

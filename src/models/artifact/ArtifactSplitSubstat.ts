@@ -15,12 +15,12 @@ class ArtifactSplitSubstat extends StatusProperty {
      * @param enka
      */
     constructor(id: number, enka: EnkaClient) {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(p => p.getAsNumber("id") === id)?.detach();
-        if (!json) throw new AssetsNotFoundError("Artifact Substat", id);
+        const data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(a => a.id === id);
+        if (!data) throw new AssetsNotFoundError("Artifact Substat", id);
 
-        super(json.getAsString("propType") as FightProp, json.getAsNumber("propValue"), enka);
+        super(data.propType as FightProp, data.propValue as number, enka);
 
-        this._data = json.getAsJsonObject();
+        this._data = data;
     }
 }
 

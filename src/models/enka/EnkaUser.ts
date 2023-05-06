@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject, renameKeys } from "config_file.js";
+import { JsonObject, renameKeys } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import User from "../User";
 import CharacterBuild from "./CharacterBuild";
@@ -20,7 +20,7 @@ class EnkaUser {
     /**  */
     readonly user: User;
     /**  */
-    readonly uid: number | null;
+    readonly uid: number;
     /**  */
     readonly isVerified: boolean;
     /**  */
@@ -28,11 +28,11 @@ class EnkaUser {
     /**  */
     readonly isUidPublic: boolean;
     /**  */
-    readonly verificationCode: string | null;
+    readonly verificationCode: string;
     /**  */
-    readonly verificationExpires: Date | null;
+    readonly verificationExpires: Date;
     /**  */
-    readonly verificationCodeRetries: number | null;
+    readonly verificationCodeRetries: number;
     /**
      * The region of the server where the account was created
      * https://cdn.discordapp.com/attachments/971472744820650035/1072868537472925767/image.png
@@ -59,32 +59,29 @@ class EnkaUser {
 
         this.username = username;
 
-        const json = new JsonManager(this._data, true, true);
-
-        this.hash = json.getAsString("hash");
+        this.hash = data.hash as string;
 
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
-        // TODO: is this necessary?
-        if (uid) fixedData["uid"] = uid;
-        this.user = new User(fixedData, enka);
+        this.user = new User(fixedData, enka, uid);
 
-        this.uid = uid ? Number(uid) : json.has("uid") ? json.getAsNumber("uid") : null;
+        // TODO: typescript not null check
+        this.uid = uid ? Number(uid) : data.uid as number;
 
-        this.isVerified = json.getAsBoolean("verified");
+        this.isVerified = data.verified as boolean;
 
-        this.isPublic = json.getAsBoolean("public");
+        this.isPublic = data.public as boolean;
 
-        this.isUidPublic = json.getAsBoolean("uid_public");
+        this.isUidPublic = data.uid_public as boolean;
 
-        this.verificationCode = json.has("verification_code") ? json.getAsString("verification_code") : null;
+        this.verificationCode = data.verification_code as string;
 
-        this.verificationExpires = json.has("verification_expire") ? new Date(json.getAsNumber("verification_expire")) : null;
+        this.verificationExpires = new Date(data.verification_expire as number);
 
-        this.verificationCodeRetries = json.has("verification_code_retries") ? json.getAsNumber("verification_code_retries") : null;
+        this.verificationCodeRetries = data.verification_code_retries as number;
 
-        this.region = json.getAsString("region") as GameServerRegion;
+        this.region = data.region as GameServerRegion;
 
-        this.order = json.getAsNumber("order") as number;
+        this.order = data.order as number;
 
         this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
     }
