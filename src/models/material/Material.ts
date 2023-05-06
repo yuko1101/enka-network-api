@@ -28,7 +28,7 @@ class Material {
     /**  */
     readonly materialType: string | null;
     /**  */
-    readonly stars: number;
+    readonly stars: number | null;
 
     readonly _data: JsonObject;
 
@@ -58,7 +58,7 @@ class Material {
 
         this.materialType = (this._data.materialType ?? null) as string | null;
 
-        this.stars = this._data.rankLevel as number;
+        this.stars = (this._data.rankLevel ?? null) as number | null;
     }
 
     /**

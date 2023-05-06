@@ -20,7 +20,7 @@ class EnkaUser {
     /**  */
     readonly user: User;
     /**  */
-    readonly uid: number;
+    readonly uid: number | null;
     /**  */
     readonly isVerified: boolean;
     /**  */
@@ -28,11 +28,11 @@ class EnkaUser {
     /**  */
     readonly isUidPublic: boolean;
     /**  */
-    readonly verificationCode: string;
+    readonly verificationCode: string | null;
     /**  */
-    readonly verificationExpires: Date;
+    readonly verificationExpires: Date | null;
     /**  */
-    readonly verificationCodeRetries: number;
+    readonly verificationCodeRetries: number | null;
     /**
      * The region of the server where the account was created
      * https://cdn.discordapp.com/attachments/971472744820650035/1072868537472925767/image.png
@@ -49,9 +49,8 @@ class EnkaUser {
      * @param data
      * @param enka
      * @param username
-     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: JsonObject, enka: EnkaClient, username: string, uid?: number | string) {
+    constructor(data: JsonObject, enka: EnkaClient, username: string) {
 
         this._data = data;
 
@@ -62,10 +61,9 @@ class EnkaUser {
         this.hash = data.hash as string;
 
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
-        this.user = new User(fixedData, enka, uid);
+        this.user = new User(fixedData, enka);
 
-        // TODO: typescript not null check
-        this.uid = uid ? Number(uid) : data.uid as number;
+        this.uid = (data.uid ?? null) as number | null;
 
         this.isVerified = data.verified as boolean;
 
@@ -73,11 +71,11 @@ class EnkaUser {
 
         this.isUidPublic = data.uid_public as boolean;
 
-        this.verificationCode = data.verification_code as string;
+        this.verificationCode = (data.verification_code ?? null) as string | null;
 
-        this.verificationExpires = new Date(data.verification_expire as number);
+        this.verificationExpires = data.verification_expire ? new Date(data.verification_expire as number) : null;
 
-        this.verificationCodeRetries = data.verification_code_retries as number;
+        this.verificationCodeRetries = (data.verification_code_retries ?? null) as number | null;
 
         this.region = data.region as GameServerRegion;
 

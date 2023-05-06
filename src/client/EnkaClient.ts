@@ -152,7 +152,7 @@ class EnkaClient {
         // console.log("useCache", useCache);
         const userData = bindOptions(data, { _lib: { is_cache: useCache } }) as JsonObject;
 
-        return collapse ? new User(userData, this, uid) : new DetailedUser(userData, this, uid);
+        return collapse ? new User(userData, this) : new DetailedUser(userData, this);
     }
 
     /**

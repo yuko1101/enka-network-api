@@ -16,10 +16,9 @@ class DetailedUser extends User {
     /**
      * @param data
      * @param enka
-     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet).
      */
-    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
-        super(data, enka, uid);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
 
         this.showCharacterDetails = !!data.avatarInfoList;
 

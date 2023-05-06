@@ -43,7 +43,7 @@ class User {
         floor: number,
         chamber: number,
     } | null;
-    /**  */
+    /**  This will be -1 if the User is from EnkaUser */
     readonly ttl: number;
     /**  */
     readonly enkaProfile: EnkaProfile | null;
@@ -57,16 +57,15 @@ class User {
     /**
      * @param data
      * @param enka
-     * @param uid For players who do not have uid in multiplayer profile (who do not have unlocked multiplayer yet)
     */
-    constructor(data: JsonObject, enka: EnkaClient, uid?: number | string) {
+    constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
 
         this._data = data;
 
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
-        this.uid = isNaN(Number(data.uid)) && uid ? Number(uid) : Number(data.uid);
+        this.uid = Number(data.uid);
 
         const playerInfo = data.playerInfo as JsonObject;
 
@@ -103,7 +102,7 @@ class User {
 
         this.spiralAbyss = playerInfo.towerFloorIndex && playerInfo.towerLevelIndex ? { floor: playerInfo.towerFloorIndex as number, chamber: playerInfo.towerLevelIndex as number } : null;
 
-        this.ttl = data.ttl as number;
+        this.ttl = (data.ttl ?? -1) as number;
 
         this.enkaProfile = data.owner ? new EnkaProfile(data.owner as JsonObject, enka) : null;
 
