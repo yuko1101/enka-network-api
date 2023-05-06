@@ -51,6 +51,7 @@ const config = {
         apiKey: "ddbb5051e54bc52f44d60f24eb353e87",
         indexName: "enka-network-api",
       },
+      image: 'img/enka-splash.png',
       navbar: {
         title: 'EnkaNetworkAPI',
         logo: {
@@ -107,7 +108,7 @@ const config = {
               },
               {
                 label: 'Pull requests',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://github.com/yuko1101/enka-network-api/pulls',
               },
             ],
           },

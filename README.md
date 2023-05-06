@@ -1,6 +1,6 @@
 # EnkaNetworkAPI
 
-![Enka.Network](https://github.com/yuko1101/enka-network-api/blob/main/img/enka-splash.png?raw=true)
+![Enka.Network](https://github.com/yuko1101/enka-network-api/blob/main/docs/static/img/enka-splash.png?raw=true)
 
 <div align="center">
 	<p>
