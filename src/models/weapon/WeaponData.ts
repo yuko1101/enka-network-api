@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -42,13 +42,13 @@ class WeaponData {
      * @param enka
      * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
 
         this.enka = enka;
 
         this.id = id;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(p => p.getAsNumber("id") === this.id);
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Weapon", this.id);
         this._data = json.getAsJsonObject();
 
@@ -64,7 +64,7 @@ class WeaponData {
 
         this.weaponType = json.getAsString("weaponType") as WeaponType;
 
-        const weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.weaponType);
+        const weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === this.weaponType)?.[1];
         if (!weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
         this._weaponTypeData = weaponTypeData.getAsJsonObject();
 

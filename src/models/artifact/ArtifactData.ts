@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -49,13 +49,13 @@ class ArtifactData {
      * @param enka
      * @param setData
      */
-    constructor(id: number, enka: EnkaClient, setData?: JsonManager) {
+    constructor(id: number, enka: EnkaClient, setData?: JsonReader) {
 
         this.enka = enka;
 
         this.id = id;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(p => p.getAsNumber("id") === this.id)?.detach();
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Artifact", this.id);
         this._data = json.getAsJsonObject();
 
@@ -65,7 +65,7 @@ class ArtifactData {
 
         this.equipType = json.getAsString("equipType") as EquipType;
 
-        const equipTypeJson = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.equipType)?.detach();
+        const equipTypeJson = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === this.equipType)?.[1];
         if (!equipTypeJson) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
         this._equipTypeData = equipTypeJson.getAsJsonObject();
 

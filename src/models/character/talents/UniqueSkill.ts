@@ -1,4 +1,4 @@
-import { JsonManager } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
@@ -20,7 +20,7 @@ class UniqueSkill extends UpgradableSkill {
     constructor(id: number, enka: EnkaClient) {
         super(id, enka);
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
         this.maxCharge = json.has("maxChargeNum") ? json.getAsNumber("maxChargeNum") : 1;
 

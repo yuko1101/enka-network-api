@@ -249,7 +249,7 @@ class EnkaClient {
      * @returns all playable character data
      */
     getAllCharacters(): CharacterData[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").filter(p => p.has("useType") && p.getAsString("useType") === "AVATAR_FORMAL").map(p => characterUtils.getCharactersById(p.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").filterArray((_, p) => p.has("useType") && p.getAsString("useType") === "AVATAR_FORMAL").map(([, p]) => characterUtils.getCharactersById(p.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
     }
 
     /**
@@ -268,9 +268,9 @@ class EnkaClient {
     getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
         if (excludeInvalidWeapons) {
-            return weapons.filter(p => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(p => new WeaponData(p.getAsNumber("id"), this, p));
+            return weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsNumber("id"), this, p));
         } else {
-            return weapons.map(p => new WeaponData(p.getAsNumber("id"), this, p));
+            return weapons.mapArray((_, p) => new WeaponData(p.getAsNumber("id"), this, p));
         }
     }
 
@@ -287,7 +287,7 @@ class EnkaClient {
      * @returns all costume data
      */
     getAllCostumes(includeDefaults = false): Costume[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filter(p => !includeDefaults || (includeDefaults && (p.has("isDefault") ? p.getAsBoolean("isDefault") : false))).map(p => new Costume(null, this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => !includeDefaults || (includeDefaults && (p.has("isDefault") ? p.getAsBoolean("isDefault") : false))).map(([, p]) => new Costume(null, this, p));
     }
 
     /**
@@ -302,7 +302,7 @@ class EnkaClient {
      * @returns all material data
      */
     getAllMaterials(): Material[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").map(p => Material.getMaterialById(p.getAsNumber("id"), this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").mapArray((_, p) => Material.getMaterialById(p.getAsNumber("id"), this, p));
     }
 
     /**
@@ -317,7 +317,7 @@ class EnkaClient {
      * @returns all name card data
      */
     getAllNameCards(): NameCard[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filter(p => p.has("materialType") && p.getAsString("materialType") === NameCard.MATERIAL_TYPE).map(p => new NameCard(p.getAsNumber("id"), this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filterArray((_, p) => p.has("materialType") && p.getAsString("materialType") === NameCard.MATERIAL_TYPE).map(([, p]) => new NameCard(p.getAsNumber("id"), this, p));
     }
 
     /**
@@ -333,12 +333,12 @@ class EnkaClient {
      * @returns all artifact data
      */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
-        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(p => p.getValue("DisableFilter") === 1).map(p => p.getAsNumber("setId"));
+        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("DisableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
 
         // including artifacts with invalid rarity
-        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filter(p => p.has("setId") && !excludeSetIds.includes(p.getAsNumber("setId")));
+        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => p.has("setId") && !excludeSetIds.includes(p.getAsNumber("setId")));
 
-        const validRarityArtifacts = artifacts.filter(p => {
+        const validRarityArtifacts = artifacts.filter(([, p]) => {
             const allowedRarityRange = artifactRarityRangeMap[p.getAsNumber("setId")] ?? [4, 5];
             const min = highestRarityOnly ? allowedRarityRange[1] : allowedRarityRange[0];
             const max = allowedRarityRange[1];
@@ -346,9 +346,9 @@ class EnkaClient {
             return (min <= stars && stars <= max);
         });
 
-        const chunked = separateByValue(validRarityArtifacts, (p) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
+        const chunked = separateByValue(validRarityArtifacts, ([, p]) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
 
-        return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1].getAsNumber("id"), this));
+        return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1][1].getAsNumber("id"), this));
     }
 
     /**
@@ -363,8 +363,8 @@ class EnkaClient {
      * @returns all artifact set data
      */
     getAllArtifactSets(): ArtifactSet[] {
-        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filter(p => p.getValue("DisableFilter") !== 1);
-        return sets.map(p => new ArtifactSet(p.getAsNumber("setId"), this, p));
+        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("DisableFilter") !== 1);
+        return sets.map(([, p]) => new ArtifactSet(p.getAsNumber("setId"), this, p));
     }
 
     /**

@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -40,7 +40,7 @@ class Costume {
      * @param enka
      * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number | null, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number | null, enka: EnkaClient, data?: JsonReader) {
         if (id === null && data === undefined) throw new Error("Either id or data must have a value.");
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
@@ -49,7 +49,7 @@ class Costume {
 
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(p => p.getAsNumber("keys.costumeIdKey") === this.id);
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("keys.costumeIdKey") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Costume", this.id);
         this._data = json.getAsJsonObject();
 

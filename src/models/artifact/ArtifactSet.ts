@@ -3,7 +3,7 @@ import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import ArtifactSetBonus from "./ArtifactSetBonus";
 import EnkaClient from "../../client/EnkaClient";
-import { JsonManager, JsonObject, separateByValue } from "config_file.js";
+import { JsonReader, JsonObject, separateByValue } from "config_file.js";
 import Artifact from "./Artifact";
 import ArtifactData from "./ArtifactData";
 
@@ -30,28 +30,28 @@ class ArtifactSet {
      * @param enka
      * @param data
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
 
         this.enka = enka;
 
         this.id = data?.getAsNumber("setId") ?? id;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").find(p => p.getAsNumber("setId") === this.id)?.detach();
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").findArray((_, p) => p.getAsNumber("setId") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("ArtifactSet", this.id);
         this._data = json.getAsJsonObject();
 
-        const setNeedNum = json.get("setNeedNum").map(p => p.getAsNumber());
+        const setNeedNum = json.get("setNeedNum").mapArray((_, p) => p.getAsNumber());
 
-        const setBonusJsonList = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(bonus => bonus.getAsNumber("id") === json.getAsNumber("EquipAffixId")).map(p => p.detach());
+        const setBonusJsonList = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, bonus) => bonus.getAsNumber("id") === json.getAsNumber("EquipAffixId"));
         if (setBonusJsonList.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${json.getAsNumber("EquipAffixId")}`);
         if (setBonusJsonList.length !== setNeedNum.length) throw new Error(`Missing some set bonus for this artifact set (ID: ${this.id})`);
-        this._setBonusData = setBonusJsonList.map(bonus => bonus.getAsJsonObject());
+        this._setBonusData = setBonusJsonList.map(bonus => bonus[1].getAsJsonObject());
 
         this.setBonus = setNeedNum.map((n, i) => new ArtifactSetBonus(n, this._setBonusData[i], enka));
 
         this.icon = new ImageAssets(json.getAsString("setIcon"), enka);
 
-        this.name = new TextAssets(new JsonManager(this._setBonusData[0], true, true).getAsNumber("nameTextMapHash"), enka);
+        this.name = new TextAssets(new JsonReader(this._setBonusData[0]).getAsNumber("nameTextMapHash"), enka);
     }
 
     /**

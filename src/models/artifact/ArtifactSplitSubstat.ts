@@ -15,7 +15,7 @@ class ArtifactSplitSubstat extends StatusProperty {
      * @param enka
      */
     constructor(id: number, enka: EnkaClient) {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").find(p => p.getAsNumber("id") === id)?.detach();
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryAffixExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Artifact Substat", id);
 
         super(json.getAsString("propType") as FightProp, json.getAsNumber("propValue"), enka);

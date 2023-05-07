@@ -32,7 +32,7 @@ class StatusProperty {
 
         this.enka = enka;
 
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === fightProp);
+        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
         if (!propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
         this._propData = propData.getAsJsonObject();
 
@@ -63,7 +63,7 @@ class StatusProperty {
      * @param enka
      */
     static getFightPropTextAssets(fightProp: FightProp, enka: EnkaClient): TextAssets | null {
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === fightProp);
+        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
         return propData ? new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka) : null;
     }
 }

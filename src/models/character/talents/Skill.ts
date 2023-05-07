@@ -32,7 +32,7 @@ class Skill {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").find(p => p.getAsNumber("id") === this.id)?.detach();
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Skill", this.id);
         this._data = json.getAsJsonObject();
 

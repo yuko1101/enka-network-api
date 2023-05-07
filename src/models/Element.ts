@@ -26,7 +26,7 @@ class Element {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.id);
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Element", this.id);
         this._data = json.getAsJsonObject();
 

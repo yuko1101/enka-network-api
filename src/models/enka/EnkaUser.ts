@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject, renameKeys } from "config_file.js";
+import { JsonReader, JsonObject, renameKeys } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import User from "../User";
 import CharacterBuild from "./CharacterBuild";
@@ -59,7 +59,7 @@ class EnkaUser {
 
         this.username = username;
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
         this.hash = json.getAsString("hash");
 

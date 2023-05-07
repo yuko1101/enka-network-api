@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import TextAssets from "../assets/TextAssets";
 import StatusProperty, { FightProp } from "../StatusProperty";
 import EnkaClient from "../../client/EnkaClient";
@@ -32,7 +32,7 @@ class ArtifactSetBonus {
 
         this._data = data;
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
         this.id = json.getAsNumber("affixId");
 
@@ -40,9 +40,9 @@ class ArtifactSetBonus {
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.addProps = json.get("addProps").detach().filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
-        this.paramList = json.get("paramList").detach().map(p => p.getAsNumber());
+        this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }
 }
 
