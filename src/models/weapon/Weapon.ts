@@ -46,7 +46,7 @@ class Weapon {
 
         const weapon = json.get("weapon");
 
-        this.refinementRank = (weapon.get("affixMap", `${weaponDataJson.get("skillAffix", 0).getAsNumber()}`).getAsNumber() ?? 0) + 1;
+        this.refinementRank = weapon.getAsNumberWithDefault(0, "affixMap", `${weaponDataJson.getAsNumber("skillAffix", 0)}`) + 1;
 
         this.refinement = this.weaponData.refinements[this.refinementRank - 1] ?? null;
 

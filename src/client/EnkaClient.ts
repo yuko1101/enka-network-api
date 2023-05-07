@@ -249,7 +249,7 @@ class EnkaClient {
      * @returns all playable character data
      */
     getAllCharacters(): CharacterData[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").filterArray((_, p) => p.has("useType") && p.getAsString("useType") === "AVATAR_FORMAL").map(([, p]) => characterUtils.getCharactersById(p.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").filterArray((_, p) => p.getAsStringWithDefault(null, "useType") === "AVATAR_FORMAL").map(([, p]) => characterUtils.getCharactersById(p.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
     }
 
     /**

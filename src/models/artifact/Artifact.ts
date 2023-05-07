@@ -49,7 +49,7 @@ class Artifact {
 
         this.level = reliquary.getAsNumber("level");
 
-        this.mainstat = new StatusProperty(flat.get("reliquaryMainstat").getAsString("mainPropId") as FightProp, flat.get("reliquaryMainstat").getAsNumber("statValue"), enka, true);
+        this.mainstat = new StatusProperty(flat.getAsString("reliquaryMainstat", "mainPropId") as FightProp, flat.getAsNumber("reliquaryMainstat", "statValue"), enka, true);
 
         this.substats = {
             total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],

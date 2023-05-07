@@ -126,7 +126,7 @@ class CharacterData {
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
         // TODO: better find
-        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsStringWithDefault(null, "materialType") === "MATERIAL_NAMECARD" && p.get("picPath").has(0) && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(p.get("picPath", 0).getAsString()))?.[1];
+        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsStringWithDefault(null, "materialType") === "MATERIAL_NAMECARD" && p.get("picPath").has(0) && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(p.getAsString("picPath", 0)))?.[1];
         this.nameCard = nameCardData ? new NameCard(nameCardData.getAsNumber("id"), enka, nameCardData) : null;
 
         this.rarity = json.getAsString("qualityType") as CharacterRarity;

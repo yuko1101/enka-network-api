@@ -70,7 +70,7 @@ class WeaponData {
 
         this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
 
-        this.refinements = json.get("skillAffix", 0).getAsNumber() !== 0 ? new WeaponRefinements(json.get("skillAffix", 0).getAsNumber(), enka).refinements : [];
+        this.refinements = json.getAsNumber("skillAffix", 0) !== 0 ? new WeaponRefinements(json.getAsNumber("skillAffix", 0), enka).refinements : [];
     }
 }
 

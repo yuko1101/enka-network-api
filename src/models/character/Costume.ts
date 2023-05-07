@@ -49,7 +49,7 @@ class Costume {
 
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("keys.costumeIdKey") === this.id)?.[1];
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber(keys.costumeIdKey) === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Costume", this.id);
         this._data = json.getAsJsonObject();
 
