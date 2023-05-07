@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { Axios } from "axios";
 import unzipper from "unzipper";
-import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonManager } from "config_file.js";
+import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonReader } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
 import ObjectKeysManager from "./ObjectKeysManager";
 import EnkaClient from "./EnkaClient";
@@ -10,7 +10,7 @@ import { validateCache } from "../utils/cache_utils";
 
 const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
 
-let dataMemory: { [key: string]: JsonManager } = {};
+let dataMemory: { [key: string]: JsonReader } = {};
 
 
 const initialLangDataMemory: NullableLanguageMap = { chs: null, cht: null, de: null, en: null, es: null, fr: null, id: null, jp: null, kr: null, pt: null, ru: null, th: null, vi: null };
@@ -369,9 +369,9 @@ class CachedAssetsManager {
     /**
      * @param name without extensions (.json)
      */
-    getGenshinCacheData(name: string): JsonManager {
+    getGenshinCacheData(name: string): JsonReader {
         if (!Object.keys(dataMemory).includes(name)) {
-            dataMemory[name] = new JsonManager(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")), true, true);
+            dataMemory[name] = new JsonReader(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
         }
         return dataMemory[name];
     }
@@ -438,14 +438,14 @@ class CachedAssetsManager {
         push(...textMapWhiteList);
 
         data["AvatarExcelConfigData"].forEach(c => {
-            const json = new JsonManager(c, true, true);
+            const json = new JsonReader(c);
             push(
                 json.getAsNumber("nameTextMapHash"),
                 json.getAsNumber("descTextMapHash"),
             );
         });
         data["FetterInfoExcelConfigData"].forEach(c => {
-            const json = new JsonManager(c, true, true);
+            const json = new JsonReader(c);
             push(
                 json.getAsNumber("avatarNativeTextMapHash"),
                 json.getAsNumber("avatarVisionBeforTextMapHash"),
@@ -460,45 +460,45 @@ class CachedAssetsManager {
             );
         });
         data["ManualTextMapConfigData"].forEach(m => {
-            const json = new JsonManager(m, true, true);
+            const json = new JsonReader(m);
             const id = json.getAsString("textMapId");
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
             push(json.getAsNumber("textMapContentTextMapHash"));
         });
         data["ReliquaryExcelConfigData"].forEach(a => {
-            const json = new JsonManager(a, true, true);
+            const json = new JsonReader(a);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["EquipAffixExcelConfigData"].forEach(s => {
-            const json = new JsonManager(s, true, true);
+            const json = new JsonReader(s);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["AvatarTalentExcelConfigData"].forEach(c => {
-            const json = new JsonManager(c, true, true);
+            const json = new JsonReader(c);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["AvatarCostumeExcelConfigData"].forEach(c => {
-            const json = new JsonManager(c, true, true);
+            const json = new JsonReader(c);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
-            const json = new JsonManager(p, true, true);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.map(e => e.getAsNumber()) : []));
+            const json = new JsonReader(p);
+            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.mapArray((_, e) => e.getAsNumber()) : []));
         });
         data["AvatarSkillExcelConfigData"].forEach(s => {
-            const json = new JsonManager(s, true, true);
+            const json = new JsonReader(s);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["WeaponExcelConfigData"].forEach(w => {
-            const json = new JsonManager(w, true, true);
+            const json = new JsonReader(w);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["EquipAffixExcelConfigData"].forEach(r => {
-            const json = new JsonManager(r, true, true);
+            const json = new JsonReader(r);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["MaterialExcelConfigData"].forEach(m => {
-            const json = new JsonManager(m, true, true);
+            const json = new JsonReader(m);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
 

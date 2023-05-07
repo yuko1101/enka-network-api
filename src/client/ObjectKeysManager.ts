@@ -1,4 +1,4 @@
-import { PathResolver } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import CachedAssetsManager from "./CachedAssetsManager";
 
 /**
@@ -19,22 +19,22 @@ class ObjectKeysManager {
      */
     constructor(cachedAssetsManager: CachedAssetsManager) {
         const costumeData = cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData");
-        const jeanCostume = costumeData.find(p => p.getAsString("jsonName") === "Avatar_Lady_Sword_QinCostumeSea") as PathResolver;
-        const dilucCostume = costumeData.find(p => p.getAsString("jsonName") === "Avatar_Male_Claymore_DilucCostumeFlamme") as PathResolver;
+        const jeanCostume = costumeData.findArray((_, p) => p.getAsString("jsonName") === "Avatar_Lady_Sword_QinCostumeSea")?.[1] as JsonReader;
+        const dilucCostume = costumeData.findArray((_, p) => p.getAsString("jsonName") === "Avatar_Male_Claymore_DilucCostumeFlamme")?.[1] as JsonReader;
 
-        this.costumeIdKey = jeanCostume.find(p => p.getValue() === 200301)?.route.slice(-1)[0] as string;
-        this.costumeCharacterIdKey = jeanCostume.find(p => p.getValue() === 10000003)?.route.slice(-1)[0] as string;
-        this.costumeStarKey = jeanCostume.find(p => p.getValue() === 4 && dilucCostume.getValue(p?.route.slice(-1)[0] as string) === 5)?.route.slice(-1)[0] as string;
+        this.costumeIdKey = jeanCostume.findObject((_, p) => p.getValue() === 200301)?.[0] as string;
+        this.costumeCharacterIdKey = jeanCostume.findObject((_, p) => p.getValue() === 10000003)?.[0] as string;
+        this.costumeStarKey = jeanCostume.findObject((key, p) => p.getValue() === 4 && dilucCostume.getValue(key) === 5)?.[0] as string;
 
         const talentData = cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData");
-        const raidenCannotCookTalent = talentData.find(p => p.getValue("proudSkillId") === 522301) as PathResolver;
+        const raidenCannotCookTalent = talentData.findArray((_, p) => p.getValue("proudSkillId") === 522301)?.[1] as JsonReader;
 
-        const candidatesForTalentIsHiddenKey = raidenCannotCookTalent.filter(p => p.getValue() === true);
+        const candidatesForTalentIsHiddenKey = raidenCannotCookTalent.filterObject((_, p) => p.getValue() === true);
         if (candidatesForTalentIsHiddenKey.length > 1) {
             console.warn(`[ObjectKeysManager] Detected ${candidatesForTalentIsHiddenKey.length} keys for talentIsHiddenKey`);
         }
 
-        this.talentIsHiddenKey = candidatesForTalentIsHiddenKey[0]?.route.slice(-1)[0] as string;
+        this.talentIsHiddenKey = candidatesForTalentIsHiddenKey[0]?.[0] as string;
 
         const invalidKeys = Object.entries(this).filter(entry => entry[1] === undefined).map(entry => entry[0]);
         if (invalidKeys.length > 0) throw new Error(`Invalid keys detected: ${invalidKeys.join(", ")}`);

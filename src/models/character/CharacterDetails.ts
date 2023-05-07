@@ -57,7 +57,7 @@ class CharacterDetails {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").find(f => (id && f.getAsNumber("fetterId") === id) || f.getAsNumber("avatarId") === characterId);
+        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => (id && f.getAsNumber("fetterId") === id) || f.getAsNumber("avatarId") === characterId)?.[1];
         if (!json) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
         this._data = json.getAsJsonObject();
 

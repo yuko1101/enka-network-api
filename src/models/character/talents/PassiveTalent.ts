@@ -38,7 +38,7 @@ class PassiveTalent {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").find(p => p.getAsNumber("proudSkillId") === this.id)?.detach();
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillId") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Talent", this.id);
         this._data = json.getAsJsonObject();
 
@@ -48,7 +48,7 @@ class PassiveTalent {
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.addProps = json.get("addProps").detach().filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.isHidden = json.has(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) ? json.getAsBoolean(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) : false;
     }

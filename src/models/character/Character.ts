@@ -7,7 +7,7 @@ import UpgradableSkill from "./talents/UpgradableSkill";
 import NormalAttack from "./talents/NormalAttack";
 import ElementalSkill from "./talents/ElementalSkill";
 import ElementalBurst from "./talents/ElementalBurst";
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import Costume from "./Costume";
 import Constellation from "./Constellation";
@@ -62,19 +62,19 @@ class Character {
 
         this._data = data;
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
         this.characterData = new CharacterData(json.getAsNumber("avatarId"), enka, json.has("skillDepotId") ? json.getAsNumber("skillDepotId") : undefined);
 
         this.costume = (json.has("costumeId") ? this.characterData.costumes.find(c => c.id === json.getAsNumber("costumeId")) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 
-        this.artifacts = json.get("equipList").detach().filter(item => item.has("reliquary")).map(artifact => new Artifact(artifact.getAsJsonObject(), enka));
+        this.artifacts = json.get("equipList").filterArray((_, item) => item.has("reliquary")).map(([, artifact]) => new Artifact(artifact.getAsJsonObject(), enka));
 
-        this.weapon = new Weapon(json.get("equipList").detach().find(item => item.has("weapon"))?.getAsJsonObject() as JsonObject, enka);
+        this.weapon = new Weapon(json.get("equipList").findArray((_, item) => item.has("weapon"))?.[1].getAsJsonObject() as JsonObject, enka);
 
         this.status = new CharacterStatus(json.getAsJsonObject("fightPropMap"), enka, this.characterData.element as Element);
 
-        const propMap = json.get("propMap").detach();
+        const propMap = json.get("propMap");
 
         this.level = Number(propMap.has("4001", "val") ? propMap.get("4001", "val").getAsString() : 0);
 
@@ -89,16 +89,16 @@ class Character {
         const fetterInfo = json.get("fetterInfo");
         this.friendship = fetterInfo.has("expLevel") ? fetterInfo.getAsNumber("expLevel") : 1;
 
-        this.unlockedConstellations = this.characterData.constellations.filter(c => (json.has("talentIdList") ? json.get("talentIdList").map(p => p.getAsNumber()) : []).includes(c.id));
+        this.unlockedConstellations = this.characterData.constellations.filter(c => (json.has("talentIdList") ? json.get("talentIdList").mapArray((_, p) => p.getAsNumber()) : []).includes(c.id));
 
-        this.skillLevels = json.get("skillLevelMap").map(p => [p.route.slice(-1)[0], p.getAsNumber()] as [string, number]).map(([key, value]) => {
+        this.skillLevels = json.get("skillLevelMap").mapObject((key, value) => {
             const skill = this.characterData.skills.find(s => s.id.toString() === key);
             if (!skill || !(skill instanceof UpgradableSkill)) return null;
 
-            const base = value;
+            const base = value.getAsNumber();
 
             const proudSkillExtraLevelMap = json.get("proudSkillExtraLevelMap");
-            const proudSkillGroupId: string = new JsonManager(skill._data, true, true).getAsNumber("proudSkillGroupId").toString();
+            const proudSkillGroupId: string = new JsonReader(skill._data).getAsNumber("proudSkillGroupId").toString();
             const extra = proudSkillExtraLevelMap.has(proudSkillGroupId) ? proudSkillExtraLevelMap.getAsNumber(proudSkillGroupId) : 0;
 
             return {
@@ -110,7 +110,7 @@ class Character {
             return getScore(a.skill) - getScore(b.skill);
         });
 
-        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (json.has("inherentProudSkillList") ? json.get("inherentProudSkillList").map(e => e.getAsNumber()) : []).includes(p.id));
+        this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (json.has("inherentProudSkillList") ? json.get("inherentProudSkillList").mapArray((_, e) => e.getAsNumber()) : []).includes(p.id));
 
     }
 }

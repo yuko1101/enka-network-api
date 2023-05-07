@@ -36,7 +36,7 @@ class Constellation {
 
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(p => p.getAsNumber("talentId") === this.id);
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").findArray((_, p) => p.getAsNumber("talentId") === this.id)?.[1];
         if (!json) throw new AssetsNotFoundError("Talent", this.id);
         this._data = json.getAsJsonObject();
 
@@ -46,9 +46,9 @@ class Constellation {
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.addProps = json.get("addProps").filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
-        this.paramList = json.get("paramList").map(p => p.getAsNumber());
+        this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }
 }
 

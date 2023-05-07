@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import EnkaProfile from "./enka/EnkaProfile";
@@ -66,9 +66,9 @@ class User {
 
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
-        this.uid = Number(json.getAs<number | string>("uid"));
+        this.uid = Number(json.getValue("uid"));
 
         const playerInfo = json.get("playerInfo");
 
@@ -79,7 +79,7 @@ class User {
         const profilePicture = playerInfo.get("profilePicture");
         this.profilePictureCharacter = profilePicture.has("avatarId") ? new CharacterData(profilePicture.getAsNumber("avatarId"), enka) : null;
 
-        this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").map(p => {
+        this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").mapArray((_, p) => {
             const characterData = new CharacterData(p.getAsNumber("avatarId"), enka);
 
             const costume = p.has("costumeId") ? new Costume(p.getAsNumber("costumeId"), enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
@@ -93,7 +93,7 @@ class User {
             return preview;
         }) : [];
 
-        this.nameCards = playerInfo.has("showNameCardIdList") ? playerInfo.get("showNameCardIdList").map(id => new NameCard(id.getAsNumber(), enka)) : [];
+        this.nameCards = playerInfo.has("showNameCardIdList") ? playerInfo.get("showNameCardIdList").mapArray((_, id) => new NameCard(id.getAsNumber(), enka)) : [];
 
         this.level = playerInfo.getAsNumber("level");
 

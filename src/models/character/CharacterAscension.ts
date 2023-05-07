@@ -1,4 +1,4 @@
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import UpgradeCost from "../material/UpgradeCost";
@@ -31,14 +31,14 @@ class CharacterAscension {
      * @param enka
      * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number, ascension: number, enka: EnkaClient, data?: JsonManager) {
+    constructor(id: number, ascension: number, enka: EnkaClient, data?: JsonReader) {
         this.id = id;
 
         this.ascension = ascension;
 
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").find(p => p.getAsNumber("avatarPromoteId") === this.id && (p.has("promoteLevel") ? p.getAsNumber("promoteLevel") : 0) === ascension);
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === this.id && (p.has("promoteLevel") ? p.getAsNumber("promoteLevel") : 0) === ascension)?.[1];
         if (!json) throw new AssetsNotFoundError("CharacterAscension", `${this.id}-${ascension}`);
         this._data = json.getAsJsonObject();
 
@@ -46,9 +46,9 @@ class CharacterAscension {
 
         this.requiredPlayerLevel = json.getAsNumber("requiredPlayerLevel");
 
-        this.cost = new UpgradeCost(json.has("scoinCost") ? json.getAsNumber("scoinCost") : 0, json.has("costItems") ? json.get("costItems").map(p => p.getAsJsonObject()) : [], enka);
+        this.cost = new UpgradeCost(json.has("scoinCost") ? json.getAsNumber("scoinCost") : 0, json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
 
-        this.addProps = json.get("addProps").filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
     }
 }
 

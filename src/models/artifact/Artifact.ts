@@ -1,7 +1,7 @@
 import ArtifactData from "./ArtifactData";
 import ArtifactSplitSubstat from "./ArtifactSplitSubstat";
 import StatusProperty, { FightProp } from "../StatusProperty";
-import { JsonManager, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 
 /**
@@ -40,10 +40,10 @@ class Artifact {
 
         this._data = data;
 
-        const json = new JsonManager(this._data, true, true);
+        const json = new JsonReader(this._data);
 
-        const flat = json.get("flat").detach();
-        const reliquary = json.get("reliquary").detach();
+        const flat = json.get("flat");
+        const reliquary = json.get("reliquary");
 
         this.artifactData = new ArtifactData(json.getAsNumber("itemId"), enka);
 
@@ -52,8 +52,8 @@ class Artifact {
         this.mainstat = new StatusProperty(flat.get("reliquaryMainstat").getAsString("mainPropId") as FightProp, flat.get("reliquaryMainstat").getAsNumber("statValue"), enka, true);
 
         this.substats = {
-            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").map(p => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
-            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.map(id => new ArtifactSplitSubstat(id.getAsNumber(), enka)) : [],
+            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
+            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => new ArtifactSplitSubstat(id.getAsNumber(), enka)) : [],
         };
 
     }
