@@ -36,19 +36,19 @@ class Constellation {
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(c => c.talentId === this.id);
-        if (!_data) throw new AssetsNotFoundError("Talent", this.id);
-        this._data = _data;
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").find(p => p.getAsNumber("talentId") === this.id);
+        if (!json) throw new AssetsNotFoundError("Talent", this.id);
+        this._data = json.getAsJsonObject();
 
-        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.icon = new ImageAssets(this._data.icon as string, enka);
+        this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.addProps = (this._data.addProps as JsonObject[]).filter(p => Object.keys(p).includes("propType") && Object.keys(p).includes("value")).map(p => new StatusProperty(p.propType as FightProp, p.value as number, enka));
+        this.addProps = json.get("addProps").filter(p => p.has("propType") && p.has("value")).map(p => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
-        this.paramList = this._data.paramList as number[];
+        this.paramList = json.get("paramList").map(p => p.getAsNumber());
     }
 }
 

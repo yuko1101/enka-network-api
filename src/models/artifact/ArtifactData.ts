@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -49,33 +49,33 @@ class ArtifactData {
      * @param enka
      * @param setData
      */
-    constructor(id: number, enka: EnkaClient, setData?: JsonObject) {
+    constructor(id: number, enka: EnkaClient, setData?: JsonManager) {
 
         this.enka = enka;
 
         this.id = id;
 
-        const _data: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(a => a.id === this.id);
-        if (!_data) throw new AssetsNotFoundError("Artifact", this.id);
-        this._data = _data;
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").find(p => p.getAsNumber("id") === this.id)?.detach();
+        if (!json) throw new AssetsNotFoundError("Artifact", this.id);
+        this._data = json.getAsJsonObject();
 
-        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.equipType = this._data.equipType as EquipType;
+        this.equipType = json.getAsString("equipType") as EquipType;
 
-        const _equipTypeData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.equipType);
-        if (!_equipTypeData) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
-        this._equipTypeData = _equipTypeData;
+        const equipTypeJson = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.equipType)?.detach();
+        if (!equipTypeJson) throw new AssetsNotFoundError("Artifact Equip Type", this.equipType);
+        this._equipTypeData = equipTypeJson.getAsJsonObject();
 
-        this.equipTypeName = new TextAssets(this._equipTypeData.textMapContentTextMapHash as number, enka);
+        this.equipTypeName = new TextAssets(equipTypeJson.getAsNumber("textMapContentTextMapHash"), enka);
 
-        this.icon = new ImageAssets(this._data.icon as string, enka);
+        this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.stars = this._data.rankLevel as number;
+        this.stars = json.getAsNumber("rankLevel");
 
-        this.set = new ArtifactSet(this._data.setId as number, enka, setData);
+        this.set = new ArtifactSet(json.getAsNumber("setId"), enka, setData);
 
     }
 }

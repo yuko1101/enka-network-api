@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -40,27 +40,29 @@ class Costume {
      * @param enka
      * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number | null, enka: EnkaClient, data?: JsonObject) {
+    constructor(id: number | null, enka: EnkaClient, data?: JsonManager) {
+        if (id === null && data === undefined) throw new Error("Either id or data must have a value.");
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
 
-        this.id = (data ? data[keys.costumeIdKey] : id) as number;
+        this.id = (data ? data.getAsNumber(keys.costumeIdKey) : id) as number;
 
         this.enka = enka;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(c => c[keys.costumeIdKey] === this.id);
-        if (!_data) throw new AssetsNotFoundError("Costume", this.id);
-        this._data = _data;
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").find(p => p.getAsNumber("keys.costumeIdKey") === this.id);
+        if (!json) throw new AssetsNotFoundError("Costume", this.id);
+        this._data = json.getAsJsonObject();
 
-        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.characterId = this._data[keys.costumeCharacterIdKey] as number;
+        this.characterId = json.getAsNumber(keys.costumeCharacterIdKey);
 
-        this.isDefault = !!this._data.isDefault;
+        this.isDefault = json.has("isDefault") ? json.getAsBoolean("isDefault") : false;
 
-        this._nameId = !this.isDefault && this._data.jsonName ? (this._data.jsonName as string).slice((this._data.jsonName as string).lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);
+        const jsonName = json.getAsString("jsonName");
+        this._nameId = !this.isDefault ? jsonName.slice(jsonName.lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);
 
         this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka);
 
@@ -68,7 +70,7 @@ class Costume {
 
         this.splashImage = new ImageAssets(!this.isDefault ? `UI_Costume_${this._nameId}` : `UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
-        this.stars = !this.isDefault ? this._data[keys.costumeStarKey] as number : null;
+        this.stars = !this.isDefault ? json.getAsNumber(keys.costumeStarKey) : null;
 
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }

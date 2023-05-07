@@ -1,4 +1,4 @@
-import { JsonObject, renameKeys } from "config_file.js";
+import { JsonManager, JsonObject, renameKeys } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import User from "../User";
 import CharacterBuild from "./CharacterBuild";
@@ -58,28 +58,31 @@ class EnkaUser {
 
         this.username = username;
 
-        this.hash = data.hash as string;
+        const json = new JsonManager(this._data, true, true);
+
+        this.hash = json.getAsString("hash");
 
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
+
         this.user = new User(fixedData, enka);
 
-        this.uid = (data.uid ?? null) as number | null;
+        this.uid = json.has("uid") ? json.getAsNumber("uid") : null;
 
-        this.isVerified = data.verified as boolean;
+        this.isVerified = json.getAsBoolean("verified");
 
-        this.isPublic = data.public as boolean;
+        this.isPublic = json.getAsBoolean("public");
 
-        this.isUidPublic = data.uid_public as boolean;
+        this.isUidPublic = json.getAsBoolean("uid_public");
 
-        this.verificationCode = (data.verification_code ?? null) as string | null;
+        this.verificationCode = json.has("verification_code") ? json.getAsString("verification_code") : null;
 
-        this.verificationExpires = data.verification_expire ? new Date(data.verification_expire as number) : null;
+        this.verificationExpires = json.has("verification_expire") ? new Date(json.getAsNumber("verification_expire")) : null;
 
-        this.verificationCodeRetries = (data.verification_code_retries ?? null) as number | null;
+        this.verificationCodeRetries = json.has("verification_code_retries") ? json.getAsNumber("verification_code_retries") : null;
 
-        this.region = data.region as GameServerRegion;
+        this.region = json.getAsString("region") as GameServerRegion;
 
-        this.order = data.order as number;
+        this.order = json.getAsNumber("order") as number;
 
         this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
     }

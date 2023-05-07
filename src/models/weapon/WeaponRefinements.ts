@@ -26,9 +26,10 @@ class WeaponRefinements {
         this.enka = enka;
 
 
-        this._data = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(a => a.id === this.id).sort((a, b) => (a.level as number) - (b.level as number));
+        const json = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filter(p => p.getAsNumber("id") === this.id).sort((a, b) => (a.has("level") ? a.getAsNumber("level") : 0) - (b.has("level") ? b.getAsNumber("level") : 0));
+        this._data = json.map(p => p.getAsJsonObject());
 
-        this.refinements = this._data.map(r => new WeaponRefinement(r, enka));
+        this.refinements = json.map(r => new WeaponRefinement(r.getAsJsonObject(), enka));
 
     }
 }

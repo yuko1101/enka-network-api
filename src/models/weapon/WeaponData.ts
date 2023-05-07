@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonManager, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -42,35 +42,35 @@ class WeaponData {
      * @param enka
      * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonObject) {
+    constructor(id: number, enka: EnkaClient, data?: JsonManager) {
 
         this.enka = enka;
 
         this.id = id;
 
-        const _data: JsonObject | undefined = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(w => w.id === this.id);
-        if (!_data) throw new AssetsNotFoundError("Weapon", this.id);
-        this._data = _data;
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").find(p => p.getAsNumber("id") === this.id);
+        if (!json) throw new AssetsNotFoundError("Weapon", this.id);
+        this._data = json.getAsJsonObject();
 
-        this.name = new TextAssets(this._data.nameTextMapHash as number, enka);
+        this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
-        this.description = new TextAssets(this._data.descTextMapHash as number, enka);
+        this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.icon = new ImageAssets(this._data.icon as string, enka);
+        this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.awakenIcon = new ImageAssets(this._data.awakenIcon as string, enka);
+        this.awakenIcon = new ImageAssets(json.getAsString("awakenIcon"), enka);
 
-        this.stars = this._data.rankLevel as number;
+        this.stars = json.getAsNumber("rankLevel");
 
-        this.weaponType = this._data.weaponType as WeaponType;
+        this.weaponType = json.getAsString("weaponType") as WeaponType;
 
-        const _weaponTypeData: JsonObject | undefined = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(t => t.textMapId === this.weaponType);
-        if (!_weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
-        this._weaponTypeData = _weaponTypeData;
+        const weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").find(p => p.getAsString("textMapId") === this.weaponType);
+        if (!weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
+        this._weaponTypeData = weaponTypeData.getAsJsonObject();
 
-        this.weaponTypeName = new TextAssets(this._weaponTypeData.textMapContentTextMapHash as number, enka);
+        this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
 
-        this.refinements = (this._data.skillAffix as number[])[0] !== 0 ? new WeaponRefinements((this._data.skillAffix as number[])[0], enka).refinements : [];
+        this.refinements = json.get("skillAffix", 0).getAsNumber() !== 0 ? new WeaponRefinements(json.get("skillAffix", 0).getAsNumber(), enka).refinements : [];
     }
 }
 
