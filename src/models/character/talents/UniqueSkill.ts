@@ -22,7 +22,7 @@ class UniqueSkill extends UpgradableSkill {
 
         const json = new JsonReader(this._data);
 
-        this.maxCharge = json.has("maxChargeNum") ? json.getAsNumber("maxChargeNum") : 1;
+        this.maxCharge = json.getAsNumberWithDefault(1, "maxChargeNum");
 
         this.cooldown = json.getAsNumber("cdTime");
 

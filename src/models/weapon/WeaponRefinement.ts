@@ -33,7 +33,7 @@ class WeaponRefinement {
 
         const json = new JsonReader(this._data);
 
-        this.level = (json.has("level") ? json.getAsNumber("level") : 0) + 1;
+        this.level = json.getAsNumberWithDefault(0, "level") + 1;
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 

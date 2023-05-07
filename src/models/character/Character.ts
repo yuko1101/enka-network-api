@@ -64,7 +64,7 @@ class Character {
 
         const json = new JsonReader(this._data);
 
-        this.characterData = new CharacterData(json.getAsNumber("avatarId"), enka, json.has("skillDepotId") ? json.getAsNumber("skillDepotId") : undefined);
+        this.characterData = new CharacterData(json.getAsNumber("avatarId"), enka, json.getAsNumberWithDefault(undefined, "skillDepotId"));
 
         this.costume = (json.has("costumeId") ? this.characterData.costumes.find(c => c.id === json.getAsNumber("costumeId")) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 
@@ -76,18 +76,17 @@ class Character {
 
         const propMap = json.get("propMap");
 
-        this.level = Number(propMap.has("4001", "val") ? propMap.get("4001", "val").getAsString() : 0);
+        this.level = Number(propMap.getAsStringWithDefault(0, "4001", "val"));
 
-        this.xp = Number(propMap.has("1001", "val") ? propMap.get("1001", "val").getAsString() : 0);
+        this.xp = Number(propMap.getAsStringWithDefault(0, "1001", "val"));
 
-        this.ascension = Number(propMap.has("1002", "val") ? propMap.get("1002", "val").getAsString() : 0);
+        this.ascension = Number(propMap.getAsStringWithDefault(0, "1002", "val"));
 
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 
-        this.stamina = Number(propMap.has("10010", "val") ? propMap.get("10010", "val").getAsString() : 10000) / 100;
+        this.stamina = Number(propMap.getAsStringWithDefault(10000, "10010", "val")) / 100;
 
-        const fetterInfo = json.get("fetterInfo");
-        this.friendship = fetterInfo.has("expLevel") ? fetterInfo.getAsNumber("expLevel") : 1;
+        this.friendship = json.getAsNumberWithDefault(1, "fetterInfo", "expLevel");
 
         this.unlockedConstellations = this.characterData.constellations.filter(c => (json.has("talentIdList") ? json.get("talentIdList").mapArray((_, p) => p.getAsNumber()) : []).includes(c.id));
 
@@ -99,7 +98,7 @@ class Character {
 
             const proudSkillExtraLevelMap = json.get("proudSkillExtraLevelMap");
             const proudSkillGroupId: string = new JsonReader(skill._data).getAsNumber("proudSkillGroupId").toString();
-            const extra = proudSkillExtraLevelMap.has(proudSkillGroupId) ? proudSkillExtraLevelMap.getAsNumber(proudSkillGroupId) : 0;
+            const extra = proudSkillExtraLevelMap.getAsNumberWithDefault(0, proudSkillGroupId);
 
             return {
                 skill,

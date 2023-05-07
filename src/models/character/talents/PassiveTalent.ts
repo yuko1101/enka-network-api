@@ -50,7 +50,7 @@ class PassiveTalent {
 
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
-        this.isHidden = json.has(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) ? json.getAsBoolean(enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey) : false;
+        this.isHidden = json.getAsBooleanWithDefault(false, enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey);
     }
 }
 

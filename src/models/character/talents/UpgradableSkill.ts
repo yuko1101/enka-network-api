@@ -54,7 +54,7 @@ class UpgradableSkill extends Skill {
         const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.[1];
         if (!leveledSkillData) return null;
 
-        return new UpgradeCost(leveledSkillData.has("coinCost") ? leveledSkillData.getAsNumber("coinCost") : 0, leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
+        return new UpgradeCost(leveledSkillData.getAsNumberWithDefault(0, "coinCost"), leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
     }
 }
 

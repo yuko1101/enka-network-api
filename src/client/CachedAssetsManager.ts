@@ -483,7 +483,7 @@ class CachedAssetsManager {
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
             const json = new JsonReader(p);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.mapArray((_, e) => e.getAsNumber()) : []));
+            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.get("paramDescList").mapArray((_, e) => e.getAsNumber()) : []));
         });
         data["AvatarSkillExcelConfigData"].forEach(s => {
             const json = new JsonReader(s);

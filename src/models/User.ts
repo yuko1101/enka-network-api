@@ -72,9 +72,9 @@ class User {
 
         const playerInfo = json.get("playerInfo");
 
-        this.nickname = playerInfo.has("nickname") ? playerInfo.getAsString("nickname") : null;
+        this.nickname = playerInfo.getAsStringWithDefault(null, "nickname");
 
-        this.signature = playerInfo.has("signature") ? playerInfo.getAsString("signature") : null;
+        this.signature = playerInfo.getAsStringWithDefault(null, "signature");
 
         const profilePicture = playerInfo.get("profilePicture");
         this.profilePictureCharacter = profilePicture.has("avatarId") ? new CharacterData(profilePicture.getAsNumber("avatarId"), enka) : null;
@@ -97,19 +97,19 @@ class User {
 
         this.level = playerInfo.getAsNumber("level");
 
-        this.worldLevel = playerInfo.has("worldLevel") ? playerInfo.getAsNumber("worldLevel") : 0;
+        this.worldLevel = playerInfo.getAsNumberWithDefault(0, "worldLevel");
 
         this.profileCard = new NameCard(playerInfo.getAsNumber("nameCardId"), enka);
 
-        this.achievements = playerInfo.has("finishAchievementNum") ? playerInfo.getAsNumber("finishAchievementNum") : 0;
+        this.achievements = playerInfo.getAsNumberWithDefault(0, "finishAchievementNum");
 
         this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? { floor: playerInfo.getAsNumber("towerFloorIndex"), chamber: playerInfo.getAsNumber("towerLevelIndex") } : null;
 
-        this.ttl = json.has("ttl") ? json.getAsNumber("ttl") : -1;
+        this.ttl = json.getAsNumberWithDefault(-1, "ttl");
 
         this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner"), enka) : null;
 
-        this.enkaUserHash = json.has("owner") ? json.get("owner").getAsString("hash") : null;
+        this.enkaUserHash = json.getAsStringWithDefault(null, "owner", "hash");
 
         this.url = `${enka.options.enkaUrl}/u/${this.uid}`;
     }

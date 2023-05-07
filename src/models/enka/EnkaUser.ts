@@ -66,7 +66,7 @@ class EnkaUser {
 
         this.user = new User(fixedData, enka);
 
-        this.uid = json.has("uid") ? json.getAsNumber("uid") : null;
+        this.uid = json.getAsNumberWithDefault(null, "uid");
 
         this.isVerified = json.getAsBoolean("verified");
 
@@ -74,11 +74,11 @@ class EnkaUser {
 
         this.isUidPublic = json.getAsBoolean("uid_public");
 
-        this.verificationCode = json.has("verification_code") ? json.getAsString("verification_code") : null;
+        this.verificationCode = json.getAsStringWithDefault(null, "verification_code");
 
         this.verificationExpires = json.has("verification_expire") ? new Date(json.getAsNumber("verification_expire")) : null;
 
-        this.verificationCodeRetries = json.has("verification_code_retries") ? json.getAsNumber("verification_code_retries") : null;
+        this.verificationCodeRetries = json.getAsNumberWithDefault(null, "verification_code_retries");
 
         this.region = json.getAsString("region") as GameServerRegion;
 

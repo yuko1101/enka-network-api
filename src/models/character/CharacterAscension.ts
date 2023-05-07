@@ -38,7 +38,7 @@ class CharacterAscension {
 
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === this.id && (p.has("promoteLevel") ? p.getAsNumber("promoteLevel") : 0) === ascension)?.[1];
+        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === this.id && p.getAsNumberWithDefault(0, "promoteLevel") === ascension)?.[1];
         if (!json) throw new AssetsNotFoundError("CharacterAscension", `${this.id}-${ascension}`);
         this._data = json.getAsJsonObject();
 
@@ -46,7 +46,7 @@ class CharacterAscension {
 
         this.requiredPlayerLevel = json.getAsNumber("requiredPlayerLevel");
 
-        this.cost = new UpgradeCost(json.has("scoinCost") ? json.getAsNumber("scoinCost") : 0, json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
+        this.cost = new UpgradeCost(json.getAsNumberWithDefault(0, "scoinCost"), json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
 
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
     }

@@ -56,9 +56,9 @@ class Material {
 
         this.itemType = json.getAsString("itemType") as ItemType;
 
-        this.materialType = json.has("materialType") ? json.getAsString("materialType") : null;
+        this.materialType = json.getAsStringWithDefault(null, "materialType");
 
-        this.stars = json.has("rankLevel") ? json.getAsNumber("rankLevel") : null;
+        this.stars = json.getAsNumberWithDefault(null, "rankLevel");
     }
 
     /**
@@ -72,7 +72,7 @@ class Material {
         const materialData = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!materialData) throw new AssetsNotFoundError("Material", id);
 
-        switch (materialData.has("materialType") ? materialData.getAsString("materialType") : null) {
+        switch (materialData.getAsStringWithDefault(null, "materialType")) {
             case NameCard.MATERIAL_TYPE:
                 return new NameCard(id, enka, materialData);
             default:

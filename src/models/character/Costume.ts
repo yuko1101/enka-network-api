@@ -59,7 +59,7 @@ class Costume {
 
         this.characterId = json.getAsNumber(keys.costumeCharacterIdKey);
 
-        this.isDefault = json.has("isDefault") ? json.getAsBoolean("isDefault") : false;
+        this.isDefault = json.getAsBooleanWithDefault(false, "isDefault");
 
         const jsonName = json.getAsString("jsonName");
         this._nameId = !this.isDefault ? jsonName.slice(jsonName.lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);

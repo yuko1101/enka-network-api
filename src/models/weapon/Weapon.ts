@@ -52,7 +52,7 @@ class Weapon {
 
         this.level = weapon.getAsNumber("level") as number;
 
-        this.ascension = weapon.has("promoteLevel") ? weapon.getAsNumber("promoteLevel") : 0;
+        this.ascension = weapon.getAsNumberWithDefault(0, "promoteLevel");
 
         this.maxLevel = (this.ascension + 1) * 20 - (this.ascension > 1 ? (this.ascension - 1) * 10 : 0);
 

@@ -47,7 +47,7 @@ class EnkaProfile {
 
         this.avatar = profile.getAsNullableString("avatar");
 
-        this.imageUrl = profile.has("image_url") ? profile.getAsString("image_url") : null;
+        this.imageUrl = profile.getAsStringWithDefault(null, "image_url");
 
         this.level = profile.getAsNumber("level");
 
