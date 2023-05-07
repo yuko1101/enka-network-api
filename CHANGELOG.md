@@ -2,7 +2,7 @@
 **This version includes Breaking Changes**
 - Removed `playableOnly` param from EnkaClient#getAllCharacters.
 - Removed CharacterData#isPlayable.
-- Safer type assertions.
+- Safer type assertions. (Might be a little slow.)
 # 3.0.5
 **This version includes small Breaking Changes**
 - Made EnkaUser#uid, EnkaUser#verificationCode, EnkaUser#verificationExpires, and EnkaUser#verificationCodeRetries nullable.
