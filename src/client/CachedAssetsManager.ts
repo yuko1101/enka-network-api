@@ -148,7 +148,7 @@ class CachedAssetsManager {
     }
 
     /** Obtains a text map for a specific language, and if `store` is true, stores the data as a json file. */
-    async fetchLanguageData(lang: LanguageCode, store = true) {
+    async fetchLanguageData(lang: LanguageCode, store = true): Promise<{ [key: string]: string }> {
         await this.cacheDirectorySetup();
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
         const json = (await fetchJSON(url, this.enka)).data;
