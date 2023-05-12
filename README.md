@@ -67,8 +67,6 @@ const { EnkaClient } = require("enka-network-api");
 
 // Change the directory to store cache data.
 // Default directory is **/enka-network-api/cache.
-// Re-fetching contents may be required, if you update 
-// enka-network-api with the cache directory in it.
 const enka = new EnkaClient();
 enka.cachedAssetsManager.cacheDirectoryPath = "./cache";
 enka.cachedAssetsManager.cacheDirectorySetup();
@@ -93,7 +91,7 @@ enka.cachedAssetsManager.fetchAllContents(); // returns promise
 
 Also, you can activate auto cache updater.
 
-When using the auto-cache updater, we strongly recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache when moving directory, just delete all folders/files in it.**)
+When using the auto-cache updater, we recommend moving the cache directory directly under your project folder. (**DO NOT delete \*\*/enka-network-api/cache when moving directory, just delete all folders/files in it.**)
 
 ```js
 const { EnkaClient } = require("enka-network-api");
