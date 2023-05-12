@@ -1,90 +1,90 @@
 import { JsonObject } from "config_file.js";
 import { fightProps } from "../../utils/constants";
-import StatusProperty from "../StatusProperty";
+import StatProperty from "../StatProperty";
 import EnkaClient from "../../client/EnkaClient";
 import Element from "../Element";
 
 /**
- * @en CharacterStatus
+ * @en CharacterStats
  */
-class CharacterStatus {
+class CharacterStats {
     /**  */
     readonly enka: EnkaClient;
     /**  */
-    readonly healthBase: StatusProperty;
+    readonly healthBase: StatProperty;
     /**  */
-    readonly healthFlat: StatusProperty;
+    readonly healthFlat: StatProperty;
     /**  */
-    readonly healthPercent: StatusProperty;
+    readonly healthPercent: StatProperty;
     /**  */
-    readonly attackBase: StatusProperty;
+    readonly attackBase: StatProperty;
     /**  */
-    readonly attackFlat: StatusProperty;
+    readonly attackFlat: StatProperty;
     /**  */
-    readonly attackPercent: StatusProperty;
+    readonly attackPercent: StatProperty;
     /**  */
-    readonly defenseBase: StatusProperty;
+    readonly defenseBase: StatProperty;
     /**  */
-    readonly defenseFlat: StatusProperty;
+    readonly defenseFlat: StatProperty;
     /**  */
-    readonly defensePercent: StatusProperty;
+    readonly defensePercent: StatProperty;
     /**  */
-    readonly speedBase: StatusProperty;
+    readonly speedBase: StatProperty;
     /**  */
-    readonly speedPercent: StatusProperty;
+    readonly speedPercent: StatProperty;
     /**  */
-    readonly critRate: StatusProperty;
+    readonly critRate: StatProperty;
     /**  */
-    readonly critDamage: StatusProperty;
+    readonly critDamage: StatProperty;
     /**  */
-    readonly chargeEfficiency: StatusProperty;
+    readonly chargeEfficiency: StatProperty;
     /**  */
-    readonly healAdd: StatusProperty;
+    readonly healAdd: StatProperty;
     /**  */
-    readonly healedAdd: StatusProperty;
+    readonly healedAdd: StatProperty;
     /**  */
-    readonly elementMastery: StatusProperty;
+    readonly elementMastery: StatProperty;
     /**  */
-    readonly physicalRes: StatusProperty;
+    readonly physicalRes: StatProperty;
     /**  */
-    readonly physicalDamage: StatusProperty;
+    readonly physicalDamage: StatProperty;
     /**  */
-    readonly pyroDamage: StatusProperty;
+    readonly pyroDamage: StatProperty;
     /**  */
-    readonly electroDamage: StatusProperty;
+    readonly electroDamage: StatProperty;
     /**  */
-    readonly hydroDamage: StatusProperty;
+    readonly hydroDamage: StatProperty;
     /**  */
-    readonly dendroDamage: StatusProperty;
+    readonly dendroDamage: StatProperty;
     /**  */
-    readonly anemoDamage: StatusProperty;
+    readonly anemoDamage: StatProperty;
     /**  */
-    readonly geoDamage: StatusProperty;
+    readonly geoDamage: StatProperty;
     /**  */
-    readonly cryoDamage: StatusProperty;
+    readonly cryoDamage: StatProperty;
     /**  */
-    readonly pyroRes: StatusProperty;
+    readonly pyroRes: StatProperty;
     /**  */
-    readonly electroRes: StatusProperty;
+    readonly electroRes: StatProperty;
     /**  */
-    readonly hydroRes: StatusProperty;
+    readonly hydroRes: StatProperty;
     /**  */
-    readonly dendroRes: StatusProperty;
+    readonly dendroRes: StatProperty;
     /**  */
-    readonly anemoRes: StatusProperty;
+    readonly anemoRes: StatProperty;
     /**  */
-    readonly geoRes: StatusProperty;
+    readonly geoRes: StatProperty;
     /**  */
-    readonly cryoRes: StatusProperty;
+    readonly cryoRes: StatProperty;
     /**
      * Element damage bonus which matches the character's element (Physical DMG ignored)
      */
-    readonly matchedElementDamage: StatusProperty | null;
+    readonly matchedElementDamage: StatProperty | null;
     /**
      * Including physical damage bonus, and returns list of highest damage bonus.
      * The order of the list is such that elemental matches come first.
      */
-    readonly highestDamageBonus: StatusProperty[];
+    readonly highestDamageBonus: StatProperty[];
     /**  */
     readonly pyroEnergyCost: number;
     /**  */
@@ -102,9 +102,9 @@ class CharacterStatus {
     /**  */
     readonly energyCost: number;
     /**  */
-    readonly cooldownReduction: StatusProperty;
+    readonly cooldownReduction: StatProperty;
     /**  */
-    readonly shieldStrength: StatusProperty;
+    readonly shieldStrength: StatProperty;
     /**  */
     readonly currentPyroEnergy: number;
     /**  */
@@ -122,17 +122,17 @@ class CharacterStatus {
     /**  */
     readonly currentEnergy: number;
     /**  */
-    readonly currentHealth: StatusProperty;
+    readonly currentHealth: StatProperty;
     /**  */
-    readonly maxHealth: StatusProperty;
+    readonly maxHealth: StatProperty;
     /** The current attack of the character */
-    readonly attack: StatusProperty;
+    readonly attack: StatProperty;
     /** The current defense of the character */
-    readonly defense: StatusProperty;
+    readonly defense: StatProperty;
     /** The current speed of the character */
-    readonly speed: StatusProperty;
+    readonly speed: StatProperty;
     /**  */
-    readonly statusProperties: StatusProperty[];
+    readonly statProperties: StatProperty[];
 
     readonly _data: JsonObject;
 
@@ -147,39 +147,39 @@ class CharacterStatus {
         this.enka = enka;
 
 
-        this.healthBase = this.getStatusProperty(1);
-        this.healthFlat = this.getStatusProperty(2);
-        this.healthPercent = this.getStatusProperty(3);
-        this.attackBase = this.getStatusProperty(4);
-        this.attackFlat = this.getStatusProperty(5);
-        this.attackPercent = this.getStatusProperty(6);
-        this.defenseBase = this.getStatusProperty(7);
-        this.defenseFlat = this.getStatusProperty(8);
-        this.defensePercent = this.getStatusProperty(9);
-        this.speedBase = this.getStatusProperty(10);
-        this.speedPercent = this.getStatusProperty(11);
-        this.critRate = this.getStatusProperty(20);
-        this.critDamage = this.getStatusProperty(22);
-        this.chargeEfficiency = this.getStatusProperty(23);
-        this.healAdd = this.getStatusProperty(26);
-        this.healedAdd = this.getStatusProperty(27);
-        this.elementMastery = this.getStatusProperty(28);
-        this.physicalRes = this.getStatusProperty(29);
-        this.physicalDamage = this.getStatusProperty(30);
-        this.pyroDamage = this.getStatusProperty(40);
-        this.electroDamage = this.getStatusProperty(41);
-        this.hydroDamage = this.getStatusProperty(42);
-        this.dendroDamage = this.getStatusProperty(43);
-        this.anemoDamage = this.getStatusProperty(44);
-        this.geoDamage = this.getStatusProperty(45);
-        this.cryoDamage = this.getStatusProperty(46);
-        this.pyroRes = this.getStatusProperty(50);
-        this.electroRes = this.getStatusProperty(51);
-        this.hydroRes = this.getStatusProperty(52);
-        this.dendroRes = this.getStatusProperty(53);
-        this.anemoRes = this.getStatusProperty(54);
-        this.geoRes = this.getStatusProperty(55);
-        this.cryoRes = this.getStatusProperty(56);
+        this.healthBase = this.getStatProperty(1);
+        this.healthFlat = this.getStatProperty(2);
+        this.healthPercent = this.getStatProperty(3);
+        this.attackBase = this.getStatProperty(4);
+        this.attackFlat = this.getStatProperty(5);
+        this.attackPercent = this.getStatProperty(6);
+        this.defenseBase = this.getStatProperty(7);
+        this.defenseFlat = this.getStatProperty(8);
+        this.defensePercent = this.getStatProperty(9);
+        this.speedBase = this.getStatProperty(10);
+        this.speedPercent = this.getStatProperty(11);
+        this.critRate = this.getStatProperty(20);
+        this.critDamage = this.getStatProperty(22);
+        this.chargeEfficiency = this.getStatProperty(23);
+        this.healAdd = this.getStatProperty(26);
+        this.healedAdd = this.getStatProperty(27);
+        this.elementMastery = this.getStatProperty(28);
+        this.physicalRes = this.getStatProperty(29);
+        this.physicalDamage = this.getStatProperty(30);
+        this.pyroDamage = this.getStatProperty(40);
+        this.electroDamage = this.getStatProperty(41);
+        this.hydroDamage = this.getStatProperty(42);
+        this.dendroDamage = this.getStatProperty(43);
+        this.anemoDamage = this.getStatProperty(44);
+        this.geoDamage = this.getStatProperty(45);
+        this.cryoDamage = this.getStatProperty(46);
+        this.pyroRes = this.getStatProperty(50);
+        this.electroRes = this.getStatProperty(51);
+        this.hydroRes = this.getStatProperty(52);
+        this.dendroRes = this.getStatProperty(53);
+        this.anemoRes = this.getStatProperty(54);
+        this.geoRes = this.getStatProperty(55);
+        this.cryoRes = this.getStatProperty(56);
 
         this.matchedElementDamage =
             element?.id === "Fire" ? this.pyroDamage :
@@ -214,8 +214,8 @@ class CharacterStatus {
             this.geoEnergyCost,
         );
 
-        this.cooldownReduction = this.getStatusProperty(80);
-        this.shieldStrength = this.getStatusProperty(81);
+        this.cooldownReduction = this.getStatProperty(80);
+        this.shieldStrength = this.getStatProperty(81);
 
         this.currentPyroEnergy = (data[1000] ?? 0) as number;
         this.currentElectroEnergy = (data[1001] ?? 0) as number;
@@ -235,24 +235,24 @@ class CharacterStatus {
             this.currentGeoEnergy,
         );
 
-        this.currentHealth = this.getStatusProperty(1010);
+        this.currentHealth = this.getStatProperty(1010);
 
-        this.maxHealth = this.getStatusProperty(2000);
+        this.maxHealth = this.getStatProperty(2000);
 
-        this.attack = this.getStatusProperty(2001);
-        this.defense = this.getStatusProperty(2002);
-        this.speed = this.getStatusProperty(2003);
+        this.attack = this.getStatProperty(2001);
+        this.defense = this.getStatProperty(2002);
+        this.speed = this.getStatProperty(2003);
 
-        this.statusProperties = Object.values(this).filter(value => value instanceof StatusProperty);
+        this.statProperties = Object.values(this).filter(value => value instanceof StatProperty);
     }
 
     /**
      * @param id
      * @param defaultValue
      */
-    getStatusProperty(id: number, defaultValue = 0): StatusProperty {
-        return new StatusProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
+    getStatProperty(id: number, defaultValue = 0): StatProperty {
+        return new StatProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }
 }
 
-export default CharacterStatus;
+export default CharacterStats;

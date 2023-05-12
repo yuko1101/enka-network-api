@@ -1,3 +1,8 @@
+# 3.2.0
+**This version includes Breaking Changes**
+- Renamed StatusProperty to StatProperty.
+- Renamed CharacterStatus to CharacterStats, CharacterStatus#statusProperties to CharacterStats#statProperties, and CharacterStatus#getStatusProperty to CharacterStats#getStatProperty.
+- Renamed Character#status to Character#stats.
 # 3.1.0
 **This version includes Breaking Changes**
 - Removed `playableOnly` param from EnkaClient#getAllCharacters.

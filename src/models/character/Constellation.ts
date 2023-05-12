@@ -3,7 +3,7 @@ import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
-import StatusProperty, { FightProp } from "../StatusProperty";
+import StatProperty, { FightProp } from "../StatProperty";
 
 /**
  * @en Constellation
@@ -20,7 +20,7 @@ class Constellation {
     /**  */
     readonly icon: ImageAssets;
     /**  */
-    readonly addProps: StatusProperty[];
+    readonly addProps: StatProperty[];
     /**  */
     readonly paramList: number[];
 
@@ -46,7 +46,7 @@ class Constellation {
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }

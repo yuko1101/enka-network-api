@@ -5,9 +5,9 @@ import { percent } from "../utils/constants";
 import TextAssets from "./assets/TextAssets";
 
 /**
- * @en StatusProperty
+ * @en StatProperty
  */
-class StatusProperty {
+class StatProperty {
     /**  */
     readonly fightProp: FightProp;
     /**  */
@@ -68,7 +68,7 @@ class StatusProperty {
     }
 }
 
-export default StatusProperty;
+export default StatProperty;
 
 /**
  * @en FightProp

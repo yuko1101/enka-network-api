@@ -2,7 +2,7 @@ import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import UpgradeCost from "../material/UpgradeCost";
-import StatusProperty, { FightProp } from "../StatusProperty";
+import StatProperty, { FightProp } from "../StatProperty";
 
 /**
  * @en CharacterAscension
@@ -21,7 +21,7 @@ class CharacterAscension {
     /**  */
     readonly cost: UpgradeCost;
     /**  */
-    readonly addProps: StatusProperty[];
+    readonly addProps: StatProperty[];
 
     readonly _data: JsonObject;
 
@@ -48,7 +48,7 @@ class CharacterAscension {
 
         this.cost = new UpgradeCost(json.getAsNumberWithDefault(0, "scoinCost"), json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
 
-        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
     }
 }
 

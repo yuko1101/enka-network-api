@@ -26,7 +26,7 @@ import Character from "./models/character/Character";
 import CharacterAscension from "./models/character/CharacterAscension";
 import CharacterData from "./models/character/CharacterData";
 import CharacterDetails from "./models/character/CharacterDetails";
-import CharacterStatus from "./models/character/CharacterStatus";
+import CharacterStats from "./models/character/CharacterStats";
 import Constellation from "./models/character/Constellation";
 import Costume from "./models/character/Costume";
 import CharacterBuild from "./models/enka/CharacterBuild";
@@ -41,7 +41,7 @@ import WeaponRefinement from "./models/weapon/WeaponRefinement";
 import WeaponRefinements from "./models/weapon/WeaponRefinements";
 import DetailedUser from "./models/DetailedUser";
 import Element from "./models/Element";
-import StatusProperty from "./models/StatusProperty";
+import StatProperty from "./models/StatProperty";
 import User from "./models/User";
 
 // classes
@@ -73,8 +73,8 @@ export {
     CharacterAscension,
     CharacterData,
     CharacterDetails,
-    CharacterStatus,
-    StatusProperty,
+    CharacterStats,
+    StatProperty,
     Constellation,
     Costume,
     CharacterBuild,
@@ -103,7 +103,7 @@ export { GameServerRegion } from "./models/enka/EnkaUser";
 export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
-export { FightProp } from "./models/StatusProperty";
+export { FightProp } from "./models/StatProperty";
 export { CharacterPreview } from "./models/User";
 
 // functions

@@ -3,7 +3,7 @@ import EnkaClient from "../../../client/EnkaClient";
 import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
 import ImageAssets from "../../assets/ImageAssets";
 import TextAssets from "../../assets/TextAssets";
-import StatusProperty, { FightProp } from "../../StatusProperty";
+import StatProperty, { FightProp } from "../../StatProperty";
 
 /**
  * @en PassiveTalent
@@ -20,7 +20,7 @@ class PassiveTalent {
     /**  */
     readonly icon: ImageAssets;
     /**  */
-    readonly addProps: StatusProperty[];
+    readonly addProps: StatProperty[];
     /**
      * Whether the talent is hidden in the list of talents on the in-game character screen
      * e.g. Raiden Shogun's talent of not being able to cook (Talent ID: 522301)
@@ -48,7 +48,7 @@ class PassiveTalent {
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
-        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.isHidden = json.getAsBooleanWithDefault(false, enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey);
     }

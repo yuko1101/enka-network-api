@@ -1,7 +1,7 @@
 import Artifact from "../artifact/Artifact";
 import CharacterData from "./CharacterData";
 import Weapon from "../weapon/Weapon";
-import CharacterStatus from "./CharacterStatus";
+import CharacterStats from "./CharacterStats";
 import SkillLevel from "./talents/SkillLevel";
 import UpgradableSkill from "./talents/UpgradableSkill";
 import NormalAttack from "./talents/NormalAttack";
@@ -30,7 +30,7 @@ class Character {
     /**  */
     readonly weapon: Weapon;
     /**  */
-    readonly status: CharacterStatus;
+    readonly stats: CharacterStats;
     /**  */
     readonly level: number;
     /**  */
@@ -72,7 +72,7 @@ class Character {
 
         this.weapon = new Weapon(json.get("equipList").findArray((_, item) => item.has("weapon"))?.[1].getAsJsonObject() as JsonObject, enka);
 
-        this.status = new CharacterStatus(json.getAsJsonObject("fightPropMap"), enka, this.characterData.element as Element);
+        this.stats = new CharacterStats(json.getAsJsonObject("fightPropMap"), enka, this.characterData.element as Element);
 
         const propMap = json.get("propMap");
 

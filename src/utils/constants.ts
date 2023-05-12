@@ -1,4 +1,4 @@
-import { FightProp } from "../models/StatusProperty";
+import { FightProp } from "../models/StatProperty";
 
 /** @constant */
 export const fightProps: { [key: string]: FightProp } = {

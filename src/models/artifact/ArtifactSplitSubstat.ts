@@ -1,13 +1,13 @@
 import { JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import StatusProperty, { FightProp } from "../StatusProperty";
+import StatProperty, { FightProp } from "../StatProperty";
 
 /**
  * @en ArtifactSplitSubstat
- * @extends {StatusProperty}
+ * @extends {StatProperty}
  */
-class ArtifactSplitSubstat extends StatusProperty {
+class ArtifactSplitSubstat extends StatProperty {
     readonly _data: JsonObject;
 
     /**

@@ -1,6 +1,6 @@
 import ArtifactData from "./ArtifactData";
 import ArtifactSplitSubstat from "./ArtifactSplitSubstat";
-import StatusProperty, { FightProp } from "../StatusProperty";
+import StatProperty, { FightProp } from "../StatProperty";
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 
@@ -9,7 +9,7 @@ import EnkaClient from "../../client/EnkaClient";
  * @typedef
  */
 export interface SubstatsContainer {
-    total: StatusProperty[];
+    total: StatProperty[];
     split: ArtifactSplitSubstat[];
 }
 
@@ -24,7 +24,7 @@ class Artifact {
     /**  */
     readonly level: number;
     /**  */
-    readonly mainstat: StatusProperty;
+    readonly mainstat: StatProperty;
     /**  */
     readonly substats: SubstatsContainer;
 
@@ -49,10 +49,10 @@ class Artifact {
 
         this.level = reliquary.getAsNumber("level");
 
-        this.mainstat = new StatusProperty(flat.getAsString("reliquaryMainstat", "mainPropId") as FightProp, flat.getAsNumber("reliquaryMainstat", "statValue"), enka, true);
+        this.mainstat = new StatProperty(flat.getAsString("reliquaryMainstat", "mainPropId") as FightProp, flat.getAsNumber("reliquaryMainstat", "statValue"), enka, true);
 
         this.substats = {
-            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatusProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
+            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
             split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => new ArtifactSplitSubstat(id.getAsNumber(), enka)) : [],
         };
 

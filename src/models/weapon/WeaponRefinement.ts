@@ -1,6 +1,6 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import TextAssets from "../assets/TextAssets";
-import StatusProperty, { FightProp } from "../StatusProperty";
+import StatProperty, { FightProp } from "../StatProperty";
 import EnkaClient from "../../client/EnkaClient";
 
 /**
@@ -16,7 +16,7 @@ class WeaponRefinement {
     /**  */
     readonly description: TextAssets;
     /**  */
-    readonly addProps: StatusProperty[];
+    readonly addProps: StatProperty[];
     /**  */
     readonly paramList: number[];
 
@@ -39,7 +39,7 @@ class WeaponRefinement {
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatusProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }
