@@ -1,3 +1,5 @@
+# 3.2.2
+- Use adm-zip library instead of unzipper.
 # 3.2.1
 - Specified the version of unzipper due to some bugs.
 # 3.2.0
