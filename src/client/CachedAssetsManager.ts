@@ -556,7 +556,7 @@ class CachedAssetsManager {
                 res.data.pipe(fs.createWriteStream(zipPath));
                 res.data.on("end", () => {
                     const zip = new AdmZip(zipPath);
-                    zip.extractAllToAsync(cacheParentDirectory, undefined, undefined, () => {
+                    zip.extractAllToAsync(cacheParentDirectory, true, undefined, () => {
                         fs.rmSync(zipPath);
                         resolve();
                     });
