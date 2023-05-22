@@ -549,19 +549,34 @@ class CachedAssetsManager {
             throw new Error(`Failed to download genshin data from ${url} with an error: ${e}`);
         });
         if (res.status == 200) {
-            const cacheParentDirectory = path.resolve(this.cacheDirectoryPath, "..");
-            const zipPath = path.resolve(this.defaultCacheDirectoryPath, "..", "cache-downloaded.zip");
+            const tempDir = path.resolve(this.defaultCacheDirectoryPath, "..", "temp");
+            const zipPath = path.resolve(tempDir, "cache-downloaded.zip");
+            const extractedCacheDir = path.resolve(tempDir, "cache");
+
+            if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
 
             await new Promise<void>(resolve => {
                 res.data.pipe(fs.createWriteStream(zipPath));
                 res.data.on("end", () => {
                     const zip = new AdmZip(zipPath);
-                    zip.extractAllToAsync(cacheParentDirectory, true, undefined, () => {
-                        fs.rmSync(zipPath);
+                    zip.extractAllToAsync(tempDir, true, undefined, () => {
                         resolve();
                     });
                 });
             });
+            if (fs.existsSync(zipPath)) fs.rmSync(zipPath);
+            if (this._githubCache?.filePath && fs.existsSync(this._githubCache.filePath)) {
+                // delete to avoid overwriting
+                fs.rmSync(path.resolve(extractedCacheDir, "github", "genshin_data.json"));
+            }
+            try {
+                move(extractedCacheDir, this.cacheDirectoryPath);
+            } catch (e) {
+                console.error(`Moving cache data failed with error: ${e}`);
+            }
+
+            if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true });
+
 
         } else {
             throw new Error(`Failed to download genshin data from ${url} with status ${res.status} - ${res.statusText}`);
