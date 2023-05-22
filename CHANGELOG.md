@@ -1,3 +1,5 @@
+# 3.2.3
+- Fixed error on extract cache.zip.
 # 3.2.2
 - Use adm-zip library instead of unzipper.
 # 3.2.1
