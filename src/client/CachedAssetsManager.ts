@@ -564,11 +564,7 @@ class CachedAssetsManager {
                     });
                 });
             });
-            if (fs.existsSync(zipPath)) fs.rmSync(zipPath);
-            if (this._githubCache?.filePath && fs.existsSync(this._githubCache.filePath)) {
-                // delete to avoid overwriting
-                fs.rmSync(path.resolve(extractedCacheDir, "github", "genshin_data.json"));
-            }
+
             try {
                 move(extractedCacheDir, this.cacheDirectoryPath);
             } catch (e) {
