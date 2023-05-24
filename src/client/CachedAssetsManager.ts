@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { Axios } from "axios";
-import AdmZip from "adm-zip";
+import unzip, { Entry } from "unzip-stream";
 import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonReader } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
 import ObjectKeysManager from "./ObjectKeysManager";
@@ -549,31 +549,30 @@ class CachedAssetsManager {
             throw new Error(`Failed to download genshin data from ${url} with an error: ${e}`);
         });
         if (res.status == 200) {
-            const tempDir = path.resolve(this.defaultCacheDirectoryPath, "..", "temp");
-            const zipPath = path.resolve(tempDir, "cache-downloaded.zip");
-            const extractedCacheDir = path.resolve(tempDir, "cache");
-
-            if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
-
             await new Promise<void>(resolve => {
-                res.data.pipe(fs.createWriteStream(zipPath));
-                res.data.on("end", () => {
-                    const zip = new AdmZip(zipPath);
-                    zip.extractAllToAsync(tempDir, true, undefined, () => {
-                        resolve();
+                res.data
+                    .pipe(unzip.Parse())
+                    .on("entry", (entry: Entry) => {
+                        const entryPath = entry.path.replace(/^cache\/?/, "");
+                        const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
+
+                        if (entry.type === "Directory") {
+                            if (!fs.existsSync(extractPath)) fs.mkdirSync(extractPath);
+                            entry.autodrain();
+                        } else if (entryPath.startsWith("github/")) {
+                            if (fs.existsSync(extractPath)) {
+                                entry.autodrain();
+                                return;
+                            }
+                            entry.pipe(fs.createWriteStream(extractPath));
+                        } else {
+                            entry.pipe(fs.createWriteStream(extractPath));
+                        }
                     });
+                res.data.on("close", () => {
+                    resolve();
                 });
             });
-
-            try {
-                move(extractedCacheDir, this.cacheDirectoryPath);
-            } catch (e) {
-                console.error(`Moving cache data failed with error: ${e}`);
-            }
-
-            if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true });
-
-
         } else {
             throw new Error(`Failed to download genshin data from ${url} with status ${res.status} - ${res.statusText}`);
         }

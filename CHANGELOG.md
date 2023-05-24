@@ -1,3 +1,6 @@
+# 3.2.4
+- Use unzip-stream library instead of unzipper.
+- Fixed that cache directory must have been named "cache".
 # 3.2.3
 - Fixed error on extract cache.zip.
 # 3.2.2
