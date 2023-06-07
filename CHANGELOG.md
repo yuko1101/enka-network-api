@@ -1,3 +1,5 @@
+# 3.2.5
+- Fixed a error with _downloadCacheZip().
 # 3.2.4
 - Use unzip-stream library instead of unzipper.
 - Fixed that cache directory must have been named "cache".
