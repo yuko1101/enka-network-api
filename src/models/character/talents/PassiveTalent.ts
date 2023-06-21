@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
 import ImageAssets from "../../assets/ImageAssets";
@@ -30,17 +30,16 @@ class PassiveTalent {
     readonly _data: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-        this.id = id;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
+        this._data = data;
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillId") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Talent", this.id);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(this._data);
+
+        this.id = json.getAsNumber("proudSkillId");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
@@ -51,6 +50,16 @@ class PassiveTalent {
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.isHidden = json.getAsBooleanWithDefault(false, enka.cachedAssetsManager.getObjectKeysManager().talentIsHiddenKey);
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): PassiveTalent {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillId") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("Talent", id);
+        return new PassiveTalent(json.getAsJsonObject(), enka);
     }
 }
 

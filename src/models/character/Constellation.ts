@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -27,18 +27,16 @@ class Constellation {
     readonly _data: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-
-        this.id = id;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
+        this._data = data;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").findArray((_, p) => p.getAsNumber("talentId") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Talent", this.id);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(data);
+
+        this.id = json.getAsNumber("talentId");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
@@ -49,6 +47,16 @@ class Constellation {
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
         this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): Constellation {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").findArray((_, p) => p.getAsNumber("talentId") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("Constellation", id);
+        return new Constellation(json.getAsJsonObject(), enka);
     }
 }
 

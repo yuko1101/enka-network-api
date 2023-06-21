@@ -1,7 +1,8 @@
-# 3.2.6
+# 3.3.0
 - Added CharacterDetails#characterId.
 - Added CharacterDetails#getVoices().
 - Renamed typedef CharacterVoices to CharacterVoiceActors.
+- Changed constructor parameters for most classes in src/models, and added static getById methods to them.
 # 3.2.5
 - Fixed a error with _downloadCacheZip().
 # 3.2.4

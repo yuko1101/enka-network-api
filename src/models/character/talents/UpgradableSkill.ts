@@ -1,4 +1,4 @@
-import { JsonReader } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
 import TextAssets from "../../assets/TextAssets";
@@ -11,11 +11,11 @@ import Skill from "./Skill";
  */
 class UpgradableSkill extends Skill {
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-        super(id, enka);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
     }
 
     /**
@@ -55,6 +55,14 @@ class UpgradableSkill extends Skill {
         if (!leveledSkillData) return null;
 
         return new UpgradeCost(leveledSkillData.getAsNumberWithDefault(0, "coinCost"), leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): UpgradableSkill {
+        return new UpgradableSkill(this._getJsonObjectById(id, enka), enka);
     }
 }
 

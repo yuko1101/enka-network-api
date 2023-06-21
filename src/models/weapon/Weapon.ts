@@ -41,7 +41,7 @@ class Weapon {
 
         const json = new JsonReader(this._data);
 
-        this.weaponData = new WeaponData(json.getAsNumber("itemId"), enka);
+        this.weaponData = WeaponData.getById(json.getAsNumber("itemId"), enka);
         const weaponDataJson = new JsonReader(this.weaponData._data);
 
         const weapon = json.get("weapon");

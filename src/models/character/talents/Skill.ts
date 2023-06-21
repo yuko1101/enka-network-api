@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
 import ImageAssets from "../../assets/ImageAssets";
@@ -23,24 +23,36 @@ class Skill {
     readonly _data: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-
-        this.id = id;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
+        this._data = data;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Skill", this.id);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(this._data);
+
+        this.id = json.getAsNumber("id");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
         this.icon = new ImageAssets(json.getAsString("skillIcon"), enka);
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): Skill {
+        return new Skill(this._getJsonObjectById(id, enka), enka);
+    }
+
+    static _getJsonObjectById(id: number, enka: EnkaClient): JsonObject {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("Skill", id);
+        return json.getAsJsonObject();
     }
 }
 

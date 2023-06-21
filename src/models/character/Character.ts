@@ -64,7 +64,7 @@ class Character {
 
         const json = new JsonReader(this._data);
 
-        this.characterData = new CharacterData(json.getAsNumber("avatarId"), enka, json.getAsNumberWithDefault(undefined, "skillDepotId"));
+        this.characterData = CharacterData.getById(json.getAsNumber("avatarId"), enka, json.getAsNumberWithDefault(undefined, "skillDepotId"));
 
         this.costume = (json.has("costumeId") ? this.characterData.costumes.find(c => c.id === json.getAsNumber("costumeId")) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 

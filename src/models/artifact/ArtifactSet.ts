@@ -26,19 +26,16 @@ class ArtifactSet {
     readonly _setBonusData: JsonObject[];
 
     /**
-     * @param id
-     * @param enka
      * @param data
+     * @param enka
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
-
+    constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
+        this._data = data;
 
-        this.id = data?.getAsNumber("setId") ?? id;
+        const json = new JsonReader(this._data);
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").findArray((_, p) => p.getAsNumber("setId") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("ArtifactSet", this.id);
-        this._data = json.getAsJsonObject();
+        this.id = json.getAsNumber("setId");
 
         const setNeedNum = json.get("setNeedNum").mapArray((_, p) => p.getAsNumber());
 
@@ -52,6 +49,12 @@ class ArtifactSet {
         this.icon = new ImageAssets(json.getAsString("setIcon"), enka);
 
         this.name = new TextAssets(new JsonReader(this._setBonusData[0]).getAsNumber("nameTextMapHash"), enka);
+    }
+
+    static getById(id: number, enka: EnkaClient): ArtifactSet {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").findArray((_, p) => p.getAsNumber("setId") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("ArtifactSet", id);
+        return new ArtifactSet(json.getAsJsonObject(), enka);
     }
 
     /**

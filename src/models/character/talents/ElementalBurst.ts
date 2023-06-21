@@ -1,4 +1,4 @@
-import { JsonReader } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import Element, { ElementType } from "../../Element";
 import UniqueSkill from "./UniqueSkill";
@@ -14,18 +14,25 @@ class ElementalBurst extends UniqueSkill {
     readonly costElemVal: number;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-        super(id, enka);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
 
         const json = new JsonReader(this._data);
 
-        this.costElemType = new Element(json.getAsString("costElemType") as ElementType, enka);
+        this.costElemType = Element.getByElementType(json.getAsString("costElemType") as ElementType, enka);
 
         this.costElemVal = json.getAsNumber("costElemVal");
+    }
 
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): ElementalBurst {
+        return new ElementalBurst(this._getJsonObjectById(id, enka), enka);
     }
 }
 

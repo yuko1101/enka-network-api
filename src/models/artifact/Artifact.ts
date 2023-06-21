@@ -45,7 +45,7 @@ class Artifact {
         const flat = json.get("flat");
         const reliquary = json.get("reliquary");
 
-        this.artifactData = new ArtifactData(json.getAsNumber("itemId"), enka);
+        this.artifactData = ArtifactData.getById(json.getAsNumber("itemId"), enka);
 
         this.level = reliquary.getAsNumber("level");
 
@@ -53,7 +53,7 @@ class Artifact {
 
         this.substats = {
             total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
-            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => new ArtifactSplitSubstat(id.getAsNumber(), enka)) : [],
+            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => ArtifactSplitSubstat.getById(id.getAsNumber(), enka)) : [],
         };
 
     }

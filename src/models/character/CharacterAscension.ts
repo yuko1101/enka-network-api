@@ -26,21 +26,17 @@ class CharacterAscension {
     readonly _data: JsonObject;
 
     /**
-     * @param id avatarPromoteId
-     * @param ascension promoteLevel
+     * @param data
      * @param enka
-     * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number, ascension: number, enka: EnkaClient, data?: JsonReader) {
-        this.id = id;
-
-        this.ascension = ascension;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
+        this._data = data;
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === this.id && p.getAsNumberWithDefault(0, "promoteLevel") === ascension)?.[1];
-        if (!json) throw new AssetsNotFoundError("CharacterAscension", `${this.id}-${ascension}`);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(this._data);
+
+        this.id = json.getAsNumber("avatarPromoteId");
+        this.ascension = json.getAsNumberWithDefault(0, "promoteLevel");
 
         this.unlockMaxLevel = json.getAsNumber("unlockMaxLevel");
 
@@ -49,6 +45,16 @@ class CharacterAscension {
         this.cost = new UpgradeCost(json.getAsNumberWithDefault(0, "scoinCost"), json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
 
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+    }
+
+    /**
+     * @param id avatarPromoteId
+     * @param ascension promoteLevel
+     */
+    static getById(id: number, ascension: number, enka: EnkaClient): CharacterAscension {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === id && p.getAsNumberWithDefault(0, "promoteLevel") === ascension)?.[1];
+        if (!json) throw new AssetsNotFoundError("CharacterAscension", `${id}-${ascension}`);
+        return new CharacterAscension(json.getAsJsonObject(), enka);
     }
 }
 

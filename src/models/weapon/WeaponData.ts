@@ -38,19 +38,16 @@ class WeaponData {
     readonly _weaponTypeData: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
-     * @param data If this is provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
-
+    constructor(data: JsonObject, enka: EnkaClient) {
+        this._data = data;
         this.enka = enka;
 
-        this.id = id;
+        const json = new JsonReader(this._data);
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Weapon", this.id);
-        this._data = json.getAsJsonObject();
+        this.id = json.getAsNumber("id");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
@@ -71,6 +68,16 @@ class WeaponData {
         this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
 
         this.refinements = json.getAsNumber("skillAffix", 0) !== 0 ? new WeaponRefinements(json.getAsNumber("skillAffix", 0), enka).refinements : [];
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): WeaponData {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("Weapon", id);
+        return new WeaponData(json.getAsJsonObject(), enka);
     }
 }
 

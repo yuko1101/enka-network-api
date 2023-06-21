@@ -33,18 +33,16 @@ class Material {
     readonly _data: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
-     * @param data If this provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
-        this.id = id;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
+        this._data = data;
         this.enka = enka;
 
-        const json = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Material", this.id);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(this._data);
+
+        this.id = json.getAsNumber("id");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
@@ -62,22 +60,30 @@ class Material {
     }
 
     /**
+     * @param data
+     * @param enka
+     */
+    static getMaterialByData(data: JsonObject, enka: EnkaClient): Material {
+        const json = new JsonReader(data);
+        switch (json.getAsStringWithDefault(null, "materialType")) {
+            case NameCard.MATERIAL_TYPE:
+                return new NameCard(data, enka);
+            default:
+                return new Material(data, enka);
+        }
+    }
+
+    /**
      * @param id
      * @param enka
-     * @param data If this provided, use this instead of searching with `id`.
      */
-    static getMaterialById(id: number | string, enka: EnkaClient, data?: JsonReader): Material {
+    static getMaterialById(id: number | string, enka: EnkaClient): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         id = Number(id);
-        const materialData = data ?? enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
+        const materialData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!materialData) throw new AssetsNotFoundError("Material", id);
 
-        switch (materialData.getAsStringWithDefault(null, "materialType")) {
-            case NameCard.MATERIAL_TYPE:
-                return new NameCard(id, enka, materialData);
-            default:
-                return new Material(id, enka, materialData);
-        }
+        return this.getMaterialByData(materialData.getAsJsonObject(), enka);
     }
 }
 
@@ -87,22 +93,19 @@ export default Material;
  * @en NameCard
  * @extends {Material}
  */
-class NameCard extends Material {
+export class NameCard extends Material {
     /**  */
     override readonly materialType: "MATERIAL_NAMECARD";
 
     /**
-     * @param id
+     * @param data
      * @param enka
-     * @param data If this provided, use this instead of searching with `id`.
      */
-    constructor(id: number, enka: EnkaClient, data?: JsonReader) {
-        super(id, enka, data);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
         this.materialType = "MATERIAL_NAMECARD";
     }
 
     /**  */
     static readonly MATERIAL_TYPE = "MATERIAL_NAMECARD";
 }
-
-export { NameCard };

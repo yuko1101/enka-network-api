@@ -258,7 +258,7 @@ class EnkaClient {
      */
     getCharacterById(id: number | string, skillDepotId?: number | string): CharacterData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new CharacterData(Number(id), this, skillDepotId ? Number(skillDepotId) : undefined);
+        return CharacterData.getById(Number(id), this, skillDepotId ? Number(skillDepotId) : undefined);
     }
 
     /**
@@ -268,9 +268,9 @@ class EnkaClient {
     getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
         if (excludeInvalidWeapons) {
-            return weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsNumber("id"), this, p));
+            return weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsJsonObject(), this));
         } else {
-            return weapons.mapArray((_, p) => new WeaponData(p.getAsNumber("id"), this, p));
+            return weapons.mapArray((_, p) => new WeaponData(p.getAsJsonObject(), this));
         }
     }
 
@@ -279,7 +279,7 @@ class EnkaClient {
      */
     getWeaponById(id: number | string): WeaponData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new WeaponData(Number(id), this);
+        return WeaponData.getById(Number(id), this);
     }
 
     /**
@@ -287,7 +287,7 @@ class EnkaClient {
      * @returns all costume data
      */
     getAllCostumes(includeDefaults = false): Costume[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => !includeDefaults || (includeDefaults && p.getAsBooleanWithDefault(false, "isDefault"))).map(([, p]) => new Costume(null, this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => !includeDefaults || (includeDefaults && p.getAsBooleanWithDefault(false, "isDefault"))).map(([, p]) => new Costume(p.getAsJsonObject(), this));
     }
 
     /**
@@ -295,14 +295,14 @@ class EnkaClient {
      */
     getCostumeById(id: number | string): Costume {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new Costume(Number(id), this);
+        return Costume.getById(Number(id), this);
     }
 
     /**
      * @returns all material data
      */
     getAllMaterials(): Material[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").mapArray((_, p) => Material.getMaterialById(p.getAsNumber("id"), this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").mapArray((_, p) => Material.getMaterialByData(p.getAsJsonObject(), this));
     }
 
     /**
@@ -317,7 +317,7 @@ class EnkaClient {
      * @returns all name card data
      */
     getAllNameCards(): NameCard[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filterArray((_, p) => p.has("materialType") && p.getAsString("materialType") === NameCard.MATERIAL_TYPE).map(([, p]) => new NameCard(p.getAsNumber("id"), this, p));
+        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filterArray((_, p) => p.has("materialType") && p.getAsString("materialType") === NameCard.MATERIAL_TYPE).map(([, p]) => new NameCard(p.getAsJsonObject(), this));
     }
 
     /**
@@ -325,7 +325,9 @@ class EnkaClient {
      */
     getNameCardById(id: number | string): NameCard {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new NameCard(Number(id), this);
+        const material = Material.getMaterialById(Number(id), this);
+        if (material.materialType !== NameCard.MATERIAL_TYPE) throw new Error(`Material ${material.id} is not a NameCard.`);
+        return material as NameCard;
     }
 
     /**
@@ -348,7 +350,7 @@ class EnkaClient {
 
         const chunked = separateByValue(validRarityArtifacts, ([, p]) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
 
-        return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1][1].getAsNumber("id"), this));
+        return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1][1].getAsJsonObject(), this));
     }
 
     /**
@@ -356,7 +358,7 @@ class EnkaClient {
      */
     getArtifactById(id: number | string): ArtifactData {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new ArtifactData(Number(id), this);
+        return ArtifactData.getById(Number(id), this);
     }
 
     /**
@@ -364,7 +366,7 @@ class EnkaClient {
      */
     getAllArtifactSets(): ArtifactSet[] {
         const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("DisableFilter") !== 1);
-        return sets.map(([, p]) => new ArtifactSet(p.getAsNumber("setId"), this, p));
+        return sets.map(([, p]) => new ArtifactSet(p.getAsJsonObject(), this));
     }
 
     /**
@@ -372,7 +374,7 @@ class EnkaClient {
      */
     getArtifactSetById(id: number | string): ArtifactSet {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return new ArtifactSet(Number(id), this);
+        return ArtifactSet.getById(Number(id), this);
     }
 
     /**

@@ -9,10 +9,10 @@ import CharacterData from "../models/character/CharacterData";
 export function getCharactersById(id: number, enka: EnkaClient): CharacterData[] {
     const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1] as JsonReader;
     if (data.has("candSkillDepotIds") && (data.get("candSkillDepotIds").mapArray((_, p) => p.getAsNumber())).length > 0) {
-        return data.get("candSkillDepotIds").filterArray((_, skillDepotId) => hasEnergySkill(skillDepotId.getAsNumber(), enka)).map(([, skillDepotId]) => new CharacterData(id, enka, skillDepotId.getAsNumber()));
+        return data.get("candSkillDepotIds").filterArray((_, skillDepotId) => hasEnergySkill(skillDepotId.getAsNumber(), enka)).map(([, skillDepotId]) => new CharacterData(data.getAsJsonObject(), enka, skillDepotId.getAsNumber()));
     } else {
         if (!hasEnergySkill(data.getAsNumber("skillDepotId"), enka)) return [];
-        return [new CharacterData(id, enka)];
+        return [new CharacterData(data.getAsJsonObject(), enka)];
     }
 }
 

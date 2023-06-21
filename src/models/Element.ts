@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 import TextAssets from "./assets/TextAssets";
@@ -17,20 +17,24 @@ class Element {
     readonly _data: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: ElementType, enka: EnkaClient) {
-
-        this.id = id;
-
+    constructor(data: JsonObject, enka: EnkaClient) {
+        this._data = data;
         this.enka = enka;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Element", this.id);
-        this._data = json.getAsJsonObject();
+        const json = new JsonReader(this._data);
+
+        this.id = json.getAsString("textMapId") as ElementType;
 
         this.name = new TextAssets(json.getAsNumber("textMapContentTextMapHash"), enka);
+    }
+
+    static getByElementType(elementType: ElementType, enka: EnkaClient): Element {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === elementType)?.[1];
+        if (!json) throw new AssetsNotFoundError("Element", elementType);
+        return new Element(json.getAsJsonObject(), enka);
     }
 }
 

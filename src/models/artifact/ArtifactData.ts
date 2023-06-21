@@ -45,19 +45,17 @@ class ArtifactData {
     readonly _equipTypeData: JsonObject;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      * @param setData
      */
-    constructor(id: number, enka: EnkaClient, setData?: JsonReader) {
-
+    constructor(data: JsonObject, enka: EnkaClient, setData?: JsonObject) {
         this.enka = enka;
+        this._data = data;
 
-        this.id = id;
+        const json = new JsonReader(this._data);
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Artifact", this.id);
-        this._data = json.getAsJsonObject();
+        this.id = json.getAsNumber("id");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
@@ -75,8 +73,19 @@ class ArtifactData {
 
         this.stars = json.getAsNumber("rankLevel");
 
-        this.set = new ArtifactSet(json.getAsNumber("setId"), enka, setData);
+        this.set = setData ? new ArtifactSet(setData, enka) : ArtifactSet.getById(json.getAsNumber("setId"), enka);
 
+    }
+
+    /**
+     * @param id
+     * @param enka
+     * @param setData
+     */
+    static getById(id: number, enka: EnkaClient, setData?: JsonObject): ArtifactData {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("Artifact", id);
+        return new ArtifactData(json.getAsJsonObject(), enka, setData);
     }
 }
 

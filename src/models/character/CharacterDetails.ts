@@ -1,4 +1,4 @@
-import { JsonObject } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
@@ -51,20 +51,15 @@ class CharacterDetails {
     readonly _nameId: string;
 
     /**
-     * @param id
-     * @param enka
-     * @param characterId
+     * @param data
      * @param isArchon
+     * @param enka
      */
-    constructor(id: number | null, enka: EnkaClient, characterId?: number, isArchon = false) {
-        if (!id && !characterId) throw new Error("An id or character id must be provided.");
-
+    constructor(data: JsonObject, isArchon: boolean, enka: EnkaClient) {
         this.enka = enka;
+        this._data = data;
 
-        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => (id && f.getAsNumber("fetterId") === id) || f.getAsNumber("avatarId") === characterId)?.[1];
-        if (!json) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
-        this._data = json.getAsJsonObject();
-
+        const json = new JsonReader(this._data);
 
         this.id = json.getAsNumber("fetterId");
         this.characterId = json.getAsNumber("avatarId");
@@ -118,6 +113,28 @@ class CharacterDetails {
         const allVoices = this.enka.cachedAssetsManager.getGenshinCacheData("FettersExcelConfigData");
         const filtered = allVoices.filterArray((_, voiceData) => voiceData.getAsNumber("avatarId") === this.characterId);
         return filtered.map(([, voice]) => new CharacterVoiceData(voice.getAsJsonObject(), this.enka));
+    }
+
+    /**
+     * @param id
+     * @param isArchon
+     * @param enka
+     */
+    static getById(id: number, isArchon: boolean, enka: EnkaClient): CharacterDetails {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("fetterId") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("FetterInfo", id);
+        return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
+    }
+
+    /**
+     * @param id
+     * @param isArchon
+     * @param enka
+     */
+    static getByCharacterId(id: number, isArchon: boolean, enka: EnkaClient) {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("avatarId") === id)?.[1];
+        if (!json) throw new AssetsNotFoundError("FetterInfo by avatarId", id);
+        return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
     }
 }
 

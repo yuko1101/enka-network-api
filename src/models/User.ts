@@ -2,7 +2,7 @@ import { JsonReader, JsonObject } from "config_file.js";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import EnkaProfile from "./enka/EnkaProfile";
-import { NameCard } from "./material/Material";
+import Material, { NameCard } from "./material/Material";
 import EnkaClient from "../client/EnkaClient";
 
 /** @typedef */
@@ -77,12 +77,12 @@ class User {
         this.signature = playerInfo.getAsStringWithDefault(null, "signature");
 
         const profilePicture = playerInfo.get("profilePicture");
-        this.profilePictureCharacter = profilePicture.has("avatarId") ? new CharacterData(profilePicture.getAsNumber("avatarId"), enka) : null;
+        this.profilePictureCharacter = profilePicture.has("avatarId") ? CharacterData.getById(profilePicture.getAsNumber("avatarId"), enka) : null;
 
         this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").mapArray((_, p) => {
-            const characterData = new CharacterData(p.getAsNumber("avatarId"), enka);
+            const characterData = CharacterData.getById(p.getAsNumber("avatarId"), enka);
 
-            const costume = p.has("costumeId") ? new Costume(p.getAsNumber("costumeId"), enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
+            const costume = p.has("costumeId") ? Costume.getById(p.getAsNumber("costumeId"), enka) : (characterData.costumes.find(c => c.isDefault) as Costume);
 
             const preview: CharacterPreview = {
                 characterData,
@@ -93,13 +93,13 @@ class User {
             return preview;
         }) : [];
 
-        this.nameCards = playerInfo.has("showNameCardIdList") ? playerInfo.get("showNameCardIdList").mapArray((_, id) => new NameCard(id.getAsNumber(), enka)) : [];
+        this.nameCards = playerInfo.has("showNameCardIdList") ? playerInfo.get("showNameCardIdList").mapArray((_, id) => Material.getMaterialById(id.getAsNumber(), enka) as NameCard) : [];
 
         this.level = playerInfo.getAsNumber("level");
 
         this.worldLevel = playerInfo.getAsNumberWithDefault(0, "worldLevel");
 
-        this.profileCard = new NameCard(playerInfo.getAsNumber("nameCardId"), enka);
+        this.profileCard = Material.getMaterialById(playerInfo.getAsNumber("nameCardId"), enka) as NameCard;
 
         this.achievements = playerInfo.getAsNumberWithDefault(0, "finishAchievementNum");
 

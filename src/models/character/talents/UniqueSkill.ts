@@ -1,4 +1,4 @@
-import { JsonReader } from "config_file.js";
+import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../../client/EnkaClient";
 import UpgradableSkill from "./UpgradableSkill";
 
@@ -14,11 +14,11 @@ class UniqueSkill extends UpgradableSkill {
     readonly cooldown: number;
 
     /**
-     * @param id
+     * @param data
      * @param enka
      */
-    constructor(id: number, enka: EnkaClient) {
-        super(id, enka);
+    constructor(data: JsonObject, enka: EnkaClient) {
+        super(data, enka);
 
         const json = new JsonReader(this._data);
 
@@ -26,6 +26,14 @@ class UniqueSkill extends UpgradableSkill {
 
         this.cooldown = json.getAsNumber("cdTime");
 
+    }
+
+    /**
+     * @param id
+     * @param enka
+     */
+    static getById(id: number, enka: EnkaClient): UniqueSkill {
+        return new UniqueSkill(this._getJsonObjectById(id, enka), enka);
     }
 }
 
