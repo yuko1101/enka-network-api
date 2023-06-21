@@ -51,6 +51,8 @@ const contents = [
     "AvatarCodexExcelConfigData", // Character Release Information
     "AvatarHeroEntityExcelConfigData", // Travelers
     "TrialAvatarFetterDataConfigData", // Archons
+    "FetterCharacterCardExcelConfigData", // Friendship Rewards
+    "RewardExcelConfigData", // Rewards Data for Friendship Cards
 ];
 
 const textMapWhiteList = [

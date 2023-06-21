@@ -8,7 +8,7 @@ import Costume from "./Costume";
 import PassiveTalent from "./talents/PassiveTalent";
 import ElementalSkill from "./talents/ElementalSkill";
 import NormalAttack from "./talents/NormalAttack";
-import { NameCard } from "../material/Material";
+import Material, { NameCard } from "../material/Material";
 import CharacterDetails from "./CharacterDetails";
 import CharacterAscension from "./CharacterAscension";
 import EnkaClient from "../../client/EnkaClient";
@@ -123,9 +123,9 @@ class CharacterData {
 
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
-        // TODO: better find
-        const nameCardData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsStringWithDefault(null, "materialType") === NameCard.MATERIAL_TYPE && p.get("picPath").has(0) && new RegExp(`^UI_NameCardPic_${this._nameId}[0-9]*_Alpha$`).test(p.getAsString("picPath", 0)))?.[1];
-        this.nameCard = nameCardData ? new NameCard(nameCardData.getAsJsonObject(), enka) : null;
+        const friendshipRewardId = enka.cachedAssetsManager.getGenshinCacheData("FetterCharacterCardExcelConfigData").findArray((_, value) => value.getAsNumber("avatarId") === this.id)?.[1].getAsNumber("rewardId");
+        const nameCardId = friendshipRewardId ? enka.cachedAssetsManager.getGenshinCacheData("RewardExcelConfigData").findArray((_, reward) => reward.getAsNumber("rewardId") === friendshipRewardId)?.[1].getAsNumber("rewardItemList", 0, "itemId") : undefined;
+        this.nameCard = nameCardId ? Material.getMaterialById(nameCardId, enka) as NameCard : null;
 
         this.rarity = json.getAsString("qualityType") as CharacterRarity;
 
