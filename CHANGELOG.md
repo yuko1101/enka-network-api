@@ -1,3 +1,7 @@
+# 3.2.6
+- Added CharacterDetails#characterId.
+- Added CharacterDetails#getVoices().
+- Renamed typedef CharacterVoices to CharacterVoiceActors.
 # 3.2.5
 - Fixed a error with _downloadCacheZip().
 # 3.2.4

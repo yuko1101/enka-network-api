@@ -5,6 +5,7 @@ import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { LanguageCode } from "../../client/CachedAssetsManager";
+import CharacterVoiceData from "./CharacterVoiceData";
 
 /** @typedef */
 export interface Birthday {
@@ -16,7 +17,7 @@ export interface Birthday {
 export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
 
 /** @typedef */
-export type CharacterVoices = { [lang in VoiceLanguage]: TextAssets };
+export type CharacterVoiceActors = { [lang in VoiceLanguage]: TextAssets };
 
 /**
  * @en CharacterDetails
@@ -26,6 +27,9 @@ class CharacterDetails {
     readonly enka: EnkaClient;
     /**  */
     readonly id: number;
+
+    /**  */
+    readonly characterId: number;
     /** If the character is Traveler, this will be null */
     readonly birthday: Birthday | null;
     /**  */
@@ -41,7 +45,7 @@ class CharacterDetails {
     /**  */
     readonly description: TextAssets;
     /**  */
-    readonly cv: CharacterVoices;
+    readonly cv: CharacterVoiceActors;
 
     readonly _data: JsonObject;
     readonly _nameId: string;
@@ -61,9 +65,11 @@ class CharacterDetails {
         if (!json) throw new AssetsNotFoundError("FetterInfo", `${characterId}-${id}`);
         this._data = json.getAsJsonObject();
 
-        this._nameId = getNameIdByCharacterId(json.getAsNumber("avatarId"), enka);
 
-        this.id = id ?? json.getAsNumber("fetterId");
+        this.id = json.getAsNumber("fetterId");
+        this.characterId = json.getAsNumber("avatarId");
+
+        this._nameId = getNameIdByCharacterId(this.characterId, enka);
 
         this.birthday = (json.has("infoBirthMonth") && json.has("infoBirthDay")) ? { month: json.getAsNumber("infoBirthMonth"), day: json.getAsNumber("infoBirthDay") } : null;
 
@@ -103,6 +109,15 @@ class CharacterDetails {
             default:
                 return this.cv.english;
         }
+    }
+
+    /**
+     * @returns voice data of the character. This does not contain audio data or files.
+     */
+    getVoices(): CharacterVoiceData[] {
+        const allVoices = this.enka.cachedAssetsManager.getGenshinCacheData("FettersExcelConfigData");
+        const filtered = allVoices.filterArray((_, voiceData) => voiceData.getAsNumber("fetterId") === this.id);
+        return filtered.map(([, voice]) => new CharacterVoiceData(voice.getAsJsonObject(), this.enka));
     }
 }
 

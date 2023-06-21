@@ -27,13 +27,13 @@ import CharacterAscension from "./models/character/CharacterAscension";
 import CharacterData from "./models/character/CharacterData";
 import CharacterDetails from "./models/character/CharacterDetails";
 import CharacterStats from "./models/character/CharacterStats";
+import CharacterVoiceData from "./models/character/CharacterVoiceData";
 import Constellation from "./models/character/Constellation";
 import Costume from "./models/character/Costume";
 import CharacterBuild from "./models/enka/CharacterBuild";
 import EnkaProfile from "./models/enka/EnkaProfile";
 import EnkaUser from "./models/enka/EnkaUser";
-import Material from "./models/material/Material";
-import { NameCard } from "./models/material/Material";
+import Material, { NameCard } from "./models/material/Material";
 import UpgradeCost from "./models/material/UpgradeCost";
 import Weapon from "./models/weapon/Weapon";
 import WeaponData from "./models/weapon/WeaponData";
@@ -74,7 +74,7 @@ export {
     CharacterData,
     CharacterDetails,
     CharacterStats,
-    StatProperty,
+    CharacterVoiceData,
     Constellation,
     Costume,
     CharacterBuild,
@@ -89,6 +89,7 @@ export {
     WeaponRefinements,
     DetailedUser,
     Element,
+    StatProperty,
     User,
 };
 
@@ -98,7 +99,7 @@ export { EnkaClientOptions } from "./client/EnkaClient";
 export { SubstatsContainer } from "./models/artifact/Artifact";
 export { EquipType } from "./models/artifact/ArtifactData";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
-export { Birthday, CharacterVoices, VoiceLanguage } from "./models/character/CharacterDetails";
+export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
 export { GameServerRegion } from "./models/enka/EnkaUser";
 export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";

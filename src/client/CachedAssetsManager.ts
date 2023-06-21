@@ -34,6 +34,7 @@ const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master"
 const contents = [
     "AvatarExcelConfigData", // Characters
     "FetterInfoExcelConfigData", // Advanced Characters Info
+    "FettersExcelConfigData", // Voices in Character Profile
     "AvatarCostumeExcelConfigData", // Costumes
     "AvatarSkillDepotExcelConfigData", // Skill Depot
     "AvatarSkillExcelConfigData", // Skills
