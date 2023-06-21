@@ -116,7 +116,7 @@ class CharacterDetails {
      */
     getVoices(): CharacterVoiceData[] {
         const allVoices = this.enka.cachedAssetsManager.getGenshinCacheData("FettersExcelConfigData");
-        const filtered = allVoices.filterArray((_, voiceData) => voiceData.getAsNumber("fetterId") === this.id);
+        const filtered = allVoices.filterArray((_, voiceData) => voiceData.getAsNumber("avatarId") === this.characterId);
         return filtered.map(([, voice]) => new CharacterVoiceData(voice.getAsJsonObject(), this.enka));
     }
 }
