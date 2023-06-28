@@ -34,7 +34,7 @@ class SkillAttributeAssets extends TextAssets {
      * @param lang
      * @throws AssetsNotFoundError
      */
-    getAttributeData(lang: LanguageCode): SkillAttributeData {
+    getAttributeData(lang?: LanguageCode): SkillAttributeData {
         const text = this.get(lang);
 
         const usedNumbers: number[] = [];
@@ -65,7 +65,7 @@ class SkillAttributeAssets extends TextAssets {
      * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
-    getNullableAttributeData(lang: LanguageCode): SkillAttributeData | null {
+    getNullableAttributeData(lang?: LanguageCode): SkillAttributeData | null {
         try {
             return this.getAttributeData(lang);
         } catch (e) {
