@@ -43,19 +43,23 @@ class StatProperty {
         this.value = (multiplied && this.isPercent) ? value / 100 : value;
     }
 
-    /**
-     * Multiplies [value](#value) by 100 if it is a percentage
-     */
-    getFormattedValue(): number {
-        return this.value * (this.isPercent ? 100 : 1);
+    /**  */
+    public get valueText(): string {
+        const fix = this.isPercent ? 1 : 0;
+        return this.getMultipliedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
     }
 
     /**
-     * @returns simple value string
+     * Multiplies [value](#value) by 100 if it is a percentage
      */
+    getMultipliedValue(): number {
+        return this.value * (this.isPercent ? 100 : 1);
+    }
+
+    /**  */
     toString(): string {
-        const fix = this.isPercent ? 1 : 0;
-        return this.getFormattedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
+        const name = this.fightPropName.get() ?? "[Unknown]";
+        return `${name}(${this.fightProp}): ${this.valueText}`;
     }
 
     /**

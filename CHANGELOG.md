@@ -1,3 +1,7 @@
+# 3.4.0
+**This version includes Breaking Changes**
+- StatProperty#toString() no longer returns simple value text. Use StatProperty#valueText instead.
+- Renamed StatProperty#getFormattedValue() to getMultipliedValue().
 # 3.3.0
 - Added CharacterDetails#characterId.
 - Added CharacterDetails#getVoices().
