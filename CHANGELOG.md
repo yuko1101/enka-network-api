@@ -5,7 +5,7 @@
 - Created DynamicTextAssets class for TextAssets which has placeholders.
 - Made SkillAttributeAssets extend DynamicTextAssets, which extends TextAssets.
 - Changed type of Skill#description to DynamicTextAssets, which extends TextAssets.
-- Removed FormattedText class and methods in TextAssets which is related to FormattedText. Use `textAssets.setConvertToHtmlFormat(true).get()` for html formatting, and `dynamicTextAssets.getReplacedText()` for placeholders.
+- Removed FormattedText class and FormattedText-related methods in TextAssets. Use `textAssets.setConvertToHtmlFormat(true).get()` for html formatting, and `dynamicTextAssets.getReplacedText()` for placeholders.
 ```js
 const enka = new EnkaClient({
     defaultLanguage: "en",
