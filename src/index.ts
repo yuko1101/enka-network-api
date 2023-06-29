@@ -11,6 +11,7 @@ import ArtifactData from "./models/artifact/ArtifactData";
 import ArtifactSet from "./models/artifact/ArtifactSet";
 import ArtifactSetBonus from "./models/artifact/ArtifactSetBonus";
 import ArtifactSplitSubstat from "./models/artifact/ArtifactSplitSubstat";
+import DynamicTextAssets from "./models/assets/DynamicTextAssets";
 import ImageAssets from "./models/assets/ImageAssets";
 import SkillAttributeAssets from "./models/assets/SkillAttributeAssets";
 import TextAssets from "./models/assets/TextAssets";
@@ -58,6 +59,7 @@ export {
     ArtifactSet,
     ArtifactSetBonus,
     ArtifactSplitSubstat,
+    DynamicTextAssets,
     ImageAssets,
     SkillAttributeAssets,
     TextAssets,
@@ -98,6 +100,7 @@ export { LanguageCode, LanguageMap, NullableLanguageMap } from "./client/CachedA
 export { EnkaClientOptions } from "./client/EnkaClient";
 export { SubstatsContainer } from "./models/artifact/Artifact";
 export { EquipType } from "./models/artifact/ArtifactData";
+export { DynamicData } from "./models/assets/DynamicTextAssets";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
 export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
 export { GameServerRegion } from "./models/enka/EnkaUser";

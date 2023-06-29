@@ -40,7 +40,7 @@ class UpgradableSkill extends Skill {
                 return null;
             }
 
-            return new SkillAttributeAssets(id, this.enka, leveledSkillData.has("paramList") ? leveledSkillData.get("paramList").mapArray((_, p) => p.getAsNumber()) : []);
+            return new SkillAttributeAssets(id, leveledSkillData.has("paramList") ? leveledSkillData.get("paramList").mapArray((_, p) => p.getAsNumber()) : [], this.enka);
         }).filter(attr => attr !== null).map(attr => attr as NonNullable<typeof attr>);
     }
 
