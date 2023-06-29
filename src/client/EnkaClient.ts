@@ -19,6 +19,7 @@ import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
 import { JsonObject, bindOptions, generateUuid, separateByValue } from "config_file.js";
+import { DynamicData } from "../models/assets/DynamicTextAssets";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;
@@ -36,6 +37,7 @@ export interface EnkaClientOptions {
     userAgent: string;
     timeout: number;
     defaultLanguage: LanguageCode;
+    textAssetsDynamicData: DynamicData;
     cacheDirectory: string | null;
     showFetchCacheLog: boolean;
     storeUserCache: boolean;
@@ -43,6 +45,33 @@ export interface EnkaClientOptions {
     userCacheSetter: ((key: string, data: JsonObject) => Promise<void>) | null;
     userCacheDeleter: ((key: string) => Promise<void>) | null;
 }
+
+/** @constant */
+export const defaultEnkaClientOptions: EnkaClientOptions = {
+    "enkaUrl": "https://enka.network",
+    "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
+    "imageBaseUrlByRegex": {
+        "https://enka.network/ui": [
+            /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side)_/,
+            /^UI_AvatarIcon_(.+)_Card$/,
+            /^UI_EquipIcon_(.+)_Awaken$/,
+        ],
+        "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
+    },
+    "userAgent": "Mozilla/5.0",
+    "timeout": 3000,
+    "defaultLanguage": "en",
+    "textAssetsDynamicData": {
+        paramList: [],
+        userInfo: null,
+    },
+    "cacheDirectory": null,
+    "showFetchCacheLog": true,
+    "storeUserCache": true,
+    "userCacheGetter": null,
+    "userCacheSetter": null,
+    "userCacheDeleter": null,
+};
 
 /**
  * @en EnkaClient
@@ -57,27 +86,7 @@ class EnkaClient {
 
     /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
-        this.options = bindOptions({
-            "enkaUrl": "https://enka.network",
-            "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
-            "imageBaseUrlByRegex": {
-                "https://enka.network/ui": [
-                    /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side)_/,
-                    /^UI_AvatarIcon_(.+)_Card$/,
-                    /^UI_EquipIcon_(.+)_Awaken$/,
-                ],
-                "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
-            },
-            "userAgent": "Mozilla/5.0",
-            "timeout": 3000,
-            "defaultLanguage": "en",
-            "cacheDirectory": null,
-            "showFetchCacheLog": true,
-            "storeUserCache": true,
-            "userCacheGetter": null,
-            "userCacheSetter": null,
-            "userCacheDeleter": null,
-        }, options) as unknown as EnkaClientOptions;
+        this.options = bindOptions(defaultEnkaClientOptions as unknown as { [s: string]: unknown }, options) as unknown as EnkaClientOptions;
 
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");

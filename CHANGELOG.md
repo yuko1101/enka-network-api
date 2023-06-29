@@ -4,7 +4,35 @@
 - Renamed StatProperty#getFormattedValue() to getMultipliedValue().
 - Created DynamicTextAssets class for TextAssets which has placeholders.
 - Made SkillAttributeAssets extend DynamicTextAssets, which extends TextAssets.
+- Changed type of Skill#description to DynamicTextAssets, which extends TextAssets.
+- Removed FormattedText class and methods in TextAssets which is related to FormattedText. Use `textAssets.setConvertToHtmlFormat(true).get()` for html formatting, and `dynamicTextAssets.getReplacedText()` for placeholders.
+```js
+const enka = new EnkaClient({
+    defaultLanguage: "en",
+    textAssetsDynamicData: {
+        userInfo: {
+            travelerGender: "FEMALE", // Lumine
+            travelerNickname: "nickname",
+            platform: "PC",
+        }
+    }
+});
 
+const dynamicTextAssets = /* example DynamicTextAssets, whose get() returns "#Hello {M:Mr}{F:Ms}.{NICKNAME}. {LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press} the button." */
+
+dynamicTextAssets.get();
+// "#Hello {M:Mr}{F:Ms}.{NICKNAME}. {LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press} the button."
+
+dynamicTextAssets.getReplacedText();
+// "Hello Ms.nickname. Press the button."
+
+dynamicTextAssets.copyWithUserInfo({             
+    travelerGender: "MALE", // Aether
+    travelerNickname: "Tom",
+    platform: "MOBILE", 
+}).getReplacedText();
+// "Hello Mr.Tom. Tap the button."
+```
 # 3.3.0
 - Added CharacterDetails#characterId.
 - Added CharacterDetails#getVoices().
