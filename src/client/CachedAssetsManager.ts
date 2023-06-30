@@ -373,9 +373,7 @@ class CachedAssetsManager {
      * @param name without extensions (.json)
      */
     getGenshinCacheData(name: string): JsonReader {
-        if (!Object.keys(dataMemory).includes(name)) {
-            dataMemory[name] = new JsonReader(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
-        }
+        dataMemory[name] ??= new JsonReader(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
         return dataMemory[name];
     }
 
