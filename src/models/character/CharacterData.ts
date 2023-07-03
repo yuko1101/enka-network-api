@@ -79,6 +79,8 @@ class CharacterData {
     readonly releasedAt: Date | null;
     /**  */
     readonly isArchon: boolean;
+    /**  */
+    readonly isTraveler: boolean;
     /** Information in the profile menu in in-game character screen */
     readonly details: CharacterDetails | null;
 
@@ -102,25 +104,18 @@ class CharacterData {
         this.id = json.getAsNumber("id");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
-
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
         this.bodyType = json.getAsString("bodyType") as BodyType;
-
         this.weaponType = json.getAsString("weaponType") as WeaponType;
-
         this.gender = this.bodyType === "BODY_MALE" || this.bodyType === "BODY_BOY" ? "MALE" : "FEMALE";
 
         this._nameId = json.getAsString("iconName").slice("UI_AvatarIcon_".length);
 
         this.icon = new ImageAssets(json.getAsString("iconName"), enka);
-
         this.sideIcon = new ImageAssets(json.getAsString("sideIconName"), enka);
-
         this.splashImage = new ImageAssets(`UI_Gacha_AvatarImg_${this._nameId}`, enka);
-
         this.gachaSlice = new ImageAssets(`UI_Gacha_AvatarIcon_${this._nameId}`, enka);
-
         this.cardIcon = new ImageAssets(`UI_AvatarIcon_${this._nameId}_Card`, enka);
 
         const friendshipRewardId = enka.cachedAssetsManager.getGenshinCacheData("FetterCharacterCardExcelConfigData").findArray((_, value) => value.getAsNumber("avatarId") === this.id)?.[1].getAsNumber("rewardId");
@@ -135,9 +130,7 @@ class CharacterData {
 
         const costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => p.getAsNumber(keysManager.costumeCharacterIdKey) === this.id); // Previous key of "jsonName"
         this._costumeData = costumeData.map(([, p]) => p.getAsJsonObject());
-
         this.costumes = this._costumeData.map(c => new Costume(c, enka));
-
 
         this.skillDepotId = candSkillDepotId || json.getAsNumber("skillDepotId");
 
@@ -167,21 +160,20 @@ class CharacterData {
 
         this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
 
-
         this.passiveTalents = skillData.get("inherentProudSkillOpens").filterArray((_, p) => p.has("proudSkillGroupId")).map(([, p]) => PassiveTalent.getById(p.getAsNumber("proudSkillGroupId") * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
-
 
         this.constellations = skillData.get("talents").mapArray((_, p) => p.getAsNumber()).filter(cId => cId !== 0).map(cId => Constellation.getById(cId, enka));
 
-
         const releaseData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCodexExcelConfigData").findArray((_, p) => p.getAsNumber("avatarId") === this.id)?.[1];
         this._releaseData = releaseData?.getAsJsonObject() ?? null;
-
         this.releasedAt = releaseData ? new Date(`${releaseData.getAsString("beginTime")}+8:00`) : null;
 
         const archonsIds = enka.cachedAssetsManager.getGenshinCacheData("TrialAvatarFetterDataConfigData").mapArray((_, p) => p.getAsNumber("avatarId"));
-
         this.isArchon = archonsIds.includes(this.id);
+
+        // should always 10000005 and 10000007
+        const travelerIds = enka.cachedAssetsManager.getGenshinCacheData("AvatarHeroEntityExcelConfigData").mapArray((_, p) => p.getAsNumber("avatarId"));
+        this.isTraveler = travelerIds.includes(this.id);
 
         let details;
         try {
