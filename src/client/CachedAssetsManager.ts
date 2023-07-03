@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Axios } from "axios";
+import axios from "axios";
 import unzip, { Entry } from "unzip-stream";
 import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonReader } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
@@ -182,6 +182,10 @@ class CachedAssetsManager {
      * @param options.ghproxy Whether to use ghproxy.com
      */
     async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean }): Promise<void> {
+        if (this._isFetching) {
+            throw new Error("You are already fetching assets.");
+        }
+
         options = bindOptions({
             useRawGenshinData: false,
         }, options);
@@ -373,9 +377,7 @@ class CachedAssetsManager {
      * @param name without extensions (.json)
      */
     getGenshinCacheData(name: string): JsonReader {
-        if (!Object.keys(dataMemory).includes(name)) {
-            dataMemory[name] = new JsonReader(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
-        }
+        dataMemory[name] ??= new JsonReader(JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
         return dataMemory[name];
     }
 
@@ -541,8 +543,6 @@ class CachedAssetsManager {
         options = bindOptions({
             ghproxy: false,
         }, options);
-
-        const axios = new Axios({});
 
         const url = (options.ghproxy ? "https://ghproxy.com/" : "") + "https://raw.githubusercontent.com/yuko1101/enka-network-api/main/cache.zip";
 

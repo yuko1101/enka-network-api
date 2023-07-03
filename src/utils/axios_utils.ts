@@ -1,7 +1,5 @@
-import { Axios, AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import EnkaClient from "../client/EnkaClient";
-
-const axios = new Axios({});
 
 /**
  * @param url

@@ -11,6 +11,7 @@ import ArtifactData from "./models/artifact/ArtifactData";
 import ArtifactSet from "./models/artifact/ArtifactSet";
 import ArtifactSetBonus from "./models/artifact/ArtifactSetBonus";
 import ArtifactSplitSubstat from "./models/artifact/ArtifactSplitSubstat";
+import DynamicTextAssets from "./models/assets/DynamicTextAssets";
 import ImageAssets from "./models/assets/ImageAssets";
 import SkillAttributeAssets from "./models/assets/SkillAttributeAssets";
 import TextAssets from "./models/assets/TextAssets";
@@ -58,6 +59,7 @@ export {
     ArtifactSet,
     ArtifactSetBonus,
     ArtifactSplitSubstat,
+    DynamicTextAssets,
     ImageAssets,
     SkillAttributeAssets,
     TextAssets,
@@ -98,6 +100,7 @@ export { LanguageCode, LanguageMap, NullableLanguageMap } from "./client/CachedA
 export { EnkaClientOptions } from "./client/EnkaClient";
 export { SubstatsContainer } from "./models/artifact/Artifact";
 export { EquipType } from "./models/artifact/ArtifactData";
+export { DynamicData, GenshinPlatform, UserInfo } from "./models/assets/DynamicTextAssets";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
 export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
 export { GameServerRegion } from "./models/enka/EnkaUser";
@@ -106,6 +109,7 @@ export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
 export { FightProp } from "./models/StatProperty";
 export { CharacterPreview } from "./models/User";
+export { Paths } from "./utils/ts_utils";
 
 // functions
 export { fetchJSON } from "./utils/axios_utils";
@@ -113,4 +117,5 @@ export { validateCache } from "./utils/cache_utils";
 export { getCharactersById, getNameIdByCharacterId, hasEnergySkill, isReleased } from "./utils/character_utils";
 
 // constants
+export { defaultEnkaClientOptions } from "./client/EnkaClient";
 export { artifactRarityRangeMap, fightProps, percent } from "./utils/constants";

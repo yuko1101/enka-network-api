@@ -1,6 +1,6 @@
 import { LanguageCode } from "../../client/CachedAssetsManager";
 import EnkaClient from "../../client/EnkaClient";
-import TextAssets from "./TextAssets";
+import DynamicTextAssets from "./DynamicTextAssets";
 
 /**
  * @en SkillAttributeData
@@ -16,56 +16,33 @@ export interface SkillAttributeData {
  * @en SkillAttributeAssets
  * @extends {TextAssets}
  */
-class SkillAttributeAssets extends TextAssets {
-    readonly _paramList: number[];
+class SkillAttributeAssets extends DynamicTextAssets {
 
     /**
      * @param id
-     * @param enka
      * @param paramList
+     * @param enka
      */
-    constructor(id: number, enka: EnkaClient, paramList: number[]) {
-        super(id, enka);
-
-        this._paramList = paramList;
+    constructor(id: number, paramList: number[], enka: EnkaClient) {
+        super(id, { paramList }, enka);
     }
 
     /**
      * @param lang
      * @throws AssetsNotFoundError
      */
-    getAttributeData(lang: LanguageCode): SkillAttributeData {
-        const text = this.get(lang);
+    getAttributeData(lang?: LanguageCode): SkillAttributeData {
+        const replacedData = this.getReplacedData([], lang);
+        const split = replacedData.text.split("|");
 
-        const usedNumbers: number[] = [];
-
-        const replaced = text.replace(/\{([^}]+):([^}]+)\}/g, (match, key, format) => {
-            const index = Number(key.slice("param".length)) - 1;
-            if (isNaN(index) || this._paramList.length <= index) return match;
-
-            const value = this._paramList[index];
-            usedNumbers.push(value);
-
-            const isPercent = format.includes("P");
-
-            const isInteger = format.includes("I");
-
-            const fixMatch = format.match(/F([\d]+)/);
-            const fix = fixMatch && !isInteger ? Number(fixMatch[1]) : 0;
-
-            return (value * (isPercent ? 100 : 1)).toFixed(fix) + (isPercent ? "%" : "");
-        });
-
-        const split = replaced.split("|");
-
-        return { name: split[0], valueText: split[1], usedNumbers };
+        return { name: split[0], valueText: split[1], usedNumbers: replacedData.usedParamIndices.map(i => this.dynamicData.paramList[i]) };
     }
 
     /**
      * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
-    getNullableAttributeData(lang: LanguageCode): SkillAttributeData | null {
+    getNullableAttributeData(lang?: LanguageCode): SkillAttributeData | null {
         try {
             return this.getAttributeData(lang);
         } catch (e) {
