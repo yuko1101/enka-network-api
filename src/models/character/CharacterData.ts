@@ -230,7 +230,7 @@ class CharacterData {
 
         const curves = characterJson.get("propGrowCurves");
 
-        return Object.entries(baseValues).map(([fightProp, baseValue]) => {
+        const statPropertiesWithBaseValues = Object.entries(baseValues).map(([fightProp, baseValue]) => {
             const curveData = curves.findArray((_, c) => c.getAsString("type") === fightProp)?.[1];
             const curveType = curveData?.getAsString("growCurve");
             const targetCurve = curveType ? curve.findArray((_, c) => c.getAsString("type") === curveType)?.[1] : null;
@@ -242,6 +242,10 @@ class CharacterData {
             return new StatProperty(fightProp as FightProp, value, this.enka);
 
         });
+
+        const statPropertiesWithoutBaseValues = ascensionData.addProps.filter(p => !(baseValues as { [s: string]: number })[p.fightProp]);
+
+        return [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
     }
 
     /**
