@@ -1,5 +1,6 @@
 # 3.4.1
 - Added CharacterData#isTraveler.
+- Added CharacterData#getStatsByLevel().
 # 3.4.0
 **This version includes Breaking Changes**
 - StatProperty#toString() no longer returns simple value text. Use StatProperty#valueText instead.

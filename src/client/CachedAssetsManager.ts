@@ -40,6 +40,7 @@ const contents = [
     "AvatarSkillExcelConfigData", // Skills
     "AvatarTalentExcelConfigData", // Constellations
     "AvatarPromoteExcelConfigData", // Character Ascensions
+    "AvatarCurveExcelConfigData", // Character Basic Stats
     "ReliquaryExcelConfigData", // Artifacts
     "ReliquarySetExcelConfigData", // Artifact Sets
     "WeaponExcelConfigData", // Weapons

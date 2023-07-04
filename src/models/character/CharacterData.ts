@@ -15,6 +15,7 @@ import EnkaClient from "../../client/EnkaClient";
 import { JsonReader, JsonObject } from "config_file.js";
 import Element from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
+import StatProperty, { FightProp } from "../StatProperty";
 
 /** @typedef */
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
@@ -200,10 +201,47 @@ class CharacterData {
     }
 
     /**
-     * @param ascension ascension level (0-6)
+     * @param ascension ascension level between 0 and 6
      */
     getAscensionData(ascension: number): CharacterAscension {
         return CharacterAscension.getById(new JsonReader(this._data).getAsNumber("avatarPromoteId"), ascension, this.enka);
+    }
+
+    /**
+     * @param ascension ascension level between 0 and 6
+     * @param level character level between 1 and 90
+     */
+    getStatsByLevel(ascension: number, level: number): StatProperty[] {
+        if (ascension < 0 || 6 < ascension) throw new Error("Ascension levels must be between 0 and 6.");
+        if (level < 1 || 90 < level) throw new Error("Character levels must be between 1 and 90.");
+        const curve = this.enka.cachedAssetsManager.getGenshinCacheData("AvatarCurveExcelConfigData").get(level - 1, "curveInfos");
+        const ascensionData = this.getAscensionData(ascension);
+
+        const characterJson = new JsonReader(this._data);
+
+        const baseValues = {
+            "FIGHT_PROP_BASE_HP": characterJson.getAsNumber("hpBase"),
+            "FIGHT_PROP_BASE_ATTACK": characterJson.getAsNumber("attackBase"),
+            "FIGHT_PROP_BASE_DEFENSE": characterJson.getAsNumber("defenseBase"),
+
+            "FIGHT_PROP_CRITICAL": characterJson.getAsNumber("critical"),
+            "FIGHT_PROP_CRITICAL_HURT": characterJson.getAsNumber("criticalHurt"),
+        };
+
+        const curves = characterJson.get("propGrowCurves");
+
+        return Object.entries(baseValues).map(([fightProp, baseValue]) => {
+            const curveData = curves.findArray((_, c) => c.getAsString("type") === fightProp)?.[1];
+            const curveType = curveData?.getAsString("growCurve");
+            const targetCurve = curveType ? curve.findArray((_, c) => c.getAsString("type") === curveType)?.[1] : null;
+
+            const ascensionValue = ascensionData.addProps.find(p => p.fightProp === fightProp)?.value ?? 0;
+
+            const value = baseValue * (targetCurve ? targetCurve.getAsNumber("value") : 1) + ascensionValue;
+
+            return new StatProperty(fightProp as FightProp, value, this.enka);
+
+        });
     }
 
     /**
