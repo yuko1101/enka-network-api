@@ -11,3 +11,5 @@ export type Paths<T, D extends number = 10> = [D] extends [never] ? never : T ex
         `${K}` | Join<K, Paths<T[K], Prev[D]>>
         : never
     }[keyof T] : "";
+
+export const nonNullable = <T>(value: T): value is NonNullable<T> => value !== null;

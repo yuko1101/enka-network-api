@@ -14,6 +14,7 @@ import Constellation from "./Constellation";
 import PassiveTalent from "./talents/PassiveTalent";
 import Skill from "./talents/Skill";
 import Element from "../Element";
+import { nonNullable } from "../../utils/ts_utils";
 
 /**
  * @en Character
@@ -104,7 +105,7 @@ class Character {
                 skill,
                 level: new SkillLevel(base, extra),
             };
-        }).filter(s => s !== null).map(s => s as NonNullable<typeof s>).sort((a, b) => {
+        }).filter(nonNullable).sort((a, b) => {
             const getScore = (skill: Skill) => (skill instanceof NormalAttack) ? 0 : (skill instanceof ElementalSkill) ? 1 : (skill instanceof ElementalBurst) ? 2 : 3;
             return getScore(a.skill) - getScore(b.skill);
         });

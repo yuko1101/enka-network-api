@@ -4,6 +4,7 @@ import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
 import TextAssets from "../../assets/TextAssets";
 import UpgradeCost from "../../material/UpgradeCost";
 import Skill from "./Skill";
+import { nonNullable } from "../../../utils/ts_utils";
 
 /**
  * @en CombatSkill
@@ -41,7 +42,7 @@ class UpgradableSkill extends Skill {
             }
 
             return new SkillAttributeAssets(id, leveledSkillData.has("paramList") ? leveledSkillData.get("paramList").mapArray((_, p) => p.getAsNumber()) : [], this.enka);
-        }).filter(attr => attr !== null).map(attr => attr as NonNullable<typeof attr>);
+        }).filter(nonNullable);
     }
 
     /**

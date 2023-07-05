@@ -5,6 +5,9 @@ import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import WeaponRefinements from "./WeaponRefinements";
 import WeaponRefinement from "./WeaponRefinement";
+import StatProperty, { FightProp } from "../StatProperty";
+import WeaponAscension from "./WeaponAscension";
+import { nonNullable } from "../../utils/ts_utils";
 
 /** @typedef */
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
@@ -68,6 +71,51 @@ class WeaponData {
         this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
 
         this.refinements = json.getAsNumber("skillAffix", 0) !== 0 ? new WeaponRefinements(json.getAsNumber("skillAffix", 0), enka).refinements : [];
+    }
+
+    /**
+     * @param ascension ascension level 0-6 for 3-5 stars, and 0-4 for 1-2 stars.
+     */
+    getAscensionData(ascension: number): WeaponAscension {
+        return WeaponAscension.getById(new JsonReader(this._data).getAsNumber("weaponPromoteId"), ascension, this.enka);
+    }
+
+    /**
+     * @param ascension ascension level 0-6 for 3-5 stars, and 0-4 for 1-2 stars.
+     * @param level weapon level 1-90 for 3-5 stars, and 1-70 for 1-2 stars.
+     */
+    getStats(ascension: number, level: number): StatProperty[] {
+        const maxAscension = this.stars < 3 ? 4 : 6;
+        const maxLevel = this.stars < 3 ? 70 : 90;
+        if (ascension < 0 || maxAscension < ascension) throw new Error(`Ascension levels must be between 0 and ${maxAscension} for ${this.stars} stars.`);
+        if (level < 1 || maxLevel < level) throw new Error(`Weapon levels must be between 1 and ${maxLevel} for ${this.stars} stars.`);
+        const curve = this.enka.cachedAssetsManager.getGenshinCacheData("WeaponCurveExcelConfigData").get(level - 1, "curveInfos");
+        const ascensionData = this.getAscensionData(ascension);
+
+        const weaponJson = new JsonReader(this._data);
+
+        const weaponProps = weaponJson.get("weaponProp");
+
+        const statPropertiesWithBaseValues = weaponProps.mapArray((_, prop) => {
+            const fightProp = prop.getAsStringWithDefault(null, "propType") as FightProp | null;
+            const baseValue = prop.getAsNumberWithDefault(null, "initValue");
+            if (!fightProp || !baseValue) return null;
+            const curveType = prop.getAsString("type");
+
+            const targetCurve = curve.findArray((__, c) => c.getAsString("type") === curveType)?.[1] as JsonReader;
+
+            const ascensionValue = ascensionData.addProps.find(p => p.fightProp === fightProp)?.value ?? 0;
+
+            const value = baseValue * (targetCurve ? targetCurve.getAsNumber("value") : 1) + ascensionValue;
+
+            return new StatProperty(fightProp as FightProp, value, this.enka);
+
+        }).filter(nonNullable);
+
+        const usedFightProps = statPropertiesWithBaseValues.map(s => s.fightProp);
+        const statPropertiesWithoutBaseValues = ascensionData.addProps.filter(p => !usedFightProps.includes(p.fightProp));
+
+        return [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
     }
 
     /**

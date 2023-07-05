@@ -16,6 +16,7 @@ import { JsonReader, JsonObject } from "config_file.js";
 import Element from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
 import StatProperty, { FightProp } from "../StatProperty";
+import { nonNullable } from "../../utils/ts_utils";
 
 /** @typedef */
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
@@ -152,7 +153,7 @@ class CharacterData {
             if (index === 0) return NormalAttack.getById(skillId, enka);
             if (index === 1) return ElementalSkill.getById(skillId, enka);
             return Skill.getById(skillId, enka);
-        }).filter(s => s !== null).map(s => s as NonNullable<typeof s>);
+        }).filter(nonNullable);
         if (this.elementalBurst) _skills.push(this.elementalBurst);
 
         this.skills = _skills;
@@ -211,7 +212,7 @@ class CharacterData {
      * @param ascension ascension level between 0 and 6
      * @param level character level between 1 and 90
      */
-    getStatsByLevel(ascension: number, level: number): StatProperty[] {
+    getStats(ascension: number, level: number): StatProperty[] {
         if (ascension < 0 || 6 < ascension) throw new Error("Ascension levels must be between 0 and 6.");
         if (level < 1 || 90 < level) throw new Error("Character levels must be between 1 and 90.");
         const curve = this.enka.cachedAssetsManager.getGenshinCacheData("AvatarCurveExcelConfigData").get(level - 1, "curveInfos");

@@ -1,6 +1,10 @@
-# 3.4.1
+# 3.5.0
+**This version includes Breaking Changes**
 - Added CharacterData#isTraveler.
-- Added CharacterData#getStatsByLevel().
+- Added CharacterData#getStats().
+- Renamed CharacterAscension#requiredPlayerLevel to requiredAdventureRank.
+- Added WeaponData#getAscensionData().
+- Added WeaponData#getStats().
 # 3.4.0
 **This version includes Breaking Changes**
 - StatProperty#toString() no longer returns simple value text. Use StatProperty#valueText instead.

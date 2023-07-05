@@ -1,6 +1,7 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import Material from "./Material";
 import EnkaClient from "../../client/EnkaClient";
+import { nonNullable } from "../../utils/ts_utils";
 
 /**
  * @en UpgradeCost
@@ -31,7 +32,7 @@ class UpgradeCost {
                 material: Material.getMaterialById(cost.getAsNumber("id"), enka),
                 count: cost.getAsNumber("count"),
             };
-        }).filter(cost => cost !== null).map(cost => cost as NonNullable<typeof cost>);
+        }).filter(nonNullable);
 
     }
 }

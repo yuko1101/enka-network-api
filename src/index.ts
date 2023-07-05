@@ -37,6 +37,7 @@ import EnkaUser from "./models/enka/EnkaUser";
 import Material, { NameCard } from "./models/material/Material";
 import UpgradeCost from "./models/material/UpgradeCost";
 import Weapon from "./models/weapon/Weapon";
+import WeaponAscension from "./models/weapon/WeaponAscension";
 import WeaponData from "./models/weapon/WeaponData";
 import WeaponRefinement from "./models/weapon/WeaponRefinement";
 import WeaponRefinements from "./models/weapon/WeaponRefinements";
@@ -86,6 +87,7 @@ export {
     NameCard,
     UpgradeCost,
     Weapon,
+    WeaponAscension,
     WeaponData,
     WeaponRefinement,
     WeaponRefinements,
