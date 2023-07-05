@@ -41,19 +41,20 @@ const contents = [
     "AvatarTalentExcelConfigData", // Constellations
     "AvatarPromoteExcelConfigData", // Character Ascensions
     "AvatarCurveExcelConfigData", // Character Basic Stats Curves
-    "ReliquaryExcelConfigData", // Artifacts
-    "ReliquarySetExcelConfigData", // Artifact Sets
+    "AvatarCodexExcelConfigData", // Character Release Information
     "WeaponExcelConfigData", // Weapons
     "WeaponPromoteExcelConfigData", // Weapon Ascensions
     "WeaponCurveExcelConfigData", // Weapon Basic Stats Curves
     "EquipAffixExcelConfigData", // Artifact Set Bonus and Weapon Refinements
-    "ManualTextMapConfigData", // Fight Props
-    "MaterialExcelConfigData", // Materials (including NameCards)
     "ProudSkillExcelConfigData", // Passive Talents and Leveled Talents
-    "ReliquaryAffixExcelConfigData", // Artifact Affix
-    "AvatarCodexExcelConfigData", // Character Release Information
+    "ReliquaryExcelConfigData", // Artifacts
+    "ReliquaryLevelExcelConfigData", // Artifact Main Affix
+    "ReliquaryAffixExcelConfigData", // Artifact Sub Affix
+    "ReliquarySetExcelConfigData", // Artifact Sets
+    "ManualTextMapConfigData", // Fight Props
     "AvatarHeroEntityExcelConfigData", // Travelers
     "TrialAvatarFetterDataConfigData", // Archons
+    "MaterialExcelConfigData", // Materials (including NameCards)
     "FetterCharacterCardExcelConfigData", // Friendship Rewards
     "RewardExcelConfigData", // Rewards Data for Friendship Cards
 ];

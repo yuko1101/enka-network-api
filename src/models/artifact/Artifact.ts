@@ -42,14 +42,18 @@ class Artifact {
 
         const json = new JsonReader(this._data);
 
-        const flat = json.get("flat");
         const reliquary = json.get("reliquary");
 
         this.artifactData = ArtifactData.getById(json.getAsNumber("itemId"), enka);
 
         this.level = reliquary.getAsNumber("level");
 
-        this.mainstat = new StatProperty(flat.getAsString("reliquaryMainstat", "mainPropId") as FightProp, flat.getAsNumber("reliquaryMainstat", "statValue"), enka, true);
+        // const mainstatId = reliquary.getAsNumber("mainPropId");
+        // const mainstatFightProp: FightProp = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryMainPropExcelConfigData").findArray((_, m) => m.getAsNumber("id") === mainstatId)?.[1].getAsString("propType") as FightProp;
+        const mainstatFightProp = json.getAsString("flat", "reliquaryMainstat", "mainPropId") as FightProp;
+        const levelInfo = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryLevelExcelConfigData").findArray((_, value) => value.getAsNumberWithDefault(0, "rank") === this.artifactData.stars && value.getAsNumber("level") === this.level)?.[1] as JsonReader;
+        const mainstatData = levelInfo.get("addProps").findArray((_, p) => p.getAsString("propType") === mainstatFightProp)?.[1] as JsonReader;
+        this.mainstat = new StatProperty(mainstatFightProp, mainstatData.getAsNumber("value"), enka);
 
         const splitSubStats = reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => ArtifactSplitSubstat.getById(id.getAsNumber(), enka)) : [];
 
