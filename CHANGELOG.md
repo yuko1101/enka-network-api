@@ -1,3 +1,8 @@
+# 3.6.0
+**This version includes Breaking Changes**
+- Changed type of User#profilePictureCharacter to `CostumedCharacter | null`.
+- Renamed User#profilePictureCharacter to profilePicture.
+- Better interface CharacterPreview with CostumedCharacter.
 # 3.5.0
 **This version includes Breaking Changes**
 - Added CharacterData#isTraveler.
