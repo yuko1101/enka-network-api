@@ -103,6 +103,7 @@ export { EnkaClientOptions } from "./client/EnkaClient";
 export { SubstatsContainer } from "./models/artifact/Artifact";
 export { EquipType } from "./models/artifact/ArtifactData";
 export { DynamicData, GenshinPlatform, UserInfo } from "./models/assets/DynamicTextAssets";
+export { SkillAttributeData } from "./models/assets/SkillAttributeAssets";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
 export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
 export { GameServerRegion } from "./models/enka/EnkaUser";
@@ -110,7 +111,7 @@ export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
 export { FightProp } from "./models/StatProperty";
-export { CharacterPreview } from "./models/User";
+export { CharacterPreview, CostumedCharacter } from "./models/User";
 export { Paths } from "./utils/ts_utils";
 
 // functions
