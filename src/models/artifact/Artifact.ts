@@ -51,9 +51,11 @@ class Artifact {
 
         this.mainstat = new StatProperty(flat.getAsString("reliquaryMainstat", "mainPropId") as FightProp, flat.getAsNumber("reliquaryMainstat", "statValue"), enka, true);
 
+        const splitSubStats = reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => ArtifactSplitSubstat.getById(id.getAsNumber(), enka)) : [];
+
         this.substats = {
-            total: flat.has("reliquarySubstats") ? flat.get("reliquarySubstats").mapArray((_, p) => new StatProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true)) : [],
-            split: reliquary.has("appendPropIdList") ? reliquary.get("appendPropIdList")?.mapArray((_, id) => ArtifactSplitSubstat.getById(id.getAsNumber(), enka)) : [],
+            total: StatProperty.sumStatProperties(splitSubStats, enka),
+            split: splitSubStats,
         };
 
     }

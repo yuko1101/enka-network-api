@@ -70,6 +70,22 @@ class StatProperty {
         const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
         return propData ? new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka) : null;
     }
+
+    /**
+     * @param statProperties
+     * @param enka
+     */
+    static sumStatProperties(statProperties: StatProperty[], enka: EnkaClient): StatProperty[] {
+        const stats: { [key: string]: number } = {};
+        for (const prop of statProperties) {
+            if (stats[prop.fightProp] === undefined) {
+                stats[prop.fightProp] = 0;
+            }
+            stats[prop.fightProp] += prop.value;
+        }
+
+        return Object.entries(stats).map(([fightProp, value]) => new StatProperty(fightProp as FightProp, value, enka));
+    }
 }
 
 export default StatProperty;

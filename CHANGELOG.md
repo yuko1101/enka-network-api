@@ -3,6 +3,7 @@
 - Changed type of User#profilePictureCharacter to `CostumedCharacter | null`.
 - Renamed User#profilePictureCharacter to profilePicture.
 - Better interface CharacterPreview with CostumedCharacter.
+- More accurate total substats of artifacts.
 # 3.5.0
 **This version includes Breaking Changes**
 - Added CharacterData#isTraveler.
