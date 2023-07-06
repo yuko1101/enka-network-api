@@ -33,27 +33,30 @@ export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "j
 const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master";
 const contents = [
     "AvatarExcelConfigData", // Characters
-    "FetterInfoExcelConfigData", // Advanced Characters Info
+    "FetterInfoExcelConfigData", // Characters Profile Info
     "FettersExcelConfigData", // Voices in Character Profile
     "AvatarCostumeExcelConfigData", // Costumes
     "AvatarSkillDepotExcelConfigData", // Skill Depot
     "AvatarSkillExcelConfigData", // Skills
+    "ProudSkillExcelConfigData", // Passive Talents and Leveled Talents
     "AvatarTalentExcelConfigData", // Constellations
     "AvatarPromoteExcelConfigData", // Character Ascensions
     "AvatarCurveExcelConfigData", // Character Basic Stats Curves
     "AvatarCodexExcelConfigData", // Character Release Information
+
     "WeaponExcelConfigData", // Weapons
     "WeaponPromoteExcelConfigData", // Weapon Ascensions
     "WeaponCurveExcelConfigData", // Weapon Basic Stats Curves
     "EquipAffixExcelConfigData", // Artifact Set Bonus and Weapon Refinements
-    "ProudSkillExcelConfigData", // Passive Talents and Leveled Talents
     "ReliquaryExcelConfigData", // Artifacts
     "ReliquaryLevelExcelConfigData", // Artifact Main Affix
     "ReliquaryAffixExcelConfigData", // Artifact Sub Affix
     "ReliquarySetExcelConfigData", // Artifact Sets
-    "ManualTextMapConfigData", // Fight Props
+
+    "ManualTextMapConfigData", // Fight Props and Other TextMaps
     "AvatarHeroEntityExcelConfigData", // Travelers
     "TrialAvatarFetterDataConfigData", // Archons
+
     "MaterialExcelConfigData", // Materials (including NameCards)
     "FetterCharacterCardExcelConfigData", // Friendship Rewards
     "RewardExcelConfigData", // Rewards Data for Friendship Cards
@@ -468,44 +471,50 @@ class CachedAssetsManager {
                 json.getAsNumber("cvKoreanTextMapHash"),
             );
         });
-        data["ManualTextMapConfigData"].forEach(m => {
-            const json = new JsonReader(m);
-            const id = json.getAsString("textMapId");
-            if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
-            push(json.getAsNumber("textMapContentTextMapHash"));
-        });
-        data["ReliquaryExcelConfigData"].forEach(a => {
-            const json = new JsonReader(a);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
-        });
-        data["EquipAffixExcelConfigData"].forEach(s => {
-            const json = new JsonReader(s);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
-        });
-        data["AvatarTalentExcelConfigData"].forEach(c => {
-            const json = new JsonReader(c);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        data["FettersExcelConfigData"].forEach(v => {
+            const json = new JsonReader(v);
+            push(
+                json.getAsNumber("voiceTitleTextMapHash"),
+                json.getAsNumber("voiceFileTextTextMapHash"),
+            );
         });
         data["AvatarCostumeExcelConfigData"].forEach(c => {
             const json = new JsonReader(c);
+            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        });
+        data["AvatarSkillExcelConfigData"].forEach(s => {
+            const json = new JsonReader(s);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
         data["ProudSkillExcelConfigData"].forEach(p => {
             const json = new JsonReader(p);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.get("paramDescList").mapArray((_, e) => e.getAsNumber()) : []));
         });
-        data["AvatarSkillExcelConfigData"].forEach(s => {
-            const json = new JsonReader(s);
+        data["AvatarTalentExcelConfigData"].forEach(c => {
+            const json = new JsonReader(c);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
+
         data["WeaponExcelConfigData"].forEach(w => {
             const json = new JsonReader(w);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
-        data["EquipAffixExcelConfigData"].forEach(r => {
-            const json = new JsonReader(r);
+        data["EquipAffixExcelConfigData"].forEach(a => {
+            const json = new JsonReader(a);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
+        data["ReliquaryExcelConfigData"].forEach(a => {
+            const json = new JsonReader(a);
+            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        });
+
+        data["ManualTextMapConfigData"].forEach(m => {
+            const json = new JsonReader(m);
+            const id = json.getAsString("textMapId");
+            if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
+            push(json.getAsNumber("textMapContentTextMapHash"));
+        });
+
         data["MaterialExcelConfigData"].forEach(m => {
             const json = new JsonReader(m);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
