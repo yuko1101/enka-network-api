@@ -2,6 +2,7 @@ import { JsonObject, JsonReader } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import TextAssets from "../assets/TextAssets";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
+import DynamicTextAssets from "../assets/DynamicTextAssets";
 
 /**
  * @en CharacterVoiceData
@@ -28,7 +29,7 @@ class CharacterVoiceData {
         const json = new JsonReader(this._data);
 
         this.title = new TextAssets(json.getAsNumber("voiceTitleTextMapHash"), this.enka);
-        this.textContent = new TextAssets(json.getAsNumber("voiceFileTextTextMapHash"), this.enka);
+        this.textContent = new DynamicTextAssets(json.getAsNumber("voiceFileTextTextMapHash"), {}, this.enka);
     }
 
     static getById(id: number, enka: EnkaClient): CharacterVoiceData {

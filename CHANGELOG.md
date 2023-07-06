@@ -1,3 +1,5 @@
+# 3.6.2
+- Changed type of CharacterVoiceData#textContent to DynamicTextAssets.
 # 3.6.1
 - More accurate artifact mainstats.
 # 3.6.0
