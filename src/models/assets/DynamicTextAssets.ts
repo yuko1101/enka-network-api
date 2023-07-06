@@ -34,9 +34,10 @@ class DynamicTextAssets extends TextAssets {
      * @param data
      * @param enka
      * @param convertToHtmlFormat
+     * @param directory
      */
-    constructor(id: number, data: Partial<DynamicData>, enka: EnkaClient, convertToHtmlFormat = false) {
-        super(id, enka, convertToHtmlFormat);
+    constructor(id: number, data: Partial<DynamicData>, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
+        super(id, enka, convertToHtmlFormat, directory);
 
         this.dynamicData = bindOptions(enka.options.textAssetsDynamicData as unknown as { [s: string]: unknown }, data) as unknown as DynamicData;
     }

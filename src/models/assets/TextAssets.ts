@@ -13,17 +13,21 @@ class TextAssets {
 
     /**  */
     convertToHtmlFormat: boolean;
+    /**  */
+    readonly directory: string | null;
 
     /**
      * @param id
      * @param enka
      * @param convertToHtmlFormat
+     * @param directory
      */
-    constructor(id: number, enka: EnkaClient, convertToHtmlFormat = false) {
+    constructor(id: number, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
         this.id = id;
         this.enka = enka;
 
         this.convertToHtmlFormat = convertToHtmlFormat;
+        this.directory = directory ?? null;
     }
 
     /**
@@ -32,7 +36,7 @@ class TextAssets {
      */
     get(lang?: LanguageCode): string {
         lang ??= this.enka.options.defaultLanguage;
-        let text = this.enka.cachedAssetsManager.getLanguageData(lang)[this.id];
+        let text = this.enka.cachedAssetsManager.getLanguageData(lang, this.directory ?? undefined)[this.id];
         if (!text) throw new AssetsNotFoundError("Text Assets", this.id);
 
         if (this.convertToHtmlFormat) {

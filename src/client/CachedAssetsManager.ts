@@ -144,6 +144,9 @@ class CachedAssetsManager {
         if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs"))) {
             fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "langs"));
         }
+        if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", "voice_text"))) {
+            fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "langs", "voice_text"));
+        }
         if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "github"))) {
             fs.mkdirSync(path.resolve(this.cacheDirectoryPath, "github"));
         }
@@ -255,7 +258,9 @@ class CachedAssetsManager {
                 console.info("Parsing data...");
             }
 
-            const clearLangsData: NullableLanguageMap = this.removeUnusedTextData(genshinData, langsData as LanguageMap);
+            const clearTextMaps = this.removeUnusedTextData(genshinData, langsData as LanguageMap);
+            const clearLangsData = clearTextMaps["langMap"];
+            const clearVoiceLangsData = clearTextMaps["voiceLangMap"];
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Parsing completed");
@@ -263,11 +268,14 @@ class CachedAssetsManager {
             }
 
             for (const lang of Object.keys(clearLangsData) as LanguageCode[]) {
-                fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`), JSON.stringify(clearLangsData[lang]));
+                fs.writeFileSync(this.getLanguageDataPath(lang), JSON.stringify(clearLangsData[lang]));
+            }
+            for (const lang of Object.keys(clearVoiceLangsData) as LanguageCode[]) {
+                fs.writeFileSync(this.getLanguageDataPath(lang, "voice_text"), JSON.stringify(clearVoiceLangsData[lang]));
             }
 
             for (const key in genshinData) {
-                fs.writeFileSync(path.resolve(this.cacheDirectoryPath, "data", `${key}.json`), JSON.stringify(genshinData[key]));
+                fs.writeFileSync(this.getJSONDataPath(key), JSON.stringify(genshinData[key]));
             }
 
             await this._githubCache?.set("rawLastUpdate", Date.now()).save();
@@ -366,10 +374,12 @@ class CachedAssetsManager {
 
     /**
      * @param lang
+     * @param directory
      * @returns text map file path for a specific language
      */
-    getLanguageDataPath(lang: LanguageCode): string {
-        return path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`);
+    getLanguageDataPath(lang: LanguageCode, directory?: string): string {
+        const relativeDir = directory ? ["langs", directory] : ["langs"];
+        return path.resolve(this.cacheDirectoryPath, ...relativeDir, `${lang}.json`);
     }
 
     /**
@@ -390,10 +400,15 @@ class CachedAssetsManager {
 
     /**
      * @param lang
+     * @param directory
      * @returns text map for a specific language
      */
-    getLanguageData(lang: LanguageCode): { [key: string]: string } {
+    getLanguageData(lang: LanguageCode, directory?: string): { [key: string]: string } {
         langDataMemory[lang] ??= JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
+        if (directory) {
+            const loadedJson = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang, directory), "utf-8"));
+            langDataMemory[lang] = Object.assign(langDataMemory[lang] as JsonObject, loadedJson);
+        }
         return langDataMemory[lang] ?? {};
     }
 
@@ -436,7 +451,7 @@ class CachedAssetsManager {
      * @param data
      * @param langsData
      */
-    removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): LanguageMap {
+    removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): { langMap: LanguageMap, voiceLangMap: LanguageMap } {
         const required: number[] = [];
 
         function push(...keys: number[]) {
@@ -469,13 +484,6 @@ class CachedAssetsManager {
                 json.getAsNumber("cvJapaneseTextMapHash"),
                 json.getAsNumber("cvEnglishTextMapHash"),
                 json.getAsNumber("cvKoreanTextMapHash"),
-            );
-        });
-        data["FettersExcelConfigData"].forEach(v => {
-            const json = new JsonReader(v);
-            push(
-                json.getAsNumber("voiceTitleTextMapHash"),
-                json.getAsNumber("voiceFileTextTextMapHash"),
             );
         });
         data["AvatarCostumeExcelConfigData"].forEach(c => {
@@ -521,20 +529,40 @@ class CachedAssetsManager {
         });
 
         const requiredStringKeys = required.filter(key => key).map(key => key.toString());
+        const keyCount = requiredStringKeys.length;
 
-        if (showLog) console.info(`Required keys have been loaded (${requiredStringKeys.length.toLocaleString()} keys)`);
+        const voiceTextMaps = data["FettersExcelConfigData"].flatMap(v => {
+            const json = new JsonReader(v);
+            return [
+                json.getAsNumber("voiceTitleTextMapHash"),
+                json.getAsNumber("voiceFileTextTextMapHash"),
+            ];
+        });
+        const voiceKeyCount = voiceTextMaps.length;
+
+        if (showLog) console.info(`Required keys have been loaded (${(keyCount + voiceKeyCount).toLocaleString()} keys)`);
 
         const clearLangsData: NullableLanguageMap = { ...initialLangDataMemory };
+        const clearVoiceLangsData: NullableLanguageMap = { ...initialLangDataMemory };
 
-        const keyCount = requiredStringKeys.length;
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
             clearLangsData[lang] = {};
+            clearVoiceLangsData[lang] = {};
             for (let i = 0; i < keyCount; i++) {
                 const key = requiredStringKeys[i];
                 const text = langsData[lang][key];
                 if (text) {
                     (clearLangsData[lang] as JsonObject)[key] = text;
+                } else {
+                    // console.warn(`Required key ${key} was not found in language ${lang}.`);
+                }
+            }
+            for (let i = 0; i < voiceKeyCount; i++) {
+                const key = voiceTextMaps[i];
+                const text = langsData[lang][key];
+                if (text) {
+                    (clearVoiceLangsData[lang] as JsonObject)[key] = text;
                 } else {
                     // console.warn(`Required key ${key} was not found in language ${lang}.`);
                 }
@@ -545,7 +573,10 @@ class CachedAssetsManager {
 
         if (showLog) console.info("Removing unused keys completed.");
 
-        return clearLangsData as LanguageMap;
+        return {
+            langMap: clearLangsData as LanguageMap,
+            voiceLangMap: clearVoiceLangsData as LanguageMap,
+        };
     }
 
     /**

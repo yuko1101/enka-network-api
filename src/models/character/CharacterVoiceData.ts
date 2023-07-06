@@ -28,8 +28,8 @@ class CharacterVoiceData {
 
         const json = new JsonReader(this._data);
 
-        this.title = new TextAssets(json.getAsNumber("voiceTitleTextMapHash"), this.enka);
-        this.textContent = new DynamicTextAssets(json.getAsNumber("voiceFileTextTextMapHash"), {}, this.enka);
+        this.title = new TextAssets(json.getAsNumber("voiceTitleTextMapHash"), this.enka, false, "voice_text");
+        this.textContent = new DynamicTextAssets(json.getAsNumber("voiceFileTextTextMapHash"), {}, this.enka, false, "voice_text");
     }
 
     static getById(id: number, enka: EnkaClient): CharacterVoiceData {
