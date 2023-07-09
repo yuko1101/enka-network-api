@@ -4,13 +4,14 @@ import EnkaClient from "../../client/EnkaClient";
 
 /**
  * A present character build or a saved character build in Enka.Network account
- * @en CharacterBuild
+ * @en GenshinCharacterBuild
  */
-class CharacterBuild {
+class GenshinCharacterBuild {
     /**  */
     readonly enka: EnkaClient;
     /**  */
-    readonly enkaUserInfo: { username: string, hash: string; };
+    readonly enkaUserInfo: { username: string, hash: string };
+
     /**  */
     readonly id: number;
     /**  */
@@ -60,4 +61,4 @@ class CharacterBuild {
     }
 }
 
-export default CharacterBuild;
+export default GenshinCharacterBuild;

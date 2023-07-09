@@ -13,13 +13,14 @@ import { artifactRarityRangeMap } from "../utils/constants";
 import DetailedUser from "../models/DetailedUser";
 import EnkaUser from "../models/enka/EnkaUser";
 import EnkaProfile from "../models/enka/EnkaProfile";
-import CharacterBuild from "../models/enka/CharacterBuild";
+import GenshinCharacterBuild from "../models/enka/GenshinCharacterBuild";
 import Material from "../models/material/Material";
 import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonObject, bindOptions, generateUuid, separateByValue } from "config_file.js";
+import { JsonObject, JsonReader, bindOptions, generateUuid, separateByValue } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
+import { nonNullable } from "../utils/ts_utils";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;
@@ -44,6 +45,8 @@ export interface EnkaClientOptions {
     userCacheGetter: ((key: string) => Promise<JsonObject>) | null;
     userCacheSetter: ((key: string, data: JsonObject) => Promise<void>) | null;
     userCacheDeleter: ((key: string) => Promise<void>) | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    starrailClient: any | null;
 }
 
 /** @constant */
@@ -71,6 +74,7 @@ export const defaultEnkaClientOptions: EnkaClientOptions = {
     "userCacheGetter": null,
     "userCacheSetter": null,
     "userCacheDeleter": null,
+    "starrailClient": null,
 };
 
 /**
@@ -236,22 +240,69 @@ class EnkaClient {
      * @param hash EnkaUser hash
      * @returns the character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [characterId: string]: CharacterBuild[] }> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds`;
+    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [characterId: string]: (GenshinCharacterBuild | unknown)[] }> {
+        const data = await this._fetchHoyosBuilds(username, hash);
+        const json = new JsonReader(data);
 
-        const response = await fetchJSON(url, this, true);
-
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
+        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
+            const hoyoType = b.getAsNumber("hoyo_type");
+            if (hoyoType === 0) {
+                return new GenshinCharacterBuild(b.getAsJsonObject(), this, username, hash);
+            } else if (hoyoType === 1) {
+                if (!this.options.starrailClient) throw new Error("This action requires starrail.js library installed and an instance of StarRail set in EnkaClient#options.");
+                return this.options.starrailClient._getStarRailCharacterBuild(b.getAsJsonObject(), username, hash);
+            } else {
+                return null;
             }
-        }
-        const data = response.data;
+        }).filter(nonNullable)]);
 
-        return Object.fromEntries(Object.entries(data).map(([charId, builds]) => [charId, (builds as JsonObject[]).map(b => new CharacterBuild(b, this, username, hash))]));
+        return Object.fromEntries(entries);
+    }
+
+    /**
+     * @param username enka.network username, not in-game nickname
+     * @param hash EnkaUser hash
+     * @returns the genshin character builds including saved builds in Enka.Network account
+     */
+    async fetchEnkaUserGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
+        const data = await this._fetchHoyosBuilds(username, hash);
+        const json = new JsonReader(data);
+
+        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
+            const hoyoType = b.getAsNumber("hoyo_type");
+            if (hoyoType === 0) {
+                return new GenshinCharacterBuild(b.getAsJsonObject(), this, username, hash);
+            } else {
+                return null;
+            }
+        }).filter(nonNullable)]);
+
+        return Object.fromEntries(entries);
+    }
+
+    /**
+     * This requires this instance with `starrailClient`.
+     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be
+     * an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
+     * @param username enka.network username, not in-game nickname
+     * @param hash EnkaUser hash
+     * @returns the starrail character builds including saved builds in Enka.Network account
+     */
+    async fetchEnkaUserStarRailBuilds(username: string, hash: string): Promise<{ [characterId: string]: unknown[] }> {
+        const data = await this._fetchHoyosBuilds(username, hash);
+        const json = new JsonReader(data);
+
+        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
+            const hoyoType = b.getAsNumber("hoyo_type");
+            if (hoyoType === 1) {
+                if (!this.options.starrailClient) throw new Error("This action requires starrail.js library installed and an instance of StarRail set in EnkaClient#options.");
+                return this.options.starrailClient._getStarRailCharacterBuild(b.getAsJsonObject(), username, hash);
+            } else {
+                return null;
+            }
+        }).filter(nonNullable)]);
+
+        return Object.fromEntries(entries);
     }
 
     /**
@@ -391,6 +442,23 @@ class EnkaClient {
      */
     close(): void {
         this._tasks.forEach(task => clearTimeout(task));
+    }
+
+
+    async _fetchHoyosBuilds(username: string, hash: string): Promise<JsonObject> {
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds`;
+
+        const response = await fetchJSON(url, this, true);
+
+        if (response.status !== 200) {
+            switch (response.status) {
+                case 404:
+                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
+                default:
+                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
+            }
+        }
+        return response.data;
     }
 }
 

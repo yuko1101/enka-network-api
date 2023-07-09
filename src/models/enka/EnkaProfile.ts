@@ -1,7 +1,7 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
 import EnkaUser from "./EnkaUser";
-import CharacterBuild from "./CharacterBuild";
+import GenshinCharacterBuild from "./GenshinCharacterBuild";
 
 /**
  * The Enka.Network account
@@ -67,10 +67,29 @@ class EnkaProfile {
      * @param hash EnkaUser hash
      * @returns the character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaUserBuilds(hash: string): Promise<{ [characterId: string]: CharacterBuild[] }> {
+    async fetchEnkaUserBuilds(hash: string): Promise<{ [characterId: string]: (GenshinCharacterBuild | unknown)[] }> {
         return await this.enka.fetchEnkaUserBuilds(this.username, hash);
     }
 
+
+    /**
+     * @param hash EnkaUser hash
+     * @returns the genshin character builds including saved builds in Enka.Network account
+     */
+    async fetchGenshinBuilds(hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
+        return await this.enka.fetchEnkaUserGenshinBuilds(this.username, hash);
+    }
+
+    /**
+     * This requires [enka](#enka) with `starrailClient`.
+     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be
+     * an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
+     * @param hash EnkaUser hash
+     * @returns the starrail character builds including saved builds in Enka.Network account
+     */
+    async fetchStarRailBuilds(hash: string): Promise<{ [characterId: string]: unknown[] }> {
+        return await this.enka.fetchEnkaUserStarRailBuilds(this.username, hash);
+    }
 }
 
 export default EnkaProfile;

@@ -31,7 +31,7 @@ import CharacterStats from "./models/character/CharacterStats";
 import CharacterVoiceData from "./models/character/CharacterVoiceData";
 import Constellation from "./models/character/Constellation";
 import Costume from "./models/character/Costume";
-import CharacterBuild from "./models/enka/CharacterBuild";
+import GenshinCharacterBuild from "./models/enka/GenshinCharacterBuild";
 import EnkaProfile from "./models/enka/EnkaProfile";
 import EnkaUser from "./models/enka/EnkaUser";
 import Material, { NameCard } from "./models/material/Material";
@@ -80,7 +80,7 @@ export {
     CharacterVoiceData,
     Constellation,
     Costume,
-    CharacterBuild,
+    GenshinCharacterBuild as CharacterBuild,
     EnkaProfile,
     EnkaUser,
     Material,
