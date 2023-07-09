@@ -236,6 +236,8 @@ class EnkaClient {
     }
 
     /**
+     * This requires this instance with `starrailClient`.
+     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
      * `TSUnknownKeyword` or `unknown` type in the return type can be replaced with [StarRailCharacterBuild](https://starrail.vercel.app/docs/api/StarRailCharacterBuild).
      * @param username enka.network username, not in-game nickname
      * @param hash EnkaUser hash
