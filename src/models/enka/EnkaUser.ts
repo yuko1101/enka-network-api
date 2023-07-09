@@ -29,7 +29,7 @@ class EnkaUser {
     readonly hash: string;
     /**  */
     readonly hoyoType: HoyoType;
-    /** Genshin User or Star Rail User */
+    /** [Genshin User](User) or [Star Rail User](https://starrail.vercel.app/docs/api/User) */
     readonly user: User | unknown;
     /**  */
     readonly uid: number | null;
@@ -109,7 +109,8 @@ class EnkaUser {
     }
 
     /**
-     * @returns the character builds including saved builds in Enka.Network account
+     * `TSUnknownKeyword` or `unknown` type in the return type can be replaced with [StarRailCharacterBuild](https://starrail.vercel.app/docs/api/StarRailCharacterBuild).
+     * @returns the genshin and starrail character builds including saved builds in Enka.Network account
      */
     async fetchBuilds(): Promise<{ [characterId: string]: (GenshinCharacterBuild | unknown)[] }> {
         return await this.enka.fetchEnkaUserBuilds(this.username, this.hash);
@@ -124,8 +125,8 @@ class EnkaUser {
 
     /**
      * This requires [enka](#enka) with `starrailClient`.
-     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be
-     * an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
+     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
+     * `TSUnknownKeyword` or `unknown` type in the return type can be replaced with [StarRailCharacterBuild](https://starrail.vercel.app/docs/api/StarRailCharacterBuild).
      * @returns the starrail character builds including saved builds in Enka.Network account
      */
     async fetchStarRailBuilds(): Promise<{ [characterId: string]: unknown[] }> {
