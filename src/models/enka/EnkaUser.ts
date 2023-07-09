@@ -17,8 +17,16 @@ class EnkaUser {
     readonly username: string;
     /**  */
     readonly hash: string;
-    /**  */
-    readonly user: User;
+    /**
+     * @example
+     * |hoyoType|Game Name|
+     * |---|---|
+     * |0|Genshin Impact|
+     * |1|Honkai: Star Rail|
+     */
+    readonly hoyoType: number;
+    /** Genshin User or Star Rail User */
+    readonly user: User | unknown;
     /**  */
     readonly uid: number | null;
     /**  */
@@ -41,6 +49,8 @@ class EnkaUser {
     /**  */
     readonly order: number;
     /**  */
+    readonly characterOrder: { [characterId: string]: number } | null;
+    /**  */
     readonly url: string;
 
     readonly _data: JsonObject;
@@ -62,9 +72,14 @@ class EnkaUser {
 
         this.hash = json.getAsString("hash");
 
-        const fixedData = renameKeys(data, { "player_info": "playerInfo" });
+        this.hoyoType = json.getAsNumber("hoyo_type");
 
-        this.user = new User(fixedData, enka);
+        const fixedData = renameKeys(data, { "player_info": this.hoyoType === 0 ? "playerInfo" : "detailInfo" });
+
+        this.user = this.hoyoType === 0 ? new User(fixedData, enka) : (() => {
+            if (!this.enka.options.starrailClient) throw new Error("This action requires starrail.js library installed and an instance of StarRail set in EnkaClient#options.");
+            return this.enka.options.starrailClient._getUser(fixedData);
+        })();
 
         this.uid = json.getAsNumberWithDefault(null, "uid");
 
@@ -82,7 +97,9 @@ class EnkaUser {
 
         this.region = json.getAsString("region") as GameServerRegion;
 
-        this.order = json.getAsNumber("order") as number;
+        this.order = json.getAsNumber("order");
+
+        this.characterOrder = json.getValue("avatar_order") as { [characterId: string]: number } | null;
 
         this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
     }

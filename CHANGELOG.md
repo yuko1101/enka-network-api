@@ -1,5 +1,6 @@
 # 3.7.0
 - Added integration with [starrail.js](https://github.com/yuko1101/starrail.js).
+    - Supported StarRail EnkaUser
     - StarRail character builds (including saved builds in Enka.Network).
 - Changed type of CharacterVoiceData#textContent to DynamicTextAssets.
 # 3.6.1
