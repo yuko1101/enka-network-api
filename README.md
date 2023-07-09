@@ -30,6 +30,8 @@
 
 An enka.network API wrapper for Genshin Impact.
 
+**This is NOT the source of Enka.Network or its API.**
+
 ### Features
 - User Data and Character Stats using EnkaNetwork.
 - All Characters and All Weapons Data. (Including More Advanced Info, such as Skill Attributes and Weapon Refinements.)
