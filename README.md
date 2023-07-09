@@ -36,6 +36,7 @@ An enka.network API wrapper for Genshin Impact.
 - User Data and Character Stats using EnkaNetwork.
 - All Characters and All Weapons Data. (Including More Advanced Info, such as Skill Attributes and Weapon Refinements.)
 - Cache Updater for the new update of Genshin Impact. (Update characters and weapons immediately.)
+- Honkai: Star Rail support with [starrail.js](https://github.com/yuko1101/starrail.js) integration. (See the example [here](https://github.com/yuko1101/enka-network-api/blob/main/example/starrail.js-integration.js).)
 
 
 ## Installation
