@@ -7,6 +7,16 @@ import GenshinCharacterBuild from "./GenshinCharacterBuild";
 export type GameServerRegion = "" | "CN" | "B" | "NA" | "EU" | "ASIA" | "TW";
 
 /**
+ * @typedef
+ * @example
+ * |hoyoType|Game Name|
+ * |---|---|
+ * |0|Genshin Impact|
+ * |1|Honkai: Star Rail|
+ */
+export type HoyoType = number;
+
+/**
  * The game account added to the Enka.Network account.
  * @en EnkaUser
  */
@@ -17,14 +27,8 @@ class EnkaUser {
     readonly username: string;
     /**  */
     readonly hash: string;
-    /**
-     * @example
-     * |hoyoType|Game Name|
-     * |---|---|
-     * |0|Genshin Impact|
-     * |1|Honkai: Star Rail|
-     */
-    readonly hoyoType: number;
+    /**  */
+    readonly hoyoType: HoyoType;
     /** Genshin User or Star Rail User */
     readonly user: User | unknown;
     /**  */

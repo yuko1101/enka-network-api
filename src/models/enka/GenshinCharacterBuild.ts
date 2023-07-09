@@ -1,6 +1,7 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import Character from "../character/Character";
 import EnkaClient from "../../client/EnkaClient";
+import { HoyoType } from "./EnkaUser";
 
 /**
  * A present character build or a saved character build in Enka.Network account
@@ -24,6 +25,8 @@ class GenshinCharacterBuild {
     readonly isPublic: boolean;
     /**  */
     readonly character: Character;
+    /**  */
+    readonly hoyoType: HoyoType;
     /**  */
     readonly url: string;
 
@@ -56,6 +59,8 @@ class GenshinCharacterBuild {
         this.isPublic = json.getAsBoolean("public");
 
         this.character = new Character(json.getAsJsonObject("avatar_data"), enka);
+
+        this.hoyoType = json.getAsNumber("hoyo_type");
 
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}`;
     }

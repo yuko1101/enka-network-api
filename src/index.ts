@@ -106,7 +106,7 @@ export { DynamicData, GenshinPlatform, UserInfo } from "./models/assets/DynamicT
 export { SkillAttributeData } from "./models/assets/SkillAttributeAssets";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
 export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
-export { GameServerRegion } from "./models/enka/EnkaUser";
+export { GameServerRegion, HoyoType } from "./models/enka/EnkaUser";
 export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
