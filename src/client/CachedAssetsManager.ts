@@ -603,6 +603,8 @@ class CachedAssetsManager {
                         const entryPath = entry.path.replace(/^cache\/?/, "");
                         const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
 
+                        if (this.enka.options.showFetchCacheLog) console.info(`- Downloading ${entryPath}`);
+
                         if (entry.type === "Directory") {
                             if (!fs.existsSync(extractPath)) fs.mkdirSync(extractPath, { recursive: true });
                             entry.autodrain();
