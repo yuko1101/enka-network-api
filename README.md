@@ -28,7 +28,7 @@
 
 ## About
 
-An enka.network API wrapper for Genshin Impact.
+A Node.js Enka.Network API wrapper for Genshin Impact.
 
 **This is NOT the source code of Enka.Network or its API.**
 
