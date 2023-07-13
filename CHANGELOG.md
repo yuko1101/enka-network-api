@@ -1,3 +1,5 @@
+# 3.7.1
+- Added WeaponData#_nameId.
 # 3.7.0
 - Added integration with [starrail.js](https://github.com/yuko1101/starrail.js).
     - Supported StarRail EnkaUser.

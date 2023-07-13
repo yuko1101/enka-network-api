@@ -38,6 +38,7 @@ class WeaponData {
     readonly refinements: WeaponRefinement[];
 
     readonly _data: JsonObject;
+    readonly _nameId: string;
     readonly _weaponTypeData: JsonObject;
 
     /**
@@ -55,6 +56,8 @@ class WeaponData {
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
+
+        this._nameId = json.getAsString("icon").slice("UI_EquipIcon_".length);
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
