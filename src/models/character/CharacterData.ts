@@ -134,7 +134,7 @@ class CharacterData {
         this._costumeData = costumeData.map(([, p]) => p.getAsJsonObject());
         this.costumes = this._costumeData.map(c => new Costume(c, enka));
 
-        this.skillDepotId = candSkillDepotId || json.getAsNumber("skillDepotId");
+        this.skillDepotId = candSkillDepotId ?? json.getAsNumber("skillDepotId");
 
         const skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.skillDepotId)?.[1];
         if (!skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);

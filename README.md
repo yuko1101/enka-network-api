@@ -136,7 +136,7 @@ const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
 
 const characters = enka.getAllCharacters();
-// print character names with language "en"
+// print character names in language "en"
 console.log(characters.map(c => c.name.get("en")));
 ```
 
@@ -147,7 +147,7 @@ const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
 
 const weapons = enka.getAllWeapons();
-// print weapon names with language "jp"
+// print weapon names in language "jp"
 console.log(weapons.map(w => w.name.get("jp")));
 ```
 
