@@ -11,7 +11,7 @@ import EnkaNetworkError from "../errors/EnkaNetworkError";
 import ArtifactData from "../models/artifact/ArtifactData";
 import { artifactRarityRangeMap } from "../utils/constants";
 import DetailedUser from "../models/DetailedUser";
-import EnkaUser from "../models/enka/EnkaUser";
+import EnkaUser, { HoyoType } from "../models/enka/EnkaUser";
 import EnkaProfile from "../models/enka/EnkaProfile";
 import GenshinCharacterBuild from "../models/enka/GenshinCharacterBuild";
 import Material from "../models/material/Material";
@@ -194,7 +194,7 @@ class EnkaClient {
      * @param username enka.network username, not in-game nickname
      * @returns the all game accounts added to the Enka.Network account
      */
-    async fetchAllEnkaUsers(username: string): Promise<EnkaUser[]> {
+    async fetchAllEnkaUsers(username: string, hoyoType: HoyoType | null = null): Promise<EnkaUser[]> {
         const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos`;
 
         const response = await fetchJSON(url, this, true);
@@ -209,7 +209,23 @@ class EnkaClient {
         }
         const data = response.data as { [hash: string]: JsonObject };
 
-        return Object.values(data).map(u => new EnkaUser(u, this, username));
+        return Object.values(data).filter(u => hoyoType === null || u["hoyo_type"] === hoyoType).map(u => new EnkaUser(u, this, username));
+    }
+
+    /**
+     * @param username enka.network username, not in-game nickname
+     * @returns the genshin accounts added to the Enka.Network account
+     */
+    async fetchGenshinEnkaUsers(username: string): Promise<EnkaUser[]> {
+        return await this.fetchAllEnkaUsers(username, 0);
+    }
+
+    /**
+     * @param username enka.network username, not in-game nickname
+     * @returns the starrail accounts added to the Enka.Network account
+     */
+    async fetchStarRailEnkaUsers(username: string): Promise<EnkaUser[]> {
+        return await this.fetchAllEnkaUsers(username, 1);
     }
 
     /**

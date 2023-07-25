@@ -1,3 +1,6 @@
+# 3.7.2
+- Added EnkaClient#fetchGenshinEnkaUsers and EnkaClient#fetchStarRailEnkaUsers.
+- Added EnkaProfile#fetchGenshinEnkaUsers and EnkaProfile#fetchStarRailEnkaUsers.
 # 3.7.1
 - Added WeaponData#_nameId.
 # 3.7.0
