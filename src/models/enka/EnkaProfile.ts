@@ -64,6 +64,20 @@ class EnkaProfile {
     }
 
     /**
+     * @returns the genshin accounts added to the Enka.Network account
+     */
+    async fetchGenshinEnkaUsers(): Promise<EnkaUser[]> {
+        return await this.enka.fetchAllEnkaUsers(this.username, 0);
+    }
+
+    /**
+     * @returns the starrail accounts added to the Enka.Network account
+     */
+    async fetchStarRailEnkaUsers(): Promise<EnkaUser[]> {
+        return await this.enka.fetchAllEnkaUsers(this.username, 1);
+    }
+
+    /**
      * @param hash EnkaUser hash
      * @returns the character builds including saved builds in Enka.Network account
      */
