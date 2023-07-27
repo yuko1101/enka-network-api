@@ -404,7 +404,7 @@ class CachedAssetsManager {
      */
     getLanguageData(lang: LanguageCode, directory?: string): { [key: string]: string } {
         // Avoid "js/prototype-polluting-assignment" just in case. (https://github.com/yuko1101/enka-network-api/security/code-scanning/252)
-        if (lang as unknown === "__proto__") return {};
+        if (["__proto__", "constructor", "prototype"].includes(lang)) return {};
         langDataMemory[lang] ??= JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang), "utf-8"));
         if (directory) {
             const loadedJson = JSON.parse(fs.readFileSync(this.getLanguageDataPath(lang, directory), "utf-8"));
