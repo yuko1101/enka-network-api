@@ -1,3 +1,5 @@
+# 3.7.3
+- Added EnkaClientOptions#githubToken for less rate-limited requests to github rest api.
 # 3.7.2
 - Added EnkaClient#fetchGenshinEnkaUsers and EnkaClient#fetchStarRailEnkaUsers.
 - Added EnkaProfile#fetchGenshinEnkaUsers and EnkaProfile#fetchStarRailEnkaUsers.

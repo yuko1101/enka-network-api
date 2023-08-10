@@ -45,6 +45,8 @@ export interface EnkaClientOptions {
     userCacheGetter: ((key: string) => Promise<JsonObject>) | null;
     userCacheSetter: ((key: string, data: JsonObject) => Promise<void>) | null;
     userCacheDeleter: ((key: string) => Promise<void>) | null;
+    /** For less rate limited cache update checking */
+    githubToken: string | null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     starrailClient: any | null;
 }
@@ -74,6 +76,7 @@ export const defaultEnkaClientOptions: EnkaClientOptions = {
     "userCacheGetter": null,
     "userCacheSetter": null,
     "userCacheDeleter": null,
+    "githubToken": null,
     "starrailClient": null,
 };
 
