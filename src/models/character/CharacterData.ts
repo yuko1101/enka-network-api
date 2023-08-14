@@ -24,6 +24,8 @@ export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "B
 export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
 /** @typedef */
 export type Gender = "MALE" | "FEMALE";
+/** @typedef */
+export type Arkhe = "Pneuma" | "Ousia";
 
 /**
  * @en CharacterData
@@ -67,6 +69,8 @@ class CharacterData {
     readonly elementalBurst: ElementalBurst | null;
     /**  */
     readonly element: Element | null;
+    /**  */
+    readonly arkhe: Arkhe | null;
     /**  */
     readonly skills: Skill[];
     /** Can be null if the character doesn't have element such as traveler without elements */
@@ -139,6 +143,8 @@ class CharacterData {
         const skillData = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").findArray((_, p) => p.getAsNumber("id") === this.skillDepotId)?.[1];
         if (!skillData) throw new AssetsNotFoundError("Skill Depot", this.skillDepotId);
         this._skillData = skillData.getAsJsonObject();
+
+        this.arkhe = skillData.getAsStringWithDefault(null, enka.cachedAssetsManager.getObjectKeysManager().characterArkheKey) as Arkhe | null;
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
         // `elementalBurst`, `elementalSkill`, and `element` cannot be retrieved.

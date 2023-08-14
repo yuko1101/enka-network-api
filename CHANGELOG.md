@@ -1,3 +1,5 @@
+# 3.7.4
+- Added CharacterData#arkhe.
 # 3.7.3
 - Added EnkaClientOptions#githubToken for less rate-limited requests to github rest api.
 # 3.7.2
