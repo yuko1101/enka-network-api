@@ -1,6 +1,6 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
-import StatProperty, { FightProp } from "../StatProperty";
+import StatProperty from "../StatProperty";
 import WeaponData from "./WeaponData";
 import WeaponRefinement from "./WeaponRefinement";
 
@@ -58,7 +58,7 @@ class Weapon {
 
         this.isAwaken = this.ascension >= 2;
 
-        this.weaponStats = json.get("flat", "weaponStats").mapArray((_, p) => new StatProperty(p.getAsString("appendPropId") as FightProp, p.getAsNumber("statValue"), enka, true));
+        this.weaponStats = this.weaponData.getStats(this.ascension, this.level);
 
     }
 }

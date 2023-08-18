@@ -17,7 +17,7 @@ class WeaponAscension {
 
     /**  */
     readonly unlockMaxLevel: number;
-    /**  */
+    /** 0 if adventure rank is not required */
     readonly requiredAdventureRank: number;
     /**  */
     readonly cost: UpgradeCost;
@@ -41,7 +41,7 @@ class WeaponAscension {
 
         this.unlockMaxLevel = json.getAsNumber("unlockMaxLevel");
 
-        this.requiredAdventureRank = json.getAsNumber("requiredPlayerLevel");
+        this.requiredAdventureRank = json.getAsNumberWithDefault(0, "requiredPlayerLevel");
 
         this.cost = new UpgradeCost(json.getAsNumberWithDefault(0, "coinCost"), json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], enka);
 
