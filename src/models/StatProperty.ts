@@ -27,7 +27,7 @@ class StatProperty {
      * @param enka
      * @param multiplied
      */
-    constructor(fightProp: FightProp, value: number, enka: EnkaClient, multiplied = false) {
+    constructor(fightProp: FightProp, value: number, enka: EnkaClient) {
         this.fightProp = fightProp;
 
         this.enka = enka;
@@ -40,7 +40,7 @@ class StatProperty {
 
         this.isPercent = percent.includes(fightProp);
 
-        this.value = (multiplied && this.isPercent) ? value / 100 : value;
+        this.value = value;
     }
 
     /**  */
