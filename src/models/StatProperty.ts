@@ -17,6 +17,8 @@ class StatProperty {
     /**  */
     readonly isPercent: boolean;
     /**  */
+    readonly rawValue: number;
+    /**  */
     readonly value: number;
 
     readonly _propData: JsonObject;
@@ -40,7 +42,9 @@ class StatProperty {
 
         this.isPercent = percent.includes(fightProp);
 
-        this.value = value;
+        this.rawValue = value;
+
+        this.value = round(value, 8);
     }
 
     /**  */
@@ -89,6 +93,11 @@ class StatProperty {
 }
 
 export default StatProperty;
+
+function round(x: number, decimalPlaces = 0) {
+    const p = Math.pow(10, decimalPlaces);
+    return Math.round(x * p) / p;
+}
 
 /**
  * @en FightProp

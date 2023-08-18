@@ -1,5 +1,8 @@
 # 3.7.4
 - Added CharacterData#arkhe.
+- Fixed unexpected undefined in CharacterAscension#requiredAdventureRank and WeaponAscension#requiredAdventureRank.
+- Made Weapon#weaponStats not to use flat data from Enka.Network API.
+- Corrected errors in stats calculations by rounding and added StatProperty#rawValue.
 # 3.7.3
 - Added EnkaClientOptions#githubToken for less rate-limited requests to github rest api.
 # 3.7.2
