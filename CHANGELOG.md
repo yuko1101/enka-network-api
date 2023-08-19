@@ -1,3 +1,5 @@
+# 3.7.5
+- Uses URLs with fewer redirects.
 # 3.7.4
 - Added CharacterData#arkhe.
 - Fixed unexpected undefined in CharacterAscension#requiredAdventureRank and WeaponAscension#requiredAdventureRank.

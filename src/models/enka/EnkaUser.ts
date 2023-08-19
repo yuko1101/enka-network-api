@@ -105,7 +105,7 @@ class EnkaUser {
 
         this.characterOrder = json.getValue("avatar_order") as { [characterId: string]: number } | null;
 
-        this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}`;
+        this.url = `${enka.options.enkaUrl}/u/${username}/${this.hash}/`;
     }
 
     /**

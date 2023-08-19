@@ -62,7 +62,7 @@ class GenshinCharacterBuild {
 
         this.hoyoType = json.getAsNumber("hoyo_type");
 
-        this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}`;
+        this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}/`;
     }
 }
 

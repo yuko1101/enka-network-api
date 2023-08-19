@@ -176,7 +176,7 @@ class EnkaClient {
      * @returns the Enka.Network account
     */
     async fetchEnkaProfile(username: string): Promise<EnkaProfile> {
-        const url = getEnkaProfileUrl(this.options.enkaUrl as string, username);
+        const url = getEnkaProfileUrl(this.options.enkaUrl as string, username) + "/";
 
         const response = await fetchJSON(url, this, true);
 
@@ -198,7 +198,7 @@ class EnkaClient {
      * @returns the all game accounts added to the Enka.Network account
      */
     async fetchAllEnkaUsers(username: string, hoyoType: HoyoType | null = null): Promise<EnkaUser[]> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos`;
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/`;
 
         const response = await fetchJSON(url, this, true);
 
@@ -237,7 +237,7 @@ class EnkaClient {
      * @returns the game account added to the Enka.Network account
      */
     async fetchEnkaUser(username: string, hash: string): Promise<EnkaUser> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}`;
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/`;
 
         const response = await fetchJSON(url, this, true);
 
@@ -468,7 +468,7 @@ class EnkaClient {
 
 
     async _fetchHoyosBuilds(username: string, hash: string): Promise<JsonObject> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds`;
+        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds/`;
 
         const response = await fetchJSON(url, this, true);
 

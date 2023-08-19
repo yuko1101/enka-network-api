@@ -124,7 +124,7 @@ class User {
 
         this.enkaUserHash = json.getAsStringWithDefault(null, "owner", "hash");
 
-        this.url = `${enka.options.enkaUrl}/u/${this.uid}`;
+        this.url = `${enka.options.enkaUrl}/u/${this.uid}/`;
     }
 }
 

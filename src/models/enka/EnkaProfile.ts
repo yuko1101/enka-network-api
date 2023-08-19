@@ -53,7 +53,7 @@ class EnkaProfile {
 
         this.signupState = profile.getAsNumber("signup_state");
 
-        this.url = `${enka.options.enkaUrl}/u/${this.username}`;
+        this.url = `${enka.options.enkaUrl}/u/${this.username}/`;
     }
 
     /**
