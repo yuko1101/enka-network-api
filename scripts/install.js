@@ -9,7 +9,7 @@ function getBool(value) {
 
 if (getBool(nocache)) {
     if (!fs.existsSync("installed")) {
-        // create dummy file not to download the data when install other packages.
+        // create a dummy file not to download the data on install other packages.
         fs.writeFileSync("installed", "");
     }
     return;
