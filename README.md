@@ -45,18 +45,18 @@ A Node.js Enka.Network API wrapper for Genshin Impact.
 
 Install enka-network-api including genshin cache data.
 ```sh-session
-npm install enka-network-api
+npm install enka-network-api@latest
 ```
 <details>
     <summary>Install using ghproxy.com</summary>
     
-    npm install enka-network-api --enka-ghproxy=true
+    npm install enka-network-api@latest --enka-ghproxy=true
 </details>
 <br/>
 
 If you have already moved the cache to another folder, you can also install without downloading the cache.
 ```sh-session
-npm install enka-network-api --enka-nocache=true
+npm install enka-network-api@latest --enka-nocache=true
 ```
 
 ## About Genshin Cache Data
