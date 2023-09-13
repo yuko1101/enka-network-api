@@ -40,7 +40,7 @@ class StatProperty {
 
         this.fightPropName = new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka);
 
-        this.isPercent = percent.includes(fightProp);
+        this.isPercent = fightProp in percent;
 
         this.rawValue = value;
 

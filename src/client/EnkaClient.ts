@@ -423,7 +423,8 @@ class EnkaClient {
         const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => p.has("setId") && !excludeSetIds.includes(p.getAsNumber("setId")));
 
         const validRarityArtifacts = artifacts.filter(([, p]) => {
-            const allowedRarityRange = artifactRarityRangeMap[p.getAsNumber("setId")] ?? [4, 5];
+            const setId = p.getAsNumber("setId");
+            const allowedRarityRange = setId in artifactRarityRangeMap ? artifactRarityRangeMap[setId.toString() as keyof typeof artifactRarityRangeMap] : [4, 5];
             const min = highestRarityOnly ? allowedRarityRange[1] : allowedRarityRange[0];
             const max = allowedRarityRange[1];
             const stars = p.getAsNumber("rankLevel");

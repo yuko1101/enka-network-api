@@ -250,7 +250,7 @@ class CharacterStats {
      * @param id
      * @param defaultValue
      */
-    getStatProperty(id: number, defaultValue = 0): StatProperty {
+    getStatProperty(id: keyof typeof fightProps, defaultValue = 0): StatProperty {
         return new StatProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }
 }
