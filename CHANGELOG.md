@@ -1,5 +1,6 @@
 # 3.7.5
 - Uses URLs with fewer redirects.
+- Updated npm scripts to make it easier to move cache directory.
 # 3.7.4
 - Added CharacterData#arkhe.
 - Fixed unexpected undefined in CharacterAscension#requiredAdventureRank and WeaponAscension#requiredAdventureRank.

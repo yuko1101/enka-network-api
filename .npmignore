@@ -13,3 +13,4 @@ docs/
 .eslintrc.json
 .eslintignore
 cache.zip
+/installed

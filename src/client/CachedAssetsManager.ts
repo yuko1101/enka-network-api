@@ -111,7 +111,7 @@ class CachedAssetsManager {
 
     /**
      * @param enka
-    */
+     */
     constructor(enka: EnkaClient) {
         this.enka = enka;
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");

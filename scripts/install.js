@@ -8,16 +8,18 @@ function getBool(value) {
 }
 
 if (getBool(nocache)) {
-    if (!fs.existsSync("cache")) {
-        // create folder not to download the data when install other packages.
-        fs.mkdirSync("cache");
+    if (!fs.existsSync("installed")) {
+        // create a dummy file not to download the data on install other packages.
+        fs.writeFileSync("installed", "");
     }
     return;
 }
 
-if (fs.existsSync("cache")) return;
+if (fs.existsSync("installed")) return;
 
 const { EnkaClient } = require("..");
 const enka = new EnkaClient();
 
 enka.cachedAssetsManager._downloadCacheZip({ ghproxy: getBool(ghproxy) });
+
+fs.writeFileSync("installed", "");

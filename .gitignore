@@ -5,6 +5,7 @@
 
 # Caches
 /cache/
+/installed
 
 # Logs
 logs
