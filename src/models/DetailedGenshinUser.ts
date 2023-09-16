@@ -1,13 +1,13 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import Character from "./character/Character";
-import User from "./User";
+import GenshinUser from "./GenshinUser";
 
 /**
  * @en DetailedUser
- * @extends {User}
+ * @extends {GenshinUser}
  */
-class DetailedUser extends User {
+class DetailedGenshinUser extends GenshinUser {
     /**  */
     readonly showCharacterDetails: boolean;
     /**  */
@@ -29,4 +29,4 @@ class DetailedUser extends User {
     }
 }
 
-export default DetailedUser;
+export default DetailedGenshinUser;

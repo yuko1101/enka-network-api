@@ -1,3 +1,18 @@
+# 4.0.0
+**This version includes Breaking Changes**
+- Moved Enka.Network-account-related codes to [enka-system](https://github.com/yuko1101/enka-system).
+- Added EnkaClient#fetchEnkaGenshinAccount().
+## Refactoring
+- Renamed User to GenshinUser and DetailedUser to DetailedGenshinUser.
+- Renamed EnkaClient#fetchGenshinEnkaUsers() to fetchEnkaGenshinAccounts().
+- Renamed EnkaClient#fetchEnkaUserGenshinBuilds() to fetchEnkaGenshinBuilds().
+## Removed
+- Removed starrailClient option from EnkaClientOptions.
+- Removed EnkaClient#fetchEnkaProfile(), use EnkaSystem.fetchEnkaProfile() instead.
+- Removed EnkaClient#fetchAllEnkaUsers(), use EnkaSystem.fetchEnkaGameAccounts() instead.
+- Removed EnkaClient#fetchEnkaUser(), use EnkaSystem.fetchEnkaGameAccount() instead.
+- Removed EnkaClient#fetchEnkaUserBuilds(), use EnkaSystem.fetchEnkaCharacterBuilds() instead.
+- Removed EnkaClient#fetchStarRailEnkaUsers() and EnkaClient#fetchEnkaUserStarRailBuilds().
 # 3.7.5
 - Uses URLs with fewer redirects.
 - Updated npm scripts to make it easier to move cache directory.

@@ -1,7 +1,7 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import Character from "../character/Character";
 import EnkaClient from "../../client/EnkaClient";
-import { HoyoType } from "./EnkaUser";
+import { HoyoType } from "enka-system";
 
 /**
  * A present character build or a saved character build in Enka.Network account

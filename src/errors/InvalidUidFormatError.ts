@@ -1,4 +1,4 @@
-import EnkaNetworkError from "./EnkaNetworkError";
+import { EnkaNetworkError } from "enka-system";
 
 /**
  * @en InvalidUidFormatError

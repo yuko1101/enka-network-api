@@ -1,7 +1,7 @@
 import { JsonReader, JsonObject } from "config_file.js";
+import { EnkaProfile } from "enka-system";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
-import EnkaProfile from "./enka/EnkaProfile";
 import Material, { NameCard } from "./material/Material";
 import EnkaClient from "../client/EnkaClient";
 
@@ -20,10 +20,10 @@ export interface CostumedCharacter {
 /**
  * @en User
  */
-class User {
+class GenshinUser {
     /**  */
     readonly enka: EnkaClient;
-    /**  */
+    /** This will be NaN if this User is from EnkaGameAccount and [isUidPublic](EnkaGameAccount#isUidPublic) is false. */
     readonly uid: number;
     /**  */
     readonly nickname: string | null;
@@ -49,7 +49,7 @@ class User {
         chamber: number,
     } | null;
 
-    /** This will be -1 if this User is from EnkaUser */
+    /** This will be -1 if this User is from EnkaGameAccount */
     readonly ttl: number;
     /**  */
     readonly enkaProfile: EnkaProfile | null;
@@ -120,7 +120,7 @@ class User {
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
 
-        this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner"), enka) : null;
+        this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner")) : null;
 
         this.enkaUserHash = json.getAsStringWithDefault(null, "owner", "hash");
 
@@ -128,4 +128,4 @@ class User {
     }
 }
 
-export default User;
+export default GenshinUser;

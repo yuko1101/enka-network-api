@@ -1,5 +1,4 @@
-import User from "../models/User";
-import UserNotFoundError from "../errors/UserNotFoundError";
+import GenshinUser from "../models/GenshinUser";
 import * as characterUtils from "../utils/character_utils";
 import CachedAssetsManager from "./CachedAssetsManager";
 import CharacterData from "../models/character/CharacterData";
@@ -7,23 +6,19 @@ import WeaponData from "../models/weapon/WeaponData";
 import Costume from "../models/character/Costume";
 import { fetchJSON } from "../utils/axios_utils";
 import { NameCard } from "../models/material/Material";
-import EnkaNetworkError from "../errors/EnkaNetworkError";
 import ArtifactData from "../models/artifact/ArtifactData";
 import { artifactRarityRangeMap } from "../utils/constants";
-import DetailedUser from "../models/DetailedUser";
-import EnkaUser, { HoyoType } from "../models/enka/EnkaUser";
-import EnkaProfile from "../models/enka/EnkaProfile";
+import DetailedGenshinUser from "../models/DetailedGenshinUser";
+import { EnkaGameAccount, EnkaNetworkError, EnkaSystem, EnkaLibrary, UserNotFoundError } from "enka-system";
 import GenshinCharacterBuild from "../models/enka/GenshinCharacterBuild";
 import Material from "../models/material/Material";
 import InvalidUidFormatError from "../errors/InvalidUidFormatError";
 import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonObject, JsonReader, bindOptions, generateUuid, separateByValue } from "config_file.js";
+import { JsonObject, bindOptions, generateUuid, renameKeys, separateByValue } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
-import { nonNullable } from "../utils/ts_utils";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
-const getEnkaProfileUrl = (enkaUrl: string, username: string) => `${enkaUrl}/api/profile/${username}`;
 
 const userCacheMap = new Map();
 
@@ -47,8 +42,6 @@ export interface EnkaClientOptions {
     userCacheDeleter: ((key: string) => Promise<void>) | null;
     /** For less rate limited cache update checking */
     githubToken: string | null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    starrailClient: any | null;
 }
 
 /** @constant */
@@ -77,22 +70,23 @@ export const defaultEnkaClientOptions: EnkaClientOptions = {
     "userCacheSetter": null,
     "userCacheDeleter": null,
     "githubToken": null,
-    "starrailClient": null,
 };
 
 /**
  * @en EnkaClient
  */
-class EnkaClient {
+class EnkaClient implements EnkaLibrary<GenshinUser> {
     /** The options the client was instantiated with */
     readonly options: EnkaClientOptions;
     /** The genshin cache data manager of the client */
     readonly cachedAssetsManager: CachedAssetsManager;
 
+    readonly hoyoType: 0;
     private _tasks: NodeJS.Timeout[];
 
     /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
+        this.hoyoType = 0;
         this.options = bindOptions(defaultEnkaClientOptions as unknown as { [s: string]: unknown }, options) as unknown as EnkaClientOptions;
 
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
@@ -101,6 +95,16 @@ class EnkaClient {
         this.cachedAssetsManager = new CachedAssetsManager(this);
 
         this._tasks = [];
+
+        EnkaSystem.registerLibrary(this);
+    }
+
+    getUser(data: JsonObject): GenshinUser {
+        const fixedData = renameKeys(data, { "player_info": "playerInfo" });
+        return new GenshinUser(fixedData, this);
+    }
+    getCharacterBuild(data: JsonObject, username: string, hash: string): GenshinCharacterBuild {
+        return new GenshinCharacterBuild(data, this, username, hash);
     }
 
     /**
@@ -108,7 +112,7 @@ class EnkaClient {
      * @param collapse Whether to fetch rough user information (Very fast)
      * @returns DetailedUser if collapse is false, User if collapse is true
      */
-    async fetchUser(uid: number | string, collapse = false): Promise<User | DetailedUser> {
+    async fetchUser(uid: number | string, collapse = false): Promise<GenshinUser | DetailedGenshinUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
 
         const cacheGetter = this.options.userCacheGetter ?? (async (key) => userCacheMap.get(key));
@@ -168,163 +172,33 @@ class EnkaClient {
         // console.log("useCache", useCache);
         const userData = bindOptions(data, { _lib: { is_cache: useCache } }) as JsonObject;
 
-        return collapse ? new User(userData, this) : new DetailedUser(userData, this);
-    }
-
-    /**
-     * @param username enka.network username, not in-game nickname
-     * @returns the Enka.Network account
-    */
-    async fetchEnkaProfile(username: string): Promise<EnkaProfile> {
-        const url = getEnkaProfileUrl(this.options.enkaUrl as string, username) + "/";
-
-        const response = await fetchJSON(url, this, true);
-
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
-            }
-        }
-        const data = response.data;
-
-        return new EnkaProfile(data, this);
-    }
-
-    /**
-     * @param username enka.network username, not in-game nickname
-     * @returns the all game accounts added to the Enka.Network account
-     */
-    async fetchAllEnkaUsers(username: string, hoyoType: HoyoType | null = null): Promise<EnkaUser[]> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/`;
-
-        const response = await fetchJSON(url, this, true);
-
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} was not found.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
-            }
-        }
-        const data = response.data as { [hash: string]: JsonObject };
-
-        return Object.values(data).filter(u => hoyoType === null || u["hoyo_type"] === hoyoType).map(u => new EnkaUser(u, this, username));
+        return collapse ? new GenshinUser(userData, this) : new DetailedGenshinUser(userData, this);
     }
 
     /**
      * @param username enka.network username, not in-game nickname
      * @returns the genshin accounts added to the Enka.Network account
      */
-    async fetchGenshinEnkaUsers(username: string): Promise<EnkaUser[]> {
-        return await this.fetchAllEnkaUsers(username, 0);
+    async fetchEnkaGenshinAccounts(username: string): Promise<EnkaGameAccount<DetailedGenshinUser>[]> {
+        return await EnkaSystem.fetchEnkaGameAccounts(username, [0]);
     }
 
     /**
      * @param username enka.network username, not in-game nickname
-     * @returns the starrail accounts added to the Enka.Network account
+     * @param hash EnkaGameAccount hash
+     * @returns the genshin account with provided hash
      */
-    async fetchStarRailEnkaUsers(username: string): Promise<EnkaUser[]> {
-        return await this.fetchAllEnkaUsers(username, 1);
+    async fetchEnkaGenshinAccount(username: string, hash: string): Promise<EnkaGameAccount<DetailedGenshinUser>> {
+        return await EnkaSystem.fetchEnkaGameAccount(username, hash);
     }
 
     /**
      * @param username enka.network username, not in-game nickname
-     * @param hash EnkaUser hash
-     * @returns the game account added to the Enka.Network account
-     */
-    async fetchEnkaUser(username: string, hash: string): Promise<EnkaUser> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/`;
-
-        const response = await fetchJSON(url, this, true);
-
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
-            }
-        }
-        const data = response.data;
-
-        return new EnkaUser(data, this, username);
-    }
-
-    /**
-     * This requires this instance with `starrailClient`.
-     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
-     * `TSUnknownKeyword` or `unknown` type in the return type can be replaced with [StarRailCharacterBuild](https://starrail.vercel.app/docs/api/StarRailCharacterBuild).
-     * @param username enka.network username, not in-game nickname
-     * @param hash EnkaUser hash
-     * @returns the genshin and starrail character builds including saved builds in Enka.Network account
-     */
-    async fetchEnkaUserBuilds(username: string, hash: string): Promise<{ [characterId: string]: (GenshinCharacterBuild | unknown)[] }> {
-        const data = await this._fetchHoyosBuilds(username, hash);
-        const json = new JsonReader(data);
-
-        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
-            const hoyoType = b.getAsNumber("hoyo_type");
-            if (hoyoType === 0) {
-                return new GenshinCharacterBuild(b.getAsJsonObject(), this, username, hash);
-            } else if (hoyoType === 1) {
-                if (!this.options.starrailClient) throw new Error("This action requires starrail.js library installed and an instance of StarRail set in EnkaClient#options.");
-                return this.options.starrailClient._getStarRailCharacterBuild(b.getAsJsonObject(), username, hash);
-            } else {
-                return null;
-            }
-        }).filter(nonNullable)]);
-
-        return Object.fromEntries(entries);
-    }
-
-    /**
-     * @param username enka.network username, not in-game nickname
-     * @param hash EnkaUser hash
+     * @param hash EnkaGameAccount hash
      * @returns the genshin character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaUserGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
-        const data = await this._fetchHoyosBuilds(username, hash);
-        const json = new JsonReader(data);
-
-        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
-            const hoyoType = b.getAsNumber("hoyo_type");
-            if (hoyoType === 0) {
-                return new GenshinCharacterBuild(b.getAsJsonObject(), this, username, hash);
-            } else {
-                return null;
-            }
-        }).filter(nonNullable)]);
-
-        return Object.fromEntries(entries);
-    }
-
-    /**
-     * This requires this instance with `starrailClient`.
-     * And the `starrailClient` option in [EnkaClientOptions](EnkaClientOptions) must be an instance of StarRail from [starrail.js](https://github.com/yuko1101/starrail.js).
-     * `TSUnknownKeyword` or `unknown` type in the return type can be replaced with [StarRailCharacterBuild](https://starrail.vercel.app/docs/api/StarRailCharacterBuild).
-     * @param username enka.network username, not in-game nickname
-     * @param hash EnkaUser hash
-     * @returns the starrail character builds including saved builds in Enka.Network account
-     */
-    async fetchEnkaUserStarRailBuilds(username: string, hash: string): Promise<{ [characterId: string]: unknown[] }> {
-        const data = await this._fetchHoyosBuilds(username, hash);
-        const json = new JsonReader(data);
-
-        const entries = json.mapObject((charId, builds) => [charId, builds.mapArray((_, b) => {
-            const hoyoType = b.getAsNumber("hoyo_type");
-            if (hoyoType === 1) {
-                if (!this.options.starrailClient) throw new Error("This action requires starrail.js library installed and an instance of StarRail set in EnkaClient#options.");
-                return this.options.starrailClient._getStarRailCharacterBuild(b.getAsJsonObject(), username, hash);
-            } else {
-                return null;
-            }
-        }).filter(nonNullable)]);
-
-        return Object.fromEntries(entries);
+    async fetchEnkaGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
+        return await EnkaSystem.fetchEnkaCharacterBuilds(username, hash);
     }
 
     /**
@@ -465,23 +339,6 @@ class EnkaClient {
      */
     close(): void {
         this._tasks.forEach(task => clearTimeout(task));
-    }
-
-
-    async _fetchHoyosBuilds(username: string, hash: string): Promise<JsonObject> {
-        const url = `${getEnkaProfileUrl(this.options.enkaUrl as string, username)}/hoyos/${hash}/builds/`;
-
-        const response = await fetchJSON(url, this, true);
-
-        if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    throw new UserNotFoundError(`Enka.Network Profile with username ${username} or EnkaUser with hash ${hash} was not found.`, response.status, response.statusText);
-                default:
-                    throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
-            }
-        }
-        return response.data;
     }
 }
 

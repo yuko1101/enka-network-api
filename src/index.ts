@@ -3,9 +3,7 @@ import CachedAssetsManager from "./client/CachedAssetsManager";
 import EnkaClient from "./client/EnkaClient";
 import ObjectKeysManager from "./client/ObjectKeysManager";
 import AssetsNotFoundError from "./errors/AssetsNotFoundError";
-import EnkaNetworkError from "./errors/EnkaNetworkError";
 import InvalidUidFormatError from "./errors/InvalidUidFormatError";
-import UserNotFoundError from "./errors/UserNotFoundError";
 import Artifact from "./models/artifact/Artifact";
 import ArtifactData from "./models/artifact/ArtifactData";
 import ArtifactSet from "./models/artifact/ArtifactSet";
@@ -32,8 +30,6 @@ import CharacterVoiceData from "./models/character/CharacterVoiceData";
 import Constellation from "./models/character/Constellation";
 import Costume from "./models/character/Costume";
 import GenshinCharacterBuild from "./models/enka/GenshinCharacterBuild";
-import EnkaProfile from "./models/enka/EnkaProfile";
-import EnkaUser from "./models/enka/EnkaUser";
 import Material, { NameCard } from "./models/material/Material";
 import UpgradeCost from "./models/material/UpgradeCost";
 import Weapon from "./models/weapon/Weapon";
@@ -41,10 +37,10 @@ import WeaponAscension from "./models/weapon/WeaponAscension";
 import WeaponData from "./models/weapon/WeaponData";
 import WeaponRefinement from "./models/weapon/WeaponRefinement";
 import WeaponRefinements from "./models/weapon/WeaponRefinements";
-import DetailedUser from "./models/DetailedUser";
+import DetailedGenshinUser from "./models/DetailedGenshinUser";
 import Element from "./models/Element";
 import StatProperty from "./models/StatProperty";
-import User from "./models/User";
+import GenshinUser from "./models/GenshinUser";
 
 // classes
 export {
@@ -52,9 +48,7 @@ export {
     CachedAssetsManager,
     ObjectKeysManager,
     AssetsNotFoundError,
-    EnkaNetworkError,
     InvalidUidFormatError,
-    UserNotFoundError,
     Artifact,
     ArtifactData,
     ArtifactSet,
@@ -80,9 +74,7 @@ export {
     CharacterVoiceData,
     Constellation,
     Costume,
-    GenshinCharacterBuild as CharacterBuild,
-    EnkaProfile,
-    EnkaUser,
+    GenshinCharacterBuild,
     Material,
     NameCard,
     UpgradeCost,
@@ -91,10 +83,10 @@ export {
     WeaponData,
     WeaponRefinement,
     WeaponRefinements,
-    DetailedUser,
+    DetailedGenshinUser,
     Element,
     StatProperty,
-    User,
+    GenshinUser,
 };
 
 // typedefs
@@ -106,12 +98,11 @@ export { DynamicData, GenshinPlatform, UserInfo } from "./models/assets/DynamicT
 export { SkillAttributeData } from "./models/assets/SkillAttributeAssets";
 export { BodyType, Gender, CharacterRarity } from "./models/character/CharacterData";
 export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/character/CharacterDetails";
-export { GameServerRegion, HoyoType } from "./models/enka/EnkaUser";
 export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
 export { FightProp } from "./models/StatProperty";
-export { CharacterPreview, CostumedCharacter } from "./models/User";
+export { CharacterPreview, CostumedCharacter } from "./models/GenshinUser";
 export { Paths } from "./utils/ts_utils";
 
 // functions
