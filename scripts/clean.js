@@ -4,9 +4,7 @@ if (fs.existsSync("dist")) {
     deleteFiles("dist");
 }
 
-
-
-function deleteFiles(path, remove) {
+function deleteFiles(path) {
     const target = fs.statSync(path);
     if (!target.isDirectory()) {
         fs.unlinkSync(path);
