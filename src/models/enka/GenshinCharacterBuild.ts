@@ -1,13 +1,13 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import Character from "../character/Character";
 import EnkaClient from "../../client/EnkaClient";
-import { HoyoType } from "enka-system";
+import { CharacterBuild, HoyoType } from "enka-system";
 
 /**
  * A present character build or a saved character build in Enka.Network account
  * @en GenshinCharacterBuild
  */
-class GenshinCharacterBuild {
+class GenshinCharacterBuild extends CharacterBuild {
     /**  */
     readonly enka: EnkaClient;
     /**  */
@@ -39,6 +39,7 @@ class GenshinCharacterBuild {
      * @param hash
      */
     constructor(data: JsonObject, enka: EnkaClient, username: string, hash: string) {
+        super();
 
         this._data = data;
 
@@ -60,7 +61,7 @@ class GenshinCharacterBuild {
 
         this.character = new Character(json.getAsJsonObject("avatar_data"), enka);
 
-        this.hoyoType = json.getAsNumber("hoyo_type");
+        this.hoyoType = json.getAsNumber("hoyo_type") as HoyoType;
 
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}/`;
     }

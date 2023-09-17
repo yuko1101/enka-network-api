@@ -17,6 +17,7 @@ import ArtifactSet from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
 import { JsonObject, bindOptions, generateUuid, renameKeys, separateByValue } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
+import { Overwrite } from "../utils/ts_utils";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 
@@ -42,10 +43,11 @@ export interface EnkaClientOptions {
     userCacheDeleter: ((key: string) => Promise<void>) | null;
     /** For less rate limited cache update checking */
     githubToken: string | null;
+    readonly enkaSystem: EnkaSystem;
 }
 
 /** @constant */
-export const defaultEnkaClientOptions: EnkaClientOptions = {
+export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSystem": EnkaSystem | null }> = {
     "enkaUrl": "https://enka.network",
     "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
     "imageBaseUrlByRegex": {
@@ -70,6 +72,7 @@ export const defaultEnkaClientOptions: EnkaClientOptions = {
     "userCacheSetter": null,
     "userCacheDeleter": null,
     "githubToken": null,
+    "enkaSystem": null,
 };
 
 /**
@@ -87,7 +90,15 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
     /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
         this.hoyoType = 0;
-        this.options = bindOptions(defaultEnkaClientOptions as unknown as { [s: string]: unknown }, options) as unknown as EnkaClientOptions;
+        const mergedOptions = bindOptions(defaultEnkaClientOptions as unknown as { [s: string]: unknown }, options);
+        if (!mergedOptions.enkaSystem) {
+            if (EnkaSystem.instance.getLibrary(this.hoyoType)) {
+                mergedOptions.enkaSystem = new EnkaSystem();
+            } else {
+                mergedOptions.enkaSystem = EnkaSystem.instance;
+            }
+        }
+        this.options = mergedOptions as unknown as EnkaClientOptions;
 
         const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
@@ -96,7 +107,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
 
         this._tasks = [];
 
-        EnkaSystem.registerLibrary(this);
+        this.options.enkaSystem.registerLibrary(this);
     }
 
     getUser(data: JsonObject): GenshinUser {
@@ -180,7 +191,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @returns the genshin accounts added to the Enka.Network account
      */
     async fetchEnkaGenshinAccounts(username: string): Promise<EnkaGameAccount<DetailedGenshinUser>[]> {
-        return await EnkaSystem.fetchEnkaGameAccounts(username, [0]);
+        return await this.options.enkaSystem.fetchEnkaGameAccounts(username, [0]);
     }
 
     /**
@@ -189,7 +200,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @returns the genshin account with provided hash
      */
     async fetchEnkaGenshinAccount(username: string, hash: string): Promise<EnkaGameAccount<DetailedGenshinUser>> {
-        return await EnkaSystem.fetchEnkaGameAccount(username, hash);
+        return await this.options.enkaSystem.fetchEnkaGameAccount(username, hash);
     }
 
     /**
@@ -198,7 +209,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @returns the genshin character builds including saved builds in Enka.Network account
      */
     async fetchEnkaGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
-        return await EnkaSystem.fetchEnkaCharacterBuilds(username, hash);
+        return await this.options.enkaSystem.fetchEnkaCharacterBuilds(username, hash);
     }
 
     /**

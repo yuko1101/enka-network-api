@@ -13,3 +13,5 @@ export type Paths<T, D extends number = 10> = [D] extends [never] ? never : T ex
     }[keyof T] : "";
 
 export const nonNullable = <T>(value: T): value is NonNullable<T> => value !== null;
+
+export type Overwrite<T, U extends { [Key in keyof T]?: unknown }> = Omit<T, keyof U> & U;

@@ -1,5 +1,5 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import { EnkaProfile } from "enka-system";
+import { EnkaProfile, User } from "enka-system";
 import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import Material, { NameCard } from "./material/Material";
@@ -18,12 +18,12 @@ export interface CostumedCharacter {
 }
 
 /**
- * @en User
+ * @en GenshinUser
  */
-class GenshinUser {
+class GenshinUser extends User {
     /**  */
     readonly enka: EnkaClient;
-    /** This will be NaN if this User is from EnkaGameAccount and [isUidPublic](EnkaGameAccount#isUidPublic) is false. */
+    /** This will be NaN if this GenshinUser is from EnkaGameAccount and [isUidPublic](EnkaGameAccount#isUidPublic) is false. */
     readonly uid: number;
     /**  */
     readonly nickname: string | null;
@@ -49,29 +49,27 @@ class GenshinUser {
         chamber: number,
     } | null;
 
-    /** This will be -1 if this User is from EnkaGameAccount */
+    /** This will be -1 if this GenshinUser is from EnkaGameAccount */
     readonly ttl: number;
     /**  */
     readonly enkaProfile: EnkaProfile | null;
     /**  */
-    readonly enkaUserHash: string | null;
+    readonly enkaGameAccountHash: string | null;
     /**  */
     readonly url: string;
-
-    readonly _data: JsonObject;
 
     /**
      * @param data
      * @param enka
     */
     constructor(data: JsonObject, enka: EnkaClient) {
-        this.enka = enka;
+        const json = new JsonReader(data);
+        super(json);
 
-        this._data = data;
+        this.enka = enka;
 
         if (!enka.cachedAssetsManager.hasAllContents()) throw new Error("Complete Genshin data cache not found.\nYou need to fetch Genshin data by EnkaClient#cachedAssetsManager#fetchAllContents.");
 
-        const json = new JsonReader(this._data);
 
         this.uid = Number(json.getValue("uid"));
 
@@ -122,7 +120,7 @@ class GenshinUser {
 
         this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner")) : null;
 
-        this.enkaUserHash = json.getAsStringWithDefault(null, "owner", "hash");
+        this.enkaGameAccountHash = json.getAsStringWithDefault(null, "owner", "hash");
 
         this.url = `${enka.options.enkaUrl}/u/${this.uid}/`;
     }

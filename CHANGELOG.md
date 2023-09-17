@@ -3,6 +3,7 @@
 - Moved Enka.Network-account-related codes to [enka-system](https://github.com/yuko1101/enka-system).
 - Added EnkaClient#fetchEnkaGenshinAccount().
 ## Refactoring
+- Renamed User#enkaUserHash to enkaGameAccountHash.
 - Renamed User to GenshinUser and DetailedUser to DetailedGenshinUser.
 - Renamed EnkaClient#fetchGenshinEnkaUsers() to fetchEnkaGenshinAccounts().
 - Renamed EnkaClient#fetchEnkaUserGenshinBuilds() to fetchEnkaGenshinBuilds().
