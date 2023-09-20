@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="Node.js Enka.Network API wrapper for Genshin Impact <head />">
+      description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <HomepageFeatures />
