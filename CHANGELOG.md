@@ -11,10 +11,10 @@
 - Moved userCacheGetter, userCacheSetter, userCacheDeleter and storeUserCache in EnkaClientOptions into EnkaClient#userCache and renamed them to getter, setter, deleter and isEnabled.
 ## Removed
 - Removed starrailClient option from EnkaClientOptions.
-- Removed EnkaClient#fetchEnkaProfile(), use EnkaSystem.fetchEnkaProfile() instead.
-- Removed EnkaClient#fetchAllEnkaUsers(), use EnkaSystem.fetchEnkaGameAccounts() instead.
-- Removed EnkaClient#fetchEnkaUser(), use EnkaSystem.fetchEnkaGameAccount() instead.
-- Removed EnkaClient#fetchEnkaUserBuilds(), use EnkaSystem.fetchEnkaCharacterBuilds() instead.
+- Removed EnkaClient#fetchEnkaProfile(), use EnkaSystem#fetchEnkaProfile() instead.
+- Removed EnkaClient#fetchAllEnkaUsers(), use EnkaSystem#fetchEnkaGameAccounts() instead.
+- Removed EnkaClient#fetchEnkaUser(), use EnkaSystem#fetchEnkaGameAccount() instead.
+- Removed EnkaClient#fetchEnkaUserBuilds(), use EnkaSystem#fetchEnkaCharacterBuilds() instead.
 - Removed EnkaClient#fetchStarRailEnkaUsers() and EnkaClient#fetchEnkaUserStarRailBuilds().
 # 3.7.5
 - Uses URLs with fewer redirects.
