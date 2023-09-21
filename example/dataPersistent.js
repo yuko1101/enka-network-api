@@ -3,7 +3,7 @@ You can store most enka-network-api structures as json,
 and restore them whenever you want.
  */
 
-const { EnkaClient, CharacterData, User } = require("enka-network-api");
+const { EnkaClient, CharacterData, GenshinUser } = require("enka-network-api");
 const enka = new EnkaClient();
 
 // Kamisato Ayaka
@@ -31,4 +31,4 @@ const user = await enka.fetchUser(825436941);
 
 const userJson = user._data;
 
-const user2 = new User(userJson, enka);
+const user2 = new GenshinUser(userJson, enka);

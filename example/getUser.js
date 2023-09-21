@@ -1,10 +1,11 @@
-const { EnkaClient } = require("enka-network-api");
+const { EnkaClient, DetailedGenshinUser } = require("enka-network-api");
 const enka = new EnkaClient({ defaultLanguage: "en" });
 
 run();
 
 async function run() {
     const uid = 825436941;
+    /** @type {DetailedGenshinUser} */
     const user = await enka.fetchUser(uid);
 
     const characters = user.characters;

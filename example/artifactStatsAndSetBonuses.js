@@ -1,11 +1,11 @@
-const { EnkaClient, DetailedUser, ArtifactSet } = require("enka-network-api");
+const { EnkaClient, DetailedGenshinUser, ArtifactSet } = require("enka-network-api");
 const enka = new EnkaClient();
 
 run();
 
 async function run() {
     const uid = 825436941;
-    /** @type {DetailedUser} */
+    /** @type {DetailedGenshinUser} */
     const user = await enka.fetchUser(uid);
 
     const characters = user.characters;
