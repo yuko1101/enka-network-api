@@ -24,6 +24,16 @@ const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/ui
 const userCacheMap = new Map();
 
 /**
+ * @typedef
+ */
+export interface UserCacheOptions {
+    isEnabled: boolean;
+    getter: ((key: string) => Promise<JsonObject>) | null;
+    setter: ((key: string, data: JsonObject) => Promise<void>) | null;
+    deleter: ((key: string) => Promise<void>) | null;
+}
+
+/**
  * @en EnkaClientOptions
  * @typedef
  */
@@ -32,15 +42,12 @@ export interface EnkaClientOptions {
     defaultImageBaseUrl: string;
     imageBaseUrlByRegex: { [url: string]: RegExp[] };
     userAgent: string;
-    timeout: number;
+    requestTimeout: number;
     defaultLanguage: LanguageCode;
     textAssetsDynamicData: DynamicData;
     cacheDirectory: string | null;
     showFetchCacheLog: boolean;
-    storeUserCache: boolean;
-    userCacheGetter: ((key: string) => Promise<JsonObject>) | null;
-    userCacheSetter: ((key: string, data: JsonObject) => Promise<void>) | null;
-    userCacheDeleter: ((key: string) => Promise<void>) | null;
+    userCache: UserCacheOptions;
     /** For less rate limited cache update checking */
     githubToken: string | null;
     readonly enkaSystem: EnkaSystem;
@@ -59,7 +66,7 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
         "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
     },
     "userAgent": "Mozilla/5.0",
-    "timeout": 3000,
+    "requestTimeout": 3000,
     "defaultLanguage": "en",
     "textAssetsDynamicData": {
         paramList: [],
@@ -67,10 +74,12 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
     },
     "cacheDirectory": null,
     "showFetchCacheLog": true,
-    "storeUserCache": true,
-    "userCacheGetter": null,
-    "userCacheSetter": null,
-    "userCacheDeleter": null,
+    "userCache": {
+        isEnabled: true,
+        getter: null,
+        setter: null,
+        deleter: null,
+    },
     "githubToken": null,
     "enkaSystem": null,
 };
@@ -100,7 +109,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
         }
         this.options = mergedOptions as unknown as EnkaClientOptions;
 
-        const userCacheFuncs = [this.options.userCacheGetter, this.options.userCacheSetter, this.options.userCacheDeleter];
+        const userCacheFuncs = [this.options.userCache.getter, this.options.userCache.setter, this.options.userCache.deleter];
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
 
         this.cachedAssetsManager = new CachedAssetsManager(this);
@@ -121,19 +130,19 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
     /**
      * @param uid In-game UID of the user
      * @param collapse Whether to fetch rough user information (Very fast)
-     * @returns DetailedUser if collapse is false, User if collapse is true
+     * @returns DetailedGenshinUser if collapse is false, GenshinUser if collapse is true
      */
     async fetchUser(uid: number | string, collapse = false): Promise<GenshinUser | DetailedGenshinUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
 
-        const cacheGetter = this.options.userCacheGetter ?? (async (key) => userCacheMap.get(key));
-        const cacheSetter = this.options.userCacheSetter ?? (async (key, data) => { userCacheMap.set(key, data); });
-        const cacheDeleter = this.options.userCacheDeleter ?? (async (key) => { userCacheMap.delete(key); });
+        const cacheGetter = this.options.userCache.getter ?? (async (key) => userCacheMap.get(key));
+        const cacheSetter = this.options.userCache.setter ?? (async (key, data) => { userCacheMap.set(key, data); });
+        const cacheDeleter = this.options.userCache.deleter ?? (async (key) => { userCacheMap.delete(key); });
 
         const cacheKey = `${uid}${collapse ? "-info" : ""}`;
         const cachedUserData = (collapse ? await cacheGetter(cacheKey) : null) ?? await cacheGetter(uid.toString());
 
-        const useCache = !!(cachedUserData && this.options.storeUserCache);
+        const useCache = !!(cachedUserData && this.options.userCache.isEnabled);
 
         let data: JsonObject;
         if (!useCache) {
@@ -158,7 +167,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
             // TODO: use structuredClone
             data = { ...response.data };
 
-            if (this.options.storeUserCache) {
+            if (this.options.userCache.isEnabled) {
                 data._lib = { cache_id: generateUuid(), created_at: Date.now(), expires_at: Date.now() + (data.ttl as number) * 1000, original_ttl: data.ttl };
 
                 if (!collapse) await cacheDeleter(`${uid}-info`);

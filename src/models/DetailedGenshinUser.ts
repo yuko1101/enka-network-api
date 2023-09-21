@@ -4,7 +4,6 @@ import Character from "./character/Character";
 import GenshinUser from "./GenshinUser";
 
 /**
- * @en DetailedUser
  * @extends {GenshinUser}
  */
 class DetailedGenshinUser extends GenshinUser {

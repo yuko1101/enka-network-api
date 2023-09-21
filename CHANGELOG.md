@@ -7,6 +7,8 @@
 - Renamed User to GenshinUser and DetailedUser to DetailedGenshinUser.
 - Renamed EnkaClient#fetchGenshinEnkaUsers() to fetchEnkaGenshinAccounts().
 - Renamed EnkaClient#fetchEnkaUserGenshinBuilds() to fetchEnkaGenshinBuilds().
+- Renamed EnkaClientOptions#timeout to requestTimeout.
+- Moved userCacheGetter, userCacheSetter, userCacheDeleter and storeUserCache in EnkaClientOptions into EnkaClient#userCache and renamed them to getter, setter, deleter and isEnabled.
 ## Removed
 - Removed starrailClient option from EnkaClientOptions.
 - Removed EnkaClient#fetchEnkaProfile(), use EnkaSystem.fetchEnkaProfile() instead.

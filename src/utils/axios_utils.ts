@@ -12,7 +12,7 @@ export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = f
     if (enka.options.githubToken && url.startsWith("https://api.github.com/")) headers["Authorization"] = `Bearer ${enka.options.githubToken}`;
 
     const options: AxiosRequestConfig = { headers } as AxiosRequestConfig;
-    if (enableTimeout) options.timeout = enka.options.timeout;
+    if (enableTimeout) options.timeout = enka.options.requestTimeout;
 
     const res = await axios.get(url, options);
 
