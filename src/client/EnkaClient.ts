@@ -46,7 +46,7 @@ export interface EnkaClientOptions {
     textAssetsDynamicData: DynamicData;
     cacheDirectory: string | null;
     showFetchCacheLog: boolean;
-    userCache: UserCacheOptions;
+    userCache: UserCacheOptions; // TODO: move this to EnkaSystem
     /** For less rate limited cache update checking */
     githubToken: string | null;
     readonly enkaSystem: EnkaSystem;
