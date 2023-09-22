@@ -3,7 +3,6 @@ import CachedAssetsManager from "./client/CachedAssetsManager";
 import EnkaClient from "./client/EnkaClient";
 import ObjectKeysManager from "./client/ObjectKeysManager";
 import AssetsNotFoundError from "./errors/AssetsNotFoundError";
-import InvalidUidFormatError from "./errors/InvalidUidFormatError";
 import Artifact from "./models/artifact/Artifact";
 import ArtifactData from "./models/artifact/ArtifactData";
 import ArtifactSet from "./models/artifact/ArtifactSet";
@@ -48,7 +47,6 @@ export {
     CachedAssetsManager,
     ObjectKeysManager,
     AssetsNotFoundError,
-    InvalidUidFormatError,
     Artifact,
     ArtifactData,
     ArtifactSet,
