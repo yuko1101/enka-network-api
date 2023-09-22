@@ -108,7 +108,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
     /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
         this.hoyoType = 0;
-        const mergedOptions = bindOptions(defaultEnkaClientOptions as unknown as { [s: string]: unknown }, options);
+        const mergedOptions = bindOptions(defaultEnkaClientOptions, options);
         if (!mergedOptions.enkaSystem) {
             if (EnkaSystem.instance.getLibrary(this.hoyoType)) {
                 mergedOptions.enkaSystem = new EnkaSystem();
