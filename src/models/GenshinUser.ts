@@ -23,7 +23,7 @@ export interface CostumedCharacter {
 class GenshinUser extends User {
     /**  */
     readonly enka: EnkaClient;
-    /** This will be NaN if this GenshinUser is from EnkaGameAccount and [isUidPublic](EnkaGameAccount#isUidPublic) is false. */
+    /** This will be NaN if this GenshinUser is from [EnkaGameAccount](https://enka-system.vercel.app/docs/api/EnkaGameAccount) and [isUidPublic](https://enka-system.vercel.app/docs/api/EnkaGameAccount#isUidPublic) is `false`. */
     readonly uid: number;
     /**  */
     readonly nickname: string | null;
