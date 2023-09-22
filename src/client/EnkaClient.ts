@@ -132,6 +132,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
      * @param uid In-game UID of the user
      * @param collapse Whether to fetch rough user information (Very fast)
      * @returns DetailedGenshinUser if collapse is false, GenshinUser if collapse is true
+     * @throws {EnkaNetworkError}
      */
     async fetchUser(uid: number | string, collapse = false): Promise<GenshinUser | DetailedGenshinUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
