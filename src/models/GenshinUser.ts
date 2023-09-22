@@ -118,7 +118,7 @@ class GenshinUser extends User {
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
 
-        this.enkaProfile = json.has("owner") ? new EnkaProfile(json.getAsJsonObject("owner")) : null;
+        this.enkaProfile = json.has("owner") ? new EnkaProfile(enka.options.enkaSystem, json.getAsJsonObject("owner")) : null;
 
         this.enkaGameAccountHash = json.getAsStringWithDefault(null, "owner", "hash");
 

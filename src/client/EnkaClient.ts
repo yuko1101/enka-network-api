@@ -87,13 +87,22 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
 /**
  * @en EnkaClient
  */
-class EnkaClient implements EnkaLibrary<GenshinUser> {
+class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
+    readonly hoyoType: 0;
+    getUser(data: JsonObject): GenshinUser {
+        const fixedData = renameKeys(data, { "player_info": "playerInfo" });
+        return new GenshinUser(fixedData, this);
+    }
+    getCharacterBuild(data: JsonObject, username: string, hash: string): GenshinCharacterBuild {
+        return new GenshinCharacterBuild(data, this, username, hash);
+    }
+
+
     /** The options the client was instantiated with */
     readonly options: EnkaClientOptions;
     /** The genshin cache data manager of the client */
     readonly cachedAssetsManager: CachedAssetsManager;
 
-    readonly hoyoType: 0;
     private _tasks: NodeJS.Timeout[];
 
     /** @param options Options for the client */
@@ -119,13 +128,6 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
         this.options.enkaSystem.registerLibrary(this);
     }
 
-    getUser(data: JsonObject): GenshinUser {
-        const fixedData = renameKeys(data, { "player_info": "playerInfo" });
-        return new GenshinUser(fixedData, this);
-    }
-    getCharacterBuild(data: JsonObject, username: string, hash: string): GenshinCharacterBuild {
-        return new GenshinCharacterBuild(data, this, username, hash);
-    }
 
     /**
      * @param uid In-game UID of the user
@@ -199,8 +201,8 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @param username enka.network username, not in-game nickname
      * @returns the genshin accounts added to the Enka.Network account
      */
-    async fetchEnkaGenshinAccounts(username: string): Promise<EnkaGameAccount<DetailedGenshinUser>[]> {
-        return await this.options.enkaSystem.fetchEnkaGameAccounts(username, [0]);
+    async fetchEnkaGenshinAccounts(username: string): Promise<EnkaGameAccount<EnkaClient>[]> {
+        return await this.options.enkaSystem.fetchEnkaGameAccounts(username, [0]) as EnkaGameAccount<EnkaClient>[];
     }
 
     /**
@@ -208,7 +210,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @param hash EnkaGameAccount hash
      * @returns the genshin account with provided hash
      */
-    async fetchEnkaGenshinAccount(username: string, hash: string): Promise<EnkaGameAccount<DetailedGenshinUser>> {
+    async fetchEnkaGenshinAccount(username: string, hash: string): Promise<EnkaGameAccount<EnkaClient>> {
         return await this.options.enkaSystem.fetchEnkaGameAccount(username, hash);
     }
 
@@ -218,7 +220,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser> {
      * @returns the genshin character builds including saved builds in Enka.Network account
      */
     async fetchEnkaGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
-        return await this.options.enkaSystem.fetchEnkaCharacterBuilds(username, hash);
+        return await this.options.enkaSystem.fetchEnkaCharacterBuilds<EnkaClient>(username, hash);
     }
 
     /**
