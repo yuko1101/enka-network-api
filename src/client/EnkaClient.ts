@@ -155,7 +155,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
             if (response.status !== 200) {
                 switch (response.status) {
                     case 400:
-                        throw new InvalidUidFormatError(`Invalid UID format. (${uid} provided.)`, response.status, response.statusText);
+                        throw new InvalidUidFormatError(Number(uid), response.status, response.statusText);
                     case 424:
                         throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", response.status, response.statusText);
                     case 429:
