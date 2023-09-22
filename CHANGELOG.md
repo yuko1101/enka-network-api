@@ -2,6 +2,7 @@
 **This version includes Breaking Changes**
 - Moved Enka.Network-account-related codes to [enka-system](https://github.com/yuko1101/enka-system).
 - Added EnkaClient#fetchEnkaGenshinAccount().
+- Fixed StatProperty#isPercent was incorrect.
 ## Refactoring
 - Renamed User#enkaUserHash to enkaGameAccountHash.
 - Renamed User to GenshinUser and DetailedUser to DetailedGenshinUser.
