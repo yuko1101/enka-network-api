@@ -1,3 +1,5 @@
+# 4.0.1
+- Removed deciphered keys from ObjectKeyManager.
 # 4.0.0
 **This version includes Breaking Changes**
 - Moved Enka.Network-account-related codes to [enka-system](https://github.com/yuko1101/enka-system).
