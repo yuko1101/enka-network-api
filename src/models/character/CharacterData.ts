@@ -132,9 +132,7 @@ class CharacterData {
 
         this.stars = this.rarity.startsWith("QUALITY_ORANGE") ? 5 : 4;
 
-        const keysManager = enka.cachedAssetsManager.getObjectKeysManager();
-
-        const costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => p.getAsNumber(keysManager.costumeCharacterIdKey) === this.id); // Previous key of "jsonName"
+        const costumeData = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => p.getAsNumber("characterId") === this.id); // Previous key of "jsonName"
         this._costumeData = costumeData.map(([, p]) => p.getAsJsonObject());
         this.costumes = this._costumeData.map(c => new Costume(c, enka));
 

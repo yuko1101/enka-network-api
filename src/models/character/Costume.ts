@@ -40,19 +40,18 @@ class Costume {
      * @param enka
      */
     constructor(data: JsonObject, enka: EnkaClient) {
-        const keys = enka.cachedAssetsManager.getObjectKeysManager();
         this.enka = enka;
         this._data = data;
 
         const json = new JsonReader(this._data);
 
-        this.id = json.getAsNumber(keys.costumeIdKey);
+        this.id = json.getAsNumber("skinId");
 
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.characterId = json.getAsNumber(keys.costumeCharacterIdKey);
+        this.characterId = json.getAsNumber("characterId");
 
         this.isDefault = json.getAsBooleanWithDefault(false, "isDefault");
 
@@ -65,7 +64,7 @@ class Costume {
 
         this.splashImage = new ImageAssets(!this.isDefault ? `UI_Costume_${this._nameId}` : `UI_Gacha_AvatarImg_${this._nameId}`, enka);
 
-        this.stars = !this.isDefault ? json.getAsNumber(keys.costumeStarKey) : null;
+        this.stars = !this.isDefault ? json.getAsNumber("quality") : null;
 
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }
@@ -75,8 +74,7 @@ class Costume {
      * @param enka
      */
     static getById(id: number, enka: EnkaClient): Costume {
-        const keys = enka.cachedAssetsManager.getObjectKeysManager();
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber(keys.costumeIdKey) === id)?.[1];
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("skinId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Costume", id);
         return new Costume(json.getAsJsonObject(), enka);
     }
