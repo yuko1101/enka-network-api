@@ -8,7 +8,7 @@ const sr = new StarRail();
 
 (async () => {
     const enkaSystem = EnkaSystem.instance; // or enka.options.enkaSystem, or sr.options.enkaSystem
-    const gameAccounts = await enkaSystem.fetchEnkaGameAccounts("see");
+    const gameAccounts = await enkaSystem.fetchEnkaGameAccounts("enka.network account name here");
     for (const account of gameAccounts) {
         const builds = await account.fetchBuilds();
         const buildList = Object.values(builds).flat();
