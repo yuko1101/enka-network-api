@@ -4,6 +4,7 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
+import CharacterData from "./CharacterData";
 
 /**
  * @en Costume
@@ -69,6 +70,11 @@ class Costume {
         this.cardIcon = new ImageAssets(this.isDefault ? "UI_AvatarIcon_Costume_Card" : `UI_AvatarIcon_${this._nameId}_Card`, enka);
     }
 
+    /**  */
+    getCharacterData(): CharacterData {
+        return CharacterData.getById(this.characterId, this.enka);
+    }
+
     /**
      * @param id
      * @param enka
@@ -76,6 +82,16 @@ class Costume {
     static getById(id: number, enka: EnkaClient): Costume {
         const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("skinId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Costume", id);
+        return new Costume(json.getAsJsonObject(), enka);
+    }
+
+    /**
+     * @param characterId
+     * @param enka
+     */
+    static getDefaultCostumeByCharacterId(characterId: number, enka: EnkaClient): Costume {
+        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("characterId") === characterId && p.getAsBooleanWithDefault(false, "isDefault"))?.[1];
+        if (!json) throw new AssetsNotFoundError("Default costume", characterId);
         return new Costume(json.getAsJsonObject(), enka);
     }
 }

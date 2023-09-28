@@ -38,8 +38,9 @@ import WeaponRefinement from "./models/weapon/WeaponRefinement";
 import WeaponRefinements from "./models/weapon/WeaponRefinements";
 import DetailedGenshinUser from "./models/DetailedGenshinUser";
 import Element from "./models/Element";
-import StatProperty from "./models/StatProperty";
 import GenshinUser from "./models/GenshinUser";
+import ProfilePicture, { CharacterProfilePicture } from "./models/ProfilePicture";
+import StatProperty from "./models/StatProperty";
 
 // classes
 export {
@@ -83,8 +84,10 @@ export {
     WeaponRefinements,
     DetailedGenshinUser,
     Element,
-    StatProperty,
     GenshinUser,
+    ProfilePicture,
+    CharacterProfilePicture,
+    StatProperty,
 };
 
 // typedefs
@@ -99,8 +102,9 @@ export { Birthday, CharacterVoiceActors, VoiceLanguage } from "./models/characte
 export { ItemType } from "./models/material/Material";
 export { WeaponType } from "./models/weapon/WeaponData";
 export { ElementType } from "./models/Element";
+export { CharacterPreview } from "./models/GenshinUser";
+export { ProfilePictureType } from "./models/ProfilePicture";
 export { FightProp } from "./models/StatProperty";
-export { CharacterPreview, CostumedCharacter } from "./models/GenshinUser";
 export { Paths } from "./utils/ts_utils";
 
 // functions

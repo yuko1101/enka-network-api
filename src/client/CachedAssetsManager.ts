@@ -60,6 +60,8 @@ const contents = [
     "MaterialExcelConfigData", // Materials (including NameCards)
     "FetterCharacterCardExcelConfigData", // Friendship Rewards
     "RewardExcelConfigData", // Rewards Data for Friendship Cards
+
+    "ProfilePictureExcelConfigData", // User pfp
 ];
 
 const textMapWhiteList = [
@@ -527,6 +529,11 @@ class CachedAssetsManager {
         data["MaterialExcelConfigData"].forEach(m => {
             const json = new JsonReader(m);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        });
+
+        data["ProfilePictureExcelConfigData"].forEach(p => {
+            const json = new JsonReader(p);
+            push(json.getAsNumber("nameTextMapHash"));
         });
 
         const requiredStringKeys = required.filter(key => key).map(key => key.toString());

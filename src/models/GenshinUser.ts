@@ -1,20 +1,15 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import { EnkaProfile, User } from "enka-system";
-import CharacterData from "./character/CharacterData";
 import Costume from "./character/Costume";
 import Material, { NameCard } from "./material/Material";
 import EnkaClient from "../client/EnkaClient";
+import ProfilePicture from "./ProfilePicture";
 
 /** @typedef */
 export interface CharacterPreview {
-    character: CostumedCharacter,
-    level: number;
-}
-
-/** @typedef */
-export interface CostumedCharacter {
-    characterData: CharacterData,
+    /** Costume whose icon is used for character preview. */
     costume: Costume,
+    level: number;
 }
 
 /**
@@ -30,7 +25,7 @@ class GenshinUser extends User {
     /**  */
     readonly signature: string | null;
     /**  */
-    readonly profilePicture: CostumedCharacter | null;
+    readonly profilePicture: ProfilePicture | null;
     /**  */
     readonly charactersPreview: CharacterPreview[];
     /**  */
@@ -80,24 +75,16 @@ class GenshinUser extends User {
         this.signature = playerInfo.getAsStringWithDefault(null, "signature");
 
         const profilePic = playerInfo.get("profilePicture");
-        const profilePictureCharacter = profilePic.has("avatarId") ? CharacterData.getById(profilePic.getAsNumber("avatarId"), enka) : null;
-        const profilePictureCostumeId = profilePic.getAsNumberWithDefault(null, "costumeId");
-        this.profilePicture = profilePictureCharacter ? {
-            characterData: profilePictureCharacter,
-            costume: profilePictureCharacter.costumes.find(c => (profilePictureCostumeId === null && c.isDefault) || (c.id === profilePictureCostumeId)) as Costume,
-        } : null;
+        this.profilePicture = profilePic.has("id") ? ProfilePicture.getById(profilePic.getAsNumber("id"), enka)
+            : profilePic.has("avatarId") ? ProfilePicture.getByOldFormat(profilePic.getAsNumber("avatarId"), profilePic.getAsNumberWithDefault(null, "costumeId"), enka)
+                : null;
 
         this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").mapArray((_, p) => {
-            const characterData = CharacterData.getById(p.getAsNumber("avatarId"), enka);
-
             const costumeId = p.getAsNumberWithDefault(null, "costumeId");
-            const costume = characterData.costumes.find(c => (costumeId === null && c.isDefault) || (c.id === costumeId)) as Costume;
+            const costume = costumeId === null ? Costume.getDefaultCostumeByCharacterId(p.getAsNumber("avatarId"), enka) : Costume.getById(costumeId, enka);
 
             const preview: CharacterPreview = {
-                character: {
-                    characterData,
-                    costume,
-                },
+                costume: costume,
                 level: p.getAsNumber("level"),
             };
 

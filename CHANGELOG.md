@@ -1,4 +1,8 @@
-# 4.0.1
+# 4.1.0
+**This version includes Breaking Changes**
+- Added Costume#getCharacterData().
+- Removed CharacterPreview#character, use CharacterPreview#costume or CharacterPreview#costume.getCharacterData() instead.
+- Changed type of GenshinUser#pictureProfile to `ProfilePicture | null`.
 - Removed deciphered keys from ObjectKeyManager.
 # 4.0.0
 **This version includes Breaking Changes**
