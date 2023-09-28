@@ -84,7 +84,10 @@ class ProfilePicture {
 
 export default ProfilePicture;
 
-/** @en CharacterProfilePicture */
+/**
+ * @en CharacterProfilePicture
+ * @extends {ProfilePicture}
+ */
 export class CharacterProfilePicture extends ProfilePicture {
     /**  */
     readonly costume: Costume;
