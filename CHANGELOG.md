@@ -1,5 +1,6 @@
 # 4.1.1
 - Added GenshinCharacterBuild#imageUrl.
+- Better user data caching.
 # 4.1.0
 **This version includes Breaking Changes**
 - Added Costume#getCharacterData().

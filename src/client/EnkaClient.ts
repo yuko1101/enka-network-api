@@ -170,10 +170,9 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
             data = { ...response.data };
 
             if (this.options.userCache.isEnabled) {
-                data._lib = { cache_id: generateUuid(), created_at: Date.now(), expires_at: Date.now() + (data.ttl as number) * 1000, original_ttl: data.ttl };
+                const lifetime = data.ttl as number * 1000;
 
-                if (!collapse) await cacheDeleter(`${uid}-info`);
-                await cacheSetter(cacheKey, data);
+                data._lib = { cache_id: generateUuid(), created_at: Date.now(), expires_at: Date.now() + lifetime, original_ttl: data.ttl };
                 const task = setTimeout(async () => {
                     const dataToDelete = await cacheGetter(cacheKey);
                     if (!dataToDelete) return;
@@ -181,8 +180,11 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
                         await cacheDeleter(cacheKey);
                     }
                     this._tasks.splice(this._tasks.indexOf(task), 1);
-                }, data.ttl as number * 1000);
+                }, lifetime);
                 this._tasks.push(task);
+
+                if (!collapse) await cacheDeleter(`${uid}-info`);
+                await cacheSetter(cacheKey, data);
             }
         } else {
             // TODO: use structuredClone
