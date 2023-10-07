@@ -58,9 +58,8 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
     "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
     "imageBaseUrlByRegex": {
         "https://enka.network/ui": [
-            /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side)_/,
+            /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side|EquipIcon)_/,
             /^UI_AvatarIcon_(.+)_Card$/,
-            /^UI_EquipIcon_(.+)$/,
         ],
         "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
     },
