@@ -3,6 +3,7 @@ import EnkaClient from "../../client/EnkaClient";
 const imageBaseUrlMihoyo = "https://upload-os-bbs.mihoyo.com/game_record/genshin";
 
 const imageTypes: { [type: string]: RegExp[] } = {
+    "": [/^UI_AvatarIcon_(.+)_Circle$/],
     "character_side_icon": [/^UI_AvatarIcon_Side_(.+)$/],
     "character_icon": [/^UI_AvatarIcon_(.+)$/],
     "equip": [/^UI_EquipIcon_(.+?)(_Awaken)?$/, /^UI_RelicIcon_(.+)$/],
@@ -41,9 +42,9 @@ class ImageAssets {
 
         this.url = name === "" ? "" : `${this.imageBaseUrl}/${name}.png`;
 
-        this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name))) ?? null;
+        this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name))) || null;
 
-        this.mihoyoUrl = (name === "" || !this.imageType) ? "" : `${imageBaseUrlMihoyo}/${name}.png`;
+        this.mihoyoUrl = (name === "" || !this.imageType) ? "" : `${imageBaseUrlMihoyo}/${this.imageType}/${name}.png`;
 
         this.isAvailable = this.name !== null && this.name !== undefined && this.name !== "";
     }

@@ -68,16 +68,13 @@ class ProfilePicture {
      * @param costumeId
      */
     static getByOldFormat(characterId: number, costumeId: number | null, enka: EnkaClient): ProfilePicture {
-        const costume = costumeId === null ? Costume.getDefaultCostumeByCharacterId(characterId, enka) : Costume.getById(costumeId, enka);
+        const iconType: ProfilePictureType = costumeId === null ? "PROFILE_PICTURE_UNLOCK_BY_AVATAR" : "PROFILE_PICTURE_UNLOCK_BY_COSTUME";
+        const referenceId = costumeId === null ? characterId : costumeId;
+
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
-        const profilePicture = {
-            id: 0,
-            iconPath: costume.icon.name,
-            nameTextMapHash: 0,
-            [keys.profilePictureTypeKey]: costumeId ? "PROFILE_PICTURE_UNLOCK_BY_COSTUME" : "PROFILE_PICTURE_UNLOCK_BY_AVATAR",
-            [keys.profilePictureReferenceIdKey]: costumeId ?? characterId,
-        };
-        return new CharacterProfilePicture(profilePicture, enka);
+        const profilePictureData = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsString(keys.profilePictureTypeKey) === iconType && p.getAsNumber(keys.profilePictureReferenceIdKey) === referenceId)?.[1] as JsonReader;
+
+        return new CharacterProfilePicture(profilePictureData.getAsJsonObject(), enka);
     }
 
 }
