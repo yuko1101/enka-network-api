@@ -1,6 +1,8 @@
 # 4.1.1
 - Added GenshinCharacterBuild#imageUrl.
 - Better user data caching.
+- Fixed ImageAssets#mihoyoUrl was incorrect.
+- Made to use new rounded pfp icons even if the format is old.
 # 4.1.0
 **This version includes Breaking Changes**
 - Added Costume#getCharacterData().
