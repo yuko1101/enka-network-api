@@ -59,11 +59,10 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
     "imageBaseUrlByRegex": {
         "https://api.hakush.in/gi/UI": [
             /^UI_(NameCardIcon|Costume|EquipIcon|RelicIcon)_/,
-            /^UI_AvatarIcon_(.+)_Card$/,
         ],
         "https://enka.network/ui": [
             /^UI_(NameCardPic|AvatarIcon_Side)_/,
-            /^UI_AvatarIcon_(.+)_Circle$/,
+            /^UI_AvatarIcon_(.+)_(Circle|Card)$/,
         ],
         "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
     },
