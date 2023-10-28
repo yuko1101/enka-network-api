@@ -1,5 +1,3 @@
-# 4.1.2
-- Update image cdns.
 # 4.1.1
 - Added GenshinCharacterBuild#imageUrl.
 - Better user data caching.
