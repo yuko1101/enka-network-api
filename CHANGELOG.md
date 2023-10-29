@@ -1,3 +1,5 @@
+# 4.1.2
+- Fixed AxiosError was occurred instead of EnkaNetworkError.
 # 4.1.1
 - Added GenshinCharacterBuild#imageUrl.
 - Better user data caching.
