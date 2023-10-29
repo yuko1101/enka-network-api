@@ -14,12 +14,22 @@ export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = f
     const options: AxiosRequestConfig = { headers } as AxiosRequestConfig;
     if (enableTimeout) options.timeout = enka.options.requestTimeout;
 
-    const res = await axios.get(url, options);
+    const res: AxiosResponse = await (async () => {
+        try {
+            return await axios.get(url, options);
+        } catch (e) {
+            if (typeof e === "object" && e && "response" in e) return e.response as AxiosResponse;
+            else throw e;
+        }
+    })();
 
-    try {
-        res.data = JSON.parse(res.data);
-    } catch (e) {
-        // do not parse if it is not json due to some error
+
+    if (res.data) {
+        try {
+            res.data = JSON.parse(res.data);
+        } catch (e) {
+            // do not parse if it is not json due to some error
+        }
     }
 
     return res;
