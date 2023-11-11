@@ -25,7 +25,7 @@ export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORA
 /** @typedef */
 export type Gender = "MALE" | "FEMALE";
 /** @typedef */
-export type Arkhe = "Pneuma" | "Ousia";
+export type Arkhe = "Pneuma" | "Ousia" | "Furina";
 
 /**
  * @en CharacterData
