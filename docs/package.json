@@ -16,8 +16,8 @@
     "docs-gen": "jsdoc-to-mdx -c jsdoc2mdx.json && node -e \"const fs = require('fs'); const data = fs.readFileSync('../README.md'); fs.writeFileSync('./docs/intro.md', data);\""
   },
   "dependencies": {
-    "@docusaurus/core": "^2.4.1",
-    "@docusaurus/preset-classic": "^2.4.1",
+    "@docusaurus/core": "^3.0.0",
+    "@docusaurus/preset-classic": "^3.0.0",
     "@mdx-js/react": "^1.6.22",
     "@yuko1101/jsdoc-to-mdx": "^1.2.7",
     "clsx": "^1.2.1",
