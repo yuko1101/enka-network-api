@@ -192,7 +192,7 @@ class CachedAssetsManager {
      * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
      */
-    async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean }): Promise<void> {
+    async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean } = {}): Promise<void> {
         if (this._isFetching) {
             throw new Error("You are already fetching assets.");
         }
