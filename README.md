@@ -32,7 +32,8 @@ A Node.js Enka.Network API wrapper for Genshin Impact.
 
 **This is NOT the source code of Enka.Network or its API.**
 
-If you need a wrapper for Honkai: Star Rail, please use [starrail.js](https://github.com/yuko1101/starrail.js).
+> [!TIP]
+> If you need a wrapper for Honkai: Star Rail, you can use [starrail.js](https://github.com/yuko1101/starrail.js).
 
 ### Features
 - User Data and Character Stats using EnkaNetwork.
