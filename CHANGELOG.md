@@ -1,5 +1,6 @@
 # 4.1.3
 - Added "Furina" to Arkhe type for character Furina.
+- Made "options" arg of CachedAssetsManager#fetchAllContents optional.
 # 4.1.2
 - Fixed AxiosError was occurred instead of EnkaNetworkError.
 # 4.1.1
