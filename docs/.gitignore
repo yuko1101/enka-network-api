@@ -1,9 +1,3 @@
-# Docs
-docs/api/
-docs/intro.md
-i18n/
-sidebars-api.js
-
 # Dependencies
 /node_modules
 
