@@ -1,22 +1,23 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import path from 'path';
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'EnkaNetworkAPI',
+  tagline: 'Node.js Enka.Network API wrapper for Genshin Impact',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://enka-network-api-docs.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: process.env.npm_config_base_url ?? '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'yuko1101', // Usually your GitHub org/user name.
+  projectName: 'enka-network-api', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -35,17 +36,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -54,25 +44,52 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc-api',
+      {
+        projectRoot: path.join(__dirname, '..'),
+        packages: [
+          {
+            path: '.',
+            entry: 'src/index.ts',
+
+          }
+        ],
+        readmes: true,
+        changelogs: true,
+      },
+    ],
+  ],
+
   themeConfig: {
+    algolia: {
+      appId: "4A2TGIJGTR",
+      apiKey: "ddbb5051e54bc52f44d60f24eb353e87",
+      indexName: "enka-network-api",
+    },
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/enka-splash.png',
     navbar: {
-      title: 'My Site',
+      title: 'EnkaNetworkAPI',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'EnkaNetwork',
+        src: 'img/enka-logo.png',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Get Started',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          to: 'api',
+          label: 'Docs',
+          position: 'left',
+        },
+        {
+          href: 'https://github.com/yuko1101/enka-network-api',
           label: 'GitHub',
           position: 'right',
         },
@@ -82,46 +99,46 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Contents',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Get Started',
+              to: '/docs/README',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'GitHub',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Repository',
+              href: 'https://github.com/yuko1101/enka-network-api',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Issues',
+              href: 'https://github.com/yuko1101/enka-network-api/issues',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Pull requests',
+              href: 'https://github.com/yuko1101/enka-network-api/pulls',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Other Links',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'npm',
+              href: 'https://www.npmjs.com/package/enka-network-api'
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
+              label: 'EnkaNetwork',
+              href: 'https://enka.network'
+            }
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} enka-network-api, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
