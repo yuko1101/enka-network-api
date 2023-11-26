@@ -50,11 +50,7 @@ const config: Config = {
       {
         projectRoot: path.join(__dirname, '..'),
         packages: [
-          {
-            path: '.',
-            entry: 'src/index.ts',
-
-          }
+          '.',
         ],
         readmes: true,
         changelogs: true,
@@ -85,7 +81,7 @@ const config: Config = {
         },
         {
           to: 'api',
-          label: 'Docs',
+          label: 'Documentation',
           position: 'left',
         },
         {
@@ -105,6 +101,10 @@ const config: Config = {
               label: 'Get Started',
               to: '/docs/README',
             },
+            {
+              label: 'Documentation',
+              to: '/api'
+            }
           ],
         },
         {

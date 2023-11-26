@@ -12,7 +12,7 @@
 </div>
 
 <div align="center">
-    <a href="https://enka-network-api.vercel.app/s">
+    <a href="https://enka-network-api.vercel.app/docs/api/EnkaClient">
         <b>&lt;/&gt; Documentation</b>
     </a>
     <b> | </b>

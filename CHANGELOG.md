@@ -178,7 +178,7 @@ dynamicTextAssets.copyWithUserInfo({
 # 2.3.5
 - Changed GenshinData gitlab repo url.
 # 2.3.4
-- Added some methods and prefer Array<TYPE> in jsdoc.
+- Added some methods and prefer Array in jsdoc.
 - Added EnkaClient#getArtifactById.
 - Better errors.
 # 2.3.3
