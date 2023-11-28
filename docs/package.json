@@ -18,6 +18,7 @@
     "@docusaurus/core": "3.0.0",
     "@docusaurus/preset-classic": "3.0.0",
     "@mdx-js/react": "^3.0.0",
+    "@yuko1101/docusaurus-plugin-typedoc-api": "^4.0.2",
     "clsx": "^1.2.1",
     "prism-react-renderer": "^2.1.0",
     "react": "^18.0.0",
@@ -27,7 +28,6 @@
     "@docusaurus/module-type-aliases": "3.0.0",
     "@docusaurus/tsconfig": "3.0.0",
     "@docusaurus/types": "3.0.0",
-    "docusaurus-plugin-typedoc-api": "^4.0.1",
     "typescript": "~5.2.2"
   },
   "browserslist": {

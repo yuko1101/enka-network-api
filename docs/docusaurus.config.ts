@@ -46,7 +46,7 @@ const config: Config = {
 
   plugins: [
     [
-      'docusaurus-plugin-typedoc-api',
+      '@yuko1101/docusaurus-plugin-typedoc-api',
       {
         projectRoot: path.join(__dirname, '..'),
         packages: [
