@@ -99,7 +99,7 @@ const config: Config = {
           items: [
             {
               label: 'Get Started',
-              to: '/docs/README',
+              to: '/docs',
             },
             {
               label: 'Documentation',
