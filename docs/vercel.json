@@ -1,5 +1,5 @@
 {
-    "buildCommand": "git remote add origin https://github.com/yuko1101/enka-network-api.git && npm run build",
+    "buildCommand": "git config --global init.defaultBranch main && git remote add origin https://github.com/yuko1101/enka-network-api.git && npm run build",
     "framework": "docusaurus-2",
     "outputDirectory": "build"
 }
