@@ -81,7 +81,7 @@ const config: Config = {
         },
         {
           to: 'api',
-          label: 'Documentation',
+          label: 'API',
           position: 'left',
         },
         {
@@ -102,7 +102,7 @@ const config: Config = {
               to: '/docs',
             },
             {
-              label: 'Documentation',
+              label: 'API',
               to: '/api'
             }
           ],
