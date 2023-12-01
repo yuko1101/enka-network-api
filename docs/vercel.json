@@ -1,5 +1,5 @@
 {
-    "buildCommand": "git checkout -b main && git remote add origin https://github.com/yuko1101/enka-network-api.git && npm run build",
+    "buildCommand": "npm run fix-source-link-for-vercel && npm run build",
     "framework": "docusaurus-2",
     "outputDirectory": "build"
 }
