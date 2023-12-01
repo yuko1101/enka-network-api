@@ -16,8 +16,8 @@
     "update-other-docs": "node ./scripts/update-other-docs.mjs"
   },
   "dependencies": {
-    "@docusaurus/core": "3.0.0",
-    "@docusaurus/preset-classic": "3.0.0",
+    "@docusaurus/core": "^3.0.1",
+    "@docusaurus/preset-classic": "^3.0.1",
     "@mdx-js/react": "^3.0.0",
     "@yuko1101/docusaurus-plugin-typedoc-api": "^4.0.2",
     "clsx": "^1.2.1",
@@ -26,9 +26,9 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.0.0",
-    "@docusaurus/tsconfig": "3.0.0",
-    "@docusaurus/types": "3.0.0",
+    "@docusaurus/module-type-aliases": "^3.0.1",
+    "@docusaurus/tsconfig": "^3.0.1",
+    "@docusaurus/types": "^3.0.1",
     "typescript": "~5.2.2"
   },
   "browserslist": {
