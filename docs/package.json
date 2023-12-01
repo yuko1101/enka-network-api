@@ -14,7 +14,7 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "update-other-docs": "node ./scripts/update-other-docs.mjs",
-    "fix-source-link-for-vercel": "git checkout -b main && git remote add origin https://github.com/yuko1101/enka-network-api.git && node -e \"require('fs').writeFileSync('./dummy', '')\" && git add ./dummy && git commit -m \"dummy commit\""
+    "fix-source-link-for-vercel": "git checkout -b main && git remote add origin https://github.com/yuko1101/enka-network-api.git && node -e \"require('fs').writeFileSync('./dummy', '')\" && git branch -u origin/main && git add ./dummy && git commit -m \"dummy commit\""
   },
   "dependencies": {
     "@docusaurus/core": "3.0.0",
