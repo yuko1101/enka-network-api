@@ -63,7 +63,7 @@ npm install enka-network-api@latest --enka-nocache=true
 ```
 
 ## About Genshin Cache Data
-Genshin cache data is from [Dimbreath/GenshinData](https://github.com/Dimbreath/GenshinData) (private repo).
+Genshin cache data is from [Dimbreath/AnimeGameData](https://gitlab.com/Dimbreath/AnimeGameData) (gitlab).
 
 This data contains data of characters, weapons, materials, and more structure information of Genshin Impact.
 
@@ -119,9 +119,9 @@ enka.cachedAssetsManager.activateAutoCacheUpdater({
 // enka.cachedAssetsManager.deactivateAutoCacheUpdater();
 ```
 
-# How to use
+## How to use
 
-## Fetching Player Data 
+### Fetching Player Data 
 [EnkaClient#fetchUser](https://enka-network-api.vercel.app/docs/api/EnkaClient#fetchUser)
 ```js
 const { EnkaClient } = require("enka-network-api");
@@ -132,7 +132,7 @@ enka.fetchUser(825436941).then(user => {
 });
 ```
 
-## Genshin Character List
+### Genshin Character List
 [EnkaClient#getAllCharacters](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllCharacters)
 ```js
 const { EnkaClient } = require("enka-network-api");
@@ -143,7 +143,7 @@ const characters = enka.getAllCharacters();
 console.log(characters.map(c => c.name.get("en")));
 ```
 
-## Genshin Weapon List
+### Genshin Weapon List
 [EnkaClient#getAllWeapons](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllWeapons)
 ```js
 const { EnkaClient } = require("enka-network-api");
