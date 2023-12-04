@@ -17,8 +17,8 @@
     "fix-source-link-for-vercel": "git checkout -b main && git remote add origin https://github.com/yuko1101/enka-network-api.git && node -e \"require('fs').writeFileSync('./dummy', '')\" && git fetch origin main && git branch -u origin/main && git add ./dummy && git commit -m \"dummy commit\""
   },
   "dependencies": {
-    "@docusaurus/core": "3.0.0",
-    "@docusaurus/preset-classic": "3.0.0",
+    "@docusaurus/core": "^3.0.1",
+    "@docusaurus/preset-classic": "^3.0.1",
     "@mdx-js/react": "^3.0.0",
     "@yuko1101/docusaurus-plugin-typedoc-api": "^4.0.2",
     "clsx": "^1.2.1",
@@ -27,9 +27,9 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.0.0",
-    "@docusaurus/tsconfig": "3.0.0",
-    "@docusaurus/types": "3.0.0",
+    "@docusaurus/module-type-aliases": "^3.0.1",
+    "@docusaurus/tsconfig": "^3.0.1",
+    "@docusaurus/types": "^3.0.1",
     "typescript": "~5.2.2"
   },
   "browserslist": {
