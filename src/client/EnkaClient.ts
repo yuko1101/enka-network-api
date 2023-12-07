@@ -170,8 +170,9 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
 
             if (this.options.userCache.isEnabled) {
                 const lifetime = data.ttl as number * 1000;
+                const now = Date.now();
 
-                data._lib = { cache_id: generateUuid(), created_at: Date.now(), expires_at: Date.now() + lifetime, original_ttl: data.ttl };
+                data._lib = { cache_id: generateUuid(), created_at: now, expires_at: now + lifetime, original_ttl: data.ttl };
                 const task = setTimeout(async () => {
                     const dataToDelete = await cacheGetter(cacheKey);
                     if (!dataToDelete) return;
