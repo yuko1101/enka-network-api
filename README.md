@@ -12,7 +12,7 @@
 </div>
 
 <div align="center">
-    <a href="https://enka-network-api.vercel.app/s">
+    <a href="https://enka-network-api.vercel.app">
         <b>&lt;/&gt; Documentation</b>
     </a>
     <b> | </b>
@@ -122,7 +122,7 @@ enka.cachedAssetsManager.activateAutoCacheUpdater({
 ## How to use
 
 ### Fetching Player Data 
-[EnkaClient#fetchUser](https://enka-network-api.vercel.app/docs/api/EnkaClient#fetchUser)
+[EnkaClient#fetchUser](https://enka-network-api.vercel.app/api/class/EnkaClient#fetchUser)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
@@ -133,7 +133,7 @@ enka.fetchUser(825436941).then(user => {
 ```
 
 ### Genshin Character List
-[EnkaClient#getAllCharacters](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllCharacters)
+[EnkaClient#getAllCharacters](https://enka-network-api.vercel.app/api/class/EnkaClient#getAllCharacters)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
@@ -144,7 +144,7 @@ console.log(characters.map(c => c.name.get("en")));
 ```
 
 ### Genshin Weapon List
-[EnkaClient#getAllWeapons](https://enka-network-api.vercel.app/docs/api/EnkaClient#getAllWeapons)
+[EnkaClient#getAllWeapons](https://enka-network-api.vercel.app/api/class/EnkaClient#getAllWeapons)
 ```js
 const { EnkaClient } = require("enka-network-api");
 const enka = new EnkaClient();
@@ -156,6 +156,6 @@ console.log(weapons.map(w => w.name.get("jp")));
 
 More examples are available in [example](https://github.com/yuko1101/enka-network-api/tree/main/example) folder.
 
-For more information, please check [Documentation](https://enka-network-api.vercel.app/docs/api/EnkaClient).
+For more information, please check [Documentation](https://enka-network-api.vercel.app).
 
 You can see the changelog [here](https://github.com/yuko1101/enka-network-api/blob/main/CHANGELOG.md).
