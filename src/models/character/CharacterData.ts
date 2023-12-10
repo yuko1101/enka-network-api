@@ -250,7 +250,11 @@ class CharacterData {
 
         const statPropertiesWithoutBaseValues = ascensionData.addProps.filter(p => !(baseValues as { [s: string]: number })[p.fightProp]);
 
-        return [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
+        const levelingProps = [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
+
+        const talents = this.passiveTalents.filter(t => t.requiredAscension <= ascension && t.addProps.length > 0);
+        return StatProperty.sumStatProperties([...levelingProps, ...talents.flatMap(t => t.addProps)], this.enka);
+
     }
 
     /**

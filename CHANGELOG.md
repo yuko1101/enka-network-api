@@ -1,3 +1,6 @@
+# 4.1.4
+- Added PassiveTalent#requiredAscension.
+- Fixed that CharacterData#getStats() does not contain passive talent stats.
 # 4.1.3
 - Added "Furina" to Arkhe type for character Furina.
 - Made "options" arg of CachedAssetsManager#fetchAllContents optional.

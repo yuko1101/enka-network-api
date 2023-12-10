@@ -20,6 +20,8 @@ class PassiveTalent {
     /**  */
     readonly icon: ImageAssets;
     /**  */
+    readonly requiredAscension: number;
+    /**  */
     readonly addProps: StatProperty[];
     /**
      * Whether the talent is hidden in the list of talents on the in-game character screen
@@ -46,6 +48,8 @@ class PassiveTalent {
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
+
+        this.requiredAscension = json.getAsNumberWithDefault(0, "breakLevel");
 
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
