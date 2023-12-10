@@ -1,8 +1,4 @@
-# Docs
-docs/api/
-docs/intro.md
-i18n/
-sidebars-api.js
+/docs/README.md
 
 # Dependencies
 /node_modules

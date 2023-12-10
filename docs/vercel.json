@@ -1,0 +1,5 @@
+{
+    "buildCommand": "npm run fix-source-link-for-vercel && npm run build",
+    "framework": "docusaurus-2",
+    "outputDirectory": "build"
+}

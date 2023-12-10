@@ -1,15 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-import codeImage from '../../../static/img/code.png';
-import autocompleteImage from '../../../static/img/autocomplete.png';
-import datalistImage from '../../../static/img/datalist.png';
+type FeatureItem = {
+  title: string;
+  img: string;
+  description: JSX.Element;
+};
 
-const FeatureList = [
+const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Use',
-    img: codeImage,
+    img: 'img/code.png',
     description: (
       <>
         This package is very simple to use.
@@ -20,41 +22,41 @@ const FeatureList = [
   },
   {
     title: 'Auto Complete Your Code',
-    img: autocompleteImage,
+    img: 'img/autocomplete.png',
     description: (
       <>
         Auto-completion will help you code in
         intelligent editors such as VSCode.
       </>
-    )
+    ),
   },
   {
     title: 'Get List of Genshin Objects',
-    img: datalistImage,
+    img: 'img/datalist.png',
     description: (
       <>
         You get a list of characters, weapons, etc. as well as player profiles!
         This includes detailed skill data and weapon capabilities.
       </>
-    )
-  }
+    ),
+  },
 ];
 
-function Feature({ img, title, description }) {
+function Feature({ title, img, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
         <img src={img} />
       </div>
       <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
+        <Heading as="h3">{title}</Heading>
         <p>{description}</p>
       </div>
     </div>
   );
 }
 
-export default function HomepageFeatures() {
+export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container">
