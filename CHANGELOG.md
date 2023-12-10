@@ -1,3 +1,5 @@
+# 4.1.5
+- Removed WeaponRefinements.
 # 4.1.4
 - Added PassiveTalent#requiredAscension.
 - Fixed that CharacterData#getStats() does not contain passive talent stats.

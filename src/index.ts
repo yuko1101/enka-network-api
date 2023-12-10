@@ -35,7 +35,6 @@ import Weapon from "./models/weapon/Weapon";
 import WeaponAscension from "./models/weapon/WeaponAscension";
 import WeaponData from "./models/weapon/WeaponData";
 import WeaponRefinement from "./models/weapon/WeaponRefinement";
-import WeaponRefinements from "./models/weapon/WeaponRefinements";
 import DetailedGenshinUser from "./models/DetailedGenshinUser";
 import Element from "./models/Element";
 import GenshinUser from "./models/GenshinUser";
@@ -81,7 +80,6 @@ export {
     WeaponAscension,
     WeaponData,
     WeaponRefinement,
-    WeaponRefinements,
     DetailedGenshinUser,
     Element,
     GenshinUser,

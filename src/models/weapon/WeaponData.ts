@@ -3,7 +3,6 @@ import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
-import WeaponRefinements from "./WeaponRefinements";
 import WeaponRefinement from "./WeaponRefinement";
 import StatProperty, { FightProp } from "../StatProperty";
 import WeaponAscension from "./WeaponAscension";
@@ -73,7 +72,12 @@ class WeaponData {
 
         this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
 
-        this.refinements = json.getAsNumber("skillAffix", 0) !== 0 ? new WeaponRefinements(json.getAsNumber("skillAffix", 0), enka).refinements : [];
+        this.refinements = (() => {
+            const refinementId = json.getAsNumber("skillAffix", 0);
+            if (refinementId === 0) return [];
+            const refinementsJson = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, p) => p.getAsNumber("id") === refinementId).sort(([, a], [, b]) => a.getAsNumberWithDefault(0, "level") - b.getAsNumberWithDefault(0, "level"));
+            return refinementsJson.map(([, r]) => new WeaponRefinement(r.getAsJsonObject(), enka));
+        })();
     }
 
     /**
