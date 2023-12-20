@@ -89,7 +89,7 @@ const manualTextMapWhiteList = [
 ];
 
 const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Date) => useRawGenshinData
-    ? `https://gitlab.com/api/v4/projects/53209414/repository/commits?since=${rawDate.toISOString()}`
+    ? `https://gitlab.com/api/v4/projects/53216109/repository/commits?since=${rawDate.toISOString()}`
     : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
 
 /**
