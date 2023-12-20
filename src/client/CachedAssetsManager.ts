@@ -30,7 +30,7 @@ export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
 export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 
 // Thanks @Dimbreath
-const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master";
+const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main";
 const contents = [
     "AvatarExcelConfigData", // Characters
     "FetterInfoExcelConfigData", // Characters Profile Info
