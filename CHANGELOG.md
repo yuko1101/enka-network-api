@@ -1,3 +1,5 @@
+# 4.1.6
+- Fixed GenshinData repo id for GitLab API again.
 # 4.1.5
 - Removed WeaponRefinements.
 - Fixed GenshinData repo id for GitLab API.
