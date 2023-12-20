@@ -1,5 +1,6 @@
 # 4.1.5
 - Removed WeaponRefinements.
+- Fixed GenshinData repo id for GitLab API.
 # 4.1.4
 - Added PassiveTalent#requiredAscension.
 - Fixed that CharacterData#getStats() does not contain passive talent stats.
