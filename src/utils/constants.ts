@@ -1,3 +1,5 @@
+import { FightProp } from "../models/StatProperty";
+
 /** @constant */
 export const fightProps = {
     // 0: "FIGHT_PROP_NONE",
@@ -118,7 +120,7 @@ export const fightProps = {
     // 3042: "FIGHT_PROP_ELEM_REACT_OVERGROW_FIRE_CRITICAL_HURT",
     // 3043: "FIGHT_PROP_ELEM_REACT_OVERGROW_ELECTRIC_CRITICAL",
     // 3044: "FIGHT_PROP_ELEM_REACT_OVERGROW_ELECTRIC_CRITICAL_HURT",
-} as const;
+} as const satisfies { [id: number]: FightProp };
 
 /** @constant */
 export const percent = [
@@ -153,7 +155,7 @@ export const percent = [
 
     "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
     "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
-] as const;
+] as const satisfies FightProp[];
 
 /**
  * Rarity map for artifact sets
@@ -177,4 +179,4 @@ export const artifactRarityRangeMap = {
     "15010": [3, 4], // Prayers for Destiny
     "15011": [3, 4], // Prayers for Wisdom
     "15013": [3, 4], // Prayers to Springtime
-} as const;
+} as const satisfies { [id: string]: [number, number] };
