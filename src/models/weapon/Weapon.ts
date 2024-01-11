@@ -73,7 +73,7 @@ class Weapon implements IGOODComponentResolvable<IWeapon> {
             key: convertToGOODKey(this.weaponData.name.get("en")),
             level: this.level,
             ascension: this.ascension,
-            refinement: this.refinementRank,
+            refinement: Math.max(this.refinementRank, 1),
             location: this.location ?? "",
             lock: false,
         };
