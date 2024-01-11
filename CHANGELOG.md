@@ -1,3 +1,5 @@
+# 4.2.0
+- Added DetailedGenshinUser#toGOOD(), Character#toGOOD(), Weapon#toGOOD(), and Artifact#toGOOD().
 # 4.1.6
 - Fixed GenshinData repo id for GitLab API again.
 - Updated the branch name of GenshinData GitLab repo.

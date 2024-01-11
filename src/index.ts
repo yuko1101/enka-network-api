@@ -113,3 +113,7 @@ export { getCharactersById, getNameIdByCharacterId, hasEnergySkill, isReleased }
 // constants
 export { defaultEnkaClientOptions } from "./client/EnkaClient";
 export { artifactRarityRangeMap, fightProps, percent } from "./utils/constants";
+
+// GOOD structures
+export * as GOOD from "./good/GOOD";
+export * as GOODUtils from "./good/IGOODResolvable";

@@ -15,11 +15,13 @@ import PassiveTalent from "./talents/PassiveTalent";
 import Skill from "./talents/Skill";
 import Element from "../Element";
 import { nonNullable } from "../../utils/ts_utils";
+import { IGOODComponentResolvable, convertToGOODKey } from "../../good/IGOODResolvable";
+import { ICharacter } from "../../good/GOOD";
 
 /**
  * @en Character
  */
-class Character {
+class Character implements IGOODComponentResolvable<ICharacter> {
     /**  */
     readonly enka: EnkaClient;
     /**  */
@@ -70,8 +72,10 @@ class Character {
         this.costume = (json.has("costumeId") ? this.characterData.costumes.find(c => c.id === json.getAsNumber("costumeId")) : this.characterData.costumes.find(c => c.isDefault)) as Costume;
 
         this.artifacts = json.get("equipList").filterArray((_, item) => item.has("reliquary")).map(([, artifact]) => new Artifact(artifact.getAsJsonObject(), enka));
+        this.artifacts.forEach(a => a.location = convertToGOODKey(this.characterData.name.get("en")));
 
         this.weapon = new Weapon(json.get("equipList").findArray((_, item) => item.has("weapon"))?.[1].getAsJsonObject() as JsonObject, enka);
+        this.weapon.location = convertToGOODKey(this.characterData.name.get("en"));
 
         this.stats = new CharacterStats(json.getAsJsonObject("fightPropMap"), enka, this.characterData.element as Element);
 
@@ -112,6 +116,20 @@ class Character {
 
         this.unlockedPassiveTalents = this.characterData.passiveTalents.filter(p => (json.has("inherentProudSkillList") ? json.get("inherentProudSkillList").mapArray((_, e) => e.getAsNumber()) : []).includes(p.id));
 
+    }
+
+    toGOOD(): ICharacter {
+        return {
+            key: convertToGOODKey(this.characterData.name.get("en")),
+            level: this.level,
+            constellation: this.unlockedConstellations.length,
+            ascension: this.ascension,
+            talent: {
+                auto: this.skillLevels.find(s => s.skill instanceof NormalAttack)?.level.base ?? 1,
+                skill: this.skillLevels.find(s => s.skill instanceof ElementalSkill)?.level.base ?? 1,
+                burst: this.skillLevels.find(s => s.skill instanceof ElementalBurst)?.level.base ?? 1,
+            },
+        };
     }
 }
 

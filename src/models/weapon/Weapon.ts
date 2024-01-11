@@ -3,11 +3,13 @@ import EnkaClient from "../../client/EnkaClient";
 import StatProperty from "../StatProperty";
 import WeaponData from "./WeaponData";
 import WeaponRefinement from "./WeaponRefinement";
+import { IGOODComponentResolvable, convertToGOODKey } from "../../good/IGOODResolvable";
+import { CharacterKey, IWeapon } from "../../good/GOOD";
 
 /**
  * @en Weapon
  */
-class Weapon {
+class Weapon implements IGOODComponentResolvable<IWeapon> {
     /**  */
     readonly enka: EnkaClient;
     /**  */
@@ -26,6 +28,9 @@ class Weapon {
     readonly isAwaken: boolean;
     /**  */
     readonly weaponStats: StatProperty[];
+
+    /** The name of character who has this weapon for the GOOD. */
+    location: CharacterKey | null = null;
 
     readonly _data: JsonObject;
 
@@ -60,6 +65,18 @@ class Weapon {
 
         this.weaponStats = this.weaponData.getStats(this.ascension, this.level);
 
+    }
+
+    /** `lock` is always false since enka.network cannot get the lock state from the game. */
+    toGOOD(): IWeapon {
+        return {
+            key: convertToGOODKey(this.weaponData.name.get("en")),
+            level: this.level,
+            ascension: this.ascension,
+            refinement: this.refinementRank,
+            location: this.location ?? "",
+            lock: false,
+        };
     }
 }
 

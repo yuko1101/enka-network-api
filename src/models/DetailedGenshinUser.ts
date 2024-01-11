@@ -2,11 +2,13 @@ import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import Character from "./character/Character";
 import GenshinUser from "./GenshinUser";
+import { IGOOD } from "../good/GOOD";
+import { IGOODComponentResolvable } from "../good/IGOODResolvable";
 
 /**
  * @extends {GenshinUser}
  */
-class DetailedGenshinUser extends GenshinUser {
+class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvable<IGOOD> {
     /**  */
     readonly showCharacterDetails: boolean;
     /**  */
@@ -25,6 +27,17 @@ class DetailedGenshinUser extends GenshinUser {
 
         this.characters = json.has("avatarInfoList") ? json.get("avatarInfoList").mapArray((_, p) => new Character(p.getAsJsonObject(), enka)) : [];
 
+    }
+
+    toGOOD(): IGOOD {
+        return {
+            format: "GOOD",
+            version: 2,
+            source: "enka-network-api",
+            characters: this.characters.map(c => c.toGOOD()),
+            artifacts: this.characters.flatMap(c => c.artifacts).map(a => a.toGOOD()),
+            weapons: this.characters.map(c => c.weapon).map(w => w.toGOOD()),
+        };
     }
 }
 

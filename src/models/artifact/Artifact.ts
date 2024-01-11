@@ -3,6 +3,8 @@ import ArtifactSplitSubstat from "./ArtifactSplitSubstat";
 import StatProperty, { FightProp } from "../StatProperty";
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
+import { IArtifact } from "../../good/GOOD";
+import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../../good/IGOODResolvable";
 
 /**
  * @en SubstatsContainer
@@ -16,7 +18,7 @@ export interface SubstatsContainer {
 /**
  * @en Artifact
  */
-class Artifact {
+class Artifact implements IGOODComponentResolvable<IArtifact> {
     /**  */
     readonly enka: EnkaClient;
     /**  */
@@ -27,6 +29,9 @@ class Artifact {
     readonly mainstat: StatProperty;
     /**  */
     readonly substats: SubstatsContainer;
+
+    /** The name of character who has this artifact for the GOOD. */
+    location: string | null = null;
 
     readonly _data: JsonObject;
 
@@ -62,6 +67,23 @@ class Artifact {
             split: splitSubStats,
         };
 
+    }
+
+    /** `lock` is always false since enka.network cannot get the lock state from the game. */
+    toGOOD(): IArtifact {
+        return {
+            setKey: convertToGOODKey(this.artifactData.set.name.get("en")),
+            slotKey: convertToGOODArtifactSlotKey(this.artifactData.equipType),
+            level: this.level - 1,
+            rarity: this.artifactData.stars,
+            mainStatKey: convertToGOODStatKey(this.mainstat.fightProp),
+            location: this.location ?? "",
+            lock: false,
+            substats: this.substats.total.map((substat) => ({
+                key: convertToGOODStatKey(substat.fightProp),
+                value: substat.isPercent ? Math.round(substat.getMultipliedValue() * 10) / 10 : Math.round(substat.getMultipliedValue()),
+            })),
+        };
     }
 }
 
