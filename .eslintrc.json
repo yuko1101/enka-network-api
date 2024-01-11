@@ -71,6 +71,7 @@
         "no-const-assign": "error",
         "no-dupe-args": "error",
         "no-empty-function": "error",
+        "@typescript-eslint/no-empty-interface": "off",
         "no-fallthrough": "error",
         "no-floating-decimal": "error",
         "no-inline-comments": "off",

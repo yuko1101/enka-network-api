@@ -77,5 +77,4 @@ export type StatKey =
     | "dendro_dmg_"; // Dendro DMG Bonus
 
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IGOODComponent { }
