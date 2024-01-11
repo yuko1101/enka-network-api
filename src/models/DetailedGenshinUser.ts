@@ -33,7 +33,7 @@ class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvabl
         return {
             format: "GOOD",
             version: 2,
-            source: "enka-network-api",
+            source: "yuko1101/enka-network-api",
             characters: this.characters.map(c => c.toGOOD()),
             artifacts: this.characters.flatMap(c => c.artifacts).map(a => a.toGOOD()),
             weapons: this.characters.map(c => c.weapon).map(w => w.toGOOD()),
