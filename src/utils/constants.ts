@@ -179,4 +179,4 @@ export const artifactRarityRangeMap = {
     "15010": [3, 4], // Prayers for Destiny
     "15011": [3, 4], // Prayers for Wisdom
     "15013": [3, 4], // Prayers to Springtime
-} as const satisfies { [id: string]: [number, number] };
+} as const satisfies { [id: string]: readonly [number, number] };
