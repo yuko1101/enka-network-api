@@ -155,7 +155,7 @@ export const percent = [
 
     "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
     "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
-] as const satisfies FightProp[];
+] as const satisfies readonly FightProp[];
 
 /**
  * Rarity map for artifact sets
