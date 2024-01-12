@@ -7,9 +7,9 @@ import TextAssets from "./assets/TextAssets";
 /**
  * @en StatProperty
  */
-class StatProperty {
+class StatProperty<T extends FightProp = FightProp> {
     /**  */
-    readonly fightProp: FightProp;
+    readonly fightProp: T;
     /**  */
     readonly enka: EnkaClient;
     /**  */
@@ -29,7 +29,7 @@ class StatProperty {
      * @param enka
      * @param multiplied
      */
-    constructor(fightProp: FightProp, value: number, enka: EnkaClient) {
+    constructor(fightProp: T, value: number, enka: EnkaClient) {
         this.fightProp = fightProp;
 
         this.enka = enka;
