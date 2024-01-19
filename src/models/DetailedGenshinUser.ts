@@ -2,8 +2,8 @@ import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../client/EnkaClient";
 import Character from "./character/Character";
 import GenshinUser from "./GenshinUser";
-import { IGOOD } from "../good/GOOD";
-import { IGOODComponentResolvable } from "../good/IGOODResolvable";
+import { IGOOD } from "./good/GOOD";
+import { IGOODComponentResolvable } from "./good/IGOODResolvable";
 
 /**
  * @extends {GenshinUser}

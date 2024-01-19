@@ -115,5 +115,5 @@ export { defaultEnkaClientOptions } from "./client/EnkaClient";
 export { artifactRarityRangeMap, fightProps, percent } from "./utils/constants";
 
 // GOOD structures
-export * as GOOD from "./good/GOOD";
-export * as GOODUtils from "./good/IGOODResolvable";
+export * as GOOD from "./models/good/GOOD";
+export * as GOODUtils from "./models/good/IGOODResolvable";

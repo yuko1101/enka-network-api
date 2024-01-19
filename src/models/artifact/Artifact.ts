@@ -3,8 +3,8 @@ import ArtifactSplitSubstat from "./ArtifactSplitSubstat";
 import StatProperty, { FightProp } from "../StatProperty";
 import { JsonReader, JsonObject } from "config_file.js";
 import EnkaClient from "../../client/EnkaClient";
-import { IArtifact } from "../../good/GOOD";
-import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../../good/IGOODResolvable";
+import { IArtifact } from "../good/GOOD";
+import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../good/IGOODResolvable";
 
 /**
  * @en SubstatsContainer

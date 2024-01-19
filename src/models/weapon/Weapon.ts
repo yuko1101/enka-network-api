@@ -3,8 +3,8 @@ import EnkaClient from "../../client/EnkaClient";
 import StatProperty from "../StatProperty";
 import WeaponData from "./WeaponData";
 import WeaponRefinement from "./WeaponRefinement";
-import { IGOODComponentResolvable, convertToGOODKey } from "../../good/IGOODResolvable";
-import { CharacterKey, IWeapon } from "../../good/GOOD";
+import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
+import { CharacterKey, IWeapon } from "../good/GOOD";
 
 /**
  * @en Weapon

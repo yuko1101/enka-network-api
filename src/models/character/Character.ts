@@ -15,8 +15,8 @@ import PassiveTalent from "./talents/PassiveTalent";
 import Skill from "./talents/Skill";
 import Element from "../Element";
 import { nonNullable } from "../../utils/ts_utils";
-import { IGOODComponentResolvable, convertToGOODKey } from "../../good/IGOODResolvable";
-import { ICharacter } from "../../good/GOOD";
+import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
+import { ICharacter } from "../good/GOOD";
 
 /**
  * @en Character

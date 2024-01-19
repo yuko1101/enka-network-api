@@ -1,5 +1,5 @@
-import { FightProp } from "../models/StatProperty";
-import { EquipType } from "../models/artifact/ArtifactData";
+import { FightProp } from "../StatProperty";
+import { EquipType } from "../artifact/ArtifactData";
 import { IGOODComponent, SlotKey, StatKey } from "./GOOD";
 
 export interface IGOODComponentResolvable<T extends IGOODComponent> {
