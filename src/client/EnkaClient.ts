@@ -46,7 +46,7 @@ export interface EnkaClientOptions {
     textAssetsDynamicData: DynamicData;
     cacheDirectory: string | null;
     showFetchCacheLog: boolean;
-    userCache: UserCacheOptions; // TODO: move this to EnkaSystem
+    userCache: UserCacheOptions;
     /** For less rate limited cache update checking */
     githubToken: string | null;
     readonly enkaSystem: EnkaSystem;
@@ -101,7 +101,7 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
     /** The genshin cache data manager of the client */
     readonly cachedAssetsManager: CachedAssetsManager;
 
-    private _tasks: NodeJS.Timeout[];
+    private _tasks: NodeJS.Timeout[] = [];
 
     /** @param options Options for the client */
     constructor(options: Partial<EnkaClientOptions> = {}) {
@@ -120,8 +120,6 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
         if (userCacheFuncs.some(f => f) && userCacheFuncs.some(f => !f)) throw new Error("All user cache functions (setter/getter/deleter) must be null or all must be customized.");
 
         this.cachedAssetsManager = new CachedAssetsManager(this);
-
-        this._tasks = [];
 
         this.options.enkaSystem.registerLibrary(this);
     }
