@@ -6,28 +6,16 @@ import EnkaClient from "../../client/EnkaClient";
 import { IArtifact } from "../good/GOOD";
 import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../good/IGOODResolvable";
 
-/**
- * @en SubstatsContainer
- * @typedef
- */
 export interface SubstatsContainer {
     total: StatProperty[];
     split: ArtifactSplitSubstat[];
 }
 
-/**
- * @en Artifact
- */
 class Artifact implements IGOODComponentResolvable<IArtifact> {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly artifactData: ArtifactData;
-    /**  */
     readonly level: number;
-    /**  */
     readonly mainstat: StatProperty;
-    /**  */
     readonly substats: SubstatsContainer;
 
     /** The name of character who has this artifact for the GOOD. */
@@ -35,10 +23,6 @@ class Artifact implements IGOODComponentResolvable<IArtifact> {
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;

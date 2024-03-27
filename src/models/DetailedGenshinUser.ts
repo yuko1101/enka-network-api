@@ -5,19 +5,10 @@ import GenshinUser from "./GenshinUser";
 import { IGOOD } from "./good/GOOD";
 import { IGOODComponentResolvable } from "./good/IGOODResolvable";
 
-/**
- * @extends {GenshinUser}
- */
 class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvable<IGOOD> {
-    /**  */
     readonly showCharacterDetails: boolean;
-    /**  */
     readonly characters: Character[];
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 

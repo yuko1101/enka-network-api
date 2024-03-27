@@ -4,19 +4,11 @@ import UpgradableSkill from "./UpgradableSkill";
 
 /**
  * Elemental Skill and Elemental Burst
- * @en UniqueSkill
- * @extends {UpgradableSkill}
  */
 class UniqueSkill extends UpgradableSkill {
-    /**  */
     readonly maxCharge: number;
-    /**  */
     readonly cooldown: number;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 
@@ -28,10 +20,6 @@ class UniqueSkill extends UpgradableSkill {
 
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): UniqueSkill {
         return new UniqueSkill(this._getJsonObjectById(id, enka), enka);
     }

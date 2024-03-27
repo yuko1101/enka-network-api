@@ -4,24 +4,14 @@ import TextAssets from "../assets/TextAssets";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import DynamicTextAssets from "../assets/DynamicTextAssets";
 
-/**
- * @en CharacterVoiceData
- */
 class CharacterVoiceData {
-    /**  */
     readonly enka: EnkaClient;
 
-    /**  */
     readonly title: TextAssets;
-    /**  */
     readonly textContent: TextAssets;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;

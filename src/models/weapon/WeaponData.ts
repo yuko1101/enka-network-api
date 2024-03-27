@@ -8,42 +8,24 @@ import StatProperty, { FightProp } from "../StatProperty";
 import WeaponAscension from "./WeaponAscension";
 import { nonNullable } from "../../utils/ts_utils";
 
-/** @typedef */
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 
-/**
- * @en WeaponData
- */
 class WeaponData {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly awakenIcon: ImageAssets;
-    /**  */
     readonly stars: number;
-    /**  */
     readonly weaponType: WeaponType;
-    /**  */
     readonly weaponTypeName: TextAssets;
-    /**  */
     readonly refinements: WeaponRefinement[];
 
     readonly _data: JsonObject;
     readonly _nameId: string;
     readonly _weaponTypeData: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
@@ -125,10 +107,6 @@ class WeaponData {
         return [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): WeaponData {
         const json = enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Weapon", id);

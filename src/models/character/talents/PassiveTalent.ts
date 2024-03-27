@@ -5,23 +5,13 @@ import ImageAssets from "../../assets/ImageAssets";
 import TextAssets from "../../assets/TextAssets";
 import StatProperty, { FightProp } from "../../StatProperty";
 
-/**
- * @en PassiveTalent
- */
 class PassiveTalent {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly requiredAscension: number;
-    /**  */
     readonly addProps: StatProperty[];
     /**
      * Whether the talent is hidden in the list of talents on the in-game character screen
@@ -31,10 +21,6 @@ class PassiveTalent {
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
@@ -56,10 +42,6 @@ class PassiveTalent {
         this.isHidden = json.getAsBooleanWithDefault(false, "isHideLifeProudSkill");
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): PassiveTalent {
         const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Talent", id);

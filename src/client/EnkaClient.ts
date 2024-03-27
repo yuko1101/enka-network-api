@@ -22,9 +22,6 @@ const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/ui
 
 const userCacheMap = new Map();
 
-/**
- * @typedef
- */
 export interface UserCacheOptions {
     isEnabled: boolean;
     getter: ((key: string) => Promise<JsonObject>) | null;
@@ -32,10 +29,6 @@ export interface UserCacheOptions {
     deleter: ((key: string) => Promise<void>) | null;
 }
 
-/**
- * @en EnkaClientOptions
- * @typedef
- */
 export interface EnkaClientOptions {
     enkaUrl: string;
     defaultImageBaseUrl: string;
@@ -52,7 +45,6 @@ export interface EnkaClientOptions {
     readonly enkaSystem: EnkaSystem;
 }
 
-/** @constant */
 export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSystem": EnkaSystem | null }> = {
     "enkaUrl": "https://enka.network",
     "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
@@ -82,9 +74,6 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
     "enkaSystem": null,
 };
 
-/**
- * @en EnkaClient
- */
 class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
     readonly hoyoType: 0;
     getUser(data: JsonObject): GenshinUser {
@@ -240,7 +229,6 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
     }
 
     /**
-     * @param excludeInvalidWeapons
      * @returns all weapon data
      */
     getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {

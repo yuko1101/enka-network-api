@@ -4,38 +4,21 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 
-/** @typedef */
 export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 
-/**
- * @en Material
- */
 class Material {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly pictures: ImageAssets[];
-    /**  */
     readonly itemType: ItemType;
-    /**  */
     readonly materialType: string | null;
-    /**  */
     readonly stars: number | null;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
@@ -59,10 +42,6 @@ class Material {
         this.stars = json.getAsNumberWithDefault(null, "rankLevel");
     }
 
-    /**
-     * @param data
-     * @param enka
-     */
     static getMaterialByData(data: JsonObject, enka: EnkaClient): Material {
         const json = new JsonReader(data);
         switch (json.getAsStringWithDefault(null, "materialType")) {
@@ -73,10 +52,6 @@ class Material {
         }
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getMaterialById(id: number | string, enka: EnkaClient): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         id = Number(id);
@@ -89,23 +64,13 @@ class Material {
 
 export default Material;
 
-/**
- * @en NameCard
- * @extends {Material}
- */
 export class NameCard extends Material {
-    /**  */
     override readonly materialType: "MATERIAL_NAMECARD";
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
         this.materialType = "MATERIAL_NAMECARD";
     }
 
-    /**  */
     static readonly MATERIAL_TYPE = "MATERIAL_NAMECARD";
 }

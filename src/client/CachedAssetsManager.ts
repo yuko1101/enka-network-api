@@ -18,15 +18,9 @@ let langDataMemory: NullableLanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
 
-/** @typedef */
 export type NullableLanguageMap = { [key in LanguageCode]: { [key: string]: string } | null };
-/** @typedef */
 export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
 
-/**
- * @en LanguageCode
- * @typedef
- */
 export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 
 // Thanks @Dimbreath
@@ -92,9 +86,6 @@ const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Dat
     ? `https://gitlab.com/api/v4/projects/53216109/repository/commits?since=${rawDate.toISOString()}`
     : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
 
-/**
- * @en CachedAssetsManager
- */
 class CachedAssetsManager {
     /** The client that instantiated this */
     readonly enka: EnkaClient;
@@ -111,9 +102,6 @@ class CachedAssetsManager {
     _githubCache: ConfigFile | null;
     _isFetching: boolean;
 
-    /**
-     * @param enka
-     */
     constructor(enka: EnkaClient) {
         this.enka = enka;
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
@@ -374,8 +362,6 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param lang
-     * @param directory
      * @returns text map file path for a specific language
      */
     getLanguageDataPath(lang: LanguageCode, directory?: string): string {
@@ -400,8 +386,6 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param lang
-     * @param directory
      * @returns text map for a specific language
      */
     getLanguageData(lang: LanguageCode, directory?: string): { [key: string]: string } {
@@ -451,8 +435,6 @@ class CachedAssetsManager {
 
     /**
      * Remove all unused text map entries
-     * @param data
-     * @param langsData
      */
     removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): { langMap: LanguageMap, voiceLangMap: LanguageMap } {
         const required: number[] = [];
@@ -636,7 +618,6 @@ class CachedAssetsManager {
     }
 
     /**
-     * @param showLog
      * @returns whether the cache is valid or not
      */
     _validateCache(showLog = true): boolean {

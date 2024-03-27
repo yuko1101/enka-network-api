@@ -5,40 +5,25 @@ import Material, { NameCard } from "./material/Material";
 import EnkaClient from "../client/EnkaClient";
 import ProfilePicture from "./ProfilePicture";
 
-/** @typedef */
 export interface CharacterPreview {
     /** Costume whose icon is used for character preview. */
     costume: Costume,
     level: number;
 }
 
-/**
- * @en GenshinUser
- */
 class GenshinUser extends User {
-    /**  */
     readonly enka: EnkaClient;
     /** This will be NaN if this GenshinUser is from [EnkaGameAccount](https://enka-system.vercel.app/docs/api/EnkaGameAccount) and [isUidPublic](https://enka-system.vercel.app/docs/api/EnkaGameAccount#isUidPublic) is `false`. */
     readonly uid: number;
-    /**  */
     readonly nickname: string | null;
-    /**  */
     readonly signature: string | null;
-    /**  */
     readonly profilePicture: ProfilePicture | null;
-    /**  */
     readonly charactersPreview: CharacterPreview[];
-    /**  */
     readonly nameCards: NameCard[];
-    /**  */
     readonly level: number;
-    /**  */
     readonly worldLevel: number;
-    /**  */
     readonly profileCard: NameCard;
-    /**  */
     readonly achievements: number;
-    /**  */
     readonly spiralAbyss: {
         floor: number,
         chamber: number,
@@ -46,17 +31,10 @@ class GenshinUser extends User {
 
     /** This will be -1 if this GenshinUser is from EnkaGameAccount */
     readonly ttl: number;
-    /**  */
     readonly enkaProfile: EnkaProfile | null;
-    /**  */
     readonly enkaGameAccountHash: string | null;
-    /**  */
     readonly url: string;
 
-    /**
-     * @param data
-     * @param enka
-    */
     constructor(data: JsonObject, enka: EnkaClient) {
         const json = new JsonReader(data);
         super(json);

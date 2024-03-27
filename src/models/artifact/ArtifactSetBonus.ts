@@ -3,30 +3,16 @@ import TextAssets from "../assets/TextAssets";
 import StatProperty, { FightProp } from "../StatProperty";
 import EnkaClient from "../../client/EnkaClient";
 
-/**
- * @en ArtifactSetBonus
- */
 class ArtifactSetBonus {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
-    /**  */
     readonly needCount: number;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly addProps: StatProperty[];
-    /**  */
     readonly paramList: number[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param needCount
-     * @param data
-     * @param enka
-     */
     constructor(needCount: number, data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
 

@@ -6,22 +6,11 @@ import UpgradeCost from "../../material/UpgradeCost";
 import Skill from "./Skill";
 import { nonNullable } from "../../../utils/ts_utils";
 
-/**
- * @en CombatSkill
- * @extends {Skill}
- */
 class UpgradableSkill extends Skill {
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
     }
 
-    /**
-     * @param level
-     */
     getSkillAttributes(level: number): SkillAttributeAssets[] {
         const proudSkillGroupId = new JsonReader(this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return [];
@@ -58,10 +47,6 @@ class UpgradableSkill extends Skill {
         return new UpgradeCost(leveledSkillData.getAsNumberWithDefault(0, "coinCost"), leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): UpgradableSkill {
         return new UpgradableSkill(this._getJsonObjectById(id, enka), enka);
     }

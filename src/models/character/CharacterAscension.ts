@@ -4,32 +4,19 @@ import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import UpgradeCost from "../material/UpgradeCost";
 import StatProperty, { FightProp } from "../StatProperty";
 
-/**
- * @en CharacterAscension
- */
 class CharacterAscension {
-    /**  */
     readonly id: number;
-    /**  */
     readonly ascension: number;
-    /**  */
     readonly enka: EnkaClient;
 
-    /**  */
     readonly unlockMaxLevel: number;
     /** 0 if adventure rank is not required */
     readonly requiredAdventureRank: number;
-    /**  */
     readonly cost: UpgradeCost;
-    /**  */
     readonly addProps: StatProperty[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;

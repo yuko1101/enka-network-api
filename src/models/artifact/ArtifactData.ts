@@ -13,41 +13,23 @@ import ArtifactSet from "./ArtifactSet";
  * EQUIP_SHOES|Sands of Eon
  * EQUIP_RING|Goblet of Eonothem
  * EQUIP_DRESS|Circlet of Logos
- * @typedef
  */
 export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
 
-/**
- * @en ArtifactData
- */
 class ArtifactData {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly equipType: EquipType;
-    /**  */
     readonly equipTypeName: TextAssets;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly stars: number;
-    /**  */
     readonly set: ArtifactSet;
 
     readonly _data: JsonObject;
     readonly _equipTypeData: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     * @param setData
-     */
     constructor(data: JsonObject, enka: EnkaClient, setData?: JsonObject) {
         this.enka = enka;
         this._data = data;
@@ -76,11 +58,6 @@ class ArtifactData {
 
     }
 
-    /**
-     * @param id
-     * @param enka
-     * @param setData
-     */
     static getById(id: number, enka: EnkaClient, setData?: JsonObject): ArtifactData {
         const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Artifact", id);

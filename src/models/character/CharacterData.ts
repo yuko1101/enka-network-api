@@ -18,74 +18,43 @@ import { WeaponType } from "../weapon/WeaponData";
 import StatProperty, { FightProp } from "../StatProperty";
 import { nonNullable } from "../../utils/ts_utils";
 
-/** @typedef */
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
-/** @typedef */
 export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
-/** @typedef */
 export type Gender = "MALE" | "FEMALE";
-/** @typedef */
 export type Arkhe = "Pneuma" | "Ousia" | "Furina";
 
-/**
- * @en CharacterData
- */
 class CharacterData {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly bodyType: BodyType;
-    /**  */
     readonly weaponType: WeaponType;
-    /**  */
     readonly gender: Gender;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly sideIcon: ImageAssets;
-    /**  */
     readonly splashImage: ImageAssets;
     /** This is not available for Travelers */
     readonly gachaSlice: ImageAssets;
-    /**  */
     readonly cardIcon: ImageAssets;
     /** This will be null if the character is Traveler */
     readonly nameCard: NameCard | null;
-    /**  */
     readonly rarity: CharacterRarity;
-    /**  */
     readonly stars: number;
-    /**  */
     readonly costumes: Costume[];
-    /**  */
     readonly skillDepotId: number;
-    /**  */
     readonly elementalBurst: ElementalBurst | null;
-    /**  */
     readonly element: Element | null;
-    /**  */
     readonly arkhe: Arkhe | null;
-    /**  */
     readonly skills: Skill[];
     /** Can be null if the character doesn't have element such as traveler without elements */
     readonly elementalSkill: ElementalSkill | null;
-    /**  */
     readonly normalAttack: NormalAttack;
-    /**  */
     readonly passiveTalents: PassiveTalent[];
-    /**  */
     readonly constellations: Constellation[];
     /** This will be null if the character is not (being) released character, like Travelers and test avatars */
     readonly releasedAt: Date | null;
-    /**  */
     readonly isArchon: boolean;
-    /**  */
     readonly isTraveler: boolean;
     /** Information in the profile menu in in-game character screen */
     readonly details: CharacterDetails | null;
@@ -96,11 +65,6 @@ class CharacterData {
     readonly _costumeData: JsonObject[];
     readonly _releaseData: JsonObject | null;
 
-    /**
-     * @param data
-     * @param enka
-     * @param candSkillDepotId
-     */
     constructor(data: JsonObject, enka: EnkaClient, candSkillDepotId?: number) {
         this._data = data;
         this.enka = enka;
@@ -257,11 +221,6 @@ class CharacterData {
 
     }
 
-    /**
-     * @param id
-     * @param enka
-     * @param candSkillDepotId
-     */
     static getById(id: number, enka: EnkaClient, candSkillDepotId?: number): CharacterData {
         const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Character", id);

@@ -7,28 +7,16 @@ import { JsonReader, JsonObject, separateByValue } from "config_file.js";
 import Artifact from "./Artifact";
 import ArtifactData from "./ArtifactData";
 
-/**
- * @en ArtifactSet
- */
 class ArtifactSet {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
-    /**  */
     readonly setBonus: ArtifactSetBonus[];
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly name: TextAssets;
 
     readonly _data: JsonObject;
     readonly _setBonusData: JsonObject[];
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
@@ -57,9 +45,6 @@ class ArtifactSet {
         return new ArtifactSet(json.getAsJsonObject(), enka);
     }
 
-    /**
-     * @param artifacts
-     */
     static getActiveSetBonus(artifacts: (Artifact | ArtifactData | ArtifactSet)[]): { set: ArtifactSet, count: number, activeBonus: ArtifactSetBonus[] }[] {
         const artifactSets = artifacts.map(a => (a instanceof ArtifactSet) ? a : (a instanceof ArtifactData) ? a.set : a.artifactData.set);
 

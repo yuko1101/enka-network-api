@@ -6,27 +6,15 @@ import WeaponRefinement from "./WeaponRefinement";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { CharacterKey, IWeapon } from "../good/GOOD";
 
-/**
- * @en Weapon
- */
 class Weapon implements IGOODComponentResolvable<IWeapon> {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly weaponData: WeaponData;
-    /**  */
     readonly refinement: WeaponRefinement | null;
-    /**  */
     readonly refinementRank: number;
-    /**  */
     readonly level: number;
-    /**  */
     readonly ascension: number;
-    /**  */
     readonly maxLevel: number;
-    /**  */
     readonly isAwaken: boolean;
-    /**  */
     readonly weaponStats: StatProperty[];
 
     /** The name of character who has this weapon for the GOOD. */
@@ -34,10 +22,6 @@ class Weapon implements IGOODComponentResolvable<IWeapon> {
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;

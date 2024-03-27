@@ -2,26 +2,13 @@ import { LanguageCode } from "../../client/CachedAssetsManager";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 
-/**
- * @en TextAssets
- */
 class TextAssets {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
 
-    /**  */
     convertToHtmlFormat: boolean;
-    /**  */
     readonly directory: string | null;
 
-    /**
-     * @param id
-     * @param enka
-     * @param convertToHtmlFormat
-     * @param directory
-     */
     constructor(id: number, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
         this.id = id;
         this.enka = enka;
@@ -31,7 +18,6 @@ class TextAssets {
     }
 
     /**
-     * @param lang
      * @throws {AssetsNotFoundError}
      */
     get(lang?: LanguageCode): string {
@@ -51,7 +37,6 @@ class TextAssets {
     }
 
     /**
-     * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
     getNullable(lang?: LanguageCode): string | null {
@@ -62,15 +47,11 @@ class TextAssets {
         }
     }
 
-    /**
-     * @param convertToHtmlFormat
-     */
     setConvertToHtmlFormat(convertToHtmlFormat: boolean): this {
         this.convertToHtmlFormat = convertToHtmlFormat;
         return this;
     }
 
-    /**  */
     toString(): string {
         return this.getNullable() ?? `Unknown TextAssets(${this.id})`;
     }

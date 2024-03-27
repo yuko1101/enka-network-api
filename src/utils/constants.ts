@@ -1,6 +1,5 @@
 import { FightProp } from "../models/StatProperty";
 
-/** @constant */
 export const fightProps = {
     // 0: "FIGHT_PROP_NONE",
     1: "FIGHT_PROP_BASE_HP",
@@ -122,7 +121,6 @@ export const fightProps = {
     // 3044: "FIGHT_PROP_ELEM_REACT_OVERGROW_ELECTRIC_CRITICAL_HURT",
 } as const satisfies { [id: number]: FightProp };
 
-/** @constant */
 export const percent = [
     "FIGHT_PROP_HP_PERCENT",
     "FIGHT_PROP_ATTACK_PERCENT",
@@ -159,7 +157,6 @@ export const percent = [
 
 /**
  * Rarity map for artifact sets
- * @constant
  */
 export const artifactRarityRangeMap = {
     "10001": [3, 4], // Resolution of Sojourner

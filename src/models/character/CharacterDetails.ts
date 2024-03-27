@@ -7,54 +7,34 @@ import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { LanguageCode } from "../../client/CachedAssetsManager";
 import CharacterVoiceData from "./CharacterVoiceData";
 
-/** @typedef */
 export interface Birthday {
     month: number;
     day: number;
 }
 
-/** @typedef */
 export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
 
-/** @typedef */
 export type CharacterVoiceActors = { [lang in VoiceLanguage]: TextAssets };
 
-/**
- * @en CharacterDetails
- */
 class CharacterDetails {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
 
-    /**  */
     readonly characterId: number;
     /** If the character is Traveler, this will be null */
     readonly birthday: Birthday | null;
-    /**  */
     readonly location: TextAssets;
-    /**  */
     readonly vision: TextAssets;
-    /**  */
     readonly constellation: TextAssets;
-    /**  */
     readonly constellationIcon: ImageAssets;
     /** Travelers do not have this */
     readonly title: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly cv: CharacterVoiceActors;
 
     readonly _data: JsonObject;
     readonly _nameId: string;
 
-    /**
-     * @param data
-     * @param isArchon
-     * @param enka
-     */
     constructor(data: JsonObject, isArchon: boolean, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
@@ -88,9 +68,6 @@ class CharacterDetails {
         };
     }
 
-    /**
-     * @param lang
-     */
     getCvByLanguage(lang: LanguageCode): TextAssets {
         lang ??= this.enka.options.defaultLanguage;
         switch (lang) {
@@ -115,22 +92,12 @@ class CharacterDetails {
         return filtered.map(([, voice]) => new CharacterVoiceData(voice.getAsJsonObject(), this.enka));
     }
 
-    /**
-     * @param id
-     * @param isArchon
-     * @param enka
-     */
     static getById(id: number, isArchon: boolean, enka: EnkaClient): CharacterDetails {
         const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("fetterId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("FetterInfo", id);
         return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
     }
 
-    /**
-     * @param id
-     * @param isArchon
-     * @param enka
-     */
     static getByCharacterId(id: number, isArchon: boolean, enka: EnkaClient) {
         const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("avatarId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("FetterInfo by avatarId", id);

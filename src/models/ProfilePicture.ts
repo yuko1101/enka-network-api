@@ -5,30 +5,20 @@ import TextAssets from "./assets/TextAssets";
 import Costume from "./character/Costume";
 import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 
-/** @typedef */
 export type ProfilePictureType =
     | "PROFILE_PICTURE_UNLOCK_BY_AVATAR"
     | "PROFILE_PICTURE_UNLOCK_BY_COSTUME"
     | "PROFILE_PICTURE_UNLOCK_BY_ITEM";
 
-/** @en ProfilePicture */
 class ProfilePicture {
-    /**  */
     readonly enka: EnkaClient;
 
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly type: ProfilePictureType;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
@@ -43,10 +33,6 @@ class ProfilePicture {
 
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): ProfilePicture {
         const profilePicture = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1] as JsonReader;
         if (!profilePicture) throw new AssetsNotFoundError("ProfilePicture", id);
@@ -64,8 +50,6 @@ class ProfilePicture {
 
     /**
      * @deprecated
-     * @param characterId
-     * @param costumeId
      */
     static getByOldFormat(characterId: number, costumeId: number | null, enka: EnkaClient): ProfilePicture {
         const iconType: ProfilePictureType = costumeId === null ? "PROFILE_PICTURE_UNLOCK_BY_AVATAR" : "PROFILE_PICTURE_UNLOCK_BY_COSTUME";
@@ -81,20 +65,10 @@ class ProfilePicture {
 
 export default ProfilePicture;
 
-/**
- * @en CharacterProfilePicture
- * @extends {ProfilePicture}
- */
 export class CharacterProfilePicture extends ProfilePicture {
-    /**  */
     readonly costume: Costume;
-    /**  */
     override readonly type: "PROFILE_PICTURE_UNLOCK_BY_AVATAR" | "PROFILE_PICTURE_UNLOCK_BY_COSTUME";
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 

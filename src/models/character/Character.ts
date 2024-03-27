@@ -18,47 +18,26 @@ import { nonNullable } from "../../utils/ts_utils";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { ICharacter } from "../good/GOOD";
 
-/**
- * @en Character
- */
 class Character implements IGOODComponentResolvable<ICharacter> {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly characterData: CharacterData;
-    /**  */
     readonly costume: Costume;
-    /**  */
     readonly artifacts: Artifact[];
-    /**  */
     readonly weapon: Weapon;
-    /**  */
     readonly stats: CharacterStats;
-    /**  */
     readonly level: number;
-    /**  */
     readonly xp: number;
-    /**  */
     readonly ascension: number;
-    /**  */
     readonly maxLevel: number;
-    /**  */
     readonly stamina: number;
     /** Traveler's friendship is always 1 */
     readonly friendship: number;
-    /**  */
     readonly unlockedConstellations: Constellation[];
-    /**  */
     readonly skillLevels: { skill: UpgradableSkill, level: SkillLevel }[];
-    /**  */
     readonly unlockedPassiveTalents: PassiveTalent[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
 
         this.enka = enka;

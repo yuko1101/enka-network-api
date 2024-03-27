@@ -2,11 +2,6 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import EnkaClient from "../client/EnkaClient";
 import { JsonObject } from "config_file.js";
 
-/**
- * @param url
- * @param enka
- * @param enableTimeout
- */
 export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = false): Promise<AxiosResponse> {
     const headers: JsonObject = { "User-Agent": enka.options.userAgent };
     if (enka.options.githubToken && url.startsWith("https://api.github.com/")) headers["Authorization"] = `Bearer ${enka.options.githubToken}`;

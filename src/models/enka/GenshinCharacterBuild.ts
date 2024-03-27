@@ -5,41 +5,23 @@ import { CharacterBuild, HoyoType } from "enka-system";
 
 /**
  * A present character build or a saved character build in Enka.Network account
- * @en GenshinCharacterBuild
  */
 class GenshinCharacterBuild extends CharacterBuild {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly enkaUserInfo: { username: string, hash: string };
 
-    /**  */
     readonly id: number;
-    /**  */
     readonly name: string;
-    /**  */
     readonly order: number;
-    /**  */
     readonly isLive: boolean;
-    /**  */
     readonly isPublic: boolean;
-    /**  */
     readonly character: Character;
-    /**  */
     readonly imageUrl: string | null;
-    /**  */
     readonly hoyoType: HoyoType;
-    /**  */
     readonly url: string;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     * @param username
-     * @param hash
-     */
     constructor(data: JsonObject, enka: EnkaClient, username: string, hash: string) {
         super();
 

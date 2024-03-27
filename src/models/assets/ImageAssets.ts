@@ -10,29 +10,15 @@ const imageTypes: { [type: string]: RegExp[] } = {
     // "constellation_icon": [/^UI_Talent_(.+)$/],
 };
 
-/**
- * @en ImageAssets
- */
 class ImageAssets {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: string;
-    /**  */
     readonly imageBaseUrl: string;
-    /**  */
     readonly url: string;
-    /**  */
     readonly imageType: string | null;
-    /**  */
     readonly mihoyoUrl: string;
-    /**  */
     readonly isAvailable: boolean;
 
-    /**
-     * @param name
-     * @param enka
-     */
     constructor(name: string, enka: EnkaClient) {
         this.enka = enka;
 

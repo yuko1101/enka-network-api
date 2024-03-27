@@ -1,9 +1,6 @@
 import { JsonReader } from "config_file.js";
 import CachedAssetsManager from "./CachedAssetsManager";
 
-/**
- * @en ObjectKeysManager
- */
 class ObjectKeysManager {
     /** Map key name where the value is arkhe of Fontaine characters in AvatarSkillDepotExcelConfigData.json */
     readonly characterArkheKey: string;
@@ -12,9 +9,6 @@ class ObjectKeysManager {
     /** Map key name where the value is a character id or a costume id in ProfilePictureExcelConfigData.json */
     readonly profilePictureReferenceIdKey: string;
 
-    /**
-     * @param cachedAssetsManager
-     */
     constructor(cachedAssetsManager: CachedAssetsManager) {
         const waterAetherSkillDepot = cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 503)?.[1] as JsonReader;
 

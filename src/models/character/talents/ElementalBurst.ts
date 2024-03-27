@@ -3,20 +3,10 @@ import EnkaClient from "../../../client/EnkaClient";
 import Element, { ElementType } from "../../Element";
 import UniqueSkill from "./UniqueSkill";
 
-/**
- * @en ElementalBurst
- * @extends {UniqueSkill}
- */
 class ElementalBurst extends UniqueSkill {
-    /**  */
     readonly costElemType: Element;
-    /**  */
     readonly costElemVal: number;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 
@@ -27,10 +17,6 @@ class ElementalBurst extends UniqueSkill {
         this.costElemVal = json.getAsNumber("costElemVal");
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): ElementalBurst {
         return new ElementalBurst(this._getJsonObjectById(id, enka), enka);
     }

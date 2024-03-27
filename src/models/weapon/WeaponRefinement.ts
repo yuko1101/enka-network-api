@@ -4,32 +4,18 @@ import StatProperty, { FightProp } from "../StatProperty";
 import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 
-/**
- * @en WeaponRefinement
- */
 class WeaponRefinement {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly id: number;
-    /**  */
     readonly level: number;
 
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly addProps: StatProperty[];
-    /**  */
     readonly paramList: number[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
 
@@ -50,9 +36,7 @@ class WeaponRefinement {
     }
 
     /**
-     * @param id
      * @param level refinement rank (1-5)
-     * @param enka
      */
     static getById(id: number, level: number, enka: EnkaClient): WeaponRefinement {
         const json = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id && p.getAsNumberWithDefault(0, "level") === level - 1)?.[1];

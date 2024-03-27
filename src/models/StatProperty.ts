@@ -4,31 +4,16 @@ import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 import { percent } from "../utils/constants";
 import TextAssets from "./assets/TextAssets";
 
-/**
- * @en StatProperty
- */
 class StatProperty<T extends FightProp = FightProp> {
-    /**  */
     readonly fightProp: T;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly fightPropName: TextAssets;
-    /**  */
     readonly isPercent: boolean;
-    /**  */
     readonly rawValue: number;
-    /**  */
     readonly value: number;
 
     readonly _propData: JsonObject;
 
-    /**
-     * @param fightProp
-     * @param value
-     * @param enka
-     * @param multiplied
-     */
     constructor(fightProp: T, value: number, enka: EnkaClient) {
         this.fightProp = fightProp;
 
@@ -47,7 +32,6 @@ class StatProperty<T extends FightProp = FightProp> {
         this.value = round(value, 8);
     }
 
-    /**  */
     public get valueText(): string {
         const fix = this.isPercent ? 1 : 0;
         return this.getMultipliedValue().toFixed(fix).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (this.isPercent ? "%" : "");
@@ -60,25 +44,16 @@ class StatProperty<T extends FightProp = FightProp> {
         return this.value * (this.isPercent ? 100 : 1);
     }
 
-    /**  */
     toString(): string {
         const name = this.fightPropName.get() ?? "[Unknown]";
         return `${name}(${this.fightProp}): ${this.valueText}`;
     }
 
-    /**
-     * @param fightProp
-     * @param enka
-     */
     static getFightPropTextAssets(fightProp: FightProp, enka: EnkaClient): TextAssets | null {
         const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
         return propData ? new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka) : null;
     }
 
-    /**
-     * @param statProperties
-     * @param enka
-     */
     static sumStatProperties(statProperties: StatProperty[], enka: EnkaClient): StatProperty[] {
         const stats: { [key: string]: number } = {};
         for (const prop of statProperties) {
@@ -145,8 +120,6 @@ function round(x: number, decimalPlaces = 0) {
  * FIGHT_PROP_CUR_HP|Current HP
  * FIGHT_PROP_SKILL_CD_MINUS_RATIO|CD Reduction
  * FIGHT_PROP_SHIELD_COST_MINUS_RATIO|Shield Strength
- * @en FightProp
- * @typedef
  */
 export type FightProp = "FIGHT_PROP_BASE_HP"
     | "FIGHT_PROP_HP"

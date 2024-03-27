@@ -3,22 +3,11 @@ import Material from "./Material";
 import EnkaClient from "../../client/EnkaClient";
 import { nonNullable } from "../../utils/ts_utils";
 
-/**
- * @en UpgradeCost
- */
 class UpgradeCost {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly coin: number;
-    /**  */
     readonly items: { material: Material, count: number }[];
 
-    /**
-     * @param coinCost
-     * @param costItems
-     * @param enka
-     */
     constructor(coinCost: number, costItems: JsonObject[], enka: EnkaClient) {
         this.enka = enka;
 

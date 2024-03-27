@@ -4,77 +4,40 @@ import StatProperty from "../StatProperty";
 import EnkaClient from "../../client/EnkaClient";
 import Element from "../Element";
 
-/**
- * @en CharacterStats
- */
 class CharacterStats {
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly healthBase: StatProperty;
-    /**  */
     readonly healthFlat: StatProperty;
-    /**  */
     readonly healthPercent: StatProperty;
-    /**  */
     readonly attackBase: StatProperty;
-    /**  */
     readonly attackFlat: StatProperty;
-    /**  */
     readonly attackPercent: StatProperty;
-    /**  */
     readonly defenseBase: StatProperty;
-    /**  */
     readonly defenseFlat: StatProperty;
-    /**  */
     readonly defensePercent: StatProperty;
-    /**  */
     readonly speedBase: StatProperty;
-    /**  */
     readonly speedPercent: StatProperty;
-    /**  */
     readonly critRate: StatProperty;
-    /**  */
     readonly critDamage: StatProperty;
-    /**  */
     readonly chargeEfficiency: StatProperty;
-    /**  */
     readonly healAdd: StatProperty;
-    /**  */
     readonly healedAdd: StatProperty;
-    /**  */
     readonly elementMastery: StatProperty;
-    /**  */
     readonly physicalRes: StatProperty;
-    /**  */
     readonly physicalDamage: StatProperty;
-    /**  */
     readonly pyroDamage: StatProperty;
-    /**  */
     readonly electroDamage: StatProperty;
-    /**  */
     readonly hydroDamage: StatProperty;
-    /**  */
     readonly dendroDamage: StatProperty;
-    /**  */
     readonly anemoDamage: StatProperty;
-    /**  */
     readonly geoDamage: StatProperty;
-    /**  */
     readonly cryoDamage: StatProperty;
-    /**  */
     readonly pyroRes: StatProperty;
-    /**  */
     readonly electroRes: StatProperty;
-    /**  */
     readonly hydroRes: StatProperty;
-    /**  */
     readonly dendroRes: StatProperty;
-    /**  */
     readonly anemoRes: StatProperty;
-    /**  */
     readonly geoRes: StatProperty;
-    /**  */
     readonly cryoRes: StatProperty;
     /**
      * Element damage bonus which matches the character's element (Physical DMG ignored)
@@ -85,45 +48,25 @@ class CharacterStats {
      * The order of the list is such that elemental matches come first.
      */
     readonly highestDamageBonus: StatProperty[];
-    /**  */
     readonly pyroEnergyCost: number;
-    /**  */
     readonly electroEnergyCost: number;
-    /**  */
     readonly hydroEnergyCost: number;
-    /**  */
     readonly dendroEnergyCost: number;
-    /**  */
     readonly anemoEnergyCost: number;
-    /**  */
     readonly cryoEnergyCost: number;
-    /**  */
     readonly geoEnergyCost: number;
-    /**  */
     readonly energyCost: number;
-    /**  */
     readonly cooldownReduction: StatProperty;
-    /**  */
     readonly shieldStrength: StatProperty;
-    /**  */
     readonly currentPyroEnergy: number;
-    /**  */
     readonly currentElectroEnergy: number;
-    /**  */
     readonly currentHydroEnergy: number;
-    /**  */
     readonly currentDendroEnergy: number;
-    /**  */
     readonly currentAnemoEnergy: number;
-    /**  */
     readonly currentCryoEnergy: number;
-    /**  */
     readonly currentGeoEnergy: number;
-    /**  */
     readonly currentEnergy: number;
-    /**  */
     readonly currentHealth: StatProperty;
-    /**  */
     readonly maxHealth: StatProperty;
     /** The current attack of the character */
     readonly attack: StatProperty;
@@ -131,16 +74,10 @@ class CharacterStats {
     readonly defense: StatProperty;
     /** The current speed of the character */
     readonly speed: StatProperty;
-    /**  */
     readonly statProperties: StatProperty[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     * @param element
-     */
     constructor(data: JsonObject, enka: EnkaClient, element: Element) {
         this._data = data;
 
@@ -246,10 +183,6 @@ class CharacterStats {
         this.statProperties = Object.values(this).filter(value => value instanceof StatProperty);
     }
 
-    /**
-     * @param id
-     * @param defaultValue
-     */
     getStatProperty(id: keyof typeof fightProps, defaultValue = 0): StatProperty {
         return new StatProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }

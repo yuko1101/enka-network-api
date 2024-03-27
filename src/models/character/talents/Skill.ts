@@ -7,26 +7,16 @@ import DynamicTextAssets from "../../assets/DynamicTextAssets";
 
 /**
  * Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
- * @en Skill
  */
 class Skill {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: DynamicTextAssets;
-    /**  */
     readonly icon: ImageAssets;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
@@ -42,10 +32,6 @@ class Skill {
         this.icon = new ImageAssets(json.getAsString("skillIcon"), enka);
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): Skill {
         return new Skill(this._getJsonObjectById(id, enka), enka);
     }

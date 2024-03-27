@@ -2,33 +2,19 @@ import { LanguageCode } from "../../client/CachedAssetsManager";
 import EnkaClient from "../../client/EnkaClient";
 import DynamicTextAssets from "./DynamicTextAssets";
 
-/**
- * @en SkillAttributeData
- * @typedef
- */
 export interface SkillAttributeData {
     name: string;
     valueText: string;
     usedNumbers: number[];
 }
 
-/**
- * @en SkillAttributeAssets
- * @extends {TextAssets}
- */
 class SkillAttributeAssets extends DynamicTextAssets {
 
-    /**
-     * @param id
-     * @param paramList
-     * @param enka
-     */
     constructor(id: number, paramList: number[], enka: EnkaClient) {
         super(id, { paramList }, enka);
     }
 
     /**
-     * @param lang
      * @throws AssetsNotFoundError
      */
     getAttributeData(lang?: LanguageCode): SkillAttributeData {
@@ -39,7 +25,6 @@ class SkillAttributeAssets extends DynamicTextAssets {
     }
 
     /**
-     * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
     getNullableAttributeData(lang?: LanguageCode): SkillAttributeData | null {

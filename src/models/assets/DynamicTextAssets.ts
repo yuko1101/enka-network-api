@@ -5,37 +5,22 @@ import TextAssets from "./TextAssets";
 import { Gender } from "../character/CharacterData";
 import { Paths } from "../../utils/ts_utils";
 
-/** @typedef */
 export type GenshinPlatform = "MOBILE" | "PC" | "PS";
 
-/** @typedef */
 export interface UserInfo {
     travelerGender?: Gender,
     travelerNickname?: string,
     platform?: GenshinPlatform,
 }
 
-/** @typedef */
 export interface DynamicData {
     paramList: number[];
     userInfo: UserInfo | null;
 }
 
-/**
- * @en DynamicTextAssets
- * @extends {TextAssets}
- */
 class DynamicTextAssets extends TextAssets {
-    /**  */
     readonly dynamicData: DynamicData;
 
-    /**
-     * @param id
-     * @param data
-     * @param enka
-     * @param convertToHtmlFormat
-     * @param directory
-     */
     constructor(id: number, data: Partial<DynamicData>, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
         super(id, enka, convertToHtmlFormat, directory);
 
@@ -44,7 +29,6 @@ class DynamicTextAssets extends TextAssets {
 
     /**
      * @param replaceWith an empty array is the same as an array containing all paths
-     * @param lang
      * @throws AssetsNotFoundError
      */
     getReplacedData(replaceWith: Paths<DynamicData>[] = [], lang?: LanguageCode): { text: string, usedParamIndices: number[] } {
@@ -101,8 +85,6 @@ class DynamicTextAssets extends TextAssets {
     }
 
     /**
-     * @param replaceWith
-     * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
     getNullableReplacedData(replaceWith: (keyof DynamicData)[] = [], lang?: LanguageCode): { text: string, usedParamIndices: number[] } | null {
@@ -114,8 +96,6 @@ class DynamicTextAssets extends TextAssets {
     }
 
     /**
-     * @param replaceWith
-     * @param lang
      * @throws AssetsNotFoundError
      */
     getReplacedText(replaceWith: (keyof DynamicData)[] = [], lang?: LanguageCode): string {
@@ -123,8 +103,6 @@ class DynamicTextAssets extends TextAssets {
     }
 
     /**
-     * @param replaceWith
-     * @param lang
      * @returns null instead of throwing AssetsNotFoundError.
      */
     getNullableReplacedText(replaceWith: (keyof DynamicData)[] = [], lang?: LanguageCode): string | null {
@@ -136,7 +114,6 @@ class DynamicTextAssets extends TextAssets {
     }
 
     /**
-     * @param userInfo
      * @returns new instance of DynamicTextAssets with provided `userInfo`.
      */
     copyWithUserInfo(userInfo: UserInfo): DynamicTextAssets {

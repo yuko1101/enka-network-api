@@ -5,31 +5,17 @@ import ImageAssets from "../assets/ImageAssets";
 import TextAssets from "../assets/TextAssets";
 import StatProperty, { FightProp } from "../StatProperty";
 
-/**
- * @en Constellation
- */
 class Constellation {
-    /**  */
     readonly id: number;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
-    /**  */
     readonly description: TextAssets;
-    /**  */
     readonly icon: ImageAssets;
-    /**  */
     readonly addProps: StatProperty[];
-    /**  */
     readonly paramList: number[];
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
@@ -49,10 +35,6 @@ class Constellation {
         this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }
 
-    /**
-     * @param id
-     * @param enka
-     */
     static getById(id: number, enka: EnkaClient): Constellation {
         const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").findArray((_, p) => p.getAsNumber("talentId") === id)?.[1];
         if (!json) throw new AssetsNotFoundError("Constellation", id);

@@ -3,17 +3,9 @@ import EnkaClient from "../../client/EnkaClient";
 import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
 import StatProperty, { FightProp } from "../StatProperty";
 
-/**
- * @en ArtifactSplitSubstat
- * @extends {StatProperty}
- */
 class ArtifactSplitSubstat extends StatProperty {
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         const json = new JsonReader(data);
         super(json.getAsString("propType") as FightProp, json.getAsNumber("propValue"), enka);

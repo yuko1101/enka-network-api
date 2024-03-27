@@ -2,7 +2,6 @@ import EnkaClient from "../client/EnkaClient";
 import ArtifactData from "../models/artifact/ArtifactData";
 
 /**
- * @param enka
  * @returns whether the cache is valid or not
  */
 export function validateCache(enka: EnkaClient, showLog: boolean): boolean {
@@ -36,9 +35,6 @@ export function validateCache(enka: EnkaClient, showLog: boolean): boolean {
 }
 
 
-/**
- * @param artifacts
- */
 function checkArtifacts(artifacts: ArtifactData[], showLog: boolean): boolean {
     let result = true;
     const list: string[] = [];

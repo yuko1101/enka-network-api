@@ -3,23 +3,13 @@ import EnkaClient from "../client/EnkaClient";
 import AssetsNotFoundError from "../errors/AssetsNotFoundError";
 import TextAssets from "./assets/TextAssets";
 
-/**
- * @en Element
- */
 class Element {
-    /**  */
     readonly id: ElementType;
-    /**  */
     readonly enka: EnkaClient;
-    /**  */
     readonly name: TextAssets;
 
     readonly _data: JsonObject;
 
-    /**
-     * @param data
-     * @param enka
-     */
     constructor(data: JsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
@@ -50,7 +40,5 @@ export default Element;
  * Water|Hydro
  * Fire|Pyro
  * Ice|Cryo
- * @en ElementType
- * @typedef
  */
 export type ElementType = "Wind" | "Rock" | "Electric" | "Grass" | "Water" | "Fire" | "Ice";
