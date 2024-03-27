@@ -6,15 +6,14 @@ import TextAssets from "../assets/TextAssets";
 import ArtifactSet from "./ArtifactSet";
 
 /**
+ * EquipType|In-game Name
+ * ---|---
+ * EQUIP_BRACER|Flower of Life
+ * EQUIP_NECKLACE|Plume of Death
+ * EQUIP_SHOES|Sands of Eon
+ * EQUIP_RING|Goblet of Eonothem
+ * EQUIP_DRESS|Circlet of Logos
  * @typedef
- * @example
- * |EquipType|In-game Name|
- * |---|---|
- * |EQUIP_BRACER|Flower of Life|
- * |EQUIP_NECKLACE|Plume of Death|
- * |EQUIP_SHOES|Sands of Eon|
- * |EQUIP_RING|Goblet of Eonothem|
- * |EQUIP_DRESS|Circlet of Logos|
  */
 export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
 

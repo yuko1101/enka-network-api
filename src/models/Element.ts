@@ -41,17 +41,16 @@ class Element {
 export default Element;
 
 /**
+ * ElementType|In-game Name
+ * ---|---
+ * Wind|Anemo
+ * Rock|Geo
+ * Electric|Electro
+ * Grass|Dendro
+ * Water|Hydro
+ * Fire|Pyro
+ * Ice|Cryo
  * @en ElementType
  * @typedef
- * @example
- * |ElementType|In-game Name|
- * |---|---|
- * |Wind|Anemo|
- * |Rock|Geo|
- * |Electric|Electro|
- * |Grass|Dendro|
- * |Water|Hydro|
- * |Fire|Pyro|
- * |Ice|Cryo|
  */
 export type ElementType = "Wind" | "Rock" | "Electric" | "Grass" | "Water" | "Fire" | "Ice";
