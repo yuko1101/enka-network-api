@@ -86,6 +86,22 @@ const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Dat
     ? `https://gitlab.com/api/v4/projects/53216109/repository/commits?since=${rawDate.toISOString()}`
     : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
 
+export interface FetchContentsOptions {
+    useRawGenshinData: boolean;
+    ghproxy: boolean;
+}
+
+export interface UpdateContentsOptions extends FetchContentsOptions {
+    onUpdateStart?: (() => Promise<void>) | null;
+    onUpdateEnd?: (() => Promise<void>) | null;
+}
+
+export interface AutoCacheUpdaterOptions extends UpdateContentsOptions {
+    instant: boolean;
+    timeout: number;
+    onError?: ((error: Error) => Promise<void>) | null;
+}
+
 class CachedAssetsManager {
     /** The client that instantiated this */
     readonly enka: EnkaClient;
@@ -180,12 +196,12 @@ class CachedAssetsManager {
      * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
      */
-    async fetchAllContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean } = {}): Promise<void> {
+    async fetchAllContents(options: Partial<FetchContentsOptions> = {}): Promise<void> {
         if (this._isFetching) {
             throw new Error("You are already fetching assets.");
         }
 
-        options = bindOptions({
+        const mergedOptions = bindOptions({
             useRawGenshinData: false,
         }, options);
 
@@ -193,7 +209,7 @@ class CachedAssetsManager {
 
         this._isFetching = true;
 
-        if (!options.useRawGenshinData) {
+        if (!mergedOptions.useRawGenshinData) {
             if (this.enka.options.showFetchCacheLog) {
                 console.info("Downloading cache.zip...");
             }
@@ -297,17 +313,17 @@ class CachedAssetsManager {
      * @param options.ghproxy Whether to use ghproxy.com
      * @returns true if there were any updates, false if there were no updates.
      */
-    async updateContents(options: { useRawGenshinData?: boolean, ghproxy?: boolean, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void> } = {}): Promise<void> {
-        options = bindOptions({
+    async updateContents(options: Partial<UpdateContentsOptions> = {}): Promise<void> {
+        const mergedOptions = bindOptions({
             useRawGenshinData: false,
             ghproxy: false,
-            onUpdateStart: null,
-            onUpdateEnd: null,
+            onUpdateStart: undefined,
+            onUpdateEnd: undefined,
         }, options);
 
         await this.cacheDirectorySetup();
 
-        const url = getGitRemoteAPIUrl(!!options.useRawGenshinData, new Date((this._githubCache?.getValue("rawLastUpdate") ?? 0) as number), new Date((this._githubCache?.getValue("lastUpdate") ?? 0) as number));
+        const url = getGitRemoteAPIUrl(mergedOptions.useRawGenshinData, new Date((this._githubCache?.getValue("rawLastUpdate") ?? 0) as number), new Date((this._githubCache?.getValue("lastUpdate") ?? 0) as number));
 
         const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
@@ -317,10 +333,10 @@ class CachedAssetsManager {
         const data = res.data;
 
         if (data.length !== 0) {
-            await options.onUpdateStart?.();
+            await mergedOptions.onUpdateStart?.();
             // fetch all because large file diff cannot be retrieved
-            await this.fetchAllContents({ useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
-            await options.onUpdateEnd?.();
+            await this.fetchAllContents({ useRawGenshinData: mergedOptions.useRawGenshinData, ghproxy: mergedOptions.ghproxy });
+            await mergedOptions.onUpdateEnd?.();
         }
     }
 
@@ -329,8 +345,8 @@ class CachedAssetsManager {
      * @param options.ghproxy Whether to use ghproxy.com
      * @param options.timeout in milliseconds
      */
-    activateAutoCacheUpdater(options: { useRawGenshinData?: boolean, instant?: boolean, ghproxy?: boolean, timeout?: number, onUpdateStart?: () => Promise<void>, onUpdateEnd?: () => Promise<void>, onError?: (error: Error) => Promise<void> } = {}): void {
-        options = bindOptions({
+    activateAutoCacheUpdater(options: Partial<AutoCacheUpdaterOptions> = {}): void {
+        const mergedOptions = bindOptions({
             useRawGenshinData: false,
             instant: true,
             ghproxy: false,
@@ -339,16 +355,16 @@ class CachedAssetsManager {
             onUpdateEnd: null,
             onError: null,
         }, options);
-        if (options.timeout as number < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
-        if (options.instant) this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
+        if (mergedOptions.timeout as number < 60 * 1000) throw new Error("timeout cannot be shorter than 1 minute.");
+        if (mergedOptions.instant) this.updateContents({ onUpdateStart: mergedOptions.onUpdateStart, onUpdateEnd: mergedOptions.onUpdateEnd, useRawGenshinData: mergedOptions.useRawGenshinData, ghproxy: mergedOptions.ghproxy });
         this._cacheUpdater = setInterval(async () => {
             if (this._isFetching) return;
             try {
-                this.updateContents({ onUpdateStart: options.onUpdateStart, onUpdateEnd: options.onUpdateEnd, useRawGenshinData: options.useRawGenshinData, ghproxy: options.ghproxy });
+                this.updateContents({ onUpdateStart: mergedOptions.onUpdateStart, onUpdateEnd: mergedOptions.onUpdateEnd, useRawGenshinData: mergedOptions.useRawGenshinData, ghproxy: mergedOptions.ghproxy });
             } catch (e) {
-                if (e instanceof Error) options.onError?.(e);
+                if (e instanceof Error) mergedOptions.onError?.(e);
             }
-        }, options.timeout);
+        }, mergedOptions.timeout);
     }
 
     /**
