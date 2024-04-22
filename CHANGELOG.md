@@ -1,4 +1,5 @@
-# 4.2.1
+# 4.3.0
+- Fixed for GI 4.6 excels.
 - Better types for params of some methods in CachedAssetsManager.
 # 4.2.0
 - Added DetailedGenshinUser#toGOOD(), Character#toGOOD(), Weapon#toGOOD(), and Artifact#toGOOD().
