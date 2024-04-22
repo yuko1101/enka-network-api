@@ -1,9 +1,9 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../client/EnkaClient";
-import AssetsNotFoundError from "../errors/AssetsNotFoundError";
-import TextAssets from "./assets/TextAssets";
+import { EnkaClient } from "../client/EnkaClient";
+import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
+import { TextAssets } from "./assets/TextAssets";
 
-class Element {
+export class Element {
     readonly id: ElementType;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -28,7 +28,6 @@ class Element {
     }
 }
 
-export default Element;
 
 /**
  * ElementType|In-game Name

@@ -1,12 +1,12 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import SkillAttributeAssets from "../../assets/SkillAttributeAssets";
-import TextAssets from "../../assets/TextAssets";
-import UpgradeCost from "../../material/UpgradeCost";
-import Skill from "./Skill";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { SkillAttributeAssets } from "../../assets/SkillAttributeAssets";
+import { TextAssets } from "../../assets/TextAssets";
+import { UpgradeCost } from "../../material/UpgradeCost";
+import { Skill } from "./Skill";
 import { nonNullable } from "../../../utils/ts_utils";
 
-class UpgradableSkill extends Skill {
+export class UpgradableSkill extends Skill {
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
     }
@@ -51,5 +51,3 @@ class UpgradableSkill extends Skill {
         return new UpgradableSkill(this._getJsonObjectById(id, enka), enka);
     }
 }
-
-export default UpgradableSkill;

@@ -1,10 +1,10 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import TextAssets from "../assets/TextAssets";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import DynamicTextAssets from "../assets/DynamicTextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { TextAssets } from "../assets/TextAssets";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { DynamicTextAssets } from "../assets/DynamicTextAssets";
 
-class CharacterVoiceData {
+export class CharacterVoiceData {
     readonly enka: EnkaClient;
 
     readonly title: TextAssets;
@@ -28,5 +28,3 @@ class CharacterVoiceData {
         return new CharacterVoiceData(json.getAsJsonObject(), enka);
     }
 }
-
-export default CharacterVoiceData;

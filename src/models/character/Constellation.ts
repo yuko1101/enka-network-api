@@ -1,11 +1,11 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
-import StatProperty, { FightProp } from "../StatProperty";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
+import { StatProperty, FightProp } from "../StatProperty";
 
-class Constellation {
+export class Constellation {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -41,5 +41,3 @@ class Constellation {
         return new Constellation(json.getAsJsonObject(), enka);
     }
 }
-
-export default Constellation;

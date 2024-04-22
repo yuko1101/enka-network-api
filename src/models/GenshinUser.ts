@@ -1,9 +1,9 @@
 import { JsonReader, JsonObject } from "config_file.js";
 import { EnkaProfile, User } from "enka-system";
-import Costume from "./character/Costume";
-import Material, { NameCard } from "./material/Material";
-import EnkaClient from "../client/EnkaClient";
-import ProfilePicture from "./ProfilePicture";
+import { Costume } from "./character/Costume";
+import { Material, NameCard } from "./material/Material";
+import { EnkaClient } from "../client/EnkaClient";
+import { ProfilePicture } from "./ProfilePicture";
 
 export interface CharacterPreview {
     /** Costume whose icon is used for character preview. */
@@ -11,7 +11,7 @@ export interface CharacterPreview {
     level: number;
 }
 
-class GenshinUser extends User {
+export class GenshinUser extends User {
     readonly enka: EnkaClient;
     /** This will be NaN if this GenshinUser is from [EnkaGameAccount](https://enka-system.vercel.app/docs/api/EnkaGameAccount) and [isUidPublic](https://enka-system.vercel.app/docs/api/EnkaGameAccount#isUidPublic) is `false`. */
     readonly uid: number;
@@ -90,5 +90,3 @@ class GenshinUser extends User {
         this.url = `${enka.options.enkaUrl}/u/${this.uid}/`;
     }
 }
-
-export default GenshinUser;

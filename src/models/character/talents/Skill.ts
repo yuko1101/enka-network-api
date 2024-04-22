@@ -1,14 +1,14 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
-import ImageAssets from "../../assets/ImageAssets";
-import TextAssets from "../../assets/TextAssets";
-import DynamicTextAssets from "../../assets/DynamicTextAssets";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../../assets/ImageAssets";
+import { TextAssets } from "../../assets/TextAssets";
+import { DynamicTextAssets } from "../../assets/DynamicTextAssets";
 
 /**
  * Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
  */
-class Skill {
+export class Skill {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -42,5 +42,3 @@ class Skill {
         return json.getAsJsonObject();
     }
 }
-
-export default Skill;

@@ -1,4 +1,4 @@
-class AssetsNotFoundError extends Error {
+export class AssetsNotFoundError extends Error {
     /** Category of assets */
     readonly category: string;
     /** Assets id */
@@ -11,5 +11,3 @@ class AssetsNotFoundError extends Error {
         this.id = id;
     }
 }
-
-export default AssetsNotFoundError;

@@ -1,16 +1,16 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../client/EnkaClient";
-import ImageAssets from "./assets/ImageAssets";
-import TextAssets from "./assets/TextAssets";
-import Costume from "./character/Costume";
-import AssetsNotFoundError from "../errors/AssetsNotFoundError";
+import { EnkaClient } from "../client/EnkaClient";
+import { ImageAssets } from "./assets/ImageAssets";
+import { TextAssets } from "./assets/TextAssets";
+import { Costume } from "./character/Costume";
+import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 
 export type ProfilePictureType =
     | "PROFILE_PICTURE_UNLOCK_BY_AVATAR"
     | "PROFILE_PICTURE_UNLOCK_BY_COSTUME"
     | "PROFILE_PICTURE_UNLOCK_BY_ITEM";
 
-class ProfilePicture {
+export class ProfilePicture {
     readonly enka: EnkaClient;
 
     readonly icon: ImageAssets;
@@ -63,7 +63,6 @@ class ProfilePicture {
 
 }
 
-export default ProfilePicture;
 
 export class CharacterProfilePicture extends ProfilePicture {
     readonly costume: Costume;

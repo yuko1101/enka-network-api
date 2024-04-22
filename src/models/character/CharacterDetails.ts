@@ -1,11 +1,11 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { LanguageCode } from "../../client/CachedAssetsManager";
-import CharacterVoiceData from "./CharacterVoiceData";
+import { CharacterVoiceData } from "./CharacterVoiceData";
 
 export interface Birthday {
     month: number;
@@ -16,7 +16,7 @@ export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
 
 export type CharacterVoiceActors = { [lang in VoiceLanguage]: TextAssets };
 
-class CharacterDetails {
+export class CharacterDetails {
     readonly enka: EnkaClient;
     readonly id: number;
 
@@ -104,5 +104,3 @@ class CharacterDetails {
         return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
     }
 }
-
-export default CharacterDetails;

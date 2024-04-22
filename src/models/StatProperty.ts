@@ -1,10 +1,10 @@
 import { JsonObject } from "config_file.js";
-import EnkaClient from "../client/EnkaClient";
-import AssetsNotFoundError from "../errors/AssetsNotFoundError";
+import { EnkaClient } from "../client/EnkaClient";
+import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { percent } from "../utils/constants";
-import TextAssets from "./assets/TextAssets";
+import { TextAssets } from "./assets/TextAssets";
 
-class StatProperty<T extends FightProp = FightProp> {
+export class StatProperty<T extends FightProp = FightProp> {
     readonly fightProp: T;
     readonly enka: EnkaClient;
     readonly fightPropName: TextAssets;
@@ -67,7 +67,6 @@ class StatProperty<T extends FightProp = FightProp> {
     }
 }
 
-export default StatProperty;
 
 function round(x: number, decimalPlaces = 0) {
     const p = Math.pow(10, decimalPlaces);

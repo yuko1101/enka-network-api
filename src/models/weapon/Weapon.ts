@@ -1,12 +1,12 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import StatProperty from "../StatProperty";
-import WeaponData from "./WeaponData";
-import WeaponRefinement from "./WeaponRefinement";
+import { EnkaClient } from "../../client/EnkaClient";
+import { StatProperty } from "../StatProperty";
+import { WeaponData } from "./WeaponData";
+import { WeaponRefinement } from "./WeaponRefinement";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { CharacterKey, IWeapon } from "../good/GOOD";
 
-class Weapon implements IGOODComponentResolvable<IWeapon> {
+export class Weapon implements IGOODComponentResolvable<IWeapon> {
     readonly enka: EnkaClient;
     readonly weaponData: WeaponData;
     readonly refinement: WeaponRefinement | null;
@@ -63,5 +63,3 @@ class Weapon implements IGOODComponentResolvable<IWeapon> {
         };
     }
 }
-
-export default Weapon;

@@ -1,4 +1,4 @@
-import EnkaClient from "../../client/EnkaClient";
+import { EnkaClient } from "../../client/EnkaClient";
 
 const imageBaseUrlMihoyo = "https://upload-os-bbs.mihoyo.com/game_record/genshin";
 
@@ -10,7 +10,7 @@ const imageTypes: { [type: string]: RegExp[] } = {
     // "constellation_icon": [/^UI_Talent_(.+)$/],
 };
 
-class ImageAssets {
+export class ImageAssets {
     readonly enka: EnkaClient;
     readonly name: string;
     readonly imageBaseUrl: string;
@@ -35,5 +35,3 @@ class ImageAssets {
         this.isAvailable = this.name !== null && this.name !== undefined && this.name !== "";
     }
 }
-
-export default ImageAssets;

@@ -1,6 +1,6 @@
 import { LanguageCode } from "../../client/CachedAssetsManager";
-import EnkaClient from "../../client/EnkaClient";
-import DynamicTextAssets from "./DynamicTextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { DynamicTextAssets } from "./DynamicTextAssets";
 
 export interface SkillAttributeData {
     name: string;
@@ -8,7 +8,7 @@ export interface SkillAttributeData {
     usedNumbers: number[];
 }
 
-class SkillAttributeAssets extends DynamicTextAssets {
+export class SkillAttributeAssets extends DynamicTextAssets {
 
     constructor(id: number, paramList: number[], enka: EnkaClient) {
         super(id, { paramList }, enka);
@@ -36,4 +36,3 @@ class SkillAttributeAssets extends DynamicTextAssets {
     }
 }
 
-export default SkillAttributeAssets;

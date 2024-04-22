@@ -1,7 +1,7 @@
 import { JsonReader } from "config_file.js";
-import CachedAssetsManager from "./CachedAssetsManager";
+import { CachedAssetsManager } from "./CachedAssetsManager";
 
-class ObjectKeysManager {
+export class ObjectKeysManager {
     /** Map key name where the value is arkhe of Fontaine characters in AvatarSkillDepotExcelConfigData.json */
     readonly characterArkheKey: string;
     /** Map key name where the value is the type of profile picture in ProfilePictureExcelConfigData.json */
@@ -22,5 +22,3 @@ class ObjectKeysManager {
         if (invalidKeys.length > 0) throw new Error(`Invalid keys detected: ${invalidKeys.join(", ")}`);
     }
 }
-
-export default ObjectKeysManager;

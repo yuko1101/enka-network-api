@@ -1,9 +1,9 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import Material from "./Material";
-import EnkaClient from "../../client/EnkaClient";
+import { Material } from "./Material";
+import { EnkaClient } from "../../client/EnkaClient";
 import { nonNullable } from "../../utils/ts_utils";
 
-class UpgradeCost {
+export class UpgradeCost {
     readonly enka: EnkaClient;
     readonly coin: number;
     readonly items: { material: Material, count: number }[];
@@ -25,5 +25,3 @@ class UpgradeCost {
 
     }
 }
-
-export default UpgradeCost;

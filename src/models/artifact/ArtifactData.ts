@@ -1,9 +1,9 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
-import ArtifactSet from "./ArtifactSet";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
+import { ArtifactSet } from "./ArtifactSet";
 
 /**
  * EquipType|In-game Name
@@ -16,7 +16,7 @@ import ArtifactSet from "./ArtifactSet";
  */
 export type EquipType = "EQUIP_BRACER" | "EQUIP_NECKLACE" | "EQUIP_SHOES" | "EQUIP_RING" | "EQUIP_DRESS";
 
-class ArtifactData {
+export class ArtifactData {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly name: TextAssets;
@@ -64,5 +64,3 @@ class ArtifactData {
         return new ArtifactData(json.getAsJsonObject(), enka, setData);
     }
 }
-
-export default ArtifactData;

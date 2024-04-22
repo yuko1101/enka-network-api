@@ -1,4 +1,4 @@
-class SkillLevel {
+export class SkillLevel {
     readonly base: number;
     readonly extra: number;
     readonly value: number;
@@ -9,5 +9,3 @@ class SkillLevel {
         this.value = base + extra;
     }
 }
-
-export default SkillLevel;

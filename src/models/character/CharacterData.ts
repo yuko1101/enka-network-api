@@ -1,21 +1,21 @@
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
-import Skill from "./talents/Skill";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import Constellation from "./Constellation";
-import ElementalBurst from "./talents/ElementalBurst";
-import Costume from "./Costume";
-import PassiveTalent from "./talents/PassiveTalent";
-import ElementalSkill from "./talents/ElementalSkill";
-import NormalAttack from "./talents/NormalAttack";
-import Material, { NameCard } from "../material/Material";
-import CharacterDetails from "./CharacterDetails";
-import CharacterAscension from "./CharacterAscension";
-import EnkaClient from "../../client/EnkaClient";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
+import { Skill } from "./talents/Skill";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { Constellation } from "./Constellation";
+import { ElementalBurst } from "./talents/ElementalBurst";
+import { Costume } from "./Costume";
+import { PassiveTalent } from "./talents/PassiveTalent";
+import { ElementalSkill } from "./talents/ElementalSkill";
+import { NormalAttack } from "./talents/NormalAttack";
+import { Material, NameCard } from "../material/Material";
+import { CharacterDetails } from "./CharacterDetails";
+import { CharacterAscension } from "./CharacterAscension";
+import { EnkaClient } from "../../client/EnkaClient";
 import { JsonReader, JsonObject } from "config_file.js";
-import Element from "../Element";
+import { Element } from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
-import StatProperty, { FightProp } from "../StatProperty";
+import { StatProperty, FightProp } from "../StatProperty";
 import { nonNullable } from "../../utils/ts_utils";
 
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
@@ -23,7 +23,7 @@ export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORA
 export type Gender = "MALE" | "FEMALE";
 export type Arkhe = "Pneuma" | "Ousia" | "Furina";
 
-class CharacterData {
+export class CharacterData {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -227,5 +227,3 @@ class CharacterData {
         return new CharacterData(json.getAsJsonObject(), enka, candSkillDepotId);
     }
 }
-
-export default CharacterData;

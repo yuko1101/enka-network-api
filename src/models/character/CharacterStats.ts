@@ -1,10 +1,10 @@
 import { JsonObject } from "config_file.js";
 import { fightProps } from "../../utils/constants";
-import StatProperty from "../StatProperty";
-import EnkaClient from "../../client/EnkaClient";
-import Element from "../Element";
+import { StatProperty } from "../StatProperty";
+import { EnkaClient } from "../../client/EnkaClient";
+import { Element } from "../Element";
 
-class CharacterStats {
+export class CharacterStats {
     readonly enka: EnkaClient;
     readonly healthBase: StatProperty;
     readonly healthFlat: StatProperty;
@@ -187,5 +187,3 @@ class CharacterStats {
         return new StatProperty(fightProps[id], (this._data[id] ?? defaultValue) as number, this.enka);
     }
 }
-
-export default CharacterStats;

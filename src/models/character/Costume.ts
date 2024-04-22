@@ -1,12 +1,12 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
-import CharacterData from "./CharacterData";
+import { CharacterData } from "./CharacterData";
 
-class Costume {
+export class Costume {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -69,5 +69,3 @@ class Costume {
         return new Costume(json.getAsJsonObject(), enka);
     }
 }
-
-export default Costume;

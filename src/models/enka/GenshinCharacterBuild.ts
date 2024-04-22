@@ -1,12 +1,12 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import Character from "../character/Character";
-import EnkaClient from "../../client/EnkaClient";
+import { Character } from "../character/Character";
+import { EnkaClient } from "../../client/EnkaClient";
 import { CharacterBuild, HoyoType } from "enka-system";
 
 /**
  * A present character build or a saved character build in Enka.Network account
  */
-class GenshinCharacterBuild extends CharacterBuild {
+export class GenshinCharacterBuild extends CharacterBuild {
     readonly enka: EnkaClient;
     readonly enkaUserInfo: { username: string, hash: string };
 
@@ -45,5 +45,3 @@ class GenshinCharacterBuild extends CharacterBuild {
         this.url = `${this.enka.options.enkaUrl}/u/${this.enkaUserInfo.username}/${this.enkaUserInfo.hash}/${this.character.characterData.id}/${this.id}/`;
     }
 }
-
-export default GenshinCharacterBuild;

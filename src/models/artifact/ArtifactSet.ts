@@ -1,13 +1,13 @@
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
-import ArtifactSetBonus from "./ArtifactSetBonus";
-import EnkaClient from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
+import { ArtifactSetBonus } from "./ArtifactSetBonus";
+import { EnkaClient } from "../../client/EnkaClient";
 import { JsonReader, JsonObject, separateByValue } from "config_file.js";
-import Artifact from "./Artifact";
-import ArtifactData from "./ArtifactData";
+import { Artifact } from "./Artifact";
+import { ArtifactData } from "./ArtifactData";
 
-class ArtifactSet {
+export class ArtifactSet {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly setBonus: ArtifactSetBonus[];
@@ -61,5 +61,3 @@ class ArtifactSet {
         }).sort((a, b) => b.count - a.count);
     }
 }
-
-export default ArtifactSet;

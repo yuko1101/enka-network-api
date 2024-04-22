@@ -1,11 +1,11 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import UpgradableSkill from "./UpgradableSkill";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { UpgradableSkill } from "./UpgradableSkill";
 
 /**
  * Elemental Skill and Elemental Burst
  */
-class UniqueSkill extends UpgradableSkill {
+export class UniqueSkill extends UpgradableSkill {
     readonly maxCharge: number;
     readonly cooldown: number;
 
@@ -24,5 +24,3 @@ class UniqueSkill extends UpgradableSkill {
         return new UniqueSkill(this._getJsonObjectById(id, enka), enka);
     }
 }
-
-export default UniqueSkill;

@@ -1,10 +1,10 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import TextAssets from "../assets/TextAssets";
-import StatProperty, { FightProp } from "../StatProperty";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
+import { TextAssets } from "../assets/TextAssets";
+import { StatProperty, FightProp } from "../StatProperty";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 
-class WeaponRefinement {
+export class WeaponRefinement {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly level: number;
@@ -44,5 +44,3 @@ class WeaponRefinement {
         return new WeaponRefinement(json.getAsJsonObject(), enka);
     }
 }
-
-export default WeaponRefinement;

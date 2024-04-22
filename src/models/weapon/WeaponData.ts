@@ -1,16 +1,16 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
-import WeaponRefinement from "./WeaponRefinement";
-import StatProperty, { FightProp } from "../StatProperty";
-import WeaponAscension from "./WeaponAscension";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
+import { WeaponRefinement } from "./WeaponRefinement";
+import { StatProperty, FightProp } from "../StatProperty";
+import { WeaponAscension } from "./WeaponAscension";
 import { nonNullable } from "../../utils/ts_utils";
 
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 
-class WeaponData {
+export class WeaponData {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly name: TextAssets;
@@ -113,5 +113,3 @@ class WeaponData {
         return new WeaponData(json.getAsJsonObject(), enka);
     }
 }
-
-export default WeaponData;

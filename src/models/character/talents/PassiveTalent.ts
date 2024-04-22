@@ -1,11 +1,11 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import AssetsNotFoundError from "../../../errors/AssetsNotFoundError";
-import ImageAssets from "../../assets/ImageAssets";
-import TextAssets from "../../assets/TextAssets";
-import StatProperty, { FightProp } from "../../StatProperty";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../../assets/ImageAssets";
+import { TextAssets } from "../../assets/TextAssets";
+import { StatProperty, FightProp } from "../../StatProperty";
 
-class PassiveTalent {
+export class PassiveTalent {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -48,5 +48,3 @@ class PassiveTalent {
         return new PassiveTalent(json.getAsJsonObject(), enka);
     }
 }
-
-export default PassiveTalent;

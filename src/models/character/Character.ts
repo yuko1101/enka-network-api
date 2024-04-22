@@ -1,24 +1,24 @@
-import Artifact from "../artifact/Artifact";
-import CharacterData from "./CharacterData";
-import Weapon from "../weapon/Weapon";
-import CharacterStats from "./CharacterStats";
-import SkillLevel from "./talents/SkillLevel";
-import UpgradableSkill from "./talents/UpgradableSkill";
-import NormalAttack from "./talents/NormalAttack";
-import ElementalSkill from "./talents/ElementalSkill";
-import ElementalBurst from "./talents/ElementalBurst";
+import { Artifact } from "../artifact/Artifact";
+import { CharacterData } from "./CharacterData";
+import { Weapon } from "../weapon/Weapon";
+import { CharacterStats } from "./CharacterStats";
+import { SkillLevel } from "./talents/SkillLevel";
+import { UpgradableSkill } from "./talents/UpgradableSkill";
+import { NormalAttack } from "./talents/NormalAttack";
+import { ElementalSkill } from "./talents/ElementalSkill";
+import { ElementalBurst } from "./talents/ElementalBurst";
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import Costume from "./Costume";
-import Constellation from "./Constellation";
-import PassiveTalent from "./talents/PassiveTalent";
-import Skill from "./talents/Skill";
-import Element from "../Element";
+import { EnkaClient } from "../../client/EnkaClient";
+import { Costume } from "./Costume";
+import { Constellation } from "./Constellation";
+import { PassiveTalent } from "./talents/PassiveTalent";
+import { Skill } from "./talents/Skill";
+import { Element } from "../Element";
 import { nonNullable } from "../../utils/ts_utils";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { ICharacter } from "../good/GOOD";
 
-class Character implements IGOODComponentResolvable<ICharacter> {
+export class Character implements IGOODComponentResolvable<ICharacter> {
     readonly enka: EnkaClient;
     readonly characterData: CharacterData;
     readonly costume: Costume;
@@ -111,5 +111,3 @@ class Character implements IGOODComponentResolvable<ICharacter> {
         };
     }
 }
-
-export default Character;

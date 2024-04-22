@@ -1,8 +1,8 @@
 import { JsonObject } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import UpgradableSkill from "./UpgradableSkill";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { UpgradableSkill } from "./UpgradableSkill";
 
-class NormalAttack extends UpgradableSkill {
+export class NormalAttack extends UpgradableSkill {
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
     }
@@ -11,5 +11,3 @@ class NormalAttack extends UpgradableSkill {
         return new NormalAttack(this._getJsonObjectById(id, enka), enka);
     }
 }
-
-export default NormalAttack;

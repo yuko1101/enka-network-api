@@ -1,7 +1,7 @@
 import { bindOptions } from "config_file.js";
 import { LanguageCode } from "../../client/CachedAssetsManager";
-import EnkaClient from "../../client/EnkaClient";
-import TextAssets from "./TextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { TextAssets } from "./TextAssets";
 import { Gender } from "../character/CharacterData";
 import { Paths } from "../../utils/ts_utils";
 
@@ -18,7 +18,7 @@ export interface DynamicData {
     userInfo: UserInfo | null;
 }
 
-class DynamicTextAssets extends TextAssets {
+export class DynamicTextAssets extends TextAssets {
     readonly dynamicData: DynamicData;
 
     constructor(id: number, data: Partial<DynamicData>, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
@@ -121,4 +121,3 @@ class DynamicTextAssets extends TextAssets {
     }
 }
 
-export default DynamicTextAssets;

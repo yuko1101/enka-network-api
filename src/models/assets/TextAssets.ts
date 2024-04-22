@@ -1,8 +1,8 @@
 import { LanguageCode } from "../../client/CachedAssetsManager";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 
-class TextAssets {
+export class TextAssets {
     readonly id: number;
     readonly enka: EnkaClient;
 
@@ -56,5 +56,3 @@ class TextAssets {
         return this.getNullable() ?? `Unknown TextAssets(${this.id})`;
     }
 }
-
-export default TextAssets;

@@ -1,11 +1,11 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../client/EnkaClient";
-import Character from "./character/Character";
-import GenshinUser from "./GenshinUser";
+import { EnkaClient } from "../client/EnkaClient";
+import { Character } from "./character/Character";
+import { GenshinUser } from "./GenshinUser";
 import { IGOOD } from "./good/GOOD";
 import { IGOODComponentResolvable } from "./good/IGOODResolvable";
 
-class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvable<IGOOD> {
+export class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvable<IGOOD> {
     readonly showCharacterDetails: boolean;
     readonly characters: Character[];
 
@@ -31,5 +31,3 @@ class DetailedGenshinUser extends GenshinUser implements IGOODComponentResolvabl
         };
     }
 }
-
-export default DetailedGenshinUser;

@@ -1,5 +1,5 @@
-import EnkaClient from "../client/EnkaClient";
-import ArtifactData from "../models/artifact/ArtifactData";
+import { EnkaClient } from "../client/EnkaClient";
+import { ArtifactData } from "../models/artifact/ArtifactData";
 
 /**
  * @returns whether the cache is valid or not

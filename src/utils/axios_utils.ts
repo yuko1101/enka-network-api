@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import EnkaClient from "../client/EnkaClient";
+import { EnkaClient } from "../client/EnkaClient";
 import { JsonObject } from "config_file.js";
 
 export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = false): Promise<AxiosResponse> {

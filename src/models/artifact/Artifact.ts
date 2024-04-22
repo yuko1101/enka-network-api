@@ -1,8 +1,8 @@
-import ArtifactData from "./ArtifactData";
-import ArtifactSplitSubstat from "./ArtifactSplitSubstat";
-import StatProperty, { FightProp } from "../StatProperty";
+import { ArtifactData } from "./ArtifactData";
+import { ArtifactSplitSubstat } from "./ArtifactSplitSubstat";
+import { StatProperty, FightProp } from "../StatProperty";
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
+import { EnkaClient } from "../../client/EnkaClient";
 import { IArtifact } from "../good/GOOD";
 import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../good/IGOODResolvable";
 
@@ -11,7 +11,7 @@ export interface SubstatsContainer {
     split: ArtifactSplitSubstat[];
 }
 
-class Artifact implements IGOODComponentResolvable<IArtifact> {
+export class Artifact implements IGOODComponentResolvable<IArtifact> {
     readonly enka: EnkaClient;
     readonly artifactData: ArtifactData;
     readonly level: number;
@@ -70,5 +70,3 @@ class Artifact implements IGOODComponentResolvable<IArtifact> {
         };
     }
 }
-
-export default Artifact;

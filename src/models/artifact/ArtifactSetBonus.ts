@@ -1,9 +1,9 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import TextAssets from "../assets/TextAssets";
-import StatProperty, { FightProp } from "../StatProperty";
-import EnkaClient from "../../client/EnkaClient";
+import { TextAssets } from "../assets/TextAssets";
+import { StatProperty, FightProp } from "../StatProperty";
+import { EnkaClient } from "../../client/EnkaClient";
 
-class ArtifactSetBonus {
+export class ArtifactSetBonus {
     readonly enka: EnkaClient;
     readonly id: number;
     readonly needCount: number;
@@ -31,5 +31,3 @@ class ArtifactSetBonus {
         this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
     }
 }
-
-export default ArtifactSetBonus;

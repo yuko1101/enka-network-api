@@ -1,12 +1,12 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import ImageAssets from "../assets/ImageAssets";
-import TextAssets from "../assets/TextAssets";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { ImageAssets } from "../assets/ImageAssets";
+import { TextAssets } from "../assets/TextAssets";
 
 export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 
-class Material {
+export class Material {
     readonly id: number;
     readonly enka: EnkaClient;
     readonly name: TextAssets;
@@ -62,7 +62,6 @@ class Material {
     }
 }
 
-export default Material;
 
 export class NameCard extends Material {
     override readonly materialType: "MATERIAL_NAMECARD";

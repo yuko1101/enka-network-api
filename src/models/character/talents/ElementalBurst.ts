@@ -1,9 +1,9 @@
 import { JsonObject, JsonReader } from "config_file.js";
-import EnkaClient from "../../../client/EnkaClient";
-import Element, { ElementType } from "../../Element";
-import UniqueSkill from "./UniqueSkill";
+import { EnkaClient } from "../../../client/EnkaClient";
+import { Element, ElementType } from "../../Element";
+import { UniqueSkill } from "./UniqueSkill";
 
-class ElementalBurst extends UniqueSkill {
+export class ElementalBurst extends UniqueSkill {
     readonly costElemType: Element;
     readonly costElemVal: number;
 
@@ -21,5 +21,3 @@ class ElementalBurst extends UniqueSkill {
         return new ElementalBurst(this._getJsonObjectById(id, enka), enka);
     }
 }
-
-export default ElementalBurst;

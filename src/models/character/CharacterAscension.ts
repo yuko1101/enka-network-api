@@ -1,10 +1,10 @@
 import { JsonReader, JsonObject } from "config_file.js";
-import EnkaClient from "../../client/EnkaClient";
-import AssetsNotFoundError from "../../errors/AssetsNotFoundError";
-import UpgradeCost from "../material/UpgradeCost";
-import StatProperty, { FightProp } from "../StatProperty";
+import { EnkaClient } from "../../client/EnkaClient";
+import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { UpgradeCost } from "../material/UpgradeCost";
+import { StatProperty, FightProp } from "../StatProperty";
 
-class CharacterAscension {
+export class CharacterAscension {
     readonly id: number;
     readonly ascension: number;
     readonly enka: EnkaClient;
@@ -45,5 +45,3 @@ class CharacterAscension {
         return new CharacterAscension(json.getAsJsonObject(), enka);
     }
 }
-
-export default CharacterAscension;

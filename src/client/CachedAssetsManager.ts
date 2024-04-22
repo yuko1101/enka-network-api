@@ -4,8 +4,8 @@ import axios from "axios";
 import unzip, { Entry } from "unzip-stream";
 import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonReader } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
-import ObjectKeysManager from "./ObjectKeysManager";
-import EnkaClient from "./EnkaClient";
+import { ObjectKeysManager } from "./ObjectKeysManager";
+import { EnkaClient } from "./EnkaClient";
 import { validateCache } from "../utils/cache_utils";
 
 const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
@@ -102,7 +102,7 @@ export interface AutoCacheUpdaterOptions extends UpdateContentsOptions {
     onError?: ((error: Error) => Promise<void>) | null;
 }
 
-class CachedAssetsManager {
+export class CachedAssetsManager {
     /** The client that instantiated this */
     readonly enka: EnkaClient;
     /** Default path of genshin cache data directory */
@@ -640,5 +640,3 @@ class CachedAssetsManager {
         return validateCache(this.enka, showLog);
     }
 }
-
-export default CachedAssetsManager;

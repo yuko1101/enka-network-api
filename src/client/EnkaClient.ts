@@ -1,18 +1,18 @@
-import GenshinUser from "../models/GenshinUser";
+import { GenshinUser } from "../models/GenshinUser";
 import * as characterUtils from "../utils/character_utils";
-import CachedAssetsManager from "./CachedAssetsManager";
-import CharacterData from "../models/character/CharacterData";
-import WeaponData from "../models/weapon/WeaponData";
-import Costume from "../models/character/Costume";
+import { CachedAssetsManager } from "./CachedAssetsManager";
+import { CharacterData } from "../models/character/CharacterData";
+import { WeaponData } from "../models/weapon/WeaponData";
+import { Costume } from "../models/character/Costume";
 import { fetchJSON } from "../utils/axios_utils";
 import { NameCard } from "../models/material/Material";
-import ArtifactData from "../models/artifact/ArtifactData";
+import { ArtifactData } from "../models/artifact/ArtifactData";
 import { artifactRarityRangeMap } from "../utils/constants";
-import DetailedGenshinUser from "../models/DetailedGenshinUser";
+import { DetailedGenshinUser } from "../models/DetailedGenshinUser";
 import { EnkaGameAccount, EnkaNetworkError, EnkaSystem, EnkaLibrary, UserNotFoundError, InvalidUidFormatError } from "enka-system";
-import GenshinCharacterBuild from "../models/enka/GenshinCharacterBuild";
-import Material from "../models/material/Material";
-import ArtifactSet from "../models/artifact/ArtifactSet";
+import { GenshinCharacterBuild } from "../models/enka/GenshinCharacterBuild";
+import { Material } from "../models/material/Material";
+import { ArtifactSet } from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
 import { JsonObject, bindOptions, generateUuid, renameKeys, separateByValue } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
@@ -74,7 +74,7 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
     "enkaSystem": null,
 };
 
-class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
+export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
     readonly hoyoType: 0;
     getUser(data: JsonObject): GenshinUser {
         const fixedData = renameKeys(data, { "player_info": "playerInfo" });
@@ -351,5 +351,3 @@ class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuild> {
         this._tasks.forEach(task => clearTimeout(task));
     }
 }
-
-export default EnkaClient;
