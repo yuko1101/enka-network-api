@@ -301,7 +301,7 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact data
      */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
-        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("DisableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
+        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
 
         // including artifacts with invalid rarity
         const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => p.has("setId") && !excludeSetIds.includes(p.getAsNumber("setId")));
@@ -332,7 +332,7 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact set data
      */
     getAllArtifactSets(): ArtifactSet[] {
-        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("DisableFilter") !== 1);
+        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") !== 1);
         return sets.map(([, p]) => new ArtifactSet(p.getAsJsonObject(), this));
     }
 

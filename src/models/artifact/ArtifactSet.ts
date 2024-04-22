@@ -27,8 +27,8 @@ export class ArtifactSet {
 
         const setNeedNum = json.get("setNeedNum").mapArray((_, p) => p.getAsNumber());
 
-        const setBonusJsonList = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, bonus) => bonus.getAsNumber("id") === json.getAsNumber("EquipAffixId"));
-        if (setBonusJsonList.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${json.getAsNumber("EquipAffixId")}`);
+        const setBonusJsonList = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, bonus) => bonus.getAsNumber("id") === json.getAsNumber("equipAffixId"));
+        if (setBonusJsonList.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${json.getAsNumber("equipAffixId")}`);
         if (setBonusJsonList.length !== setNeedNum.length) throw new Error(`Missing some set bonus for this artifact set (ID: ${this.id})`);
         this._setBonusData = setBonusJsonList.map(bonus => bonus[1].getAsJsonObject());
 

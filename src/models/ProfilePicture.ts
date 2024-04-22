@@ -56,7 +56,7 @@ export class ProfilePicture {
         const referenceId = costumeId === null ? characterId : costumeId;
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
-        const profilePictureData = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsString(keys.profilePictureTypeKey) === iconType && p.getAsNumber(keys.profilePictureReferenceIdKey) === referenceId)?.[1] as JsonReader;
+        const profilePictureData = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsString(keys.profilePictureTypeKey) === iconType && p.getAsNumber("unlockParam") === referenceId)?.[1] as JsonReader;
 
         return new CharacterProfilePicture(profilePictureData.getAsJsonObject(), enka);
     }
@@ -77,10 +77,9 @@ export class CharacterProfilePicture extends ProfilePicture {
         const type = json.getAsString(keys.profilePictureTypeKey) as ProfilePictureType;
         if (type !== "PROFILE_PICTURE_UNLOCK_BY_AVATAR" && type !== "PROFILE_PICTURE_UNLOCK_BY_COSTUME") throw new Error("Invalid type for CharacterProfilePicture");
 
-        const referenceId = keys.profilePictureReferenceIdKey;
         const costume = type === "PROFILE_PICTURE_UNLOCK_BY_COSTUME"
-            ? Costume.getById(json.getAsNumber(referenceId), enka)
-            : Costume.getDefaultCostumeByCharacterId(json.getAsNumber(referenceId), enka);
+            ? Costume.getById(json.getAsNumber("unlockParam"), enka)
+            : Costume.getDefaultCostumeByCharacterId(json.getAsNumber("unlockParam"), enka);
 
         this.type = type;
 
