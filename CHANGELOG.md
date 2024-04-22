@@ -1,3 +1,5 @@
+# 4.2.1
+- Better types for params of some methods in CachedAssetsManager.
 # 4.2.0
 - Added DetailedGenshinUser#toGOOD(), Character#toGOOD(), Weapon#toGOOD(), and Artifact#toGOOD().
 # 4.1.6
