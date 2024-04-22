@@ -1,4 +1,5 @@
 # 4.3.0
+**cache.zip for GI 4.6 has breaking changes. It requires this version or newer.**
 - Fixed for GI 4.6 excels.
 - Better types for params of some methods in CachedAssetsManager.
 # 4.2.0
