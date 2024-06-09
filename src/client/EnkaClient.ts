@@ -231,12 +231,17 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
     /**
      * @returns all weapon data
      */
-    getAllWeapons(excludeInvalidWeapons = true): WeaponData[] {
+    getAllWeapons(excludeInvalidWeapons = true, filterByCodex = true): WeaponData[] {
         const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
-        if (excludeInvalidWeapons) {
-            return weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsJsonObject(), this));
+        const weaponDataList = excludeInvalidWeapons
+            ? weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsJsonObject(), this))
+            : weapons.mapArray((_, p) => new WeaponData(p.getAsJsonObject(), this));
+
+        if (filterByCodex) {
+            const codexSet = new Set(this.cachedAssetsManager.getGenshinCacheData("WeaponCodexExcelConfigData").mapArray((_, p) => p.getAsNumber("weaponId")));
+            return weaponDataList.filter(w => codexSet.has(w.id));
         } else {
-            return weapons.mapArray((_, p) => new WeaponData(p.getAsJsonObject(), this));
+            return weaponDataList;
         }
     }
 

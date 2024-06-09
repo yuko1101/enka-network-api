@@ -1,3 +1,5 @@
+# 4.3.2
+- Added a parameter to EnkaClient#getAllWeapons() to filter by codex.
 # 4.3.1
 - Added WeaponData#splashImage.
 # 4.3.0

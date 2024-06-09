@@ -41,6 +41,7 @@ const contents = [
     "WeaponExcelConfigData", // Weapons
     "WeaponPromoteExcelConfigData", // Weapon Ascensions
     "WeaponCurveExcelConfigData", // Weapon Basic Stats Curves
+    "WeaponCodexExcelConfigData", // Weapon Release Information
     "EquipAffixExcelConfigData", // Artifact Set Bonus and Weapon Refinements
     "ReliquaryExcelConfigData", // Artifacts
     "ReliquaryLevelExcelConfigData", // Artifact Main Affix
