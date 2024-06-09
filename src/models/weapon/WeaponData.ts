@@ -17,6 +17,7 @@ export class WeaponData {
     readonly description: TextAssets;
     readonly icon: ImageAssets;
     readonly awakenIcon: ImageAssets;
+    readonly splashImage: ImageAssets;
     readonly stars: number;
     readonly weaponType: WeaponType;
     readonly weaponTypeName: TextAssets;
@@ -43,6 +44,8 @@ export class WeaponData {
         this.icon = new ImageAssets(json.getAsString("icon"), enka);
 
         this.awakenIcon = new ImageAssets(json.getAsString("awakenIcon"), enka);
+
+        this.splashImage = new ImageAssets(`UI_Gacha_EquipIcon_${this._nameId}`, enka);
 
         this.stars = json.getAsNumber("rankLevel");
 

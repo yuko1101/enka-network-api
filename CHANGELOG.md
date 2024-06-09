@@ -1,3 +1,5 @@
+# 4.3.1
+- Added WeaponData#splashImage.
 # 4.3.0
 **cache.zip for GI 4.6 has breaking changes. It requires this version or newer.**
 - Fixed for GI 4.6 excels.
