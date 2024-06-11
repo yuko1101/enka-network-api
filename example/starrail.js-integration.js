@@ -77,15 +77,15 @@ GI Yaoyao Dendro
 
 
 // if you wanted to use multiple instances of EnkaClient or StarRail, you need to create new EnkaSystem instance.
+
+// these instances are registered to `enkaSystem`, and considered to be a pair.
 const enkaSystem = new EnkaSystem();
 const enka2 = new EnkaClient({ enkaSystem: enkaSystem });
 const sr2 = new StarRail({ enkaSystem: enkaSystem });
 
-// these instances are registered to `enkaSystem`, and considered to be a pair.
-
 
 // if you don't need to link EnkaClient and StarRail, you don't need to pass the enkaSystem option. (it will create new EnkaSystem instance internally.)
-const enka3 = new EnkaClient();
-const sr3 = new StarRail();
 
 // these instances are NOT considered to be a pair.
+const enka3 = new EnkaClient();
+const sr3 = new StarRail();
