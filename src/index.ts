@@ -24,7 +24,6 @@ export * from "./models/character/CharacterAscension";
 export * from "./models/character/CharacterData";
 export * from "./models/character/CharacterDetails";
 export * from "./models/character/CharacterStats";
-export * from "./models/character/CharacterVoiceData";
 export * from "./models/character/Constellation";
 export * from "./models/character/Costume";
 export * from "./models/enka/GenshinCharacterBuild";

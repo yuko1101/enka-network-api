@@ -5,7 +5,6 @@ import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { LanguageCode } from "../../client/CachedAssetsManager";
-import { CharacterVoiceData } from "./CharacterVoiceData";
 
 export interface Birthday {
     month: number;
@@ -81,15 +80,6 @@ export class CharacterDetails {
             default:
                 return this.cv.english;
         }
-    }
-
-    /**
-     * @returns voice data of the character. This does not contain audio data or files.
-     */
-    getVoices(): CharacterVoiceData[] {
-        const allVoices = this.enka.cachedAssetsManager.getGenshinCacheData("FettersExcelConfigData");
-        const filtered = allVoices.filterArray((_, voiceData) => voiceData.getAsNumber("avatarId") === this.characterId);
-        return filtered.map(([, voice]) => new CharacterVoiceData(voice.getAsJsonObject(), this.enka));
     }
 
     static getById(id: number, isArchon: boolean, enka: EnkaClient): CharacterDetails {
