@@ -11,6 +11,8 @@ export interface CharacterPreview {
     level: number;
 }
 
+const theaterDifficulties = ["EASY", "NORMAL", "HARD"] as const;
+
 export class GenshinUser extends User {
     readonly enka: EnkaClient;
     /** This will be NaN if this GenshinUser is from [EnkaGameAccount](https://enka-system.vercel.app/docs/api/EnkaGameAccount) and [isUidPublic](https://enka-system.vercel.app/docs/api/EnkaGameAccount#isUidPublic) is `false`. */
@@ -27,6 +29,11 @@ export class GenshinUser extends User {
     readonly spiralAbyss: {
         floor: number,
         chamber: number,
+    } | null;
+    readonly theater: {
+        act: number,
+        stars: number,
+        difficulty: typeof theaterDifficulties[number],
     } | null;
 
     /** This will be -1 if this GenshinUser is from EnkaGameAccount */
@@ -79,7 +86,16 @@ export class GenshinUser extends User {
 
         this.achievements = playerInfo.getAsNumberWithDefault(0, "finishAchievementNum");
 
-        this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? { floor: playerInfo.getAsNumber("towerFloorIndex"), chamber: playerInfo.getAsNumber("towerLevelIndex") } : null;
+        this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? {
+            floor: playerInfo.getAsNumber("towerFloorIndex"),
+            chamber: playerInfo.getAsNumber("towerLevelIndex")
+        } : null;
+
+        this.theater = playerInfo.has("towerAct") && playerInfo.has("theaterStars") && playerInfo.has("theaterMode") ? {
+            act: playerInfo.getAsNumber("towerAct"),
+            stars: playerInfo.getAsNumber("theaterStars"),
+            difficulty: theaterDifficulties[playerInfo.getAsNumber("theaterMode") - 1],
+        } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
 

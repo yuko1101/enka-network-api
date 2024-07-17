@@ -1,3 +1,5 @@
+# 4.4.1
+- Added GenshinUser#theater.
 # 4.4.0
 **Character voice data was removed from cache.zip**
 - Removed CharacterVoiceData. If you need it, please use FettersExcelConfigData.json excel instead.
