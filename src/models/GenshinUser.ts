@@ -88,7 +88,7 @@ export class GenshinUser extends User {
 
         this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? {
             floor: playerInfo.getAsNumber("towerFloorIndex"),
-            chamber: playerInfo.getAsNumber("towerLevelIndex")
+            chamber: playerInfo.getAsNumber("towerLevelIndex"),
         } : null;
 
         this.theater = playerInfo.has("towerAct") && playerInfo.has("theaterStars") && playerInfo.has("theaterMode") ? {
