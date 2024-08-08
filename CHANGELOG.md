@@ -1,5 +1,6 @@
-# 4.4.1
+# 4.5.0
 - Added GenshinUser#theater.
+- Separated EnkaClient#fetchUser and EnkaClient#fetchCollapsedUser.
 # 4.4.0
 **Character voice data was removed from cache.zip**
 - Removed CharacterVoiceData. If you need it, please use FettersExcelConfigData.json excel instead.
