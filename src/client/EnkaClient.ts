@@ -120,7 +120,7 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns DetailedGenshinUser if collapse is false, GenshinUser if collapse is true
      * @throws {EnkaNetworkError}
      */
-    async fetchUser(uid: number | string, collapse = false): Promise<GenshinUser | DetailedGenshinUser> {
+    async _fetchUser<T extends boolean>(uid: number | string, collapse: T): Promise<T extends true ? GenshinUser : DetailedGenshinUser> {
         if (isNaN(Number(uid))) throw new Error("Parameter `uid` must be a number or a string number.");
 
         const cacheGetter = this.options.userCache.getter ?? (async (key) => userCacheMap.get(key));
@@ -183,7 +183,22 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
         // console.log("useCache", useCache);
         const userData = bindOptions(data, { _lib: { is_cache: useCache } }) as JsonObject;
 
-        return collapse ? new GenshinUser(userData, this) : new DetailedGenshinUser(userData, this);
+        const user = collapse ? new GenshinUser(userData, this) : new DetailedGenshinUser(userData, this);
+        return user as T extends true ? GenshinUser : DetailedGenshinUser;
+    }
+
+    /**
+     * @param uid In-game UID of the user
+     */
+    async fetchUser(uid: number | string): Promise<DetailedGenshinUser> {
+        return await this._fetchUser(uid, false);
+    }
+
+    /**
+     * @param uid In-game UID of the user
+     */
+    async fetchCollapsedUser(uid: number | string): Promise<GenshinUser> {
+        return await this._fetchUser(uid, true);
     }
 
     /**
