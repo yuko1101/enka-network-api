@@ -1,5 +1,9 @@
 # 4.5.0
 - Added GenshinUser#theater.
+- Added GenshinUser#spiralAbyss.stars.
+- Added GenshinUser#maxFriendshipCount.
+- Added GenshinUser#showConstellationPreview.
+- Added CharacterPreview#element and CharacterPreview#constellation.
 - Separated EnkaClient#fetchUser and EnkaClient#fetchCollapsedUser.
 # 4.4.0
 **Character voice data was removed from cache.zip**
