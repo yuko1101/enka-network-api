@@ -4,11 +4,14 @@ import { Costume } from "./character/Costume";
 import { Material, NameCard } from "./material/Material";
 import { EnkaClient } from "../client/EnkaClient";
 import { ProfilePicture } from "./ProfilePicture";
+import { Element, elementList, ElementType } from "./Element";
 
 export interface CharacterPreview {
     /** Costume whose icon is used for character preview. */
-    costume: Costume,
+    costume: Costume;
     level: number;
+    element: Element | null;
+    constellation: number | null;
 }
 
 const theaterDifficulties = ["EASY", "NORMAL", "HARD"] as const;
@@ -20,15 +23,18 @@ export class GenshinUser extends User {
     readonly nickname: string | null;
     readonly signature: string | null;
     readonly profilePicture: ProfilePicture | null;
+    readonly showConstellationPreview: boolean;
     readonly charactersPreview: CharacterPreview[];
     readonly nameCards: NameCard[];
     readonly level: number;
     readonly worldLevel: number;
     readonly profileCard: NameCard;
     readonly achievements: number;
+    readonly maxFriendshipCount: number;
     readonly spiralAbyss: {
         floor: number,
         chamber: number,
+        stars: number,
     } | null;
     readonly theater: {
         act: number,
@@ -64,13 +70,19 @@ export class GenshinUser extends User {
             : profilePic.has("avatarId") ? ProfilePicture.getByOldFormat(profilePic.getAsNumber("avatarId"), profilePic.getAsNumberWithDefault(null, "costumeId"), enka)
                 : null;
 
+        this.showConstellationPreview = playerInfo.getAsBooleanWithDefault(false, "isShowAvatarTalent");
+
         this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").mapArray((_, p) => {
             const costumeId = p.getAsNumberWithDefault(null, "costumeId");
             const costume = costumeId === null ? Costume.getDefaultCostumeByCharacterId(p.getAsNumber("avatarId"), enka) : Costume.getById(costumeId, enka);
 
+            const elementType = p.has("energyType") ? elementList[p.getAsNumber("energyType")] as ElementType : null;
+
             const preview: CharacterPreview = {
                 costume: costume,
                 level: p.getAsNumber("level"),
+                element: elementType ? Element.getByElementType(elementType, enka) : null,
+                constellation: p.getAsNumberWithDefault(null, "talentLevel"),
             };
 
             return preview;
@@ -86,15 +98,18 @@ export class GenshinUser extends User {
 
         this.achievements = playerInfo.getAsNumberWithDefault(0, "finishAchievementNum");
 
+        this.maxFriendshipCount = playerInfo.getAsNumber("fetterCount");
+
         this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? {
             floor: playerInfo.getAsNumber("towerFloorIndex"),
             chamber: playerInfo.getAsNumber("towerLevelIndex"),
+            stars: playerInfo.getAsNumberWithDefault(0, "towerStarIndex"),
         } : null;
 
-        this.theater = playerInfo.has("towerAct") && playerInfo.has("theaterStars") && playerInfo.has("theaterMode") ? {
-            act: playerInfo.getAsNumber("towerAct"),
-            stars: playerInfo.getAsNumber("theaterStars"),
-            difficulty: theaterDifficulties[playerInfo.getAsNumber("theaterMode") - 1],
+        this.theater = playerInfo.has("theaterActIndex") && playerInfo.has("theaterStarIndex") && playerInfo.has("theaterModeIndex") ? {
+            act: playerInfo.getAsNumber("theaterActIndex"),
+            stars: playerInfo.getAsNumber("theaterStarIndex"),
+            difficulty: theaterDifficulties[playerInfo.getAsNumber("theaterModeIndex") - 5],
         } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");

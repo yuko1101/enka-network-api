@@ -3,6 +3,8 @@ import { EnkaClient } from "../client/EnkaClient";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { TextAssets } from "./assets/TextAssets";
 
+export const elementList = [null, "Fire", "Water", "Grass", "Electric", "Ice", null, "Wind", "Rock"] as const satisfies (ElementType | null)[];
+
 export class Element {
     readonly id: ElementType;
     readonly enka: EnkaClient;
