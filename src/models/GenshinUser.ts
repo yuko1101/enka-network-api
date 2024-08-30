@@ -98,7 +98,7 @@ export class GenshinUser extends User {
 
         this.achievements = playerInfo.getAsNumberWithDefault(0, "finishAchievementNum");
 
-        this.maxFriendshipCount = playerInfo.getAsNumber("fetterCount");
+        this.maxFriendshipCount = playerInfo.getAsNumberWithDefault(0, "fetterCount");
 
         this.spiralAbyss = playerInfo.has("towerFloorIndex") && playerInfo.has("towerLevelIndex") ? {
             floor: playerInfo.getAsNumber("towerFloorIndex"),
