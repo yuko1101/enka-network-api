@@ -14,7 +14,7 @@ export interface CharacterPreview {
     constellation: number | null;
 }
 
-const theaterDifficulties = ["EASY", "NORMAL", "HARD"] as const;
+const theaterDifficulties = ["EASY", "NORMAL", "HARD", "VISIONARY"] as const;
 
 export class GenshinUser extends User {
     readonly enka: EnkaClient;
@@ -109,7 +109,7 @@ export class GenshinUser extends User {
         this.theater = playerInfo.has("theaterActIndex") && playerInfo.has("theaterStarIndex") && playerInfo.has("theaterModeIndex") ? {
             act: playerInfo.getAsNumber("theaterActIndex"),
             stars: playerInfo.getAsNumber("theaterStarIndex"),
-            difficulty: theaterDifficulties[playerInfo.getAsNumber("theaterModeIndex") - 5],
+            difficulty: getDifficultyFromModeIdex(playerInfo.getAsNumber("theaterModeIndex")),
         } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
@@ -120,4 +120,16 @@ export class GenshinUser extends User {
 
         this.url = `${enka.options.enkaUrl}/u/${this.uid}/`;
     }
+}
+
+export function getDifficultyFromModeIdex(modeIndex: number): typeof theaterDifficulties[number] {
+    if (modeIndex <= 3) return theaterDifficulties[modeIndex - 1];
+    if (modeIndex <= 7) return theaterDifficulties[modeIndex - 5];
+    return theaterDifficulties[(modeIndex - 8) % 4];
+}
+
+export function getSeasonFromModeIndex(modeIndex: number): number {
+    if (modeIndex <= 3) return 1;
+    if (modeIndex <= 7) return 2;
+    return Math.floor((modeIndex - 8) / 4) + 3;
 }

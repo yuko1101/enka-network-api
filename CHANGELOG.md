@@ -1,3 +1,5 @@
+# 4.5.1
+- Fixed GenshinUser#theater.difficulty could be undefined.
 # 4.5.0
 - Added GenshinUser#theater.
 - Added GenshinUser#spiralAbyss.stars.
