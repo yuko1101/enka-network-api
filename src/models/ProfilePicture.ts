@@ -13,6 +13,8 @@ export type ProfilePictureType =
 export class ProfilePicture {
     readonly enka: EnkaClient;
 
+    readonly id: number;
+
     readonly icon: ImageAssets;
     readonly name: TextAssets;
     readonly type: ProfilePictureType;
@@ -24,6 +26,8 @@ export class ProfilePicture {
         this._data = data;
 
         const json = new JsonReader(this._data);
+
+        this.id = json.getAsNumber("id");
 
         this.icon = new ImageAssets(json.getAsString("iconPath"), enka);
         this.name = new TextAssets(json.getAsNumber("nameTextMapHash"), enka);

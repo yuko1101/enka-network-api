@@ -31,6 +31,7 @@ export * from "./models/good/GOOD";
 export * from "./models/good/IGOODResolvable";
 export * from "./models/material/Material";
 export * from "./models/material/UpgradeCost";
+export * from "./models/theater/TheaterMode";
 export * from "./models/weapon/Weapon";
 export * from "./models/weapon/WeaponAscension";
 export * from "./models/weapon/WeaponData";

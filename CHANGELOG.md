@@ -1,5 +1,7 @@
 # 4.5.1
-- Fixed GenshinUser#theater.difficulty could be undefined.
+- Removed GenshinUser#theater.difficulty, use GenshinUser#theater.mode.difficulty instead.
+- Added GenshinUser#theater.mode.
+- Added ProfilePicture#id.
 # 4.5.0
 - Added GenshinUser#theater.
 - Added GenshinUser#spiralAbyss.stars.

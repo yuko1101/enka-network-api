@@ -5,6 +5,7 @@ import { Material, NameCard } from "./material/Material";
 import { EnkaClient } from "../client/EnkaClient";
 import { ProfilePicture } from "./ProfilePicture";
 import { Element, elementList, ElementType } from "./Element";
+import { TheaterMode } from "./theater/TheaterMode";
 
 export interface CharacterPreview {
     /** Costume whose icon is used for character preview. */
@@ -13,8 +14,6 @@ export interface CharacterPreview {
     element: Element | null;
     constellation: number | null;
 }
-
-const theaterDifficulties = ["EASY", "NORMAL", "HARD", "VISIONARY"] as const;
 
 export class GenshinUser extends User {
     readonly enka: EnkaClient;
@@ -39,7 +38,7 @@ export class GenshinUser extends User {
     readonly theater: {
         act: number,
         stars: number,
-        difficulty: typeof theaterDifficulties[number],
+        mode: TheaterMode,
     } | null;
 
     /** This will be -1 if this GenshinUser is from EnkaGameAccount */
@@ -109,7 +108,7 @@ export class GenshinUser extends User {
         this.theater = playerInfo.has("theaterActIndex") && playerInfo.has("theaterStarIndex") && playerInfo.has("theaterModeIndex") ? {
             act: playerInfo.getAsNumber("theaterActIndex"),
             stars: playerInfo.getAsNumber("theaterStarIndex"),
-            difficulty: getDifficultyFromModeIdex(playerInfo.getAsNumber("theaterModeIndex")),
+            mode: TheaterMode.getById(playerInfo.getAsNumber("theaterModeIndex"), enka),
         } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
@@ -120,16 +119,4 @@ export class GenshinUser extends User {
 
         this.url = `${enka.options.enkaUrl}/u/${this.uid}/`;
     }
-}
-
-export function getDifficultyFromModeIdex(modeIndex: number): typeof theaterDifficulties[number] {
-    if (modeIndex <= 3) return theaterDifficulties[modeIndex - 1];
-    if (modeIndex <= 7) return theaterDifficulties[modeIndex - 5];
-    return theaterDifficulties[(modeIndex - 8) % 4];
-}
-
-export function getSeasonFromModeIndex(modeIndex: number): number {
-    if (modeIndex <= 3) return 1;
-    if (modeIndex <= 7) return 2;
-    return Math.floor((modeIndex - 8) / 4) + 3;
 }

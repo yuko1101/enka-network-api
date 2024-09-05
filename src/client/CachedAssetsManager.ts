@@ -56,6 +56,8 @@ const contents = [
     "RewardExcelConfigData", // Rewards Data for Friendship Cards
 
     "ProfilePictureExcelConfigData", // User pfp
+
+    "RoleCombatDifficultyExcelConfigData", // Theater seasonal difficulty
 ];
 
 const textMapWhiteList = [
