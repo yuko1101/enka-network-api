@@ -17,10 +17,39 @@ import { LanguageCode } from "./CachedAssetsManager";
 import { JsonObject, bindOptions, generateUuid, renameKeys, separateByValue } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
 import { Overwrite } from "../utils/ts_utils";
+import { CustomImageBaseUrl, ImageBaseUrl } from "../models/assets/ImageAssets";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 
 const userCacheMap = new Map();
+
+export const defaultImageBaseUrls: (ImageBaseUrl | CustomImageBaseUrl)[] = [
+    {
+        url: "https://enka.network/ui",
+        priority: 10,
+        format: "PNG",
+        regexList: [
+            /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side|EquipIcon)_/,
+            /^UI_AvatarIcon_(.+)_(Card|Circle)$/,
+        ],
+    },
+    {
+        url: "https://api.ambr.top/assets/UI",
+        priority: 3,
+        format: "PNG",
+        regexList: [
+            /.*/,
+        ],
+    },
+    {
+        url: "https://api.hakush.in/gi/UI",
+        priority: 2,
+        format: "WEBP",
+        regexList: [
+            /.*/,
+        ],
+    },
+];
 
 export interface UserCacheOptions {
     isEnabled: boolean;
@@ -31,8 +60,7 @@ export interface UserCacheOptions {
 
 export interface EnkaClientOptions {
     enkaUrl: string;
-    defaultImageBaseUrl: string;
-    imageBaseUrlByRegex: { [url: string]: RegExp[] };
+    imageBaseUrls: ImageBaseUrl[];
     userAgent: string;
     requestTimeout: number;
     defaultLanguage: LanguageCode;
@@ -47,14 +75,7 @@ export interface EnkaClientOptions {
 
 export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSystem": EnkaSystem | null }> = {
     "enkaUrl": "https://enka.network",
-    "defaultImageBaseUrl": "https://api.ambr.top/assets/UI",
-    "imageBaseUrlByRegex": {
-        "https://enka.network/ui": [
-            /^UI_(Costume|NameCardIcon|NameCardPic|RelicIcon|AvatarIcon_Side|EquipIcon)_/,
-            /^UI_AvatarIcon_(.+)_(Card|Circle)$/,
-        ],
-        "https://res.cloudinary.com/genshin/image/upload/sprites": [/^Eff_UI_Talent_/],
-    },
+    "imageBaseUrls": [...defaultImageBaseUrls],
     "userAgent": "Mozilla/5.0",
     "requestTimeout": 3000,
     "defaultLanguage": "en",

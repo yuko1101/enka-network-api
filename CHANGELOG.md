@@ -1,3 +1,5 @@
+# 4.6.0
+- Better imageBaseUrl managing like one in starrail.js
 # 4.5.1
 - Removed GenshinUser#theater.difficulty, use GenshinUser#theater.mode.difficulty instead.
 - Added GenshinUser#theater.mode.
