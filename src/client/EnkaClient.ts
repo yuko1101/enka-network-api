@@ -25,6 +25,36 @@ const userCacheMap = new Map();
 
 export const defaultImageBaseUrls: (ImageBaseUrl | CustomImageBaseUrl)[] = [
     {
+        url: "https://homdgcat.wiki/homdgcat-res",
+        priority: 12,
+        format: "PNG",
+        regexList: [
+            /^UI_(AvatarIcon|RelicIcon|EquipIcon|ItemIcon)_/,
+            /^Skill_/,
+            /^UI_Gacha_AvatarImg_/,
+            /^UI_NameCardPic_(.+)_P$/,
+        ],
+        customParser(fileName) {
+            if (fileName.startsWith("UI_AvatarIcon_")) {
+                return `Avatar/${fileName}.png`;
+            } else if (fileName.startsWith("UI_RelicIcon_")) {
+                return `Relic/${fileName}.png`;
+            } else if (fileName.startsWith("UI_EquipIcon_")) {
+                return `Weapon/${fileName}.png`;
+            } else if (fileName.startsWith("UI_ItemIcon_")) {
+                return `Mat/${fileName}.png`;
+            } else if (fileName.startsWith("Skill_")) {
+                return `AvatarSkill/${fileName}.png`;
+            } else if (fileName.startsWith("UI_Gacha_AvatarImg_")) {
+                return `Gacha/${fileName}.png`;
+            } else if (fileName.startsWith("UI_NameCardPic_") && fileName.endsWith("_P")) {
+                return `Avatar/${fileName}.png`;
+            } else {
+                throw new Error(`Unhandled file name: ${fileName}`);
+            }
+        },
+    },
+    {
         url: "https://enka.network/ui",
         priority: 10,
         format: "PNG",
