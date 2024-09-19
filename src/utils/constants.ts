@@ -154,26 +154,3 @@ export const percent = [
     "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
     "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
 ] as const satisfies readonly FightProp[];
-
-/**
- * Rarity map for artifact sets
- */
-export const artifactRarityRangeMap = {
-    "10001": [3, 4], // Resolution of Sojourner
-    "10002": [3, 4], // Brave Heart
-    "10003": [3, 4], // Defender"s Will
-    "10004": [3, 4], // Tiny Miracle
-    "10005": [3, 4], // Berserker
-    "10006": [3, 4], // Martial Artist
-    "10007": [3, 4], // Instructor
-    "10008": [3, 4], // Gambler
-    "10009": [3, 4], // The Exile
-    "10010": [1, 3], // Adventurer
-    "10011": [1, 3], // Lucky Dog
-    "10012": [3, 4], // Scholar
-    "10013": [1, 3], // Traveling Doctor
-    "15009": [3, 4], // Prayers for Illumination
-    "15010": [3, 4], // Prayers for Destiny
-    "15011": [3, 4], // Prayers for Wisdom
-    "15013": [3, 4], // Prayers to Springtime
-} as const satisfies { [id: string]: readonly [number, number] };

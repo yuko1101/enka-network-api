@@ -46,6 +46,7 @@ const contents = [
     "ReliquaryLevelExcelConfigData", // Artifact Main Affix
     "ReliquaryAffixExcelConfigData", // Artifact Sub Affix
     "ReliquarySetExcelConfigData", // Artifact Sets
+    "ReliquaryCodexExcelConfigData", // Artifact valid rarities
 
     "ManualTextMapConfigData", // Fight Props and Other TextMaps
     "AvatarHeroEntityExcelConfigData", // Travelers

@@ -7,7 +7,6 @@ import { Costume } from "../models/character/Costume";
 import { fetchJSON } from "../utils/axios_utils";
 import { NameCard } from "../models/material/Material";
 import { ArtifactData } from "../models/artifact/ArtifactData";
-import { artifactRarityRangeMap } from "../utils/constants";
 import { DetailedGenshinUser } from "../models/DetailedGenshinUser";
 import { EnkaGameAccount, EnkaNetworkError, EnkaSystem, EnkaLibrary, UserNotFoundError, InvalidUidFormatError } from "enka-system";
 import { GenshinCharacterBuild } from "../models/enka/GenshinCharacterBuild";
@@ -372,21 +371,33 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact data
      */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
-        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
-
-        // including artifacts with invalid rarity
-        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => p.has("setId") && !excludeSetIds.includes(p.getAsNumber("setId")));
-
-        const validRarityArtifacts = artifacts.filter(([, p]) => {
-            const setId = p.getAsNumber("setId");
-            const allowedRarityRange = setId in artifactRarityRangeMap ? artifactRarityRangeMap[setId.toString() as keyof typeof artifactRarityRangeMap] : [4, 5];
-            const min = highestRarityOnly ? allowedRarityRange[1] : allowedRarityRange[0];
-            const max = allowedRarityRange[1];
-            const stars = p.getAsNumber("rankLevel");
-            return (min <= stars && stars <= max);
+        const validRarityMap: Record<number, number[]> = {};
+        this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
+            const setId = c.getAsNumber("suitId");
+            const stars = c.getAsNumber("level");
+            if (highestRarityOnly) {
+                if (validRarityMap[setId]) {
+                    if (validRarityMap[setId][0] < stars) validRarityMap[setId][0] = stars;
+                } else {
+                    validRarityMap[setId] = [stars];
+                }
+            } else {
+                if (!(setId in validRarityMap)) validRarityMap[setId] = [];
+                validRarityMap[setId].push(stars);
+            }
         });
 
-        const chunked = separateByValue(validRarityArtifacts, ([, p]) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
+        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
+
+        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => {
+            if (!p.has("setId")) return false;
+            const setId = p.getAsNumber("setId");
+            if (excludeSetIds.includes(setId)) return false;
+            const stars = p.getAsNumber("rankLevel");
+            return validRarityMap[setId].includes(stars);
+        });
+
+        const chunked = separateByValue(artifacts, ([, p]) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
 
         return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1][1].getAsJsonObject(), this));
     }
