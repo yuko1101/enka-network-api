@@ -1,3 +1,5 @@
+# 4.6.1
+- Fixed playable character filtering for GI 5.1.
 # 4.6.0
 - Better imageBaseUrl managing like one in starrail.js.
 # 4.5.1
