@@ -1,3 +1,7 @@
+# 4.6.2
+- Updated the domain for Project Amber (ambr.top -> gi.yatta.moe).
+- Removed ImageAssets#mihoyoUrl and ImageAssets#imageType.
+- Made ImageAssets#url and ImageAssets#name nullable (null instead of empty string).
 # 4.6.1
 - Fixed playable character filtering for GI 5.1.
 # 4.6.0
