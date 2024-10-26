@@ -12,46 +12,44 @@ export interface CustomImageBaseUrl extends ImageBaseUrl {
      * @param fileName fileName without extension
      * @returns fileName **with** extension
      */
-    customParser: (fileName: string) => string,
+    customParser: (fileName: string) => string | null,
 }
-
-const imageBaseUrlMihoyo = "https://upload-os-bbs.mihoyo.com/game_record/genshin";
-
-const imageTypes: { [type: string]: RegExp[] } = {
-    "": [/^UI_AvatarIcon_(.+)_Circle$/],
-    "character_side_icon": [/^UI_AvatarIcon_Side_(.+)$/],
-    "character_icon": [/^UI_AvatarIcon_(.+)$/],
-    "equip": [/^UI_EquipIcon_(.+?)(_Awaken)?$/, /^UI_RelicIcon_(.+)$/],
-    // "constellation_icon": [/^UI_Talent_(.+)$/],
-};
 
 export class ImageAssets {
     readonly enka: EnkaClient;
-    readonly name: string;
+    readonly name: string | null;
     readonly imageBaseUrl: ImageBaseUrl | null;
-    readonly url: string;
-    readonly imageType: string | null;
-    readonly mihoyoUrl: string;
+    readonly url: string | null;
     readonly isAvailable: boolean;
 
-    constructor(name: string, enka: EnkaClient, maxPriority: number = Number.POSITIVE_INFINITY) {
+    constructor(name: string | null, enka: EnkaClient, maxPriority: number = Number.POSITIVE_INFINITY) {
         this.enka = enka;
 
-        this.name = name;
+        this.name = name !== "" ? name : null;
 
-        this.imageBaseUrl = enka.options.imageBaseUrls.filter(url => url.priority <= maxPriority).sort((a, b) => b.priority - a.priority).find(url => url.regexList.some(regex => regex.test(name))) ?? null;
+        this.imageBaseUrl = enka.options.imageBaseUrls
+            .filter(url => url.priority <= maxPriority)
+            .sort((a, b) => b.priority - a.priority)
+            .find(url => {
+                if (this.name === null) return false;
+                if (!url.regexList.some(regex => regex.test(this.name as string))) return false;
+                if ("customParser" in url) {
+                    if ((url as CustomImageBaseUrl).customParser(this.name) == null) return false;
+                }
+                return true;
+            }) ?? null;
 
         this.url = (() => {
-            if (this.name === "" || this.imageBaseUrl == null) return "";
-            if ("customParser" in this.imageBaseUrl) return `${this.imageBaseUrl.url}/${(this.imageBaseUrl as CustomImageBaseUrl).customParser(this.name)}`;
+            if (this.name === null || this.imageBaseUrl == null) return null;
+            if ("customParser" in this.imageBaseUrl) {
+                const filePath = (this.imageBaseUrl as CustomImageBaseUrl).customParser(this.name);
+                if (filePath == null) return null;
+                return `${this.imageBaseUrl.url}/${filePath}`;
+            }
             return `${this.imageBaseUrl.url}/${this.name}.${this.imageBaseUrl.format.toLowerCase()}`;
         })();
 
-        this.imageType = Object.keys(imageTypes).find(type => imageTypes[type].some(regex => regex.test(name))) || null;
-
-        this.mihoyoUrl = (name === "" || !this.imageType) ? "" : `${imageBaseUrlMihoyo}/${this.imageType}/${name}.png`;
-
-        this.isAvailable = this.name !== null && this.name !== undefined && this.name !== "";
+        this.isAvailable = this.url !== null && this.url !== undefined && this.url !== "";
     }
 
     /**
