@@ -63,7 +63,7 @@ export const defaultImageBaseUrls: (ImageBaseUrl | CustomImageBaseUrl)[] = [
         ],
     },
     {
-        url: "https://api.ambr.top/assets/UI",
+        url: "https://gi.yatta.moe/assets/UI",
         priority: 3,
         format: "PNG",
         regexList: [
