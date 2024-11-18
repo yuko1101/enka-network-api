@@ -1,3 +1,5 @@
+# 4.6.3
+- Temporary fix for separated text map files for TH.
 # 4.6.2
 - Updated the domain for Project Amber (ambr.top -> gi.yatta.moe).
 - Removed ImageAssets#mihoyoUrl and ImageAssets#imageType.
