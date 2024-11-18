@@ -169,6 +169,12 @@ export class CachedAssetsManager {
     /** Obtains a text map for a specific language. */
     async fetchLanguageData(lang: LanguageCode): Promise<{ [key: string]: string }> {
         await this.cacheDirectorySetup();
+        // TODO: better handling for languages with splitted files
+        if (lang === "th") {
+            const json1 = (await fetchJSON(`${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_1.json`, this.enka)).data;
+            const json2 = (await fetchJSON(`${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_2.json`, this.enka)).data;
+            return { ...json1, ...json2 };
+        }
         const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
         const json = (await fetchJSON(url, this.enka)).data;
         return json;
