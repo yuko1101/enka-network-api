@@ -190,7 +190,7 @@ export class CachedAssetsManager {
 
         const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
-            throw new Error("Request Failed");
+            throw new Error(`Request Failed: ${res.status} - ${res.statusText}`);
         }
 
         const data = res.data;
@@ -328,7 +328,7 @@ export class CachedAssetsManager {
 
         const res = await fetchJSON(url, this.enka);
         if (res.status !== 200) {
-            throw new Error("Request Failed");
+            throw new Error(`Request Failed: ${res.status} - ${res.statusText}`);
         }
 
         const data = res.data;
