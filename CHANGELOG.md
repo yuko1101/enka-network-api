@@ -1,3 +1,6 @@
+# 4.6.4
+- Deprecated ElementalBurst#costElemVal (use ElementalBurst#requiredCharge or ElementalBurst#maxCharge instead).
+- Added ElementalBurst#requiredCharge and ElementalBurst#maxCharge.
 # 4.6.3
 - Temporary fix for separated text map files for TH.
 # 4.6.2
