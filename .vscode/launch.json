@@ -9,7 +9,7 @@
                 "<node_internals>/**"
             ],
             "preLaunchTask": "npm: build:debug",
-            "program": "${workspaceFolder}\\example\\test.js"
+            "program": "${workspaceFolder}/example/test.js"
         }
     ]
 }
