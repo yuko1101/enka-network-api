@@ -1,4 +1,4 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { EnkaProfile, User } from "enka-system";
 import { Costume } from "./character/Costume";
 import { Material, NameCard } from "./material/Material";
@@ -48,7 +48,7 @@ export class GenshinUser extends User {
     readonly url: string;
 
     constructor(data: JsonObject, enka: EnkaClient) {
-        const json = new JsonReader(data);
+        const json = new JsonReader(defaultJsonOptions, data);
         super(json);
 
         this.enka = enka;

@@ -1,4 +1,3 @@
-import { JsonReader } from "config_file.js";
 import { CachedAssetsManager } from "./CachedAssetsManager";
 
 export class ObjectKeysManager {
@@ -12,14 +11,17 @@ export class ObjectKeysManager {
     readonly elementalBurstRequiredKey: string;
 
     constructor(cachedAssetsManager: CachedAssetsManager) {
-        const waterAetherSkillDepot = cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 503)?.[1] as JsonReader;
+        const waterAetherSkillDepot = cachedAssetsManager.getGenshinCacheData("AvatarSkillDepotExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 503)?.[1];
+        if (!waterAetherSkillDepot) throw new Error("Failed to find the water aether skill depot.");
 
         this.characterArkheKey = waterAetherSkillDepot.findObject((_, p) => p.getValue() === "Ousia")?.[0] as string;
 
-        const aetherProfilePicture = cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 1)?.[1] as JsonReader;
+        const aetherProfilePicture = cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 1)?.[1];
+        if (!aetherProfilePicture) throw new Error("Failed to find the aether profile picture.");
         this.profilePictureTypeKey = aetherProfilePicture.findObject((_, p) => p.getValue() === "PROFILE_PICTURE_UNLOCK_BY_AVATAR")?.[0] as string;
 
-        const mavuikaElementalBurst = cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 11065)?.[1] as JsonReader;
+        const mavuikaElementalBurst = cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === 11065)?.[1];
+        if (!mavuikaElementalBurst) throw new Error("Failed to find the mavuika elemental burst.");
         this.elementalBurstMaxChargeKey = mavuikaElementalBurst.findObject((_, p) => p.getValue() === 200)?.[0] as string;
         this.elementalBurstRequiredKey = mavuikaElementalBurst.findObject((_, p) => p.getValue() === 100)?.[0] as string;
 

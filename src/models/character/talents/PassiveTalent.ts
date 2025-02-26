@@ -4,6 +4,7 @@ import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../../assets/ImageAssets";
 import { TextAssets } from "../../assets/TextAssets";
 import { StatProperty, FightProp } from "../../StatProperty";
+import { excelJsonOptions } from "../../../client/CachedAssetsManager";
 
 export class PassiveTalent {
     readonly id: number;
@@ -25,7 +26,7 @@ export class PassiveTalent {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("proudSkillId");
 

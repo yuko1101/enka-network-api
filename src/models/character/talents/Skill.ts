@@ -4,6 +4,7 @@ import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../../assets/ImageAssets";
 import { TextAssets } from "../../assets/TextAssets";
 import { DynamicTextAssets } from "../../assets/DynamicTextAssets";
+import { excelJsonOptions } from "../../../client/CachedAssetsManager";
 
 /**
  * Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
@@ -21,7 +22,7 @@ export class Skill {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 

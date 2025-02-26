@@ -3,6 +3,7 @@ import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 
@@ -23,7 +24,7 @@ export class Material {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 
@@ -43,7 +44,7 @@ export class Material {
     }
 
     static getMaterialByData(data: JsonObject, enka: EnkaClient): Material {
-        const json = new JsonReader(data);
+        const json = new JsonReader(excelJsonOptions, data);
         switch (json.getAsStringWithDefault(null, "materialType")) {
             case NameCard.MATERIAL_TYPE:
                 return new NameCard(data, enka);

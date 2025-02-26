@@ -1,4 +1,4 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { Character } from "../character/Character";
 import { EnkaClient } from "../../client/EnkaClient";
 import { CharacterBuild, HoyoType } from "enka-system";
@@ -31,7 +31,7 @@ export class GenshinCharacterBuild extends CharacterBuild {
 
         this.enkaUserInfo = { username: username, hash: hash };
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(defaultJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
         this.name = json.getAsString("name");

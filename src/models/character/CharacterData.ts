@@ -17,6 +17,7 @@ import { Element } from "../Element";
 import { WeaponType } from "../weapon/WeaponData";
 import { StatProperty, FightProp } from "../StatProperty";
 import { nonNullable } from "../../utils/ts_utils";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export type BodyType = "BODY_MALE" | "BODY_BOY" | "BODY_LADY" | "BODY_GIRL" | "BODY_LOLI";
 export type CharacterRarity = "QUALITY_ORANGE" | "QUALITY_PURPLE" | "QUALITY_ORANGE_SP";
@@ -69,7 +70,7 @@ export class CharacterData {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 
@@ -173,7 +174,7 @@ export class CharacterData {
      * @param ascension ascension level between 0 and 6
      */
     getAscensionData(ascension: number): CharacterAscension {
-        return CharacterAscension.getById(new JsonReader(this._data).getAsNumber("avatarPromoteId"), ascension, this.enka);
+        return CharacterAscension.getById(new JsonReader(excelJsonOptions, this._data).getAsNumber("avatarPromoteId"), ascension, this.enka);
     }
 
     /**
@@ -186,7 +187,7 @@ export class CharacterData {
         const curve = this.enka.cachedAssetsManager.getGenshinCacheData("AvatarCurveExcelConfigData").get(level - 1, "curveInfos");
         const ascensionData = this.getAscensionData(ascension);
 
-        const characterJson = new JsonReader(this._data);
+        const characterJson = new JsonReader(excelJsonOptions, this._data);
 
         const baseValues = {
             "FIGHT_PROP_BASE_HP": characterJson.getAsNumber("hpBase"),

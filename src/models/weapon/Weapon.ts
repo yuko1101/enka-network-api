@@ -1,10 +1,11 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { StatProperty } from "../StatProperty";
 import { WeaponData } from "./WeaponData";
 import { WeaponRefinement } from "./WeaponRefinement";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { CharacterKey, IWeapon } from "../good/GOOD";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class Weapon implements IGOODComponentResolvable<IWeapon> {
     readonly enka: EnkaClient;
@@ -28,10 +29,10 @@ export class Weapon implements IGOODComponentResolvable<IWeapon> {
 
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(defaultJsonOptions, this._data);
 
         this.weaponData = WeaponData.getById(json.getAsNumber("itemId"), enka);
-        const weaponDataJson = new JsonReader(this.weaponData._data);
+        const weaponDataJson = new JsonReader(excelJsonOptions, this.weaponData._data);
 
         const weapon = json.get("weapon");
 

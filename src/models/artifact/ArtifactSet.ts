@@ -6,6 +6,7 @@ import { EnkaClient } from "../../client/EnkaClient";
 import { JsonReader, JsonObject, separateByValue } from "config_file.js";
 import { Artifact } from "./Artifact";
 import { ArtifactData } from "./ArtifactData";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class ArtifactSet {
     readonly enka: EnkaClient;
@@ -21,7 +22,7 @@ export class ArtifactSet {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("setId");
 
@@ -36,7 +37,7 @@ export class ArtifactSet {
 
         this.icon = new ImageAssets(json.getAsString("setIcon"), enka);
 
-        this.name = new TextAssets(new JsonReader(this._setBonusData[0]).getAsNumber("nameTextMapHash"), enka);
+        this.name = new TextAssets(new JsonReader(excelJsonOptions, this._setBonusData[0]).getAsNumber("nameTextMapHash"), enka);
     }
 
     static getById(id: number, enka: EnkaClient): ArtifactSet {

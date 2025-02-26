@@ -3,6 +3,7 @@ import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class WeaponRefinement {
     readonly enka: EnkaClient;
@@ -21,7 +22,7 @@ export class WeaponRefinement {
 
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
         this.level = json.getAsNumberWithDefault(0, "level") + 1;

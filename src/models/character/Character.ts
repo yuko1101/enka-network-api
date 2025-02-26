@@ -7,7 +7,7 @@ import { UpgradableSkill } from "./talents/UpgradableSkill";
 import { NormalAttack } from "./talents/NormalAttack";
 import { ElementalSkill } from "./talents/ElementalSkill";
 import { ElementalBurst } from "./talents/ElementalBurst";
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { Costume } from "./Costume";
 import { Constellation } from "./Constellation";
@@ -17,6 +17,7 @@ import { Element } from "../Element";
 import { nonNullable } from "../../utils/ts_utils";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { ICharacter } from "../good/GOOD";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class Character implements IGOODComponentResolvable<ICharacter> {
     readonly enka: EnkaClient;
@@ -44,7 +45,7 @@ export class Character implements IGOODComponentResolvable<ICharacter> {
 
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(defaultJsonOptions, this._data);
 
         this.characterData = CharacterData.getById(json.getAsNumber("avatarId"), enka, json.getAsNumberWithDefault(undefined, "skillDepotId"));
 
@@ -81,7 +82,7 @@ export class Character implements IGOODComponentResolvable<ICharacter> {
             const base = value.getAsNumber();
 
             const proudSkillExtraLevelMap = json.get("proudSkillExtraLevelMap");
-            const proudSkillGroupId: string = new JsonReader(skill._data).getAsNumber("proudSkillGroupId").toString();
+            const proudSkillGroupId: string = new JsonReader(excelJsonOptions, skill._data).getAsNumber("proudSkillGroupId").toString();
             const extra = proudSkillExtraLevelMap.getAsNumberWithDefault(0, proudSkillGroupId);
 
             return {

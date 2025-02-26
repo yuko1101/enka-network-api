@@ -1,4 +1,4 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
 import { Character } from "./character/Character";
 import { GenshinUser } from "./GenshinUser";
@@ -12,7 +12,7 @@ export class DetailedGenshinUser extends GenshinUser implements IGOODComponentRe
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 
-        const json = new JsonReader(data);
+        const json = new JsonReader(defaultJsonOptions, data);
 
         this.showCharacterDetails = json.has("avatarInfoList");
 

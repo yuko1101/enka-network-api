@@ -4,6 +4,7 @@ import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class Constellation {
     readonly id: number;
@@ -20,7 +21,7 @@ export class Constellation {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(data);
+        const json = new JsonReader(excelJsonOptions, data);
 
         this.id = json.getAsNumber("talentId");
 

@@ -4,7 +4,7 @@ import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
-import { LanguageCode } from "../../client/CachedAssetsManager";
+import { excelJsonOptions, LanguageCode } from "../../client/CachedAssetsManager";
 
 export interface Birthday {
     month: number;
@@ -38,7 +38,7 @@ export class CharacterDetails {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("fetterId");
         this.characterId = json.getAsNumber("avatarId");

@@ -2,6 +2,7 @@ import { JsonObject, JsonReader } from "config_file.js";
 import { EnkaClient } from "../../../client/EnkaClient";
 import { Element, ElementType } from "../../Element";
 import { UniqueSkill } from "./UniqueSkill";
+import { excelJsonOptions } from "../../../client/CachedAssetsManager";
 
 export class ElementalBurst extends UniqueSkill {
     readonly costElemType: Element;
@@ -13,7 +14,7 @@ export class ElementalBurst extends UniqueSkill {
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.costElemType = Element.getByElementType(json.getAsString("costElemType") as ElementType, enka);
 

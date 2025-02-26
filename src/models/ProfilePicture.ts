@@ -1,9 +1,10 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { defaultJsonOptions, JsonObject, JsonReader } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
 import { ImageAssets } from "./assets/ImageAssets";
 import { TextAssets } from "./assets/TextAssets";
 import { Costume } from "./character/Costume";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
+import { excelJsonOptions } from "../client/CachedAssetsManager";
 
 export type ProfilePictureType =
     | "PROFILE_PICTURE_UNLOCK_BY_AVATAR"
@@ -25,7 +26,7 @@ export class ProfilePicture {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 
@@ -38,7 +39,7 @@ export class ProfilePicture {
     }
 
     static getById(id: number, enka: EnkaClient): ProfilePicture {
-        const profilePicture = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1] as JsonReader;
+        const profilePicture = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
         if (!profilePicture) throw new AssetsNotFoundError("ProfilePicture", id);
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
@@ -60,7 +61,8 @@ export class ProfilePicture {
         const referenceId = costumeId === null ? characterId : costumeId;
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
-        const profilePictureData = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsString(keys.profilePictureTypeKey) === iconType && p.getAsNumber("unlockParam") === referenceId)?.[1] as JsonReader;
+        const profilePictureData = enka.cachedAssetsManager.getGenshinCacheData("ProfilePictureExcelConfigData").findArray((_, p) => p.getAsString(keys.profilePictureTypeKey) === iconType && p.getAsNumber("unlockParam") === referenceId)?.[1];
+        if (!profilePictureData) throw new AssetsNotFoundError("ProfilePicture", referenceId);
 
         return new CharacterProfilePicture(profilePictureData.getAsJsonObject(), enka);
     }
@@ -75,7 +77,7 @@ export class CharacterProfilePicture extends ProfilePicture {
     constructor(data: JsonObject, enka: EnkaClient) {
         super(data, enka);
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(defaultJsonOptions, this._data);
 
         const keys = enka.cachedAssetsManager.getObjectKeysManager();
         const type = json.getAsString(keys.profilePictureTypeKey) as ProfilePictureType;

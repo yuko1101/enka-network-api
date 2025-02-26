@@ -5,6 +5,7 @@ import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { CharacterData } from "./CharacterData";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class Costume {
     readonly id: number;
@@ -27,7 +28,7 @@ export class Costume {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("skinId");
 

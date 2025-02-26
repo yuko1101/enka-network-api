@@ -4,6 +4,7 @@ import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { ArtifactSet } from "./ArtifactSet";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 /**
  * EquipType|In-game Name
@@ -34,7 +35,7 @@ export class ArtifactData {
         this.enka = enka;
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 

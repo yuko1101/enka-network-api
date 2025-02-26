@@ -7,6 +7,7 @@ import { WeaponRefinement } from "./WeaponRefinement";
 import { StatProperty, FightProp } from "../StatProperty";
 import { WeaponAscension } from "./WeaponAscension";
 import { nonNullable } from "../../utils/ts_utils";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 
@@ -31,7 +32,7 @@ export class WeaponData {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("id");
 
@@ -69,7 +70,7 @@ export class WeaponData {
      * @param ascension ascension level 0-6 for 3-5 stars, and 0-4 for 1-2 stars.
      */
     getAscensionData(ascension: number): WeaponAscension {
-        return WeaponAscension.getById(new JsonReader(this._data).getAsNumber("weaponPromoteId"), ascension, this.enka);
+        return WeaponAscension.getById(new JsonReader(excelJsonOptions, this._data).getAsNumber("weaponPromoteId"), ascension, this.enka);
     }
 
     /**
@@ -84,7 +85,7 @@ export class WeaponData {
         const curve = this.enka.cachedAssetsManager.getGenshinCacheData("WeaponCurveExcelConfigData").get(level - 1, "curveInfos");
         const ascensionData = this.getAscensionData(ascension);
 
-        const weaponJson = new JsonReader(this._data);
+        const weaponJson = new JsonReader(excelJsonOptions, this._data);
 
         const weaponProps = weaponJson.get("weaponProp");
 
@@ -94,7 +95,7 @@ export class WeaponData {
             if (!fightProp || !baseValue) return null;
             const curveType = prop.getAsString("type");
 
-            const targetCurve = curve.findArray((__, c) => c.getAsString("type") === curveType)?.[1] as JsonReader;
+            const targetCurve = curve.findArray((__, c) => c.getAsString("type") === curveType)?.[1];
 
             const ascensionValue = ascensionData.addProps.find(p => p.fightProp === fightProp)?.value ?? 0;
 

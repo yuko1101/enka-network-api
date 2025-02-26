@@ -5,6 +5,7 @@ import { TextAssets } from "../../assets/TextAssets";
 import { UpgradeCost } from "../../material/UpgradeCost";
 import { Skill } from "./Skill";
 import { nonNullable } from "../../../utils/ts_utils";
+import { excelJsonOptions } from "../../../client/CachedAssetsManager";
 
 export class UpgradableSkill extends Skill {
     constructor(data: JsonObject, enka: EnkaClient) {
@@ -12,7 +13,7 @@ export class UpgradableSkill extends Skill {
     }
 
     getSkillAttributes(level: number): SkillAttributeAssets[] {
-        const proudSkillGroupId = new JsonReader(this._data).getAsNumber("proudSkillGroupId");
+        const proudSkillGroupId = new JsonReader(excelJsonOptions, this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return [];
 
         const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.[1];
@@ -38,7 +39,7 @@ export class UpgradableSkill extends Skill {
      * @param level the base level you want to upgrade to. (Do not add extra levels.)
      */
     getUpgradeCost(level: number): UpgradeCost | null {
-        const proudSkillGroupId = new JsonReader(this._data).getAsNumber("proudSkillGroupId");
+        const proudSkillGroupId = new JsonReader(excelJsonOptions, this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return null;
 
         const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.[1];

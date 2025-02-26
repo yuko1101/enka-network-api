@@ -2,6 +2,7 @@ import { JsonReader, JsonObject } from "config_file.js";
 import { Material } from "./Material";
 import { EnkaClient } from "../../client/EnkaClient";
 import { nonNullable } from "../../utils/ts_utils";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class UpgradeCost {
     readonly enka: EnkaClient;
@@ -13,7 +14,7 @@ export class UpgradeCost {
 
         this.coin = coinCost;
 
-        const itemsJson = new JsonReader(costItems);
+        const itemsJson = new JsonReader(excelJsonOptions, costItems);
 
         this.items = itemsJson.mapArray((_, cost) => {
             if (!cost.has("id")) return null;

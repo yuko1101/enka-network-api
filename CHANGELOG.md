@@ -1,3 +1,5 @@
+# 4.6.5
+- Upgraded dependencies (for config_file.js).
 # 4.6.4
 - Deprecated ElementalBurst#costElemVal (use ElementalBurst#requiredCharge or ElementalBurst#maxCharge instead).
 - Added ElementalBurst#requiredCharge and ElementalBurst#maxCharge.

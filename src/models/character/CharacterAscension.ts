@@ -3,6 +3,7 @@ import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { UpgradeCost } from "../material/UpgradeCost";
 import { StatProperty, FightProp } from "../StatProperty";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class CharacterAscension {
     readonly id: number;
@@ -21,7 +22,7 @@ export class CharacterAscension {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("avatarPromoteId");
         this.ascension = json.getAsNumberWithDefault(0, "promoteLevel");

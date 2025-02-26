@@ -2,6 +2,7 @@ import { JsonReader, JsonObject } from "config_file.js";
 import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
 import { EnkaClient } from "../../client/EnkaClient";
+import { excelJsonOptions } from "../../client/CachedAssetsManager";
 
 export class ArtifactSetBonus {
     readonly enka: EnkaClient;
@@ -18,7 +19,7 @@ export class ArtifactSetBonus {
 
         this._data = data;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsNumber("affixId");
 

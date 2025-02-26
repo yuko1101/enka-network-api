@@ -2,6 +2,7 @@ import { JsonObject, JsonReader } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { TextAssets } from "./assets/TextAssets";
+import { excelJsonOptions } from "../client/CachedAssetsManager";
 
 export const elementList = [null, "Fire", "Water", "Grass", "Electric", "Ice", null, "Wind", "Rock"] as const satisfies (ElementType | null)[];
 
@@ -16,7 +17,7 @@ export class Element {
         this._data = data;
         this.enka = enka;
 
-        const json = new JsonReader(this._data);
+        const json = new JsonReader(excelJsonOptions, this._data);
 
         this.id = json.getAsString("textMapId") as ElementType;
 
