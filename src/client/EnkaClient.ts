@@ -28,7 +28,8 @@ export const defaultImageBaseUrls: (ImageBaseUrl | CustomImageBaseUrl)[] = [
         priority: 12,
         format: "PNG",
         regexList: [
-            /^UI_(AvatarIcon|RelicIcon|EquipIcon|ItemIcon)_/,
+            /^UI_(RelicIcon|EquipIcon|ItemIcon)_/,
+            /^UI_AvatarIcon_(?!Side_)(.+)(?<!_(Card|Circle))$/,
             /^Skill_/,
             /^UI_Gacha_AvatarImg_/,
             /^UI_NameCardPic_(.+)_P$/,
