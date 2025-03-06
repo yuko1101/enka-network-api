@@ -1,3 +1,5 @@
+# 4.6.6
+- Fixed image regexList for homdgcat.wiki cdn.
 # 4.6.5
 - Upgraded dependencies (for config_file.js).
 # 4.6.4
