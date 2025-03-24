@@ -13,9 +13,9 @@ import { GenshinCharacterBuild } from "../models/enka/GenshinCharacterBuild";
 import { Material } from "../models/material/Material";
 import { ArtifactSet } from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonObject, bindOptions, generateUuid, renameKeys, separateByValue } from "config_file.js";
+import { JsonObject, bindOptions, generateUuid, renameKeys } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
-import { Overwrite } from "../utils/ts_utils";
+import { nonNullable, Overwrite } from "../utils/ts_utils";
 import { CustomImageBaseUrl, ImageBaseUrl } from "../models/assets/ImageAssets";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
@@ -372,35 +372,46 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact data
      */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
+        const allArtifacts = Object.fromEntries(this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").mapArray((_, p) => [p.getAsNumber("id"), p.getAsJsonObject()]));
+        const artifacts: ArtifactData[] = [];
+
         const validRarityMap: Record<number, number[]> = {};
-        this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
-            const setId = c.getAsNumber("suitId");
-            const stars = c.getAsNumber("level");
-            if (highestRarityOnly) {
-                if (validRarityMap[setId]) {
-                    if (validRarityMap[setId][0] < stars) validRarityMap[setId][0] = stars;
+        if (highestRarityOnly) {
+            this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
+                const setId = c.getAsNumber("suitId");
+                const stars = c.getAsNumber("level");
+                if (highestRarityOnly) {
+                    if (validRarityMap[setId]) {
+                        if (validRarityMap[setId][0] < stars) validRarityMap[setId][0] = stars;
+                    } else {
+                        validRarityMap[setId] = [stars];
+                    }
                 } else {
-                    validRarityMap[setId] = [stars];
+                    if (!(setId in validRarityMap)) validRarityMap[setId] = [];
+                    validRarityMap[setId].push(stars);
                 }
-            } else {
-                if (!(setId in validRarityMap)) validRarityMap[setId] = [];
-                validRarityMap[setId].push(stars);
+            });
+        }
+
+        this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
+            if (highestRarityOnly) {
+                const setId = c.getAsNumber("suitId");
+                const stars = c.getAsNumber("level");
+                if (!validRarityMap[setId].includes(stars)) return;
             }
+
+            const ids = [
+                c.getAsNumberWithDefault(null, "cupId"),
+                c.getAsNumberWithDefault(null, "leatherId"),
+                c.getAsNumberWithDefault(null, "capId"),
+                c.getAsNumberWithDefault(null, "flowerId"),
+                c.getAsNumberWithDefault(null, "sandId"),
+            ].filter(nonNullable);
+
+            artifacts.push(...ids.map(id => new ArtifactData(allArtifacts[id], this)));
         });
 
-        const excludeSetIds = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") === 1).map(([, p]) => p.getAsNumber("setId"));
-
-        const artifacts = this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").filterArray((_, p) => {
-            if (!p.has("setId")) return false;
-            const setId = p.getAsNumber("setId");
-            if (excludeSetIds.includes(setId)) return false;
-            const stars = p.getAsNumber("rankLevel");
-            return validRarityMap[setId].includes(stars);
-        });
-
-        const chunked = separateByValue(artifacts, ([, p]) => `${p.getAsNumber("setId")}-${p.getAsString("equipType")}-${p.getAsNumber("rankLevel")}`);
-
-        return Object.values(chunked).map(chunk => new ArtifactData(chunk[chunk.length - 1][1].getAsJsonObject(), this));
+        return artifacts;
     }
 
     /**
