@@ -1,3 +1,5 @@
+# 4.6.7
+- Fixed artifact filtering for EnkaClient#getAllArtifacts.
 # 4.6.6
 - Fixed image regexList for homdgcat.wiki cdn.
 # 4.6.5
