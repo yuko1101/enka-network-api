@@ -42,7 +42,7 @@ export * from "./models/Element";
 export * from "./models/GenshinUser";
 export * from "./models/ProfilePicture";
 export * from "./models/StatProperty";
-export * from "./utils/axios_utils";
+export * from "./utils/fetch_utils";
 export * from "./utils/cache_utils";
 export * from "./utils/character_utils";
 export * from "./utils/constants";

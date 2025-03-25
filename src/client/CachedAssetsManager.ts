@@ -3,11 +3,11 @@ import path from "path";
 import axios from "axios";
 import unzip, { Entry } from "unzip-stream";
 import { ConfigFile, JsonObject, bindOptions, move, JsonReader, defaultJsonOptions } from "config_file.js";
-import { fetchJSON } from "../utils/axios_utils";
+import { fetchString } from "../utils/fetch_utils";
 import { ObjectKeysManager } from "./ObjectKeysManager";
 import { EnkaClient } from "./EnkaClient";
 import { validateCache } from "../utils/cache_utils";
-import { excelKeyMap, ExcelType, excels, IndexBy, SingleBy, excelJsonOptions, indexBy, ExcelTransformer, ExcelJsonObject } from "./ExcelTransformer";
+import { excelKeyMap, ExcelType, excels, IndexBy, SingleBy, excelJsonOptions, indexBy, ExcelTransformer, ExcelJsonObject, ExcelJsonArray } from "./ExcelTransformer";
 
 export type LoadedExcelDataMap = { [excel in keyof typeof excelKeyMap]: SingleBy<typeof excelKeyMap[excel]> };
 export type ExcelDataMap = { [excel in keyof typeof excelKeyMap]: LoadedExcelDataMap[excel] | null };
@@ -22,9 +22,6 @@ const initialLangDataMemory: LanguageMap = Object.fromEntries(languages.map(lang
 let langDataMemory: LanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
-
-// Thanks @Dimbreath
-const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/dee14cc45e977782e1e93be9d3ed4b0d12e90e5a";
 
 const textMapWhiteList = [
     2329553598, // Aether
@@ -77,6 +74,8 @@ export class CachedAssetsManager {
     readonly defaultCacheDirectoryPath: string;
     /** Path of directory where genshin cache data is stored */
     cacheDirectoryPath: string;
+    /** Base URL for fetching game data */
+    gameDataBaseUrl: string;
 
     _cacheUpdater: NodeJS.Timer | null;
     _githubCache: ConfigFile<typeof defaultJsonOptions> | null;
@@ -87,6 +86,7 @@ export class CachedAssetsManager {
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
 
         this.cacheDirectoryPath = enka.options.cacheDirectory ?? this.defaultCacheDirectoryPath;
+        this.gameDataBaseUrl = enka.options.gameDataBaseUrl;
         this._cacheUpdater = null;
         this._githubCache = null;
         this._isFetching = false;
@@ -128,14 +128,16 @@ export class CachedAssetsManager {
     /** Obtains a text map for a specific language. */
     async fetchLanguageData(lang: LanguageCode): Promise<Record<string, string>> {
         await this.cacheDirectorySetup();
+
+        const enka = this.enka;
         // TODO: better handling for languages with splitted files
         if (lang === "th") {
-            const json1 = (await fetchJSON(`${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_0.json`, this.enka)).data;
-            const json2 = (await fetchJSON(`${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_1.json`, this.enka)).data;
+            const json1 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_0.json`, enka, allowLocalFile: true })) as Record<string, string>;
+            const json2 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_1.json`, enka, allowLocalFile: true })) as Record<string, string>;
             return { ...json1, ...json2 };
         }
-        const url = `${contentBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
-        const json = (await fetchJSON(url, this.enka)).data;
+        const url = `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
+        const json = JSON.parse(await fetchString({ url, enka, allowLocalFile: true })) as Record<string, string>;
         return json;
     }
 
@@ -147,14 +149,9 @@ export class CachedAssetsManager {
         await this.cacheDirectorySetup();
         const url = getGitRemoteAPIUrl(useRawGenshinData, new Date(this._githubCache?.getValue("rawLastUpdate") as (number | null | undefined) ?? 0), new Date(this._githubCache?.getValue("lastUpdate") as (number | null | undefined) ?? 0));
 
-        const res = await fetchJSON(url, this.enka);
-        if (res.status !== 200) {
-            throw new Error(`Request Failed: ${res.status} - ${res.statusText}`);
-        }
+        const newCommits = JSON.parse(await fetchString({ url, enka: this.enka })) as JsonObject[];
 
-        const data = res.data;
-
-        return data.length !== 0;
+        return newCommits.length !== 0;
     }
 
     /**
@@ -193,9 +190,9 @@ export class CachedAssetsManager {
             const excelOutputData: ExcelJsonObject = { ...initialExcelDataMemory };
             for (const excel of excels) {
                 const fileName = `${excel}.json`;
-                const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
+                const url = `${this.gameDataBaseUrl}/ExcelBinOutput/${fileName}`;
                 promises.push((async () => {
-                    const json = (await fetchJSON(url, this.enka)).data;
+                    const json = JSON.parse(await fetchString({ url, enka: this.enka, allowLocalFile: true })) as ExcelJsonArray<ExcelJsonObject>;
                     if (this.enka.options.showFetchCacheLog) {
                         console.info(`Downloaded data/${fileName}`);
                     }
@@ -282,18 +279,7 @@ export class CachedAssetsManager {
             onUpdateEnd: undefined,
         }, options);
 
-        await this.cacheDirectorySetup();
-
-        const url = getGitRemoteAPIUrl(mergedOptions.useRawGenshinData, new Date((this._githubCache?.getValue("rawLastUpdate") ?? 0) as number), new Date((this._githubCache?.getValue("lastUpdate") ?? 0) as number));
-
-        const res = await fetchJSON(url, this.enka);
-        if (res.status !== 200) {
-            throw new Error(`Request Failed: ${res.status} - ${res.statusText}`);
-        }
-
-        const data = res.data;
-
-        if (data.length !== 0) {
+        if (await this.checkForUpdates(mergedOptions.useRawGenshinData)) {
             await mergedOptions.onUpdateStart?.();
             // fetch all because large file diff cannot be retrieved
             await this.fetchAllContents({ useRawGenshinData: mergedOptions.useRawGenshinData, ghproxy: mergedOptions.ghproxy });

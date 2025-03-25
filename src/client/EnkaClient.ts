@@ -4,7 +4,6 @@ import { CachedAssetsManager } from "./CachedAssetsManager";
 import { CharacterData } from "../models/character/CharacterData";
 import { WeaponData } from "../models/weapon/WeaponData";
 import { Costume } from "../models/character/Costume";
-import { fetchJSON } from "../utils/axios_utils";
 import { NameCard } from "../models/material/Material";
 import { ArtifactData } from "../models/artifact/ArtifactData";
 import { DetailedGenshinUser } from "../models/DetailedGenshinUser";
@@ -18,6 +17,8 @@ import { DynamicData } from "../models/assets/DynamicTextAssets";
 import { nonNullable, Overwrite } from "../utils/ts_utils";
 import { CustomImageBaseUrl, ImageBaseUrl } from "../models/assets/ImageAssets";
 import { excelJsonOptions } from "./ExcelTransformer";
+import { fetchString } from "../utils/fetch_utils";
+import { FetchFailedError } from "../errors/FetchFailedError";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 
@@ -99,6 +100,7 @@ export interface EnkaClientOptions {
     cacheDirectory: string | null;
     showFetchCacheLog: boolean;
     userCache: UserCacheOptions;
+    gameDataBaseUrl: string;
     /** For less rate limited cache update checking */
     githubToken: string | null;
     readonly enkaSystem: EnkaSystem;
@@ -122,6 +124,7 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
         setter: null,
         deleter: null,
     },
+    "gameDataBaseUrl": "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master",
     "githubToken": null,
     "enkaSystem": null,
 };
@@ -188,24 +191,28 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
         if (!useCache) {
             const url = getUserUrl(this.options.enkaUrl, uid) + (collapse ? "?info" : "");
 
-            const response = await fetchJSON(url, this, true);
-
-            if (response.status !== 200) {
-                switch (response.status) {
+            let response: string;
+            try {
+                response = await fetchString({ url, enka: this, enableTimeout: true });
+            } catch (e) {
+                const fetchFailedError = e instanceof FetchFailedError ? e : null;
+                // TODO: better error instead of making statusCode -1
+                if (!fetchFailedError) throw new EnkaNetworkError(`Request to enka.network failed with unknown error: ${e}`, -1, "Unknown Error");
+                switch (fetchFailedError.status) {
                     case 400:
-                        throw new InvalidUidFormatError(Number(uid), response.status, response.statusText);
+                        throw new InvalidUidFormatError(Number(uid), fetchFailedError.status, fetchFailedError.statusText);
                     case 424:
-                        throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", response.status, response.statusText);
+                        throw new EnkaNetworkError("Request to enka.network failed because it is under maintenance.", fetchFailedError.status, fetchFailedError.statusText);
                     case 429:
-                        throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.", response.status, response.statusText);
+                        throw new EnkaNetworkError("Rate Limit reached. You reached enka.network's rate limit. Please try again in a few minutes.", fetchFailedError.status, fetchFailedError.statusText);
                     case 404:
-                        throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`, response.status, response.statusText);
+                        throw new UserNotFoundError(`User with uid ${uid} was not found. Please check whether the uid is correct. If you find the uid is correct, it may be a internal server error.`, fetchFailedError.status, fetchFailedError.statusText);
                     default:
-                        throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${response.status} - ${response.statusText}\nRequest url: ${url}`, response.status, response.statusText);
+                        throw new EnkaNetworkError(`Request to enka.network failed with unknown status code ${fetchFailedError.status} - ${fetchFailedError.statusText}\nRequest url: ${url}`, fetchFailedError.status, fetchFailedError.statusText);
                 }
             }
-            // TODO: use structuredClone
-            data = { ...response.data };
+
+            data = JSON.parse(response);
 
             if (this.options.userCache.isEnabled) {
                 const lifetime = data.ttl as number * 1000;
