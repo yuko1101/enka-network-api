@@ -10,8 +10,8 @@ export function validateCache(enka: EnkaClient, showLog: boolean): boolean {
     const artifactsCheck = checkArtifacts(enka.getAllArtifacts(false), showLog);
 
     if (!artifactsCheck) result = false;
-    const textAssetsChecks = [enka.getAllCharacters(), enka.getAllWeapons(), enka.getAllCostumes(), enka.getAllMaterials(), enka.getAllArtifacts(), enka.getAllArtifactSets()].reduce<unknown[]>((a, b) => [...a, ...b], []).map(target => [target, checkTextAssets(target as unknown as { [s: string]: unknown })]);
-    if (textAssetsChecks.some(check => Object.keys(check[1] as { [s: string]: unknown }).length !== 0) && showLog) console.warn("Missing TextHashMapId", textAssetsChecks.filter(check => Object.keys(check[1] as { [s: string]: unknown }).length !== 0));
+    const textAssetsChecks = [enka.getAllCharacters(), enka.getAllWeapons(), enka.getAllCostumes(), enka.getAllMaterials(), enka.getAllArtifacts(), enka.getAllArtifactSets()].reduce<unknown[]>((a, b) => [...a, ...b], []).map(target => [target, checkTextAssets(target as unknown as Record<string, unknown>)]);
+    if (textAssetsChecks.some(check => Object.keys(check[1] as Record<string, unknown>).length !== 0) && showLog) console.warn("Missing TextHashMapId", textAssetsChecks.filter(check => Object.keys(check[1] as Record<string, unknown>).length !== 0));
 
     const noSkills = enka.getAllCharacters().filter(c => !c.elementalSkill || !c.normalAttack);
     if (noSkills.length !== 0) {
@@ -54,20 +54,20 @@ function checkArtifacts(artifacts: ArtifactData[], showLog: boolean): boolean {
  * @param {string[]} route
  * @returns {object}
  */
-function checkTextAssets(obj: { [s: string]: unknown }, route: string[] = []): { [id: string]: string[] } {
+function checkTextAssets(obj: Record<string, unknown>, route: string[] = []): Record<string, string[]> {
     const keys = Object.keys(obj);
-    let missing: { [id: string]: string[] } = {};
+    let missing: Record<string, string[]> = {};
     for (const key of keys) {
         const value = obj[key];
         const currentRoute = [...route, key];
         if (value == null || value == undefined || typeof value !== "object") continue;
-        const valueObject = value as { [s: string]: unknown };
+        const valueObject = value as Record<string, unknown>;
         if (valueObject.fetchUser) continue; // ignore enkaclient
         if (valueObject.get && typeof valueObject.get === "function") {
             // if text assets
             try {
                 valueObject.get();
-            } catch (e) {
+            } catch {
                 missing[valueObject.id as string] = currentRoute;
             }
         } else if (typeof value === "object") {

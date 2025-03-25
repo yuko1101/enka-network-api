@@ -149,7 +149,7 @@ export class CharacterData {
         let details;
         try {
             details = CharacterDetails.getByCharacterId(this.id, this.isArchon, this.enka);
-        } catch (e) {
+        } catch {
             details = null;
         }
         this.details = details;
@@ -213,7 +213,7 @@ export class CharacterData {
 
         });
 
-        const statPropertiesWithoutBaseValues = ascensionData.addProps.filter(p => !(baseValues as { [s: string]: number })[p.fightProp]);
+        const statPropertiesWithoutBaseValues = ascensionData.addProps.filter(p => !(baseValues as Record<string, number>)[p.fightProp]);
 
         const levelingProps = [...statPropertiesWithBaseValues, ...statPropertiesWithoutBaseValues];
 

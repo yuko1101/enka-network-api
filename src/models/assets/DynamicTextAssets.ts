@@ -24,7 +24,7 @@ export class DynamicTextAssets extends TextAssets {
     constructor(id: number, data: Partial<DynamicData>, enka: EnkaClient, convertToHtmlFormat = false, directory?: string) {
         super(id, enka, convertToHtmlFormat, directory);
 
-        this.dynamicData = bindOptions(enka.options.textAssetsDynamicData as unknown as { [s: string]: unknown }, data) as unknown as DynamicData;
+        this.dynamicData = bindOptions(enka.options.textAssetsDynamicData as unknown as Record<string, unknown>, data) as unknown as DynamicData;
     }
 
     /**
@@ -61,7 +61,7 @@ export class DynamicTextAssets extends TextAssets {
             });
         }
 
-        const placeholderMap: { [key: string]: boolean } = {};
+        const placeholderMap: Record<string, boolean> = {};
         if (isEnabled("userInfo.travelerGender") && this.dynamicData.userInfo?.travelerGender != null) {
             placeholderMap["M"] = false;
             placeholderMap["F"] = false;
@@ -90,7 +90,7 @@ export class DynamicTextAssets extends TextAssets {
     getNullableReplacedData(replaceWith: (keyof DynamicData)[] = [], lang?: LanguageCode): { text: string, usedParamIndices: number[] } | null {
         try {
             return this.getReplacedData(replaceWith, lang);
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -108,7 +108,7 @@ export class DynamicTextAssets extends TextAssets {
     getNullableReplacedText(replaceWith: (keyof DynamicData)[] = [], lang?: LanguageCode): string | null {
         try {
             return this.getReplacedText(replaceWith, lang);
-        } catch (e) {
+        } catch {
             return null;
         }
     }

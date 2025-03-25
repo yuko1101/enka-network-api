@@ -16,7 +16,7 @@ export const artifactSlotMap = {
     EQUIP_SHOES: "sands",
     EQUIP_RING: "goblet",
     EQUIP_DRESS: "circlet",
-} as const satisfies { [key in EquipType]: SlotKey };
+} as const satisfies Record<EquipType, SlotKey>;
 
 export function convertToGOODArtifactSlotKey(slot: EquipType): SlotKey {
     return artifactSlotMap[slot];
@@ -42,9 +42,9 @@ export const statKeyMap = {
     pyro_dmg_: "FIGHT_PROP_FIRE_ADD_HURT",
     cryo_dmg_: "FIGHT_PROP_ICE_ADD_HURT",
     dendro_dmg_: "FIGHT_PROP_GRASS_ADD_HURT",
-} as const satisfies { [key in StatKey]: FightProp };
+} as const satisfies Record<StatKey, FightProp>;
 
-const statKeyMapReverse = Object.fromEntries(Object.entries(statKeyMap).map(([key, value]) => [value, key])) as { [key: string]: StatKey };
+const statKeyMapReverse = Object.fromEntries(Object.entries(statKeyMap).map(([key, value]) => [value, key])) as Record<string, StatKey>;
 export function convertToGOODStatKey(stat: FightProp): StatKey {
     return statKeyMapReverse[stat];
 }

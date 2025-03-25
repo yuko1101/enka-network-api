@@ -7,9 +7,7 @@ export interface IGOOD extends IGOODComponent {
     characters?: ICharacter[];
     artifacts?: IArtifact[];
     weapons?: IWeapon[];
-    materials?: { // Added in version 2
-        [key: MaterialKey]: number,
-    };
+    materials?: Record<MaterialKey, number> // Added in version 2
 }
 
 export interface IArtifact extends IGOODComponent {
@@ -77,4 +75,5 @@ export type StatKey =
     | "dendro_dmg_"; // Dendro DMG Bonus
 
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IGOODComponent { }

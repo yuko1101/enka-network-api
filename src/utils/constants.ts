@@ -119,7 +119,7 @@ export const fightProps = {
     // 3042: "FIGHT_PROP_ELEM_REACT_OVERGROW_FIRE_CRITICAL_HURT",
     // 3043: "FIGHT_PROP_ELEM_REACT_OVERGROW_ELECTRIC_CRITICAL",
     // 3044: "FIGHT_PROP_ELEM_REACT_OVERGROW_ELECTRIC_CRITICAL_HURT",
-} as const satisfies { [id: number]: FightProp };
+} as const satisfies Record<number, FightProp>;
 
 export const percent = [
     "FIGHT_PROP_HP_PERCENT",

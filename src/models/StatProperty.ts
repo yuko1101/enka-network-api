@@ -55,7 +55,7 @@ export class StatProperty<T extends FightProp = FightProp> {
     }
 
     static sumStatProperties(statProperties: StatProperty[], enka: EnkaClient): StatProperty[] {
-        const stats: { [key: string]: number } = {};
+        const stats: Record<string, number> = {};
         for (const prop of statProperties) {
             if (stats[prop.fightProp] === undefined) {
                 stats[prop.fightProp] = 0;

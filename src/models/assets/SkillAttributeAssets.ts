@@ -30,7 +30,7 @@ export class SkillAttributeAssets extends DynamicTextAssets {
     getNullableAttributeData(lang?: LanguageCode): SkillAttributeData | null {
         try {
             return this.getAttributeData(lang);
-        } catch (e) {
+        } catch {
             return null;
         }
     }

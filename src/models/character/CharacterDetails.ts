@@ -13,7 +13,7 @@ export interface Birthday {
 
 export type VoiceLanguage = "chinese" | "japanese" | "english" | "korean";
 
-export type CharacterVoiceActors = { [lang in VoiceLanguage]: TextAssets };
+export type CharacterVoiceActors = Record<VoiceLanguage, TextAssets>;
 
 export class CharacterDetails {
     readonly enka: EnkaClient;

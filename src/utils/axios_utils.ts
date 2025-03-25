@@ -22,7 +22,7 @@ export async function fetchJSON(url: string, enka: EnkaClient, enableTimeout = f
     if (res.data) {
         try {
             res.data = JSON.parse(res.data);
-        } catch (e) {
+        } catch {
             // do not parse if it is not json due to some error
         }
     }

@@ -1,6 +1,5 @@
 import { EnkaClient } from "../client/EnkaClient";
 import { CharacterData } from "../models/character/CharacterData";
-
 export function getCharactersById(id: number, enka: EnkaClient): CharacterData[] {
     const data = enka.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
     if (!data) return [];

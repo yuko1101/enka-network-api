@@ -274,7 +274,7 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @param hash EnkaGameAccount hash
      * @returns the genshin character builds including saved builds in Enka.Network account
      */
-    async fetchEnkaGenshinBuilds(username: string, hash: string): Promise<{ [characterId: string]: GenshinCharacterBuild[] }> {
+    async fetchEnkaGenshinBuilds(username: string, hash: string): Promise<Record<string, GenshinCharacterBuild[]>> {
         return await this.options.enkaSystem.fetchEnkaCharacterBuilds<EnkaClient>(username, hash);
     }
 

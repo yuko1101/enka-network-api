@@ -42,7 +42,7 @@ export class TextAssets {
     getNullable(lang?: LanguageCode): string | null {
         try {
             return this.get(lang);
-        } catch (e) {
+        } catch {
             return null;
         }
     }

@@ -13,7 +13,7 @@ const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "
 export const excelJsonOptions = {
     allowBigint: false,
 } as const satisfies JsonOptions;
-let dataMemory: { [key: string]: JsonReader<typeof excelJsonOptions> } = {};
+let dataMemory: Record<string, JsonReader<typeof excelJsonOptions>> = {};
 
 
 const initialLangDataMemory: NullableLanguageMap = { chs: null, cht: null, de: null, en: null, es: null, fr: null, id: null, jp: null, kr: null, pt: null, ru: null, th: null, vi: null };
@@ -21,8 +21,8 @@ let langDataMemory: NullableLanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
 
-export type NullableLanguageMap = { [key in LanguageCode]: { [key: string]: string } | null };
-export type LanguageMap = { [key in LanguageCode]: { [key: string]: string } };
+export type NullableLanguageMap = Record<LanguageCode, Record<string, string> | null>;
+export type LanguageMap = Record<LanguageCode, Record<string, string>>;
 
 export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
 
@@ -170,7 +170,7 @@ export class CachedAssetsManager {
     }
 
     /** Obtains a text map for a specific language. */
-    async fetchLanguageData(lang: LanguageCode): Promise<{ [key: string]: string }> {
+    async fetchLanguageData(lang: LanguageCode): Promise<Record<string, string>> {
         await this.cacheDirectorySetup();
         // TODO: better handling for languages with splitted files
         if (lang === "th") {
@@ -233,7 +233,7 @@ export class CachedAssetsManager {
             }
 
             const promises: Promise<void>[] = [];
-            const genshinData: { [s: string]: JsonArray } = {};
+            const genshinData: Record<string, JsonArray> = {};
             for (const content of contents) {
                 const fileName = `${content}.json`;
                 const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
@@ -456,7 +456,7 @@ export class CachedAssetsManager {
     /**
      * Remove all unused text map entries
      */
-    removeUnusedTextData(data: { [s: string]: JsonArray }, langsData: LanguageMap, showLog = true): LanguageMap {
+    removeUnusedTextData(data: Record<string, JsonArray>, langsData: LanguageMap, showLog = true): LanguageMap {
         const required: number[] = [];
 
         function push(...keys: number[]) {

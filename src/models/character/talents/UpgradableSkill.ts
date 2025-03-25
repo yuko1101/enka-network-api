@@ -1,4 +1,4 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../../client/EnkaClient";
 import { SkillAttributeAssets } from "../../assets/SkillAttributeAssets";
 import { TextAssets } from "../../assets/TextAssets";
@@ -8,10 +8,6 @@ import { nonNullable } from "../../../utils/ts_utils";
 import { excelJsonOptions } from "../../../client/CachedAssetsManager";
 
 export class UpgradableSkill extends Skill {
-    constructor(data: JsonObject, enka: EnkaClient) {
-        super(data, enka);
-    }
-
     getSkillAttributes(level: number): SkillAttributeAssets[] {
         const proudSkillGroupId = new JsonReader(excelJsonOptions, this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return [];
@@ -27,7 +23,7 @@ export class UpgradableSkill extends Skill {
             // TODO: better filter
             try {
                 new TextAssets(id, this.enka).get("en");
-            } catch (e) {
+            } catch {
                 return null;
             }
 
