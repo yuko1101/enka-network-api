@@ -1,5 +1,6 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
+import stylistics from "@stylistic/eslint-plugin-ts";
 
 export default tseslint.config(
     {
@@ -14,6 +15,9 @@ export default tseslint.config(
     tseslint.configs.strict,
     tseslint.configs.stylistic,
     {
+        plugins: {
+            "@stylistics/ts": stylistics,
+        },
         rules: {
             "arrow-spacing": [
                 "error",
@@ -108,7 +112,7 @@ export default tseslint.config(
             ],
             "semi": "error",
             "space-before-blocks": "error",
-            "space-before-function-paren": [
+            "@stylistics/ts/space-before-function-paren": [
                 "error",
                 {
                     "anonymous": "never",

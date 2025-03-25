@@ -1,10 +1,10 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class Constellation {
     readonly id: number;
@@ -15,9 +15,9 @@ export class Constellation {
     readonly addProps: StatProperty[];
     readonly paramList: number[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
 
@@ -37,8 +37,8 @@ export class Constellation {
     }
 
     static getById(id: number, enka: EnkaClient): Constellation {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarTalentExcelConfigData").findArray((_, p) => p.getAsNumber("talentId") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Constellation", id);
-        return new Constellation(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("AvatarTalentExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("Constellation", id);
+        return new Constellation(data, enka);
     }
 }

@@ -2,67 +2,29 @@ import fs from "fs";
 import path from "path";
 import axios from "axios";
 import unzip, { Entry } from "unzip-stream";
-import { ConfigFile, JsonArray, JsonObject, bindOptions, move, JsonReader, JsonOptions, defaultJsonOptions } from "config_file.js";
+import { ConfigFile, JsonObject, bindOptions, move, JsonReader, defaultJsonOptions } from "config_file.js";
 import { fetchJSON } from "../utils/axios_utils";
 import { ObjectKeysManager } from "./ObjectKeysManager";
 import { EnkaClient } from "./EnkaClient";
 import { validateCache } from "../utils/cache_utils";
+import { excelKeyMap, ExcelType, excels, IndexBy, SingleBy, excelJsonOptions, indexBy, ExcelTransformer, ExcelJsonObject } from "./ExcelTransformer";
 
-const languages: LanguageCode[] = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"];
+export type LoadedExcelDataMap = { [excel in keyof typeof excelKeyMap]: SingleBy<typeof excelKeyMap[excel]> };
+export type ExcelDataMap = { [excel in keyof typeof excelKeyMap]: LoadedExcelDataMap[excel] | null };
+const initialExcelDataMemory = Object.fromEntries(excels.map(content => [content, null])) as ExcelDataMap;
+let excelDataMemory: ExcelDataMap = { ...initialExcelDataMemory };
 
-export const excelJsonOptions = {
-    allowBigint: false,
-} as const satisfies JsonOptions;
-let dataMemory: Record<string, JsonReader<typeof excelJsonOptions>> = {};
-
-
-const initialLangDataMemory: NullableLanguageMap = { chs: null, cht: null, de: null, en: null, es: null, fr: null, id: null, jp: null, kr: null, pt: null, ru: null, th: null, vi: null };
-let langDataMemory: NullableLanguageMap = { ...initialLangDataMemory };
+const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"] as const;
+export type LanguageCode = typeof languages[number];
+export type LoadedLanguageMap = Record<LanguageCode, Record<string, string>>;
+export type LanguageMap = { [key in LanguageCode]: LoadedLanguageMap[key] | null };
+const initialLangDataMemory: LanguageMap = Object.fromEntries(languages.map(lang => [lang, null])) as LanguageMap;
+let langDataMemory: LanguageMap = { ...initialLangDataMemory };
 
 let objectKeysManager: ObjectKeysManager | null;
 
-export type NullableLanguageMap = Record<LanguageCode, Record<string, string> | null>;
-export type LanguageMap = Record<LanguageCode, Record<string, string>>;
-
-export type LanguageCode = "chs" | "cht" | "de" | "en" | "es" | "fr" | "id" | "jp" | "kr" | "pt" | "ru" | "th" | "vi";
-
 // Thanks @Dimbreath
-const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master";
-const contents = [
-    "AvatarExcelConfigData", // Characters
-    "FetterInfoExcelConfigData", // Characters Profile Info
-    "AvatarCostumeExcelConfigData", // Costumes
-    "AvatarSkillDepotExcelConfigData", // Skill Depot
-    "AvatarSkillExcelConfigData", // Skills
-    "ProudSkillExcelConfigData", // Passive Talents and Leveled Talents
-    "AvatarTalentExcelConfigData", // Constellations
-    "AvatarPromoteExcelConfigData", // Character Ascensions
-    "AvatarCurveExcelConfigData", // Character Basic Stats Curves
-    "AvatarCodexExcelConfigData", // Character Release Information
-
-    "WeaponExcelConfigData", // Weapons
-    "WeaponPromoteExcelConfigData", // Weapon Ascensions
-    "WeaponCurveExcelConfigData", // Weapon Basic Stats Curves
-    "WeaponCodexExcelConfigData", // Weapon Release Information
-    "EquipAffixExcelConfigData", // Artifact Set Bonus and Weapon Refinements
-    "ReliquaryExcelConfigData", // Artifacts
-    "ReliquaryLevelExcelConfigData", // Artifact Main Affix
-    "ReliquaryAffixExcelConfigData", // Artifact Sub Affix
-    "ReliquarySetExcelConfigData", // Artifact Sets
-    "ReliquaryCodexExcelConfigData", // Artifact valid rarities
-
-    "ManualTextMapConfigData", // Fight Props and Other TextMaps
-    "AvatarHeroEntityExcelConfigData", // Travelers
-    "TrialAvatarFetterDataConfigData", // Archons
-
-    "MaterialExcelConfigData", // Materials (including NameCards)
-    "FetterCharacterCardExcelConfigData", // Friendship Rewards
-    "RewardExcelConfigData", // Rewards Data for Friendship Cards
-
-    "ProfilePictureExcelConfigData", // User pfp
-
-    "RoleCombatDifficultyExcelConfigData", // Theater seasonal difficulty
-];
+const contentBaseUrl = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/dee14cc45e977782e1e93be9d3ed4b0d12e90e5a";
 
 const textMapWhiteList = [
     2329553598, // Aether
@@ -113,10 +75,6 @@ export class CachedAssetsManager {
     readonly enka: EnkaClient;
     /** Default path of genshin cache data directory */
     readonly defaultCacheDirectoryPath: string;
-    /** List of the names of the files this library uses */
-    readonly _contentsSrc: string[];
-    /** List of supported languages */
-    readonly _langs: string[];
     /** Path of directory where genshin cache data is stored */
     cacheDirectoryPath: string;
 
@@ -127,8 +85,6 @@ export class CachedAssetsManager {
     constructor(enka: EnkaClient) {
         this.enka = enka;
         this.defaultCacheDirectoryPath = path.resolve(__dirname, "..", "..", "cache");
-        this._contentsSrc = contents;
-        this._langs = languages;
 
         this.cacheDirectoryPath = enka.options.cacheDirectory ?? this.defaultCacheDirectoryPath;
         this._cacheUpdater = null;
@@ -233,16 +189,17 @@ export class CachedAssetsManager {
             }
 
             const promises: Promise<void>[] = [];
-            const genshinData: Record<string, JsonArray> = {};
-            for (const content of contents) {
-                const fileName = `${content}.json`;
+            // TODO: use ExcelDataMap (but not readonly) type instead.
+            const excelOutputData: ExcelJsonObject = { ...initialExcelDataMemory };
+            for (const excel of excels) {
+                const fileName = `${excel}.json`;
                 const url = `${contentBaseUrl}/ExcelBinOutput/${fileName}`;
                 promises.push((async () => {
                     const json = (await fetchJSON(url, this.enka)).data;
                     if (this.enka.options.showFetchCacheLog) {
                         console.info(`Downloaded data/${fileName}`);
                     }
-                    genshinData[content] = json;
+                    excelOutputData[excel] = this.formatExcel(excel, json);
                 })());
             }
             await Promise.all(promises);
@@ -252,7 +209,7 @@ export class CachedAssetsManager {
                 console.info("Downloading language files...");
             }
 
-            const langsData: NullableLanguageMap = { ...initialLangDataMemory };
+            const langsData: LanguageMap = { ...initialLangDataMemory };
             const langPromises: Promise<void>[] = [];
             for (const lang of languages) {
                 langPromises.push(
@@ -272,7 +229,7 @@ export class CachedAssetsManager {
                 console.info("Parsing data...");
             }
 
-            const clearLangsData = this.removeUnusedTextData(genshinData, langsData as LanguageMap);
+            const clearLangsData = this.removeUnusedTextData(excelOutputData as LoadedExcelDataMap, langsData as LoadedLanguageMap);
 
             if (this.enka.options.showFetchCacheLog) {
                 console.info("> Parsing completed");
@@ -283,8 +240,8 @@ export class CachedAssetsManager {
                 fs.writeFileSync(this.getLanguageDataPath(lang), JSON.stringify(clearLangsData[lang]));
             }
 
-            for (const key in genshinData) {
-                fs.writeFileSync(this.getJSONDataPath(key), JSON.stringify(genshinData[key]));
+            for (const key in excelOutputData) {
+                fs.writeFileSync(this.getJSONDataPath(key), JSON.stringify(excelOutputData[key]));
             }
 
             await this._githubCache?.set("rawLastUpdate", Date.now()).save();
@@ -305,8 +262,8 @@ export class CachedAssetsManager {
         for (const lang of languages) {
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "langs", `${lang}.json`))) return false;
         }
-        for (const content of contents) {
-            const fileName = `${content}.json`;
+        for (const excel of excels) {
+            const fileName = `${excel}.json`;
             if (!fs.existsSync(path.resolve(this.cacheDirectoryPath, "data", fileName))) return false;
         }
         return true;
@@ -397,12 +354,26 @@ export class CachedAssetsManager {
         return path.resolve(this.cacheDirectoryPath, "data", `${name}.json`);
     }
 
-    /**
-     * @param name without extensions (.json)
-     */
-    getGenshinCacheData(name: string): JsonReader<typeof excelJsonOptions> {
-        dataMemory[name] ??= new JsonReader(excelJsonOptions, JSON.parse(fs.readFileSync(this.getJSONDataPath(name), "utf-8")));
-        return dataMemory[name];
+    _getExcelDataPath(excel: ExcelType): string {
+        return path.resolve(this.cacheDirectoryPath, "data", `${excel}.json`);
+    }
+
+    _getExcelData<T extends ExcelType>(excel: T): SingleBy<typeof excelKeyMap[T]> {
+        excelDataMemory[excel] ??= JSON.parse(fs.readFileSync(this._getExcelDataPath(excel), "utf-8"));
+        const excelData = excelDataMemory[excel];
+        if (!excelData) throw new Error(`Failed to load ${excel} excel.`);
+        return excelData;
+    }
+
+
+    getExcelData<T extends ExcelType, U extends (string | number)[]>(excel: T, ...keys: U): IndexBy<SingleBy<typeof excelKeyMap[T]>, U> {
+        const excelData = this._getExcelData(excel);
+        return indexBy(excelData, ...keys);
+    }
+
+    formatExcel<T extends ExcelType>(excel: T, data: ExcelJsonObject[]): SingleBy<typeof excelKeyMap[T]> {
+        const transformer = new ExcelTransformer();
+        return transformer.transform(excel, data);
     }
 
     /**
@@ -433,17 +404,17 @@ export class CachedAssetsManager {
      * If `reload` is false, load each file as needed.
      */
     refreshAllData(reload = false): void {
-        const loadedData = reload ? Object.keys(dataMemory) : null;
+        const loadedData = reload ? Object.keys(excelDataMemory) as ExcelType[] : [];
         const loadedLangs = reload ? Object.keys(langDataMemory) as LanguageCode[] : null;
 
-        dataMemory = {};
+        excelDataMemory = { ...initialExcelDataMemory };
         langDataMemory = { ...initialLangDataMemory };
 
         objectKeysManager = null;
 
         if (reload && loadedData && loadedLangs) {
             for (const name of loadedData) {
-                this.getGenshinCacheData(name);
+                this._getExcelData(name);
             }
             for (const lang of loadedLangs) {
                 this.getLanguageData(lang);
@@ -456,7 +427,7 @@ export class CachedAssetsManager {
     /**
      * Remove all unused text map entries
      */
-    removeUnusedTextData(data: Record<string, JsonArray>, langsData: LanguageMap, showLog = true): LanguageMap {
+    removeUnusedTextData(data: LoadedExcelDataMap, langsData: LoadedLanguageMap, showLog = true): LoadedLanguageMap {
         const required: number[] = [];
 
         function push(...keys: number[]) {
@@ -469,14 +440,14 @@ export class CachedAssetsManager {
 
         push(...textMapWhiteList);
 
-        data["AvatarExcelConfigData"].forEach(c => {
+        Object.values(data["AvatarExcelConfigData"]).forEach(c => {
             const json = new JsonReader(excelJsonOptions, c);
             push(
                 json.getAsNumber("nameTextMapHash"),
                 json.getAsNumber("descTextMapHash"),
             );
         });
-        data["FetterInfoExcelConfigData"].forEach(c => {
+        Object.values(data["FetterInfoExcelConfigData"]).forEach(c => {
             const json = new JsonReader(excelJsonOptions, c);
             push(
                 json.getAsNumber("avatarNativeTextMapHash"),
@@ -491,49 +462,55 @@ export class CachedAssetsManager {
                 json.getAsNumber("cvKoreanTextMapHash"),
             );
         });
-        data["AvatarCostumeExcelConfigData"].forEach(c => {
-            const json = new JsonReader(excelJsonOptions, c);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        Object.values(data["AvatarCostumeExcelConfigData"]).forEach(c => {
+            Object.values(c).forEach(s => {
+                const json = new JsonReader(excelJsonOptions, s);
+                push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+            });
         });
-        data["AvatarSkillExcelConfigData"].forEach(s => {
+        Object.values(data["AvatarSkillExcelConfigData"]).forEach(s => {
             const json = new JsonReader(excelJsonOptions, s);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
-        data["ProudSkillExcelConfigData"].forEach(p => {
-            const json = new JsonReader(excelJsonOptions, p);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.get("paramDescList").mapArray((_, e) => e.getAsNumber()) : []));
+        Object.values(data["ProudSkillExcelConfigData"]).forEach(g => {
+            Object.values(g).forEach(p => {
+                const json = new JsonReader(excelJsonOptions, p);
+                push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"), ...(json.has("paramDescList") ? json.get("paramDescList").mapArray((_, e) => e.getAsNumber()) : []));
+            });
         });
-        data["AvatarTalentExcelConfigData"].forEach(c => {
+        Object.values(data["AvatarTalentExcelConfigData"]).forEach(c => {
             const json = new JsonReader(excelJsonOptions, c);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
 
-        data["WeaponExcelConfigData"].forEach(w => {
+        Object.values(data["WeaponExcelConfigData"]).forEach(w => {
             const json = new JsonReader(excelJsonOptions, w);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
-        data["EquipAffixExcelConfigData"].forEach(a => {
-            const json = new JsonReader(excelJsonOptions, a);
-            push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+        Object.values(data["EquipAffixExcelConfigData"]).forEach(a => {
+            Object.values(a).forEach(l => {
+                const json = new JsonReader(excelJsonOptions, l);
+                push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
+            });
         });
-        data["ReliquaryExcelConfigData"].forEach(a => {
+        Object.values(data["ReliquaryExcelConfigData"]).forEach(a => {
             const json = new JsonReader(excelJsonOptions, a);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
 
-        data["ManualTextMapConfigData"].forEach(m => {
+        Object.values(data["ManualTextMapConfigData"]).forEach(m => {
             const json = new JsonReader(excelJsonOptions, m);
             const id = json.getAsString("textMapId");
             if (!manualTextMapWhiteList.includes(id) && !id.startsWith("FIGHT_REACTION_") && !id.startsWith("FIGHT_PROP_") && !id.startsWith("PROP_") && !id.startsWith("WEAPON_")) return;
             push(json.getAsNumber("textMapContentTextMapHash"));
         });
 
-        data["MaterialExcelConfigData"].forEach(m => {
+        Object.values(data["MaterialExcelConfigData"]).forEach(m => {
             const json = new JsonReader(excelJsonOptions, m);
             push(json.getAsNumber("nameTextMapHash"), json.getAsNumber("descTextMapHash"));
         });
 
-        data["ProfilePictureExcelConfigData"].forEach(p => {
+        Object.values(data["ProfilePictureExcelConfigData"]).forEach(p => {
             const json = new JsonReader(excelJsonOptions, p);
             push(json.getAsNumber("nameTextMapHash"));
         });
@@ -543,7 +520,7 @@ export class CachedAssetsManager {
 
         if (showLog) console.info(`Required keys have been loaded (${keyCount.toLocaleString()} keys)`);
 
-        const clearLangsData: NullableLanguageMap = { ...initialLangDataMemory };
+        const clearLangsData: LanguageMap = { ...initialLangDataMemory };
 
         for (const lang of Object.keys(langsData) as LanguageCode[]) {
             if (showLog) console.info(`Modifying language "${lang}"...`);
@@ -561,7 +538,7 @@ export class CachedAssetsManager {
 
         if (showLog) console.info("Removing unused keys completed.");
 
-        return clearLangsData as LanguageMap;
+        return clearLangsData as LoadedLanguageMap;
     }
 
     /**

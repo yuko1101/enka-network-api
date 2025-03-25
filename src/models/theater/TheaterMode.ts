@@ -1,7 +1,7 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export const theaterDifficulties = ["EASY", "NORMAL", "HARD", "VISIONARY"] as const;
 
@@ -11,9 +11,9 @@ export class TheaterMode {
     readonly id: number;
     readonly difficulty: typeof theaterDifficulties[number];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
 
@@ -25,9 +25,9 @@ export class TheaterMode {
     }
 
     static getById(id: number, enka: EnkaClient): TheaterMode {
-        const theaterMode = enka.cachedAssetsManager.getGenshinCacheData("RoleCombatDifficultyExcelConfigData").findArray((_, p) => p.getAsNumber("difficultyId") === id)?.[1];
-        if (!theaterMode) throw new AssetsNotFoundError("TheaterMode", id);
+        const data = enka.cachedAssetsManager.getExcelData("RoleCombatDifficultyExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("TheaterMode", id);
 
-        return new TheaterMode(theaterMode.getAsJsonObject(), enka);
+        return new TheaterMode(data, enka);
     }
 }

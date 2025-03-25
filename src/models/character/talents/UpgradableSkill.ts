@@ -5,17 +5,18 @@ import { TextAssets } from "../../assets/TextAssets";
 import { UpgradeCost } from "../../material/UpgradeCost";
 import { Skill } from "./Skill";
 import { nonNullable } from "../../../utils/ts_utils";
-import { excelJsonOptions } from "../../../client/CachedAssetsManager";
+import { excelJsonOptions } from "../../../client/ExcelTransformer";
 
 export class UpgradableSkill extends Skill {
     getSkillAttributes(level: number): SkillAttributeAssets[] {
         const proudSkillGroupId = new JsonReader(excelJsonOptions, this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return [];
 
-        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.[1];
+        const leveledSkillData = this.enka.cachedAssetsManager.getExcelData("ProudSkillExcelConfigData", proudSkillGroupId, level);
         if (!leveledSkillData) return [];
+        const json = new JsonReader(excelJsonOptions, leveledSkillData);
 
-        const paramDescList = leveledSkillData.has("paramDescList") ? leveledSkillData.get("paramDescList").mapArray((_, p) => p.getAsNumber()) : undefined;
+        const paramDescList = json.has("paramDescList") ? json.get("paramDescList").mapArray((_, p) => p.getAsNumber()) : undefined;
 
         if (!paramDescList) return [];
 
@@ -27,7 +28,7 @@ export class UpgradableSkill extends Skill {
                 return null;
             }
 
-            return new SkillAttributeAssets(id, leveledSkillData.has("paramList") ? leveledSkillData.get("paramList").mapArray((_, p) => p.getAsNumber()) : [], this.enka);
+            return new SkillAttributeAssets(id, json.has("paramList") ? json.get("paramList").mapArray((_, p) => p.getAsNumber()) : [], this.enka);
         }).filter(nonNullable);
     }
 
@@ -38,10 +39,11 @@ export class UpgradableSkill extends Skill {
         const proudSkillGroupId = new JsonReader(excelJsonOptions, this._data).getAsNumber("proudSkillGroupId");
         if (!proudSkillGroupId) return null;
 
-        const leveledSkillData = this.enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillGroupId") === proudSkillGroupId && p.getAsNumber("level") === level)?.[1];
+        const leveledSkillData = this.enka.cachedAssetsManager.getExcelData("ProudSkillExcelConfigData", proudSkillGroupId, level);
         if (!leveledSkillData) return null;
+        const json = new JsonReader(excelJsonOptions, leveledSkillData);
 
-        return new UpgradeCost(leveledSkillData.getAsNumberWithDefault(0, "coinCost"), leveledSkillData.has("costItems") ? leveledSkillData.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
+        return new UpgradeCost(json.getAsNumberWithDefault(0, "coinCost"), json.has("costItems") ? json.get("costItems").mapArray((_, p) => p.getAsJsonObject()) : [], this.enka);
     }
 
     static getById(id: number, enka: EnkaClient): UpgradableSkill {

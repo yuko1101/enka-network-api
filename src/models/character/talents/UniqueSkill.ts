@@ -1,7 +1,7 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../../client/EnkaClient";
 import { UpgradableSkill } from "./UpgradableSkill";
-import { excelJsonOptions } from "../../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../../client/ExcelTransformer";
 
 /**
  * Elemental Skill and Elemental Burst
@@ -10,7 +10,7 @@ export class UniqueSkill extends UpgradableSkill {
     readonly maxCharge: number;
     readonly cooldown: number;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         super(data, enka);
 
         const json = new JsonReader(excelJsonOptions, this._data);

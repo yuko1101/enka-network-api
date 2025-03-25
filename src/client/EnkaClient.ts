@@ -13,10 +13,11 @@ import { GenshinCharacterBuild } from "../models/enka/GenshinCharacterBuild";
 import { Material } from "../models/material/Material";
 import { ArtifactSet } from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
-import { JsonObject, bindOptions, generateUuid, renameKeys } from "config_file.js";
+import { JsonObject, JsonReader, bindOptions, generateUuid, renameKeys } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
 import { nonNullable, Overwrite } from "../utils/ts_utils";
 import { CustomImageBaseUrl, ImageBaseUrl } from "../models/assets/ImageAssets";
+import { excelJsonOptions } from "./ExcelTransformer";
 
 const getUserUrl = (enkaUrl: string, uid: string | number) => `${enkaUrl}/api/uid/${uid}`;
 
@@ -282,7 +283,10 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all playable character data
      */
     getAllCharacters(): CharacterData[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarExcelConfigData").filterArray((_, p) => p.getAsStringWithDefault(null, "useType") === "AVATAR_FORMAL" && p.getAsNumber("featureTagGroupID") === p.getAsNumber("id")).map(([, p]) => characterUtils.getCharactersById(p.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
+        return Object.values(this.cachedAssetsManager.getExcelData("AvatarExcelConfigData"))
+            .map(c => new JsonReader(excelJsonOptions, c))
+            .filter(j => j.getAsStringWithDefault(null, "useType") === "AVATAR_FORMAL" && j.getAsNumber("featureTagGroupID") === j.getAsNumber("id"))
+            .map(j => characterUtils.getCharactersById(j.getAsNumber("id"), this)).reduce((a, b) => [...a, ...b], []);
     }
 
     /**
@@ -298,17 +302,18 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all weapon data
      */
     getAllWeapons(excludeInvalidWeapons = true, filterByCodex = true): WeaponData[] {
-        const weapons = this.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData");
-        const weaponDataList = excludeInvalidWeapons
-            ? weapons.filterArray((_, p) => p.has("id") && p.has("weaponPromoteId") && p.getAsNumber("weaponPromoteId") === p.getAsNumber("id")).map(([, p]) => new WeaponData(p.getAsJsonObject(), this))
-            : weapons.mapArray((_, p) => new WeaponData(p.getAsJsonObject(), this));
+        let weapons = Object.values(this.cachedAssetsManager.getExcelData("WeaponExcelConfigData"))
+            .map(w => new JsonReader(excelJsonOptions, w));
 
-        if (filterByCodex) {
-            const codexSet = new Set(this.cachedAssetsManager.getGenshinCacheData("WeaponCodexExcelConfigData").mapArray((_, p) => p.getAsNumber("weaponId")));
-            return weaponDataList.filter(w => codexSet.has(w.id));
-        } else {
-            return weaponDataList;
+        if (excludeInvalidWeapons) {
+            weapons = weapons.filter(j => j.has("id") && j.has("weaponPromoteId") && j.getAsNumber("weaponPromoteId") === j.getAsNumber("id"));
         }
+        if (filterByCodex) {
+            const codexSet = new Set(Object.keys(this.cachedAssetsManager.getExcelData("WeaponCodexExcelConfigData")));
+            weapons = weapons.filter(j => j.has("id") && codexSet.has(j.getAsNumber("id").toString()));
+        }
+
+        return weapons.map(j => new WeaponData(j.getAsJsonObject(), this));
     }
 
     /**
@@ -324,7 +329,10 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all costume data
      */
     getAllCostumes(includeDefaults = false): Costume[] {
-        return this.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").filterArray((_, p) => !includeDefaults || (includeDefaults && p.getAsBooleanWithDefault(false, "isDefault"))).map(([, p]) => new Costume(p.getAsJsonObject(), this));
+        return Object.values(this.cachedAssetsManager.getExcelData("AvatarCostumeExcelConfigData"))
+            .flatMap(c => Object.values(c))
+            .filter(c => !includeDefaults || (includeDefaults && new JsonReader(excelJsonOptions, c).getAsBooleanWithDefault(false, "isDefault")))
+            .map(c => new Costume(c, this));
     }
 
     /**
@@ -332,14 +340,15 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      */
     getCostumeById(id: number | string): Costume {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
-        return Costume.getById(Number(id), this);
+        return Costume.getBySkinId(Number(id), this);
     }
 
     /**
      * @returns all material data
      */
     getAllMaterials(): Material[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").mapArray((_, p) => Material.getMaterialByData(p.getAsJsonObject(), this));
+        return Object.values(this.cachedAssetsManager.getExcelData("MaterialExcelConfigData"))
+            .map(m => Material.getMaterialByData(m, this));
     }
 
     /**
@@ -354,7 +363,10 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all name card data
      */
     getAllNameCards(): NameCard[] {
-        return this.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").filterArray((_, p) => p.has("materialType") && p.getAsString("materialType") === NameCard.MATERIAL_TYPE).map(([, p]) => new NameCard(p.getAsJsonObject(), this));
+        return Object.values(this.cachedAssetsManager.getExcelData("MaterialExcelConfigData"))
+            .map(m => new JsonReader(excelJsonOptions, m))
+            .filter(j => j.has("materialType") && j.getAsString("materialType") === NameCard.MATERIAL_TYPE)
+            .map(j => new NameCard(j.getAsJsonObject(), this));
     }
 
     /**
@@ -372,44 +384,23 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact data
      */
     getAllArtifacts(highestRarityOnly = false): ArtifactData[] {
-        const allArtifacts = Object.fromEntries(this.cachedAssetsManager.getGenshinCacheData("ReliquaryExcelConfigData").mapArray((_, p) => [p.getAsNumber("id"), p.getAsJsonObject()]));
+        const allArtifacts = this.cachedAssetsManager.getExcelData("ReliquaryExcelConfigData");
         const artifacts: ArtifactData[] = [];
 
-        const validRarityMap: Record<number, number[]> = {};
-        if (highestRarityOnly) {
-            this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
-                const setId = c.getAsNumber("suitId");
-                const stars = c.getAsNumber("level");
-                if (highestRarityOnly) {
-                    if (validRarityMap[setId]) {
-                        if (validRarityMap[setId][0] < stars) validRarityMap[setId][0] = stars;
-                    } else {
-                        validRarityMap[setId] = [stars];
-                    }
-                } else {
-                    if (!(setId in validRarityMap)) validRarityMap[setId] = [];
-                    validRarityMap[setId].push(stars);
-                }
-            });
-        }
-
-        this.cachedAssetsManager.getGenshinCacheData("ReliquaryCodexExcelConfigData").forEachArray((_, c) => {
-            if (highestRarityOnly) {
-                const setId = c.getAsNumber("suitId");
-                const stars = c.getAsNumber("level");
-                if (!validRarityMap[setId].includes(stars)) return;
+        for (const setCodex of Object.values(this.cachedAssetsManager.getExcelData("ReliquaryCodexExcelConfigData"))) {
+            const rarities = highestRarityOnly ? [Math.max(...Object.keys(setCodex).map(k => Number(k)))] : Object.keys(setCodex);
+            for (const rarity of rarities) {
+                const codex = new JsonReader(excelJsonOptions, setCodex[rarity]);
+                const ids = [
+                    codex.getAsNumberWithDefault(null, "cupId"),
+                    codex.getAsNumberWithDefault(null, "leatherId"),
+                    codex.getAsNumberWithDefault(null, "capId"),
+                    codex.getAsNumberWithDefault(null, "flowerId"),
+                    codex.getAsNumberWithDefault(null, "sandId"),
+                ].filter(nonNullable);
+                artifacts.push(...ids.map(id => new ArtifactData(allArtifacts[id], this)));
             }
-
-            const ids = [
-                c.getAsNumberWithDefault(null, "cupId"),
-                c.getAsNumberWithDefault(null, "leatherId"),
-                c.getAsNumberWithDefault(null, "capId"),
-                c.getAsNumberWithDefault(null, "flowerId"),
-                c.getAsNumberWithDefault(null, "sandId"),
-            ].filter(nonNullable);
-
-            artifacts.push(...ids.map(id => new ArtifactData(allArtifacts[id], this)));
-        });
+        };
 
         return artifacts;
     }
@@ -426,8 +417,9 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
      * @returns all artifact set data
      */
     getAllArtifactSets(): ArtifactSet[] {
-        const sets = this.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").filterArray((_, p) => p.getValue("disableFilter") !== 1);
-        return sets.map(([, p]) => new ArtifactSet(p.getAsJsonObject(), this));
+        return Object.values(this.cachedAssetsManager.getExcelData("ReliquarySetExcelConfigData"))
+            .filter(s => s["disableFilter"] !== 1)
+            .map(s => new ArtifactSet(s, this));
     }
 
     /**

@@ -1,15 +1,15 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { Material } from "./Material";
 import { EnkaClient } from "../../client/EnkaClient";
 import { nonNullable } from "../../utils/ts_utils";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class UpgradeCost {
     readonly enka: EnkaClient;
     readonly coin: number;
     readonly items: { material: Material, count: number }[];
 
-    constructor(coinCost: number, costItems: JsonObject[], enka: EnkaClient) {
+    constructor(coinCost: number, costItems: ExcelJsonObject[], enka: EnkaClient) {
         this.enka = enka;
 
         this.coin = coinCost;
@@ -23,6 +23,5 @@ export class UpgradeCost {
                 count: cost.getAsNumber("count"),
             };
         }).filter(nonNullable);
-
     }
 }

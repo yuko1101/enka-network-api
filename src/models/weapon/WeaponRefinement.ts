@@ -1,9 +1,9 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class WeaponRefinement {
     readonly enka: EnkaClient;
@@ -15,9 +15,9 @@ export class WeaponRefinement {
     readonly addProps: StatProperty[];
     readonly paramList: number[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
 
         this.enka = enka;
@@ -40,8 +40,8 @@ export class WeaponRefinement {
      * @param level refinement rank (1-5)
      */
     static getById(id: number, level: number, enka: EnkaClient): WeaponRefinement {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id && p.getAsNumberWithDefault(0, "level") === level - 1)?.[1];
-        if (!json) throw new AssetsNotFoundError("WeaponRefinement", id);
-        return new WeaponRefinement(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("EquipAffixExcelConfigData", id, level);
+        if (!data) throw new AssetsNotFoundError("WeaponRefinement", id);
+        return new WeaponRefinement(data, enka);
     }
 }

@@ -1,9 +1,9 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { UpgradeCost } from "../material/UpgradeCost";
 import { StatProperty, FightProp } from "../StatProperty";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class WeaponAscension {
     readonly id: number;
@@ -16,9 +16,9 @@ export class WeaponAscension {
     readonly cost: UpgradeCost;
     readonly addProps: StatProperty[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -41,8 +41,8 @@ export class WeaponAscension {
      * @param ascension promoteLevel
      */
     static getById(id: number, ascension: number, enka: EnkaClient): WeaponAscension {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("WeaponPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("weaponPromoteId") === id && p.getAsNumberWithDefault(0, "promoteLevel") === ascension)?.[1];
-        if (!json) throw new AssetsNotFoundError("WeaponAscension", `${id}-${ascension}`);
-        return new WeaponAscension(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("WeaponPromoteExcelConfigData", id, ascension);
+        if (!data) throw new AssetsNotFoundError("WeaponAscension", `${id}-${ascension}`);
+        return new WeaponAscension(data, enka);
     }
 }

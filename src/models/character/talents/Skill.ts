@@ -1,10 +1,10 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../../assets/ImageAssets";
 import { TextAssets } from "../../assets/TextAssets";
 import { DynamicTextAssets } from "../../assets/DynamicTextAssets";
-import { excelJsonOptions } from "../../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../../client/ExcelTransformer";
 
 /**
  * Normal Attack, Elemental Skill, and Elemental Burst. Not including Passive Talents.
@@ -16,9 +16,9 @@ export class Skill {
     readonly description: DynamicTextAssets;
     readonly icon: ImageAssets;
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
 
@@ -37,9 +37,9 @@ export class Skill {
         return new Skill(this._getJsonObjectById(id, enka), enka);
     }
 
-    static _getJsonObjectById(id: number, enka: EnkaClient): JsonObject {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarSkillExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Skill", id);
-        return json.getAsJsonObject();
+    static _getJsonObjectById(id: number, enka: EnkaClient): ExcelJsonObject {
+        const data = enka.cachedAssetsManager.getExcelData("AvatarSkillExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("Skill", id);
+        return data;
     }
 }

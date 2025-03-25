@@ -44,12 +44,13 @@
   "homepage": "https://enka-network-api.vercel.app",
   "dependencies": {
     "axios": "^1.4.0",
-    "config_file.js": "^1.4.0",
+    "config_file.js": "^1.4.1",
     "enka-system": "^0.3.7",
     "unzip-stream": "^0.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
+    "@stylistic/eslint-plugin-ts": "^4.2.0",
     "@types/unzip-stream": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",

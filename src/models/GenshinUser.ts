@@ -73,7 +73,7 @@ export class GenshinUser extends User {
 
         this.charactersPreview = playerInfo.has("showAvatarInfoList") ? playerInfo.get("showAvatarInfoList").mapArray((_, p) => {
             const costumeId = p.getAsNumberWithDefault(null, "costumeId");
-            const costume = costumeId === null ? Costume.getDefaultCostumeByCharacterId(p.getAsNumber("avatarId"), enka) : Costume.getById(costumeId, enka);
+            const costume = costumeId === null ? Costume.getDefaultCostumeByCharacterId(p.getAsNumber("avatarId"), enka) : Costume.getById(p.getAsNumber("avatarId"), costumeId, enka);
 
             const elementType = p.has("energyType") ? elementList[p.getAsNumber("energyType")] as ElementType : null;
 

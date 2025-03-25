@@ -1,10 +1,11 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
-import { excelJsonOptions, LanguageCode } from "../../client/CachedAssetsManager";
+import { LanguageCode } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export interface Birthday {
     month: number;
@@ -31,10 +32,10 @@ export class CharacterDetails {
     readonly description: TextAssets;
     readonly cv: CharacterVoiceActors;
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
     readonly _nameId: string;
 
-    constructor(data: JsonObject, isArchon: boolean, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, isArchon: boolean, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
 
@@ -83,14 +84,14 @@ export class CharacterDetails {
     }
 
     static getById(id: number, isArchon: boolean, enka: EnkaClient): CharacterDetails {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("fetterId") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("FetterInfo", id);
-        return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
+        const data = Object.values(enka.cachedAssetsManager.getExcelData("FetterInfoExcelConfigData")).find(f => new JsonReader(excelJsonOptions, f).getAsNumber("fetterId") === id);
+        if (!data) throw new AssetsNotFoundError("FetterInfo", id);
+        return new CharacterDetails(data, isArchon, enka);
     }
 
     static getByCharacterId(id: number, isArchon: boolean, enka: EnkaClient) {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("FetterInfoExcelConfigData").findArray((_, f) => f.getAsNumber("avatarId") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("FetterInfo by avatarId", id);
-        return new CharacterDetails(json.getAsJsonObject(), isArchon, enka);
+        const data = enka.cachedAssetsManager.getExcelData("FetterInfoExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("FetterInfo by avatarId", id);
+        return new CharacterDetails(data, isArchon, enka);
     }
 }

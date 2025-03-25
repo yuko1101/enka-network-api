@@ -1,5 +1,6 @@
 export * from "./client/CachedAssetsManager";
 export * from "./client/EnkaClient";
+export * from "./client//ExcelTransformer";
 export * from "./client/ObjectKeysManager";
 export * from "./errors/AssetsNotFoundError";
 export * from "./models/artifact/Artifact";

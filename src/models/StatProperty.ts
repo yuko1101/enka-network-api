@@ -1,5 +1,6 @@
-import { JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
+import { ExcelJsonObject, excelJsonOptions } from "../client/ExcelTransformer";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { percent } from "../utils/constants";
 import { TextAssets } from "./assets/TextAssets";
@@ -12,18 +13,19 @@ export class StatProperty<T extends FightProp = FightProp> {
     readonly rawValue: number;
     readonly value: number;
 
-    readonly _propData: JsonObject;
+    readonly _propData: ExcelJsonObject;
 
     constructor(fightProp: T, value: number, enka: EnkaClient) {
         this.fightProp = fightProp;
 
         this.enka = enka;
 
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
+        const propData = enka.cachedAssetsManager.getExcelData("ManualTextMapConfigData", fightProp);
         if (!propData) throw new AssetsNotFoundError("Fight Prop", fightProp);
-        this._propData = propData.getAsJsonObject();
+        this._propData = propData;
+        const propDataJson = new JsonReader(excelJsonOptions, this._propData);
 
-        this.fightPropName = new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka);
+        this.fightPropName = new TextAssets(propDataJson.getAsNumber("textMapContentTextMapHash"), enka);
 
         this.isPercent = percent.some(p => p === fightProp);
 
@@ -50,8 +52,8 @@ export class StatProperty<T extends FightProp = FightProp> {
     }
 
     static getFightPropTextAssets(fightProp: FightProp, enka: EnkaClient): TextAssets | null {
-        const propData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === fightProp)?.[1];
-        return propData ? new TextAssets(propData.getAsNumber("textMapContentTextMapHash"), enka) : null;
+        const propData = enka.cachedAssetsManager.getExcelData("ManualTextMapConfigData", fightProp);
+        return propData ? new TextAssets(new JsonReader(excelJsonOptions, propData).getAsNumber("textMapContentTextMapHash"), enka) : null;
     }
 
     static sumStatProperties(statProperties: StatProperty[], enka: EnkaClient): StatProperty[] {

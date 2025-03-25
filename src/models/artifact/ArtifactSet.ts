@@ -3,10 +3,10 @@ import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { ArtifactSetBonus } from "./ArtifactSetBonus";
 import { EnkaClient } from "../../client/EnkaClient";
-import { JsonReader, JsonObject, separateByValue } from "config_file.js";
+import { JsonReader, separateByValue } from "config_file.js";
 import { Artifact } from "./Artifact";
 import { ArtifactData } from "./ArtifactData";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class ArtifactSet {
     readonly enka: EnkaClient;
@@ -15,10 +15,10 @@ export class ArtifactSet {
     readonly icon: ImageAssets;
     readonly name: TextAssets;
 
-    readonly _data: JsonObject;
-    readonly _setBonusData: JsonObject[];
+    readonly _data: ExcelJsonObject;
+    readonly _setBonusData: ExcelJsonObject<ExcelJsonObject>;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this.enka = enka;
         this._data = data;
 
@@ -28,10 +28,10 @@ export class ArtifactSet {
 
         const setNeedNum = json.get("setNeedNum").mapArray((_, p) => p.getAsNumber());
 
-        const setBonusJsonList = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, bonus) => bonus.getAsNumber("id") === json.getAsNumber("equipAffixId"));
-        if (setBonusJsonList.length === 0) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${json.getAsNumber("equipAffixId")}`);
-        if (setBonusJsonList.length !== setNeedNum.length) throw new Error(`Missing some set bonus for this artifact set (ID: ${this.id})`);
-        this._setBonusData = setBonusJsonList.map(bonus => bonus[1].getAsJsonObject());
+        const setBonusData = enka.cachedAssetsManager.getExcelData("EquipAffixExcelConfigData", json.getAsNumber("equipAffixId"));
+        if (!setBonusData) throw new AssetsNotFoundError("Artifact Set Bonus", `${this.id}-${json.getAsNumber("equipAffixId")}`);
+        if (Object.keys(setBonusData).length !== setNeedNum.length) throw new Error(`Missing some set bonus for this artifact set (ID: ${this.id})`);
+        this._setBonusData = setBonusData;
 
         this.setBonus = setNeedNum.map((n, i) => new ArtifactSetBonus(n, this._setBonusData[i], enka));
 
@@ -41,9 +41,9 @@ export class ArtifactSet {
     }
 
     static getById(id: number, enka: EnkaClient): ArtifactSet {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ReliquarySetExcelConfigData").findArray((_, p) => p.getAsNumber("setId") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("ArtifactSet", id);
-        return new ArtifactSet(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("ReliquarySetExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("ArtifactSet", id);
+        return new ArtifactSet(data, enka);
     }
 
     static getActiveSetBonus(artifacts: (Artifact | ArtifactData | ArtifactSet)[]): { set: ArtifactSet, count: number, activeBonus: ArtifactSetBonus[] }[] {

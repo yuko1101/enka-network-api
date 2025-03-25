@@ -5,6 +5,7 @@ import { JsonReader, JsonObject, defaultJsonOptions } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { IArtifact } from "../good/GOOD";
 import { IGOODComponentResolvable, convertToGOODArtifactSlotKey, convertToGOODKey, convertToGOODStatKey } from "../good/IGOODResolvable";
+import { excelJsonOptions } from "../../client/ExcelTransformer";
 
 export interface SubstatsContainer {
     total: StatProperty[];
@@ -40,8 +41,8 @@ export class Artifact implements IGOODComponentResolvable<IArtifact> {
         // const mainstatId = reliquary.getAsNumber("mainPropId");
         // const mainstatFightProp: FightProp = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryMainPropExcelConfigData").findArray((_, m) => m.getAsNumber("id") === mainstatId)?.[1].getAsString("propType") as FightProp;
         const mainstatFightProp = json.getAsString("flat", "reliquaryMainstat", "mainPropId") as FightProp;
-        const levelInfo = enka.cachedAssetsManager.getGenshinCacheData("ReliquaryLevelExcelConfigData").findArray((_, value) => value.getAsNumberWithDefault(0, "rank") === this.artifactData.stars && value.getAsNumber("level") === this.level)?.[1];
-        const mainstatData = levelInfo?.get("addProps").findArray((_, p) => p.getAsString("propType") === mainstatFightProp)?.[1];
+        const levelInfo = enka.cachedAssetsManager.getExcelData("ReliquaryLevelExcelConfigData", this.artifactData.stars, this.level);
+        const mainstatData = levelInfo ? new JsonReader(excelJsonOptions, levelInfo).get("addProps").findArray((_, p) => p.getAsString("propType") === mainstatFightProp)?.[1] : null;
         if (!mainstatData) throw new Error(`Failed to find the mainstat data for ${mainstatFightProp}: stars=${this.artifactData.stars}, level=${this.level}`);
         this.mainstat = new StatProperty(mainstatFightProp, mainstatData.getAsNumber("value"), enka);
 

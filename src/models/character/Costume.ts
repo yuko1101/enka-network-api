@@ -5,7 +5,7 @@ import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
 import { getNameIdByCharacterId } from "../../utils/character_utils";
 import { CharacterData } from "./CharacterData";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class Costume {
     readonly id: number;
@@ -58,14 +58,28 @@ export class Costume {
         return CharacterData.getById(this.characterId, this.enka);
     }
 
-    static getById(id: number, enka: EnkaClient): Costume {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("skinId") === id)?.[1];
+    static getById(characterId: number, id: number, enka: EnkaClient): Costume {
+        const data = enka.cachedAssetsManager.getExcelData("AvatarCostumeExcelConfigData", characterId, id);
+        if (!data) throw new AssetsNotFoundError("Costume", id);
+        return new Costume(data, enka);
+    }
+
+    // TODO: make this faster
+    static getBySkinId(id: number, enka: EnkaClient): Costume {
+        const json = Object.values(enka.cachedAssetsManager.getExcelData("AvatarCostumeExcelConfigData"))
+            .flatMap(c => Object.values(c))
+            .map(c => new JsonReader(excelJsonOptions, c))
+            .find(j => j.getAsNumber("skinId") === id);
         if (!json) throw new AssetsNotFoundError("Costume", id);
         return new Costume(json.getAsJsonObject(), enka);
     }
 
     static getDefaultCostumeByCharacterId(characterId: number, enka: EnkaClient): Costume {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarCostumeExcelConfigData").findArray((_, p) => p.getAsNumber("characterId") === characterId && p.getAsBooleanWithDefault(false, "isDefault"))?.[1];
+        const characterCostumes = enka.cachedAssetsManager.getExcelData("AvatarCostumeExcelConfigData", characterId);
+        if (!characterCostumes) throw new AssetsNotFoundError("Costume for character id", characterId);
+        const json = Object.values(characterCostumes)
+            .map(c => new JsonReader(excelJsonOptions, c))
+            .find(j => j.getAsNumber("characterId") === characterId && j.getAsBooleanWithDefault(false, "isDefault"));
         if (!json) throw new AssetsNotFoundError("Default costume", characterId);
         return new Costume(json.getAsJsonObject(), enka);
     }

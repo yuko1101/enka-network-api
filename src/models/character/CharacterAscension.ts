@@ -1,9 +1,9 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { UpgradeCost } from "../material/UpgradeCost";
 import { StatProperty, FightProp } from "../StatProperty";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class CharacterAscension {
     readonly id: number;
@@ -16,9 +16,9 @@ export class CharacterAscension {
     readonly cost: UpgradeCost;
     readonly addProps: StatProperty[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -41,8 +41,8 @@ export class CharacterAscension {
      * @param ascension promoteLevel
      */
     static getById(id: number, ascension: number, enka: EnkaClient): CharacterAscension {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("AvatarPromoteExcelConfigData").findArray((_, p) => p.getAsNumber("avatarPromoteId") === id && p.getAsNumberWithDefault(0, "promoteLevel") === ascension)?.[1];
-        if (!json) throw new AssetsNotFoundError("CharacterAscension", `${id}-${ascension}`);
-        return new CharacterAscension(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("AvatarPromoteExcelConfigData", id, ascension);
+        if (!data) throw new AssetsNotFoundError("CharacterAscension", `${id}-${ascension}`);
+        return new CharacterAscension(data, enka);
     }
 }

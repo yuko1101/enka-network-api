@@ -1,9 +1,9 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
 import { TextAssets } from "../assets/TextAssets";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export type ItemType = "ITEM_VIRTUAL" | "ITEM_MATERIAL";
 
@@ -18,9 +18,9 @@ export class Material {
     readonly materialType: string | null;
     readonly stars: number | null;
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -43,7 +43,7 @@ export class Material {
         this.stars = json.getAsNumberWithDefault(null, "rankLevel");
     }
 
-    static getMaterialByData(data: JsonObject, enka: EnkaClient): Material {
+    static getMaterialByData(data: ExcelJsonObject, enka: EnkaClient): Material {
         const json = new JsonReader(excelJsonOptions, data);
         switch (json.getAsStringWithDefault(null, "materialType")) {
             case NameCard.MATERIAL_TYPE:
@@ -56,10 +56,10 @@ export class Material {
     static getMaterialById(id: number | string, enka: EnkaClient): Material {
         if (isNaN(Number(id))) throw new Error("Parameter `id` must be a number or a string number.");
         id = Number(id);
-        const materialData = enka.cachedAssetsManager.getGenshinCacheData("MaterialExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
-        if (!materialData) throw new AssetsNotFoundError("Material", id);
+        const data = enka.cachedAssetsManager.getExcelData("MaterialExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("Material", id);
 
-        return this.getMaterialByData(materialData.getAsJsonObject(), enka);
+        return this.getMaterialByData(data, enka);
     }
 }
 
@@ -67,7 +67,7 @@ export class Material {
 export class NameCard extends Material {
     override readonly materialType: "MATERIAL_NAMECARD";
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         super(data, enka);
         this.materialType = "MATERIAL_NAMECARD";
     }

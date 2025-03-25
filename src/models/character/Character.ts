@@ -17,7 +17,7 @@ import { Element } from "../Element";
 import { nonNullable } from "../../utils/ts_utils";
 import { IGOODComponentResolvable, convertToGOODKey } from "../good/IGOODResolvable";
 import { ICharacter } from "../good/GOOD";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class Character implements IGOODComponentResolvable<ICharacter> {
     readonly enka: EnkaClient;

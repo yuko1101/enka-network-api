@@ -1,10 +1,10 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../../assets/ImageAssets";
 import { TextAssets } from "../../assets/TextAssets";
 import { StatProperty, FightProp } from "../../StatProperty";
-import { excelJsonOptions } from "../../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../../client/ExcelTransformer";
 
 export class PassiveTalent {
     readonly id: number;
@@ -20,9 +20,9 @@ export class PassiveTalent {
      */
     readonly isHidden: boolean;
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -44,8 +44,9 @@ export class PassiveTalent {
     }
 
     static getById(id: number, enka: EnkaClient): PassiveTalent {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ProudSkillExcelConfigData").findArray((_, p) => p.getAsNumber("proudSkillId") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Talent", id);
-        return new PassiveTalent(json.getAsJsonObject(), enka);
+        // TODO: better way to get the data
+        const data = enka.cachedAssetsManager.getExcelData("ProudSkillExcelConfigData", Math.floor(id / 100), id % 100);
+        if (!data) throw new AssetsNotFoundError("Talent", id);
+        return new PassiveTalent(data, enka);
     }
 }

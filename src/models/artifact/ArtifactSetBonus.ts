@@ -1,8 +1,8 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { TextAssets } from "../assets/TextAssets";
 import { StatProperty, FightProp } from "../StatProperty";
 import { EnkaClient } from "../../client/EnkaClient";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export class ArtifactSetBonus {
     readonly enka: EnkaClient;
@@ -12,9 +12,9 @@ export class ArtifactSetBonus {
     readonly addProps: StatProperty[];
     readonly paramList: number[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(needCount: number, data: JsonObject, enka: EnkaClient) {
+    constructor(needCount: number, data: ExcelJsonObject, enka: EnkaClient) {
         this.enka = enka;
 
         this._data = data;

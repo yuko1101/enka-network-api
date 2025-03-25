@@ -1,4 +1,4 @@
-import { JsonReader, JsonObject } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../assets/ImageAssets";
@@ -7,7 +7,7 @@ import { WeaponRefinement } from "./WeaponRefinement";
 import { StatProperty, FightProp } from "../StatProperty";
 import { WeaponAscension } from "./WeaponAscension";
 import { nonNullable } from "../../utils/ts_utils";
-import { excelJsonOptions } from "../../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../../client/ExcelTransformer";
 
 export type WeaponType = "WEAPON_SWORD_ONE_HAND" | "WEAPON_CLAYMORE" | "WEAPON_POLE" | "WEAPON_CATALYST" | "WEAPON_BOW";
 
@@ -24,11 +24,11 @@ export class WeaponData {
     readonly weaponTypeName: TextAssets;
     readonly refinements: WeaponRefinement[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
     readonly _nameId: string;
-    readonly _weaponTypeData: JsonObject;
+    readonly _weaponTypeData: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -52,17 +52,19 @@ export class WeaponData {
 
         this.weaponType = json.getAsString("weaponType") as WeaponType;
 
-        const weaponTypeData = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === this.weaponType)?.[1];
+        const weaponTypeData = enka.cachedAssetsManager.getExcelData("ManualTextMapConfigData", this.weaponType);
         if (!weaponTypeData) throw new AssetsNotFoundError("Weapon Type", this.weaponType);
-        this._weaponTypeData = weaponTypeData.getAsJsonObject();
+        this._weaponTypeData = weaponTypeData;
 
-        this.weaponTypeName = new TextAssets(weaponTypeData.getAsNumber("textMapContentTextMapHash"), enka);
+        this.weaponTypeName = new TextAssets(new JsonReader(excelJsonOptions, weaponTypeData).getAsNumber("textMapContentTextMapHash"), enka);
 
         this.refinements = (() => {
             const refinementId = json.getAsNumber("skillAffix", 0);
             if (refinementId === 0) return [];
-            const refinementsJson = enka.cachedAssetsManager.getGenshinCacheData("EquipAffixExcelConfigData").filterArray((_, p) => p.getAsNumber("id") === refinementId).sort(([, a], [, b]) => a.getAsNumberWithDefault(0, "level") - b.getAsNumberWithDefault(0, "level"));
-            return refinementsJson.map(([, r]) => new WeaponRefinement(r.getAsJsonObject(), enka));
+            const refinementsData = enka.cachedAssetsManager.getExcelData("EquipAffixExcelConfigData", refinementId);
+            if (!refinementsData) throw new AssetsNotFoundError("Weapon Refinements", refinementId);
+            const refinementsJson = Object.entries(refinementsData).sort(([a], [b]) => Number(a) - Number(b));
+            return refinementsJson.map(([, r]) => new WeaponRefinement(r, enka));
         })();
     }
 
@@ -82,7 +84,9 @@ export class WeaponData {
         const maxLevel = this.stars < 3 ? 70 : 90;
         if (ascension < 0 || maxAscension < ascension) throw new Error(`Ascension levels must be between 0 and ${maxAscension} for ${this.stars} stars.`);
         if (level < 1 || maxLevel < level) throw new Error(`Weapon levels must be between 1 and ${maxLevel} for ${this.stars} stars.`);
-        const curve = this.enka.cachedAssetsManager.getGenshinCacheData("WeaponCurveExcelConfigData").get(level - 1, "curveInfos");
+        const curveData = this.enka.cachedAssetsManager.getExcelData("WeaponCurveExcelConfigData", level);
+        if (!curveData) throw new AssetsNotFoundError("Weapon Curve", level);
+        const curve = new JsonReader(excelJsonOptions, curveData).get("curveInfos");
         const ascensionData = this.getAscensionData(ascension);
 
         const weaponJson = new JsonReader(excelJsonOptions, this._data);
@@ -112,8 +116,8 @@ export class WeaponData {
     }
 
     static getById(id: number, enka: EnkaClient): WeaponData {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("WeaponExcelConfigData").findArray((_, p) => p.getAsNumber("id") === id)?.[1];
-        if (!json) throw new AssetsNotFoundError("Weapon", id);
-        return new WeaponData(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("WeaponExcelConfigData", id);
+        if (!data) throw new AssetsNotFoundError("Weapon", id);
+        return new WeaponData(data, enka);
     }
 }

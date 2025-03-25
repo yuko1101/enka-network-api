@@ -1,8 +1,8 @@
-import { JsonObject } from "config_file.js";
 import { fightProps } from "../../utils/constants";
 import { StatProperty } from "../StatProperty";
 import { EnkaClient } from "../../client/EnkaClient";
 import { Element } from "../Element";
+import { ExcelJsonObject } from "../../client/ExcelTransformer";
 
 export class CharacterStats {
     readonly enka: EnkaClient;
@@ -76,9 +76,9 @@ export class CharacterStats {
     readonly speed: StatProperty;
     readonly statProperties: StatProperty[];
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient, element: Element) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient, element: Element) {
         this._data = data;
 
         this.enka = enka;

@@ -1,8 +1,8 @@
-import { JsonObject, JsonReader } from "config_file.js";
+import { JsonReader } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { TextAssets } from "./assets/TextAssets";
-import { excelJsonOptions } from "../client/CachedAssetsManager";
+import { ExcelJsonObject, excelJsonOptions } from "../client/ExcelTransformer";
 
 export const elementList = [null, "Fire", "Water", "Grass", "Electric", "Ice", null, "Wind", "Rock"] as const satisfies (ElementType | null)[];
 
@@ -11,9 +11,9 @@ export class Element {
     readonly enka: EnkaClient;
     readonly name: TextAssets;
 
-    readonly _data: JsonObject;
+    readonly _data: ExcelJsonObject;
 
-    constructor(data: JsonObject, enka: EnkaClient) {
+    constructor(data: ExcelJsonObject, enka: EnkaClient) {
         this._data = data;
         this.enka = enka;
 
@@ -25,9 +25,9 @@ export class Element {
     }
 
     static getByElementType(elementType: ElementType, enka: EnkaClient): Element {
-        const json = enka.cachedAssetsManager.getGenshinCacheData("ManualTextMapConfigData").findArray((_, p) => p.getAsString("textMapId") === elementType)?.[1];
-        if (!json) throw new AssetsNotFoundError("Element", elementType);
-        return new Element(json.getAsJsonObject(), enka);
+        const data = enka.cachedAssetsManager.getExcelData("ManualTextMapConfigData", elementType);
+        if (!data) throw new AssetsNotFoundError("Element", elementType);
+        return new Element(data, enka);
     }
 }
 
