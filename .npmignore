@@ -10,7 +10,6 @@ cache/
 img/
 docs/
 
-.eslintrc.json
-.eslintignore
+eslint.config.mjs
 cache.zip
 /installed
