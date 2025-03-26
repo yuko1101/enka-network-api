@@ -11,7 +11,7 @@ export class PassiveTalent {
     readonly enka: EnkaClient;
     readonly name: TextAssets;
     readonly description: TextAssets;
-    readonly icon: ImageAssets;
+    readonly icon: ImageAssets | null;
     readonly requiredAscension: number;
     readonly addProps: StatProperty[];
     /**
@@ -34,7 +34,7 @@ export class PassiveTalent {
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.icon = new ImageAssets(json.getAsString("icon"), enka);
+        this.icon = json.has("icon") ? new ImageAssets(json.getAsString("icon"), enka) : null;
 
         this.requiredAscension = json.getAsNumberWithDefault(0, "breakLevel");
 

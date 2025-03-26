@@ -12,7 +12,7 @@ export class Material {
     readonly enka: EnkaClient;
     readonly name: TextAssets;
     readonly description: TextAssets;
-    readonly icon: ImageAssets;
+    readonly icon: ImageAssets | null;
     readonly pictures: ImageAssets[];
     readonly itemType: ItemType;
     readonly materialType: string | null;
@@ -32,9 +32,9 @@ export class Material {
 
         this.description = new TextAssets(json.getAsNumber("descTextMapHash"), enka);
 
-        this.icon = new ImageAssets(json.getAsString("icon"), enka);
+        this.icon = json.has("icon") ? new ImageAssets(json.getAsString("icon"), enka) : null;
 
-        this.pictures = json.get("picPath").mapArray((_, name) => new ImageAssets(name.getAsString(), enka));
+        this.pictures = json.has("picPath") ? json.get("picPath").mapArray((_, name) => new ImageAssets(name.getAsString(), enka)) : [];
 
         this.itemType = json.getAsString("itemType") as ItemType;
 

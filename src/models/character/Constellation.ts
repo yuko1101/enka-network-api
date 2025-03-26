@@ -33,7 +33,7 @@ export class Constellation {
 
         this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
 
-        this.paramList = json.get("paramList").mapArray((_, p) => p.getAsNumber());
+        this.paramList = json.has("paramList") ? json.get("paramList").mapArray((_, p) => p.getAsNumber()) : [];
     }
 
     static getById(id: number, enka: EnkaClient): Constellation {

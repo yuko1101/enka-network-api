@@ -40,8 +40,7 @@ export class Costume {
 
         this.isDefault = json.getAsBooleanWithDefault(false, "isDefault");
 
-        const jsonName = json.getAsString("jsonName");
-        this._nameId = !this.isDefault ? jsonName.slice(jsonName.lastIndexOf("_") + 1) : getNameIdByCharacterId(this.characterId, enka);
+        this._nameId = !this.isDefault ? [json.getAsString("jsonName")].map(jsonName => jsonName.slice(jsonName.lastIndexOf("_") + 1))[0] : getNameIdByCharacterId(this.characterId, enka);
 
         this.icon = new ImageAssets(`UI_AvatarIcon_${this._nameId}`, enka);
 

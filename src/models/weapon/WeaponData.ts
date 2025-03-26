@@ -59,7 +59,7 @@ export class WeaponData {
         this.weaponTypeName = new TextAssets(new JsonReader(excelJsonOptions, weaponTypeData).getAsNumber("textMapContentTextMapHash"), enka);
 
         this.refinements = (() => {
-            const refinementId = json.getAsNumber("skillAffix", 0);
+            const refinementId = json.getAsNumberWithDefault(0, "skillAffix", 0);
             if (refinementId === 0) return [];
             const refinementsData = enka.cachedAssetsManager.getExcelData("EquipAffixExcelConfigData", refinementId);
             if (!refinementsData) throw new AssetsNotFoundError("Weapon Refinements", refinementId);
