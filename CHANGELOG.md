@@ -1,3 +1,10 @@
+# 5.0.0
+**This version includes Breaking Changes**
+**This version can include many bugs. If you find any bugs, please report them**
+- Updated for GI v5.5.
+- Made PassiveTalent#icon and Material#icon nullable.
+- Added EnkaClientOptions#gameDataBaseUrl.
+- Changed structure of excels in cache.zip.
 # 4.6.7
 - Fixed artifact filtering for EnkaClient#getAllArtifacts.
 # 4.6.6
