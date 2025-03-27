@@ -1,3 +1,5 @@
+# 5.0.1
+- Fixed error when creating Weapon instance with no skillAffix in WeaponData.
 # 5.0.0
 **This version includes Breaking Changes**
 **This version can include many bugs. If you find any bugs, please report them**
