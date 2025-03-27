@@ -36,7 +36,7 @@ export class Weapon implements IGOODComponentResolvable<IWeapon> {
 
         const weapon = json.get("weapon");
 
-        this.refinementRank = weapon.getAsNumberWithDefault(0, "affixMap", `${weaponDataJson.getAsNumber("skillAffix", 0)}`) + 1;
+        this.refinementRank = weapon.getAsNumberWithDefault(0, "affixMap", `${weaponDataJson.getAsNumberWithDefault(0, "skillAffix", 0)}`) + 1;
 
         this.refinement = this.weaponData.refinements[this.refinementRank - 1] ?? null;
 
