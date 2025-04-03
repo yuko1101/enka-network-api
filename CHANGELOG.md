@@ -1,3 +1,5 @@
+# 5.0.3
+- Fixed parsing errors for empty values again.
 # 5.0.2
 - Fixed skill attributes number fixing.
 - Fixed parsing errors for empty values.
