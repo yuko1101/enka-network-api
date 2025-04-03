@@ -3,7 +3,7 @@ import { EnkaClient } from "../../../client/EnkaClient";
 import { AssetsNotFoundError } from "../../../errors/AssetsNotFoundError";
 import { ImageAssets } from "../../assets/ImageAssets";
 import { TextAssets } from "../../assets/TextAssets";
-import { StatProperty, FightProp } from "../../StatProperty";
+import { StatProperty } from "../../StatProperty";
 import { ExcelJsonObject, excelJsonOptions } from "../../../client/ExcelTransformer";
 
 export class PassiveTalent {
@@ -38,7 +38,7 @@ export class PassiveTalent {
 
         this.requiredAscension = json.getAsNumberWithDefault(0, "breakLevel");
 
-        this.addProps = json.get("addProps").filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => new StatProperty(p.getAsString("propType") as FightProp, p.getAsNumber("value"), enka));
+        this.addProps = StatProperty.parseAddProps(json.get("addProps"), enka);
 
         this.isHidden = json.getAsBooleanWithDefault(false, "isHideLifeProudSkill");
     }

@@ -1,9 +1,10 @@
-import { JsonReader } from "config_file.js";
+import { JsonOptions, JsonReader } from "config_file.js";
 import { EnkaClient } from "../client/EnkaClient";
 import { ExcelJsonObject, excelJsonOptions } from "../client/ExcelTransformer";
 import { AssetsNotFoundError } from "../errors/AssetsNotFoundError";
 import { percent } from "../utils/constants";
 import { TextAssets } from "./assets/TextAssets";
+import { nonNullable } from "../utils/ts_utils";
 
 export class StatProperty<T extends FightProp = FightProp> {
     readonly fightProp: T;
@@ -66,6 +67,16 @@ export class StatProperty<T extends FightProp = FightProp> {
         }
 
         return Object.entries(stats).map(([fightProp, value]) => new StatProperty(fightProp as FightProp, value, enka));
+    }
+
+    static parseAddProps<O extends JsonOptions>(json: JsonReader<O>, enka: EnkaClient): StatProperty[] {
+        return json.filterArray((_, p) => p.has("propType") && p.has("value")).map(([, p]) => {
+            const propType = p.getAsString("propType");
+            if (propType === "FIGHT_PROP_NONE") return null;
+            const value = p.getAsNumber("value");
+            if (value === 0) return null;
+            return new StatProperty(propType as FightProp, value, enka);
+        }).filter(nonNullable);
     }
 }
 

@@ -14,7 +14,7 @@ import { ArtifactSet } from "../models/artifact/ArtifactSet";
 import { LanguageCode } from "./CachedAssetsManager";
 import { JsonObject, JsonReader, bindOptions, generateUuid, renameKeys } from "config_file.js";
 import { DynamicData } from "../models/assets/DynamicTextAssets";
-import { nonNullable, Overwrite } from "../utils/ts_utils";
+import { Overwrite } from "../utils/ts_utils";
 import { CustomImageBaseUrl, ImageBaseUrl } from "../models/assets/ImageAssets";
 import { excelJsonOptions } from "./ExcelTransformer";
 import { fetchString } from "../utils/fetch_utils";
@@ -399,12 +399,12 @@ export class EnkaClient implements EnkaLibrary<GenshinUser, GenshinCharacterBuil
             for (const rarity of rarities) {
                 const codex = new JsonReader(excelJsonOptions, setCodex[rarity]);
                 const ids = [
-                    codex.getAsNumberWithDefault(null, "cupId"),
-                    codex.getAsNumberWithDefault(null, "leatherId"),
-                    codex.getAsNumberWithDefault(null, "capId"),
-                    codex.getAsNumberWithDefault(null, "flowerId"),
-                    codex.getAsNumberWithDefault(null, "sandId"),
-                ].filter(nonNullable);
+                    codex.getAsNumberWithDefault(0, "cupId"),
+                    codex.getAsNumberWithDefault(0, "leatherId"),
+                    codex.getAsNumberWithDefault(0, "capId"),
+                    codex.getAsNumberWithDefault(0, "flowerId"),
+                    codex.getAsNumberWithDefault(0, "sandId"),
+                ].filter(n => n !== 0);
                 artifacts.push(...ids.map(id => new ArtifactData(allArtifacts[id], this)));
             }
         };

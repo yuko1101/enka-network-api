@@ -134,9 +134,10 @@ export class CharacterData {
 
         // if the character is "Traveler" and no skillDepotId (which indicates its element type) provided,
         // `elementalBurst`, `elementalSkill`, and `element` cannot be retrieved.
-        const hasElement = skillDataJson.has("energySkill");
+        const energySkillId = skillDataJson.getAsNumberWithDefault(0, "energySkill");
+        const hasElement = energySkillId !== 0;
 
-        this.elementalBurst = hasElement ? ElementalBurst.getById(skillDataJson.getAsNumber("energySkill"), enka) : null;
+        this.elementalBurst = hasElement ? ElementalBurst.getById(energySkillId, enka) : null;
 
         this.element = this.elementalBurst?.costElemType ?? null;
 
@@ -154,7 +155,11 @@ export class CharacterData {
 
         this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
 
-        this.passiveTalents = skillDataJson.get("inherentProudSkillOpens").filterArray((_, p) => p.has("proudSkillGroupId")).map(([, p]) => PassiveTalent.getById(p.getAsNumber("proudSkillGroupId") * 100 + 1, enka)); // Number(`${p.proudSkillGroupId}01`)
+        this.passiveTalents = skillDataJson.get("inherentProudSkillOpens").filterArray((_, p) => p.has("proudSkillGroupId")).map(([, p]) => {
+            const proudSkillGroupId = p.getAsNumber("proudSkillGroupId");
+            if (proudSkillGroupId === 0) return null;
+            return PassiveTalent.getById(proudSkillGroupId * 100 + 1, enka);
+        }).filter(nonNullable);
 
         this.constellations = skillDataJson.get("talents").mapArray((_, p) => p.getAsNumber()).filter(cId => cId !== 0).map(cId => Constellation.getById(cId, enka));
 
