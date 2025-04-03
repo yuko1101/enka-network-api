@@ -17,10 +17,12 @@ export class UpgradeCost {
         const itemsJson = new JsonReader(excelJsonOptions, costItems);
 
         this.items = itemsJson.mapArray((_, cost) => {
-            if (!cost.has("id")) return null;
+            const materialId = cost.getAsNumberWithDefault(0, "id");
+            if (materialId === 0) return null;
+            const count = cost.getAsNumber("count");
             return {
-                material: Material.getMaterialById(cost.getAsNumber("id"), enka),
-                count: cost.getAsNumber("count"),
+                material: Material.getMaterialById(materialId, enka),
+                count,
             };
         }).filter(nonNullable);
     }
