@@ -54,7 +54,7 @@ export class DynamicTextAssets extends TextAssets {
 
                 const isInteger = format.includes("I");
 
-                const fixMatch = format.match(/^F(\d+)$/);
+                const fixMatch = format.match(/F(\d+)/);
                 const fix = fixMatch && !isInteger ? Number(fixMatch[1]) : 0;
 
                 return (value * (isPercent ? 100 : 1)).toFixed(fix) + (isPercent ? "%" : "");
