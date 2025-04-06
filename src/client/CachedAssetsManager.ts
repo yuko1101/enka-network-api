@@ -97,8 +97,7 @@ export class CachedAssetsManager {
         if (!fs.existsSync(this.cacheDirectoryPath)) {
             fs.mkdirSync(this.cacheDirectoryPath);
 
-            const defaultCacheFiles = fs.readdirSync(this.defaultCacheDirectoryPath);
-            if (defaultCacheFiles.length > 0) {
+            if (fs.existsSync(this.defaultCacheDirectoryPath) && fs.readdirSync(this.defaultCacheDirectoryPath).length > 0) {
                 try {
                     move(this.defaultCacheDirectoryPath, this.cacheDirectoryPath);
                 } catch (e) {

@@ -1,3 +1,5 @@
+# 5.0.4
+- Fixed fs error when using CachedAssetsManager#cacheDirectorySetup with the default cache directory not present.
 # 5.0.3
 - Fixed parsing errors for empty values again.
 # 5.0.2
