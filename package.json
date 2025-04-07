@@ -10,8 +10,8 @@
   },
   "scripts": {
     "install": "node scripts/install.js",
-    "lint": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore",
-    "lint:fix": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.cjs,.mjs,.ts,.tsx --ignore-path .eslintignore --fix",
+    "lint": "npx eslint . --config eslint.config.mjs",
+    "lint:fix": "npx eslint . --config eslint.config.mjs --fix",
     "build": "node scripts/clean.js && npx tsc",
     "build:debug": "node scripts/clean.js && npx tsc --sourceMap",
     "prepublishOnly": "npm run build"
@@ -52,8 +52,6 @@
     "@eslint/js": "^9.23.0",
     "@stylistic/eslint-plugin-ts": "^4.2.0",
     "@types/unzip-stream": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
     "eslint": "^9.23.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.8.2",
