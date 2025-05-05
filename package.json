@@ -52,7 +52,6 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@stylistic/eslint-plugin-ts": "^4.2.0",
-    "@types/unzip-stream": "^0.3.1",
     "@types/unzipper": "^0.10.11",
     "eslint": "^9.23.0",
     "ts-node": "^10.9.1",
