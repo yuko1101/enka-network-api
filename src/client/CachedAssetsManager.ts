@@ -576,6 +576,11 @@ export class CachedAssetsManager {
                 .on("entry", (entry: unzip.Entry) => {
                     const entryPath = entry.path.replace(/^cache\/?/, "");
                     const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
+                    if (!extractPath.startsWith(this.cacheDirectoryPath)) {
+                        console.warn(`Skipping potentially unsafe entry path: ${entryPath}`);
+                        entry.autodrain();
+                        return;
+                    }
 
                     if (this.enka.options.showFetchCacheLog) console.info(`- Downloading ${entryPath}`);
 
@@ -606,6 +611,11 @@ export class CachedAssetsManager {
                 zipfile.on("entry", (entry: yauzl.Entry) => {
                     const entryPath = entry.fileName.replace(/^cache\/?/, "");
                     const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
+                    if (!extractPath.startsWith(this.cacheDirectoryPath)) {
+                        console.warn(`Skipping potentially unsafe entry path: ${entryPath}`);
+                        zipfile.readEntry();
+                        return;
+                    }
 
                     if (this.enka.options.showFetchCacheLog) console.info(`- Extracting ${entryPath}`);
 
