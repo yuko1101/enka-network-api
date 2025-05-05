@@ -19,6 +19,29 @@ const artifactSets = enka.getAllArtifactSets();
 const costumes = enka.getAllCostumes();
 const nameCards = enka.getAllNameCards();
 
+function showStatistics() {
+    console.log("[Excel Statistics]");
+    console.log("Characters:", characters.length);
+    console.log("Weapons:", weapons.length);
+    console.log("Artifacts:", artifacts.length);
+    console.log("Materials:", materials.length);
+    console.log("Artifact Sets:", artifactSets.length);
+    console.log("Costumes:", costumes.length);
+    console.log("Name Cards:", nameCards.length);
+
+    console.log();
+
+    console.log("[TextMap Statistics]");
+    for (const lang of languages) {
+        const map = enka.cachedAssetsManager.getLanguageData(lang);
+        console.log(`TextMap ${lang}:`, Object.keys(map).length);
+    }
+
+    console.log();
+}
+
+showStatistics();
+
 /**
  * @param {import("..").TextAssets} textAssets 
  */
