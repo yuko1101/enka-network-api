@@ -7,6 +7,7 @@ const enka = new EnkaClient({ defaultLanguage: "en", cacheDirectory: "./cache" }
 const useRawGenshinData = false;
 if (!enka.cachedAssetsManager.hasAllContents() || await enka.cachedAssetsManager.checkForUpdates(useRawGenshinData)) {
     await enka.cachedAssetsManager.fetchAllContents({ useRawGenshinData });
+    enka.cachedAssetsManager.refreshAllData();
     console.log("Assets updated!");
 }
 
