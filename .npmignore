@@ -9,6 +9,7 @@ cache/
 .devcontainer/
 img/
 docs/
+test/
 
 eslint.config.mjs
 cache.zip

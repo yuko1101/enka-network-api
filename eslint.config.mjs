@@ -7,6 +7,7 @@ export default tseslint.config(
         ignores: [
             "example/**/*.js",
             "scripts/**/*.js",
+            "test/**/*.js",
             "docs/",
             "dist/",
         ],

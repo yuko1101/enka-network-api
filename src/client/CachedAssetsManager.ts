@@ -14,7 +14,7 @@ export type ExcelDataMap = { [excel in keyof typeof excelKeyMap]: LoadedExcelDat
 const initialExcelDataMemory = Object.fromEntries(excels.map(content => [content, null])) as ExcelDataMap;
 let excelDataMemory: ExcelDataMap = { ...initialExcelDataMemory };
 
-const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"] as const;
+export const languages = ["chs", "cht", "de", "en", "es", "fr", "id", "jp", "kr", "pt", "ru", "th", "vi"] as const;
 export type LanguageCode = typeof languages[number];
 export type LoadedLanguageMap = Record<LanguageCode, Record<string, string>>;
 export type LanguageMap = { [key in LanguageCode]: LoadedLanguageMap[key] | null };

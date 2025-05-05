@@ -14,7 +14,8 @@
     "lint:fix": "npx eslint . --config eslint.config.mjs --fix",
     "build": "node scripts/clean.js && npx tsc",
     "build:debug": "node scripts/clean.js && npx tsc --sourceMap",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "node --test ./test/gameDataTest.mjs"
   },
   "keywords": [
     "nodejs",
