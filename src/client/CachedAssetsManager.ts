@@ -570,13 +570,14 @@ export class CachedAssetsManager {
     }
 
     _unzipStream(stream: NodeJS.ReadableStream): Promise<void> {
+        const cacheDir = path.resolve(this.cacheDirectoryPath);
         return new Promise<void>(resolve => {
             stream
                 .pipe(unzip.Parse())
                 .on("entry", (entry: unzip.Entry) => {
                     const entryPath = entry.path.replace(/^cache\/?/, "");
-                    const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
-                    if (!extractPath.startsWith(this.cacheDirectoryPath)) {
+                    const extractPath = path.resolve(cacheDir, entryPath);
+                    if (!extractPath.startsWith(cacheDir)) {
                         console.warn(`Skipping potentially unsafe entry path: ${entryPath}`);
                         entry.autodrain();
                         return;
@@ -604,15 +605,17 @@ export class CachedAssetsManager {
     }
 
     _unzipFile(filePath: string): Promise<void> {
+        const cacheDir = path.resolve(this.cacheDirectoryPath);
         return new Promise<void>(resolve => {
             yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
                 if (err) throw err;
                 zipfile.readEntry();
                 zipfile.on("entry", (entry: yauzl.Entry) => {
                     const entryPath = entry.fileName.replace(/^cache\/?/, "");
-                    const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
-                    if (!extractPath.startsWith(this.cacheDirectoryPath)) {
+                    const extractPath = path.resolve(cacheDir, entryPath);
+                    if (!extractPath.startsWith(cacheDir)) {
                         console.warn(`Skipping potentially unsafe entry path: ${entryPath}`);
+                        console.log(cacheDir, extractPath);
                         zipfile.readEntry();
                         return;
                     }
