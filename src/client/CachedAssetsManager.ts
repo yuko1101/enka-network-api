@@ -575,14 +575,22 @@ export class CachedAssetsManager {
                 .pipe(unzip.Parse())
                 .on("entry", (entry: unzip.Entry) => {
                     const entryPath = entry.path.replace(/^cache\/?/, "");
-                    const extractPath = path.resolve(this.cacheDirectoryPath, entryPath);
+                    const normalizedPath = path.normalize(entryPath);
+                    const extractPath = path.resolve(this.cacheDirectoryPath, normalizedPath);
 
-                    if (this.enka.options.showFetchCacheLog) console.info(`- Downloading ${entryPath}`);
+                    // Ensure the extractPath is within the intended directory
+                    if (!extractPath.startsWith(this.cacheDirectoryPath)) {
+                        console.warn(`Skipping potentially unsafe path: ${entryPath}`);
+                        entry.autodrain();
+                        return;
+                    }
+
+                    if (this.enka.options.showFetchCacheLog) console.info(`- Downloading ${normalizedPath}`);
 
                     if (entry.type === "Directory") {
                         if (!fs.existsSync(extractPath)) fs.mkdirSync(extractPath, { recursive: true });
                         entry.autodrain();
-                    } else if (entryPath.startsWith("github/")) {
+                    } else if (normalizedPath.startsWith("github/")) {
                         if (fs.existsSync(extractPath)) {
                             entry.autodrain();
                             return;
