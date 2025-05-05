@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import axios from "axios";
-import unzip, { Entry } from "unzip-stream";
+import unzip, { Entry } from "unzipper";
 import { ConfigFile, JsonObject, bindOptions, move, JsonReader, defaultJsonOptions } from "config_file.js";
 import { fetchString } from "../utils/fetch_utils";
 import { ObjectKeysManager } from "./ObjectKeysManager";
