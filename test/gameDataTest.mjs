@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { EnkaClient, languages } from "../dist/index.js";
+import { EnkaClient, languages, UpgradableSkill } from "../dist/index.js";
 import { separateByValue } from "config_file.js";
 
 const enka = new EnkaClient({ defaultLanguage: "en", cacheDirectory: "./cache" });
@@ -43,18 +43,19 @@ function showStatistics() {
 showStatistics();
 
 /**
- * @param {import("..").TextAssets} textAssets 
+ * @param {import("..").TextAssets} textAssets
+ * @param {string} from
  */
-const assertValidTextAssets = (textAssets) => {
+const assertValidTextAssets = (textAssets, from = "unknown") => {
     for (const lang of languages) {
         const text = textAssets.getNullable(lang);
-        assert.ok(text && text.length > 0, `Text asset ${textAssets.id} has no text for language ${lang}`);
+        assert.ok(text && text.length > 0, `Text asset ${textAssets.id} (from ${from}) has no text for language ${lang}`);
     }
 };
 
 test("Character Names", () => {
     for (const character of characters) {
-        assertValidTextAssets(character.name);
+        assertValidTextAssets(character.name, `Character(${character.id}-${character.skillDepotId}).name`);
     }
 });
 
@@ -72,7 +73,7 @@ test("Character NameCards", () => {
 test("Character Base Stats", () => {
     for (const character of characters) {
         const baseStats = character.getStats(6, 90);
-        assert.ok(baseStats && baseStats.length > 0, `Character ${character.id} has no base stats`);
+        assert.ok(baseStats && baseStats.length > 0, `Character ${character.id}-${character.skillDepotId} has no base stats`);
     }
 });
 
@@ -81,19 +82,57 @@ test("Character Ascensions", () => {
         for (let i = 0; i <= 6; i++) {
             const ascension = character.getAscensionData(i);
             if (i === 0) {
-                assert.ok(ascension.cost.coin === 0, `Ascension ${i} of character ${character.id} has non-zero coin cost`);
-                assert.ok(Object.keys(ascension.cost.items).length === 0, `Ascension ${i} of character ${character.id} has materials cost`);
+                assert.ok(ascension.cost.coin === 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has non-zero coin cost`);
+                assert.ok(Object.keys(ascension.cost.items).length === 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has materials cost`);
             } else {
-                assert.ok(ascension.cost.coin > 0, `Ascension ${i} of character ${character.id} has coin cost of 0`);
-                assert.ok(Object.keys(ascension.cost.items).length > 0, `Ascension ${i} of character ${character.id} has no materials cost`);
+                assert.ok(ascension.cost.coin > 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has coin cost of 0`);
+                assert.ok(Object.keys(ascension.cost.items).length > 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has no materials cost`);
             }
+        }
+    }
+});
+
+test("Character Skills", () => {
+    for (const character of characters) {
+        if (character.isTraveler && character.element === null) {
+            continue;
+        }
+
+        const skills = character.skills;
+        assert.ok(skills && skills.length > 0, `Character ${character.id}-${character.skillDepotId} has no skills`);
+        for (const skill of skills) {
+            if (!(skill instanceof UpgradableSkill)) continue; // TODO: checks for other skill types
+            assertValidTextAssets(skill.name, `Character(${character.id}-${character.skillDepotId}).skills[id=${skill.id}].name`);
+            assertValidTextAssets(skill.description, `Character(${character.id}-${character.skillDepotId}).skills[id=${skill.id}].description`);
+
+
+            const levelUpCost = skill.getUpgradeCost(10);
+            assert.notStrictEqual(levelUpCost, null, `Skill ${skill.id} of character ${character.id}-${character.skillDepotId} has no level up cost`);
+            assert.ok(levelUpCost.coin > 0, `Skill ${skill.id} of character ${character.id}-${character.skillDepotId} has coin cost of 0`);
+            assert.ok(Object.keys(levelUpCost.items).length > 0, `Skill ${skill.id} of character ${character.id}-${character.skillDepotId} has no materials cost`);
+        }
+    }
+});
+
+test("Character PassiveTalents", () => {
+    for (const character of characters) {
+        if (character.isTraveler && character.element === null) {
+            continue;
+        }
+
+        const passiveTalents = character.passiveTalents;
+        assert.ok(passiveTalents && passiveTalents.length > 0, `Character ${character.id}-${character.skillDepotId} has no passive talents`);
+        for (const passiveTalent of passiveTalents) {
+            if (passiveTalent.isHidden) continue;
+            assertValidTextAssets(passiveTalent.name, `Character(${character.id}-${character.skillDepotId}).passiveTalents[id=${passiveTalent.id}].name`);
+            assertValidTextAssets(passiveTalent.description, `Character(${character.id}-${character.skillDepotId}).passiveTalents[id=${passiveTalent.id}].description`);
         }
     }
 });
 
 test("Weapon Names", () => {
     for (const weapon of weapons) {
-        assertValidTextAssets(weapon.name);
+        assertValidTextAssets(weapon.name, `Weapon(${weapon.id}).name`);
     }
 });
 
@@ -122,13 +161,13 @@ test("Weapon Ascensions", () => {
 
 test("Artifact Names", () => {
     for (const artifact of artifacts) {
-        assertValidTextAssets(artifact.name);
+        assertValidTextAssets(artifact.name, `Artifact(${artifact.id}).name`);
     }
 });
 
 test("Artifact Set Names", () => {
     for (const artifactSet of artifactSets) {
-        assertValidTextAssets(artifactSet.name);
+        assertValidTextAssets(artifactSet.name, `ArtifactSet(${artifactSet.id}).name`);
     }
 });
 
@@ -138,14 +177,14 @@ test("Artifact Set Bonuses", () => {
         assert.ok(bonuses && bonuses.length > 0, `Artifact set ${artifactSet.id} has no bonuses`);
         for (const bonus of bonuses) {
             assert.ok(bonus.needCount > 0, `Artifact set ${artifactSet.id} has bonus with no needCount`);
-            assertValidTextAssets(bonus.description);
+            assertValidTextAssets(bonus.description, `ArtifactSet(${artifactSet.id}).setBonus[needCount=${bonus.needCount}].description`);
         }
     }
 });
 
 test("Costume Names", () => {
     for (const costume of costumes) {
-        assertValidTextAssets(costume.name);
+        assertValidTextAssets(costume.name, `Costume(${costume.id}).name`);
     }
 });
 
@@ -168,13 +207,13 @@ test("Costume Duplicated Defaults", () => {
 
 test("NameCard Names", () => {
     for (const nameCard of nameCards) {
-        assertValidTextAssets(nameCard.name);
+        assertValidTextAssets(nameCard.name, `NameCard(${nameCard.id}).name`);
     }
 });
 
 test("NameCard Descriptions", () => {
     for (const nameCard of nameCards) {
-        assertValidTextAssets(nameCard.description);
+        assertValidTextAssets(nameCard.description, `NameCard(${nameCard.id}).description`);
     }
 });
 
