@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  eslint:
-    name: Run eslint scanning
+  test:
+    name: Run test
     runs-on: ubuntu-latest
     strategy:
       matrix:
