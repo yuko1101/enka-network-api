@@ -615,7 +615,6 @@ export class CachedAssetsManager {
                     const extractPath = path.resolve(cacheDir, entryPath);
                     if (!extractPath.startsWith(cacheDir)) {
                         console.warn(`Skipping potentially unsafe entry path: ${entryPath}`);
-                        console.log(cacheDir, extractPath);
                         zipfile.readEntry();
                         return;
                     }
