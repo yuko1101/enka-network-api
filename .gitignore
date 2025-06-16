@@ -6,6 +6,7 @@
 # Caches
 /cache/
 /installed
+.direnv/
 
 # Logs
 logs
