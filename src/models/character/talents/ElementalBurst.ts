@@ -18,10 +18,10 @@ export class ElementalBurst extends UniqueSkill {
 
         this.costElemType = Element.getByElementType(json.getAsString("costElemType") as ElementType, enka);
 
-        this.costElemVal = json.getAsNumberWithDefault(200, "costElemVal"); // temporary fallback value for Mavuika's elemental burst
+        this.costElemVal = json.getAsNumber("costElemVal");
 
-        if (json.has("costElemVal")) {
-            const cost = json.getAsNumber("costElemVal");
+        if (this.costElemVal > 0) {
+            const cost = this.costElemVal;
             this.requiredCharge = cost;
             this.maxCharge = cost;
         } else {

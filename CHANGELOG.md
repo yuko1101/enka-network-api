@@ -1,3 +1,5 @@
+# 5.0.5
+- Fixed energy charge values in ElementalBurst for Mavuika and Skirk. (ElementalBurst#costElemVal is now 0 for them).
 # 5.0.4
 - Fixed fs error when using CachedAssetsManager#cacheDirectorySetup with the default cache directory not present.
 # 5.0.3
