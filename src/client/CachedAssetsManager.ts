@@ -551,6 +551,7 @@ export class CachedAssetsManager {
             if (opt.stream) {
                 await this._unzipStream(stream);
             } else {
+                await this.cacheDirectorySetup();
                 const filePath = path.resolve(this.cacheDirectoryPath, "cache.zip");
                 const writer = fs.createWriteStream(filePath);
                 await new Promise<void>((resolve, reject) => {
