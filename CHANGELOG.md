@@ -1,3 +1,5 @@
+# 5.0.6
+- Fixed install error with downloading cache.zip.
 # 5.0.5
 - Fixed energy charge values in ElementalBurst for Mavuika and Skirk. (ElementalBurst#costElemVal is now 0 for them).
 - Default to download and extract zip without stream.
