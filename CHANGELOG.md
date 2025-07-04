@@ -1,3 +1,5 @@
+# 5.0.7
+- Added GenshinUser#stygian.
 # 5.0.6
 - Fixed install error with downloading cache.zip.
 # 5.0.5

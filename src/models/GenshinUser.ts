@@ -40,6 +40,10 @@ export class GenshinUser extends User {
         stars: number,
         mode: TheaterMode,
     } | null;
+    readonly stygian: {
+        difficulty: number,
+        clearTime: number,
+    } | null;
 
     /** This will be -1 if this GenshinUser is from EnkaGameAccount */
     readonly ttl: number;
@@ -109,6 +113,11 @@ export class GenshinUser extends User {
             act: playerInfo.getAsNumber("theaterActIndex"),
             stars: playerInfo.getAsNumber("theaterStarIndex"),
             mode: TheaterMode.getById(playerInfo.getAsNumber("theaterModeIndex"), enka),
+        } : null;
+
+        this.stygian = playerInfo.has("stygianIndex") && playerInfo.has("stygianSeconds") ? {
+            difficulty: playerInfo.getAsNumber("stygianIndex"),
+            clearTime: playerInfo.getAsNumber("stygianSeconds"),
         } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
