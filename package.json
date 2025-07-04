@@ -1,6 +1,6 @@
 {
   "name": "enka-network-api",
-  "version": "5.0.6",
+  "version": "5.0.7",
   "description": "Enka-network API wrapper for Genshin Impact.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
