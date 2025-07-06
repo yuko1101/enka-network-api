@@ -115,9 +115,9 @@ export class GenshinUser extends User {
             mode: TheaterMode.getById(playerInfo.getAsNumber("theaterModeIndex"), enka),
         } : null;
 
-        this.stygian = playerInfo.has("stygianIndex") && playerInfo.has("stygianSeconds") ? {
+        this.stygian = playerInfo.has("stygianIndex") ? {
             difficulty: playerInfo.getAsNumber("stygianIndex"),
-            clearTime: playerInfo.getAsNumber("stygianSeconds"),
+            clearTime: playerInfo.getAsNumberWithDefault(0, "stygianSeconds"),
         } : null;
 
         this.ttl = json.getAsNumberWithDefault(-1, "ttl");
