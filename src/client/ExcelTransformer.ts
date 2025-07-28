@@ -38,7 +38,7 @@ export const excelKeyMap = {
     "TrialAvatarFetterDataConfigData": ["avatarId"], // Archons
 
     "MaterialExcelConfigData": ["id"], // Materials (including NameCards)
-    "FetterCharacterCardExcelConfigData": ["avatarId"], // Friendship Rewards
+    "FetterCharacterCardExcelConfigData": ["avatarId", "fetterLevel"], // Friendship Rewards
     "RewardExcelConfigData": ["rewardId"], // Rewards Data for Friendship Cards
 
     "ProfilePictureExcelConfigData": ["id"], // User pfp

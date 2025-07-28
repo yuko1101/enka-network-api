@@ -107,11 +107,18 @@ export class CharacterData {
 
         const fetterCardData = enka.cachedAssetsManager.getExcelData("FetterCharacterCardExcelConfigData", this.id);
         if (fetterCardData) {
-            const friendshipRewardId = new JsonReader(excelJsonOptions, fetterCardData).getAsNumber("rewardId");
-            const reward = enka.cachedAssetsManager.getExcelData("RewardExcelConfigData", friendshipRewardId);
-            if (!reward) throw new AssetsNotFoundError("Reward", friendshipRewardId);
-            const nameCardId = new JsonReader(excelJsonOptions, reward).getAsNumber("rewardItemList", 0, "itemId");
-            this.nameCard = Material.getMaterialById(nameCardId, enka) as NameCard;
+            const nameCards: NameCard[] = [];
+            for (const friendshipReward of Object.values(fetterCardData)) {
+                const friendshipRewardId = new JsonReader(excelJsonOptions, friendshipReward).getAsNumber("rewardId");
+                const reward = enka.cachedAssetsManager.getExcelData("RewardExcelConfigData", friendshipRewardId);
+                if (!reward) throw new AssetsNotFoundError("Reward", friendshipRewardId);
+                const materialId = new JsonReader(excelJsonOptions, reward).getAsNumber("rewardItemList", 0, "itemId");
+                const material = Material.getMaterialById(materialId, enka);
+                if (!(material instanceof NameCard)) continue;
+                nameCards.push(material);
+            }
+            if (nameCards.length > 1) throw new Error("Multiple name cards for a single character detected! This is not supported yet.");
+            this.nameCard = nameCards[0] ?? null;
         }
 
         this.rarity = json.getAsString("qualityType") as CharacterRarity;
