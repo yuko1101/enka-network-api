@@ -1,5 +1,6 @@
 # 5.0.8
 - Set default value of GenshinUser#stygian.clearTime to 0.
+- Fixed nameCard for Ineffa.
 # 5.0.7
 - Added GenshinUser#stygian.
 # 5.0.6
