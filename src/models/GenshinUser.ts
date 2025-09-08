@@ -41,6 +41,7 @@ export class GenshinUser extends User {
         mode: TheaterMode,
     } | null;
     readonly stygian: {
+        scheduleId: number,
         difficulty: number,
         clearTime: number,
     } | null;
@@ -115,7 +116,8 @@ export class GenshinUser extends User {
             mode: TheaterMode.getById(playerInfo.getAsNumber("theaterModeIndex"), enka),
         } : null;
 
-        this.stygian = playerInfo.has("stygianIndex") ? {
+        this.stygian = playerInfo.has("stygianId") && playerInfo.has("stygianIndex") ? {
+            scheduleId: playerInfo.getAsNumber("stygianId"),
             difficulty: playerInfo.getAsNumber("stygianIndex"),
             clearTime: playerInfo.getAsNumberWithDefault(0, "stygianSeconds"),
         } : null;

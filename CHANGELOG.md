@@ -1,3 +1,5 @@
+# 5.0.9
+- Added scheduleId to GenshinUser#stygian.
 # 5.0.8
 - Set default value of GenshinUser#stygian.clearTime to 0.
 - Fixed nameCard for Ineffa.
