@@ -195,11 +195,11 @@ export class CharacterData {
 
     /**
      * @param ascension ascension level between 0 and 6
-     * @param level character level between 1 and 90
+     * @param level character level between 1 and 100
      */
     getStats(ascension: number, level: number): StatProperty[] {
         if (ascension < 0 || 6 < ascension) throw new Error("Ascension levels must be between 0 and 6.");
-        if (level < 1 || 90 < level) throw new Error("Character levels must be between 1 and 90.");
+        if (level < 1 || 100 < level) throw new Error("Character levels must be between 1 and 100.");
         const curveData = this.enka.cachedAssetsManager.getExcelData("AvatarCurveExcelConfigData", level);
         if (!curveData) throw new AssetsNotFoundError("Character curve data", level);
         const curve = new JsonReader(excelJsonOptions, curveData).get("curveInfos");
