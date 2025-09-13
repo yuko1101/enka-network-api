@@ -1,3 +1,5 @@
+# 5.0.11
+- Fixed initial elemental mastery for Lauma.
 # 5.0.10
 - Support max character level 100.
 # 5.0.9
