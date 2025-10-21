@@ -57,6 +57,7 @@ export class CharacterData {
     readonly releasedAt: Date | null;
     readonly isArchon: boolean;
     readonly isTraveler: boolean;
+    readonly isMannequin: boolean;
     /** Information in the profile menu in in-game character screen */
     readonly details: CharacterDetails | null = null;
 
@@ -98,6 +99,8 @@ export class CharacterData {
         // should always 10000005 and 10000007
         const travelerIds = Object.keys(enka.cachedAssetsManager.getExcelData("AvatarHeroEntityExcelConfigData"));
         this.isTraveler = travelerIds.includes(this.id.toString());
+
+        this.isMannequin = this.id === 10000117 || this.id === 10000118;
 
         try {
             this.details = CharacterDetails.getByCharacterId(this.id, this.isArchon, this.enka);

@@ -1,3 +1,5 @@
+# 5.0.12
+- Added CharacterData#isMannequin.
 # 5.0.11
 - Fixed initial elemental mastery for Lauma.
 # 5.0.10
