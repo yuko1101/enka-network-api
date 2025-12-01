@@ -1,3 +1,5 @@
+# 5.0.13
+- Added inherentProudSkillOpensKey to ObjectKeysManager.
 # 5.0.12
 - Added CharacterData#isMannequin.
 # 5.0.11
