@@ -165,7 +165,7 @@ export class CharacterData {
 
         this.normalAttack = _skills.find(s => s instanceof NormalAttack) as NormalAttack;
 
-        this.passiveTalents = skillDataJson.get("inherentProudSkillOpens").filterArray((_, p) => p.has("proudSkillGroupId")).map(([, p]) => {
+        this.passiveTalents = skillDataJson.get(enka.cachedAssetsManager.getObjectKeysManager().inherentProudSkillOpensKey).filterArray((_, p) => p.has("proudSkillGroupId")).map(([, p]) => {
             const proudSkillGroupId = p.getAsNumber("proudSkillGroupId");
             if (proudSkillGroupId === 0) return null;
             return PassiveTalent.getById(proudSkillGroupId * 100 + 1, enka);
