@@ -62,10 +62,10 @@ test("Character Names", () => {
 test("Character NameCards", () => {
     for (const character of characters) {
         const nameCard = character.nameCard;
-        if (character.isTraveler) {
-            assert.strictEqual(nameCard, null);
+        if (character.isTraveler || character.isMannequin) {
+            assert.strictEqual(nameCard, null, `Traveler/Mannequin character ${character.id}-${character.skillDepotId} has a name card`);
         } else {
-            assert.notStrictEqual(nameCard, null);
+            assert.notStrictEqual(nameCard, null, `Non-Traveler/Mannequin character ${character.id}-${character.skillDepotId} has no name card`);
         }
     }
 });
@@ -81,7 +81,7 @@ test("Character Ascensions", () => {
     for (const character of characters) {
         for (let i = 0; i <= 6; i++) {
             const ascension = character.getAscensionData(i);
-            if (i === 0) {
+            if (i === 0 || character.isMannequin) {
                 assert.ok(ascension.cost.coin === 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has non-zero coin cost`);
                 assert.ok(Object.keys(ascension.cost.items).length === 0, `Ascension ${i} of character ${character.id}-${character.skillDepotId} has materials cost`);
             } else {
