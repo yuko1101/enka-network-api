@@ -1,3 +1,5 @@
+# 5.0.14
+- Fixed to load separated text maps for Russian.
 # 5.0.13
 - Added inherentProudSkillOpensKey to ObjectKeysManager.
 # 5.0.12
