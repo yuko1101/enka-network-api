@@ -131,7 +131,7 @@ export class CachedAssetsManager {
 
         const enka = this.enka;
         // TODO: better handling for languages with splitted files
-        if (lang === "th") {
+        if (lang === "th" || lang === "ru") {
             const json1 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_0.json`, enka, allowLocalFile: true })) as Record<string, string>;
             const json2 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_1.json`, enka, allowLocalFile: true })) as Record<string, string>;
             return { ...json1, ...json2 };
