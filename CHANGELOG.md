@@ -1,3 +1,5 @@
+# 5.0.15
+- Fixed text maps didn't include TextMap_Medium files for GI v6.5+
 # 5.0.14
 - Fixed to load separated text maps for Russian.
 # 5.0.13

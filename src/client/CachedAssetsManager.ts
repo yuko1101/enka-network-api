@@ -48,6 +48,8 @@ const manualTextMapWhiteList = [
     "WeaponType",
 ];
 
+const splitLanguages = { "ru": 2, "th": 2 } as const satisfies Partial<Record<LanguageCode, number>>;
+
 const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Date) => useRawGenshinData
     ? `https://gitlab.com/api/v4/projects/53216109/repository/commits?since=${rawDate.toISOString()}`
     : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
@@ -129,16 +131,20 @@ export class CachedAssetsManager {
     async fetchLanguageData(lang: LanguageCode): Promise<Record<string, string>> {
         await this.cacheDirectorySetup();
 
-        const enka = this.enka;
-        // TODO: better handling for languages with splitted files
-        if (lang === "th" || lang === "ru") {
-            const json1 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_0.json`, enka, allowLocalFile: true })) as Record<string, string>;
-            const json2 = JSON.parse(await fetchString({ url: `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_1.json`, enka, allowLocalFile: true })) as Record<string, string>;
-            return { ...json1, ...json2 };
+        const urls = [];
+        if (lang in splitLanguages) {
+            const partNum = splitLanguages[lang as keyof typeof splitLanguages];
+            for (let i = 0; i < partNum; i++) {
+                urls.push(`${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}_${i}.json`);
+                urls.push(`${this.gameDataBaseUrl}/TextMap/TextMap_Medium${lang.toUpperCase()}_${i}.json`);
+            }
+        } else {
+            urls.push(`${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`);
+            urls.push(`${this.gameDataBaseUrl}/TextMap/TextMap_Medium${lang.toUpperCase()}.json`);
         }
-        const url = `${this.gameDataBaseUrl}/TextMap/TextMap${lang.toUpperCase()}.json`;
-        const json = JSON.parse(await fetchString({ url, enka, allowLocalFile: true })) as Record<string, string>;
-        return json;
+        const promises = urls.map(async url => JSON.parse(await fetchString({ url, enka: this.enka, allowLocalFile: true })));
+        const jsons = await Promise.all(promises) as JsonObject<string>[];
+        return Object.assign({}, ...jsons);
     }
 
     /**
