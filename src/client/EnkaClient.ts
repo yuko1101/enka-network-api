@@ -124,7 +124,7 @@ export const defaultEnkaClientOptions: Overwrite<EnkaClientOptions, { "enkaSyste
         setter: null,
         deleter: null,
     },
-    "gameDataBaseUrl": "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master",
+    "gameDataBaseUrl": "https://gitlab.com/Dimbreath/animegamedata2/-/raw/main",
     "githubToken": null,
     "enkaSystem": null,
 };

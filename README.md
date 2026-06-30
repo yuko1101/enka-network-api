@@ -63,7 +63,7 @@ npm install enka-network-api@latest --enka-nocache=true
 ```
 
 ## About Genshin Cache Data
-Genshin cache data is from [Dimbreath/AnimeGameData](https://gitlab.com/Dimbreath/AnimeGameData) (gitlab).
+Genshin cache data is from [Dimbreath/AnimeGameData2](https://gitlab.com/Dimbreath/AnimeGameData2) (gitlab).
 
 This data contains data of characters, weapons, materials, and more structure information of Genshin Impact.
 

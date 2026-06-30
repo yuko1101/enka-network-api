@@ -51,7 +51,7 @@ const manualTextMapWhiteList = [
 const splitLanguages = { "ru": 2, "th": 2 } as const satisfies Partial<Record<LanguageCode, number>>;
 
 const getGitRemoteAPIUrl = (useRawGenshinData: boolean, rawDate: Date, date: Date) => useRawGenshinData
-    ? `https://gitlab.com/api/v4/projects/53216109/repository/commits?since=${rawDate.toISOString()}`
+    ? `https://gitlab.com/api/v4/projects/83871005/repository/commits?since=${rawDate.toISOString()}`
     : `https://api.github.com/repos/yuko1101/enka-network-api/commits?sha=main&path=cache.zip&since=${date.toISOString()}`;
 
 export interface FetchContentsOptions {
@@ -148,7 +148,7 @@ export class CachedAssetsManager {
     }
 
     /**
-     * @param useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData2}) instead of downloading cache.zip
      * @returns Whether the game data update is available or not.
      */
     async checkForUpdates(useRawGenshinData = false): Promise<boolean> {
@@ -161,7 +161,7 @@ export class CachedAssetsManager {
     }
 
     /**
-     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData2}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
      */
     async fetchAllContents(options: Partial<FetchContentsOptions> = {}): Promise<void> {
@@ -273,7 +273,7 @@ export class CachedAssetsManager {
     }
 
     /**
-     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData2}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
      * @returns true if there were any updates, false if there were no updates.
      */
@@ -294,7 +294,7 @@ export class CachedAssetsManager {
     }
 
     /**
-     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData}) instead of downloading cache.zip
+     * @param options.useRawGenshinData Whether to fetch from gitlab repo ({@link https://gitlab.com/Dimbreath/AnimeGameData2}) instead of downloading cache.zip
      * @param options.ghproxy Whether to use ghproxy.com
      * @param options.timeout in milliseconds
      */

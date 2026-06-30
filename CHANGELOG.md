@@ -1,3 +1,5 @@
+# 5.0.16
+- Updated game data base url to [Dimbreath/AnimeGameData2](https://gitlab.com/Dimbreath/AnimeGameData2) (gitlab).
 # 5.0.15
 - Fixed text maps didn't include TextMap_Medium files for GI v6.5+
 # 5.0.14
