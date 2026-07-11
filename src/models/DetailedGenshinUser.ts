@@ -23,7 +23,7 @@ export class DetailedGenshinUser extends GenshinUser implements IGOODComponentRe
     toGOOD(): IGOOD {
         return {
             format: "GOOD",
-            version: 2,
+            version: 3,
             source: "yuko1101/enka-network-api",
             characters: this.characters.map(c => c.toGOOD()),
             artifacts: this.characters.flatMap(c => c.artifacts).map(a => a.toGOOD()),

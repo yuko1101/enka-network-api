@@ -7,7 +7,7 @@ export interface IGOOD extends IGOODComponent {
     characters?: ICharacter[];
     artifacts?: IArtifact[];
     weapons?: IWeapon[];
-    materials?: Record<MaterialKey, number> // Added in version 2
+    materials?: Record<MaterialKey, number>; // Added in version 2
 }
 
 export interface IArtifact extends IGOODComponent {
@@ -19,11 +19,18 @@ export interface IArtifact extends IGOODComponent {
     location: CharacterKey | ""; // where "" means not equipped.
     lock: boolean; // Whether the artifact is locked in game.
     substats: ISubstat[];
+    // Below are new to GOOD 3
+    totalRolls?: number; // 3-9 for valid 5* artifacts; includes starting rolls
+    astralMark?: boolean; // Favorite star in-game
+    elixirCrafted?: boolean; // Flag for if the artifact was created using Sanctifying Elixir. This guarantees the main stat + 2 additional rolls on the first 2 substats
+    unactivatedSubstats?: ISubstat[]; // Unactivated substat(s). Once a substat is activated, it should be moved to `substats` instead
 }
 
 export interface ISubstat extends IGOODComponent {
     key: StatKey; // e.g. "critDMG_"
     value: number; // e.g. 19.4
+    // Below is new to GOOD 3
+    initialValue?: number; // Initial roll of the artifact, if it is known. This includes the first roll of this stat, even if it was not revealed initially e.g. from `unactivatedSubstats`
 }
 
 export interface IWeapon extends IGOODComponent {
@@ -46,7 +53,6 @@ export interface ICharacter extends IGOODComponent {
         burst: number,
     }
 }
-
 
 export type MaterialKey = string;
 export type SetKey = string;
@@ -73,7 +79,6 @@ export type StatKey =
     | "pyro_dmg_" // Pyro DMG Bonus
     | "cryo_dmg_" // Cryo DMG Bonus
     | "dendro_dmg_"; // Dendro DMG Bonus
-
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IGOODComponent { }
