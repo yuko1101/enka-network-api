@@ -1,3 +1,5 @@
+# 5.1.0
+- Migrated GOOD format to v3. (#349)
 # 5.0.16
 - Updated game data base url to [Dimbreath/AnimeGameData2](https://gitlab.com/Dimbreath/AnimeGameData2) (gitlab).
 # 5.0.15
