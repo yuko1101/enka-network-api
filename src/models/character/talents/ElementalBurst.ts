@@ -18,7 +18,7 @@ export class ElementalBurst extends UniqueSkill {
 
         this.costElemType = Element.getByElementType(json.getAsString("costElemType") as ElementType, enka);
 
-        this.costElemVal = json.getAsNumber("costElemVal");
+        this.costElemVal = json.getAsNumberWithDefault(0, "costElemVal");
 
         if (this.costElemVal > 0) {
             const cost = this.costElemVal;
