@@ -1,3 +1,5 @@
+# 5.1.1
+- Fixed undefined error at ElementalBurst#costElemVal.
 # 5.1.0
 - Migrated GOOD format to v3. (#349)
 # 5.0.16
