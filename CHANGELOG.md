@@ -1,3 +1,5 @@
+# 5.1.2
+- Fixed CharacterData#getStats failed due to undefined elementMastery property.
 # 5.1.1
 - Fixed undefined error at ElementalBurst#costElemVal.
 # 5.1.0

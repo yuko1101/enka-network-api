@@ -219,7 +219,7 @@ export class CharacterData {
             "FIGHT_PROP_CRITICAL": characterJson.getAsNumber("critical"),
             "FIGHT_PROP_CRITICAL_HURT": characterJson.getAsNumber("criticalHurt"),
 
-            "FIGHT_PROP_ELEMENT_MASTERY": characterJson.getAsNumber("elementMastery"),
+            "FIGHT_PROP_ELEMENT_MASTERY": characterJson.getAsNumberWithDefault(0, "elementMastery"),
         } as const satisfies Partial<Record<FightProp, number>>;
 
         const curves = characterJson.get("propGrowCurves");
