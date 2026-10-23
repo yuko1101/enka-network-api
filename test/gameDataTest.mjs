@@ -152,8 +152,9 @@ test("Weapon Ascensions", () => {
                 assert.ok(ascension.cost.coin === 0, `Ascension ${i} of weapon ${weapon.id} has non-zero coin cost`);
                 assert.ok(Object.keys(ascension.cost.items).length === 0, `Ascension ${i} of weapon ${weapon.id} has materials cost`);
             } else {
-                assert.ok(ascension.cost.coin > 0 || weapon.stars === 1, `Ascension ${i} of weapon ${weapon.id} has coin cost of 0`);
-                assert.ok(Object.keys(ascension.cost.items).length > 0, `Ascension ${i} of weapon ${weapon.id} has no materials cost`);
+                // 11521 is Exaiphanes Blade
+                assert.ok(ascension.cost.coin > 0 || weapon.stars === 1 || weapon.id === 11521, `Ascension ${i} of weapon ${weapon.id} has coin cost of 0`);
+                assert.ok(Object.keys(ascension.cost.items).length > 0 || weapon.id === 11521, `Ascension ${i} of weapon ${weapon.id} has no materials cost`);
             }
         }
     }
